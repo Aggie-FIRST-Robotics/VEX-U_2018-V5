@@ -1,2 +1,2 @@
-prosv5 make
+prosv5 make --debug --verbose
 pause
