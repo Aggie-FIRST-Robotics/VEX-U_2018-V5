@@ -14,6 +14,10 @@ namespace AFR::VexU{
     invalid_value_error<DataType>::invalid_value_error(const DataType& value) : runtime_error(
             "Invalid value:" + value){}
 
+    class commandable_no_temp{
+
+    };
+
     template<typename DataType>
     class commandable{
         DataType value_;
