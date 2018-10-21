@@ -22,7 +22,7 @@ set(
         src/opcontrol.cpp
 )
 
-#add_executable(LibTest ${src_files} src/lib/test/lib_test.cpp)
+add_executable(APITest ${src_files} test/api_test.cpp)
 
 # Blank targte for running build.bat externally
 add_executable(BlankBuild blank/blank.cpp)
