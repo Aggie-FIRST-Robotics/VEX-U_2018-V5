@@ -10,7 +10,7 @@ namespace AFR::VexU{
     public:
         explicit identifer_e(const std::string& identifier);
 
-        std::string get_identifer();
+        std::string get_identifer() const;
     };
 }
 
