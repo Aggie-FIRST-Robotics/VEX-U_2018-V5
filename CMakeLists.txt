@@ -13,7 +13,8 @@ include_directories(
 # Source files list, TODO: Add all cpp files
 set(
         src_files
-        src/afr-vexu-lib/identifier_e.cpp)
+        src/afr-vexu-lib/identifier_e.cpp
+)
 
 set(
         pros_src_files
