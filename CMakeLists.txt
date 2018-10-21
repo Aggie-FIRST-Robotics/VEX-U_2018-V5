@@ -17,6 +17,7 @@ set(
         src/afr-vexu-lib/scheduled.cpp
         src/afr-vexu-lib/transition.cpp
         src/afr-vexu-lib/action.cpp
+        src/afr-vexu-lib/state.cpp
 )
 
 set(
