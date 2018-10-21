@@ -19,6 +19,7 @@ set(
         src/afr-vexu-lib/action.cpp
         src/afr-vexu-lib/state.cpp
         src/afr-vexu-lib/readable.cpp
+        src/afr-vexu-lib/ordered_readable.cpp
 )
 
 set(
