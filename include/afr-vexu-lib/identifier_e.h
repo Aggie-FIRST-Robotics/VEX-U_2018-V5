@@ -4,13 +4,13 @@
 #include <string>
 
 namespace AFR::VexU{
-    class identifer_e{
-        std::string identifer_;
+    class identifier_e{
+        std::string identifier_;
 
     public:
-        explicit identifer_e(const std::string& identifier);
+        explicit identifier_e(const std::string& identifier);
 
-        std::string get_identifer() const;
+        std::string get_identifier() const;
     };
 }
 

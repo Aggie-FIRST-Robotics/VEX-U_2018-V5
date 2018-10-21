@@ -1,7 +1,7 @@
 #include <afr-vexu-lib/identifier_e.h>
 
-AFR::VexU::identifer_e::identifer_e(const std::string& identifier) : identifer_(identifier){}
+AFR::VexU::identifier_e::identifier_e(const std::string& identifier) : identifier_(identifier){}
 
-std::string AFR::VexU::identifer_e::get_identifer() const{
-    return identifer_;
+std::string AFR::VexU::identifier_e::get_identifier() const{
+    return identifier_;
 }
