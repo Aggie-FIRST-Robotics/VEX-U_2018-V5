@@ -24,8 +24,8 @@ set(
 #add_executable(LibTest ${src_files} src/lib/test/lib_test.cpp)
 
 # Blank targte for running build.bat externally
-add_executable(BlankBuild src/lib/blank.cpp)
-add_executable(BlankUpload src/lib/blank.cpp)
+add_executable(BlankBuild blank/blank.cpp)
+add_executable(BlankUpload blank/blank.cpp)
 
 # Builds program
 add_custom_target(
