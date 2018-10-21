@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include <functional>
+
 void on_center_button() {
 	static bool pressed = false;
 	pressed = !pressed;

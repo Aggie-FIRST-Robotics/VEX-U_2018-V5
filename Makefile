@@ -12,6 +12,8 @@ BINDIR=$(ROOT)/bin
 SRCDIR=$(ROOT)/src
 INCDIR=$(ROOT)/include
 
+
+
 WARNFLAGS+=
 EXTRA_CFLAGS=
 EXTRA_CXXFLAGS=
@@ -69,7 +71,7 @@ clean:
 	-$Drm -rf $(BINDIR)
 
 $(OUTBIN): $(OUTELF) $(BINDIR)
-	@echo -n "Creating $@ for $(DEVICE) "
+	@echo -n "Creating $@ for $(DEVICE) " $(SRCDIR)
 	$(call test_output,$D$(OBJCOPY) $< -O binary $@,$(DONE_STRING))
 
 $(OUTELF): $(call GETALLOBJ,$(EXCLUDE_SRCDIRS))
