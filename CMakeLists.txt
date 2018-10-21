@@ -4,15 +4,16 @@ project(VEX_U_2018_V5)
 set(CMAKE_CXX_STANDARD 17)
 
 set(upload_command "prosv5" "upload" "--debug" "--verbose")
-set($ENV{ROOT} ${PROJECT_SOURCE_DIR})
-
-include_directories(include)
 file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
+
+include_directories(
+        include
+)
 
 # Source files list, TODO: Add all cpp files
 set(
         src_files
-)
+        src/afr-vexu-lib/identifier_e.cpp)
 
 set(
         pros_src_files
