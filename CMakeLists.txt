@@ -15,6 +15,7 @@ set(
         src_files
         src/afr-vexu-lib/identifier_e.cpp
         src/afr-vexu-lib/scheduled.cpp
+        src/afr-vexu-lib/transition.cpp
 )
 
 set(
