@@ -14,6 +14,7 @@ include_directories(
 set(
         src_files
         src/afr-vexu-lib/identifier_e.cpp
+        src/afr-vexu-lib/scheduled.cpp
 )
 
 set(
