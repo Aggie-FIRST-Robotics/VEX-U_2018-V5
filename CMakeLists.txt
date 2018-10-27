@@ -13,10 +13,10 @@ include_directories(
 # Source files list, TODO: Add all cpp files
 set(
         src_files
-        src/afr-vexu-lib/scheduled.cpp
-        src/afr-vexu-lib/action.cpp
-        src/afr-vexu-lib/readable.cpp
-        src/afr-vexu-lib/ordered_readable.cpp
+        #        src/afr-vexu-lib/scheduled.cpp
+        #        src/afr-vexu-lib/action.cpp
+        #        src/afr-vexu-lib/readable.cpp
+        #        src/afr-vexu-lib/ordered_readable.cpp
 )
 
 set(
