@@ -1,3 +1,4 @@
-#include <afr-vexu-lib/action.h>
+#include "afr-vexu-lib/action.h"
 
-AFR::VexU::action_no_temp::action_no_temp(const unsigned int& update_period_ms) : scheduled(update_period_ms){}
+AFR::VexU::action::action(const unsigned int &update_period_ms, AFR::VexU::commandable *commandable) : scheduled(
+        update_period_ms), commandable_(commandable) {}
