@@ -169,7 +169,7 @@
 											"top": 676,
 											"width": 312.19677734375,
 											"height": 13,
-											"text": "-on_state_entry_: function<void()>",
+											"text": "-on_state_entry_: function<void(state&)>",
 											"horizontalAlignment": 0
 										}
 									],
@@ -237,7 +237,7 @@
 											"top": 729,
 											"width": 312.19677734375,
 											"height": 13,
-											"text": "+on_state_entry()",
+											"text": "+on_state_entry(previous_state: state&)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -6064,7 +6064,7 @@
 											},
 											"name": "on_state_entry_",
 											"visibility": "private",
-											"type": "function<void()>"
+											"type": "function<void(state&)>"
 										}
 									],
 									"operations": [
@@ -6101,7 +6101,18 @@
 											"_parent": {
 												"$ref": "AAAAAAFmZkRZz/MxvdM="
 											},
-											"name": "on_state_entry"
+											"name": "on_state_entry",
+											"parameters": [
+												{
+													"_type": "UMLParameter",
+													"_id": "AAAAAAFmlfRj/tdVIt8=",
+													"_parent": {
+														"$ref": "AAAAAAFmjz/FuXvgpig="
+													},
+													"name": "previous_state",
+													"type": "state&"
+												}
+											]
 										},
 										{
 											"_type": "UMLOperation",
