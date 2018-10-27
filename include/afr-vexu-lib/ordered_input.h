@@ -9,31 +9,19 @@
 #include <string>
 
 namespace AFR::VexU{
-    template<typename T>
-    class ordered_input : public readable<T>{
+    typedef unsigned int order_t;
+
+    class ordered_input{
     public:
-        ordered_input(int order, readable<T> input);
-        std::string get_order();
-        readable<T> get_input();
+        ordered_input(order_t order, readable* input);
+        order_t get_order();
+        readable* get_input();
 
     private:
-        int order;
-        readable<T> input;
+        order_t order;
+        readable* input;
     };
 
-    template<typename T>
-    ordered_input<T>::ordered_input(int order, readable<T> input)
-            : order(order), input(input){}
-
-    template<typename T>
-    std::string ordered_input<T>::get_order(){
-        return order;
-    }
-
-    template<typename T>
-    readable<T> ordered_input<T>::get_input(){
-        return input;
-    }
 
 }
 
