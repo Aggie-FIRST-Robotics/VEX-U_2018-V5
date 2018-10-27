@@ -5,13 +5,8 @@
 #include "commandable.h"
 
 namespace AFR::VexU{
-    class action_no_temp : public scheduled{
-    public:
-        explicit action_no_temp(const unsigned int& update_period_ms);
-    };
-
     template<typename DataType>
-    class action : public action_no_temp{
+    class action : public scheduled {
     protected:
         commandable<DataType>* commandable_;
 
@@ -21,7 +16,7 @@ namespace AFR::VexU{
 
     template<typename DataType>
     action<DataType>::action(const unsigned int& update_period_ms, commandable <DataType>* commandable)
-            : action_no_temp(update_period_ms), commandable_(commandable){}
+            : scheduled(update_period_ms), commandable_(commandable) {}
 }
 
 #endif //VEX_U_2018_V5_ACTION_H
