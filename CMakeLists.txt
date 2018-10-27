@@ -18,9 +18,7 @@ set(
         src/afr-vexu-lib/transition.cpp
         src/afr-vexu-lib/action.cpp
         src/afr-vexu-lib/state.cpp
-        src/afr-vexu-lib/readable.cpp
-        src/afr-vexu-lib/ordered_readable.cpp
-)
+        include/afr-vexu-lib/ordered_input.h src/afr-vexu-lib/readable.cpp src/afr-vexu-lib/ordered_input.cpp)
 
 set(
         pros_src_files

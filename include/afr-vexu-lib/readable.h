@@ -2,27 +2,18 @@
 #define VEX_U_2018_V5_READABLE_H
 
 #include "scheduled.h"
+#include <any>
 
 namespace AFR::VexU{
-    template<typename DataType>
     class readable : public scheduled{
     protected:
-        DataType value;
+        std::any value;
 
     public:
-        readable(const unsigned int& update_period_ms, const DataType& initial_value);
+        readable(const unsigned int& update_period_ms, const std::any& initial_value);
 
-        DataType get_value() const;
+        std::any get_value() const;
     };
-
-    template<typename DataType>
-    readable<DataType>::readable(const unsigned int& update_period_ms, const DataType& initial_value)
-            : scheduled(update_period_ms), value(initial_value){}
-
-    template<typename DataType>
-    DataType readable<DataType>::get_value() const{
-        return value;
-    }
 }
 
 #endif //VEX_U_2018_V5_READABLE_H
