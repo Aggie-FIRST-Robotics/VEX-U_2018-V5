@@ -1,8 +1,9 @@
 #ifndef VEX_U_2018_V5_READABLE_H
 #define VEX_U_2018_V5_READABLE_H
 
-#include "scheduled.h"
 #include <any>
+
+#include "scheduled.h"
 
 namespace AFR::VexU{
     class readable : public scheduled{
@@ -10,7 +11,7 @@ namespace AFR::VexU{
         std::any value;
 
     public:
-        readable(const unsigned int& update_period_ms, const std::any& initial_value);
+        readable(const scheduled_update_t& update_period_ms, const std::any& initial_value);
 
         std::any get_value() const;
     };
