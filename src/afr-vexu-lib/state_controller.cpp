@@ -11,7 +11,7 @@ AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
     for(const auto& it : current_state_->get_transitions()){
         if(it.should_change_state()){
             state* last_state = current_state_;
-            current_state_ = &it.get_next_state();
+            current_state_ = &state_map_.at(it.get_next_state());
             current_state_->on_state_entry(*last_state);
             break;
         }

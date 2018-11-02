@@ -29,14 +29,14 @@ namespace AFR::VexU{
 
     class transition{
     private:
-        state& next_state_;
+        std::string next_state_;
         std::function<bool()> condition_function_;
 
     public:
-        transition(const std::function<bool()>& condition_function, state& next_state);
+        transition(const std::function<bool()>& condition_function, const std::string& next_state);
 
         bool should_change_state() const;
-        state& get_next_state() const;
+        std::string get_next_state() const;
     };
 }
 

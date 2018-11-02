@@ -26,13 +26,13 @@ const std::vector<AFR::VexU::transition>& AFR::VexU::state::get_transitions(){
     return transitions_;
 }
 
-AFR::VexU::transition::transition(const std::function<bool()>& condition_function, AFR::VexU::state& next_state)
+AFR::VexU::transition::transition(const std::function<bool()>& condition_function, const std::string& next_state)
         : condition_function_(condition_function), next_state_(next_state){}
 
 bool AFR::VexU::transition::should_change_state() const{
     return condition_function_();
 }
 
-AFR::VexU::state& AFR::VexU::transition::get_next_state() const{
+std::string AFR::VexU::transition::get_next_state() const{
     return next_state_;
 }
