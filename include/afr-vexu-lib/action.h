@@ -12,7 +12,7 @@ namespace AFR::VexU{
         commandable& commandable_;
 
     public:
-        explicit action(const scheduled_update_t& update_period_ms, commandable& commandable);
+        explicit action(const scheduled_update_t& update_period, commandable& commandable);
     };
 }
 
