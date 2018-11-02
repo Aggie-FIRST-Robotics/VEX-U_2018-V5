@@ -14,8 +14,8 @@ namespace AFR::VexU{
 
     public:
         ordered_input(const order_t& order, readable& input);
-        order_t get_order();
-        readable& get_input();
+        order_t get_order() const;
+        readable& get_input() const;
     };
 }
 
