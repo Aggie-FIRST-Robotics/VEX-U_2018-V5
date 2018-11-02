@@ -5,7 +5,9 @@ AFR::VexU::state_controller::state_controller(const std::unordered_map<std::stri
                                               const std::string& initial_state) : state_map_(state_map),
                                                                                   commandable_map_(commandable_map),
                                                                                   current_state_(&state_map.at(
-                                                                                          initial_state)){}
+                                                                                          initial_state)){
+    current_state_->on_state_entry(*current_state_);
+}
 
 AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
     for(const auto& it : current_state_->get_transitions()){
