@@ -5,26 +5,26 @@ AFR::VexU::subsystem_controller::subsystem_controller(
         const std::unordered_map<std::string, AFR::VexU::state_controller&>& state_map) : input_map_(input_map),
                                                                                           state_map_(state_map),
                                                                                           ordered_inputs_(){
-    std::vector<std::pair<std::string, ordered_input>&> order;
-    for(const auto& input_pair : input_map_){
+    std::vector<std::pair<std::string, ordered_input>*> order;
+    for(std::pair<std::string, ordered_input> input_pair : input_map_){
         for(size_t x = 0; x <= order.size(); x++){
             if(x == order.size()){
-                order.emplace_back(input_pair);
+                order.push_back(&input_pair);
                 break;
             }
-            if(order[x].second.get_order() < input_pair.second.get_order()){
-                order.emplace(order.begin() + x + 1, input_pair);
+            if(order[x]->second.get_order() < input_pair.second.get_order()){
+                order.insert(order.begin() + x + 1, &input_pair);
             }
         }
     }
     for(auto item : order){
-        ordered_inputs_.emplace_back(item.second.get_input());
+        ordered_inputs_.emplace_back(item->second.get_input());
     }
 }
 
 AFR::VexU::result_t AFR::VexU::subsystem_controller::updateInputs(){
     for(auto it : ordered_inputs_){
-        it.update();
+        it.get().update();
     }
     return SUCCESS;
 };
