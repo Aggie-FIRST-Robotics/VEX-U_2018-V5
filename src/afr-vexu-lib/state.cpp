@@ -1,6 +1,6 @@
 #include <afr-vexu-lib/state.h>
 
-AFR::VexU::state::state(const unsigned int& update_period_ms,
+AFR::VexU::state::state(const scheduled_update_t& update_period_ms,
                         const std::unordered_map<std::string, AFR::VexU::action&>& action_map,
                         const std::vector<AFR::VexU::transition>& transitions,
                         const std::function<void(const state&)>& on_state_entry) : scheduled(update_period_ms),

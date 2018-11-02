@@ -4,6 +4,8 @@
 #include <chrono>
 
 namespace AFR::VexU{
+    typedef unsigned int scheduled_update_t;
+
     class scheduled{
         std::chrono::steady_clock::time_point next_update_;
         std::chrono::duration<unsigned int, std::milli> update_period_ms_;
@@ -11,7 +13,7 @@ namespace AFR::VexU{
         virtual void update_private(const double& delta_seconds) = 0;
 
     public:
-        explicit scheduled(const unsigned int& update_period);
+        explicit scheduled(const scheduled_update_t& update_period);
 
         void update();
     };
