@@ -20,9 +20,9 @@ namespace AFR::VexU{
                          const std::string& initial_state);
 
         result_t update_current_state();
-        result_t updateActions();
-        state& getState(std::string id);
-        commandable& getCommandable(std::string id);
+        result_t update_actions();
+        state& get_current_state(std::string id);
+        commandable& get_commandable(std::string id);
     };
 }
 

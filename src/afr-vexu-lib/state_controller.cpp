@@ -19,17 +19,17 @@ AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
     return SUCCESS;
 };
 
-AFR::VexU::result_t AFR::VexU::state_controller::updateActions(){
+AFR::VexU::result_t AFR::VexU::state_controller::update_actions(){
     for(auto it : state_map_){
         it.second.update_actions();
     }
     return SUCCESS;
 };
 
-AFR::VexU::state& AFR::VexU::state_controller::getState(std::string id){
+AFR::VexU::state& AFR::VexU::state_controller::get_current_state(std::string id){
     return state_map_.at(id);
 };
 
-AFR::VexU::commandable& AFR::VexU::state_controller::getCommandable(std::string id){
+AFR::VexU::commandable& AFR::VexU::state_controller::get_commandable(std::string id){
     return commandable_map_.at(id);
 };
