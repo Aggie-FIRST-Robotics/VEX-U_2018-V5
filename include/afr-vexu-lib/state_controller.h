@@ -9,13 +9,16 @@
 #include "defines.h"
 
 namespace AFR::VexU{
-    class state_controller{
+    class state_controller : public scheduled{
         const std::unordered_map<std::string, state&> state_map_;
         const std::unordered_map<std::string, commandable&> commandable_map_;
         state* current_state_;
 
+        void update_private(const double& delta_seconds) override;
+
     public:
-        state_controller(const std::unordered_map<std::string, state&>& state_map,
+        state_controller(const scheduled_update_t& update_period,
+                         const std::unordered_map<std::string, state&>& state_map,
                          const std::unordered_map<std::string, commandable&>& commandable_map,
                          const std::string& initial_state);
 

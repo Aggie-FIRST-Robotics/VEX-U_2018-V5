@@ -1,8 +1,15 @@
-#include "afr-vexu-lib/state_controller.h"
 
-AFR::VexU::state_controller::state_controller(const std::unordered_map<std::string, AFR::VexU::state&>& state_map,
+#include <afr-vexu-lib/state_controller.h>
+
+void AFR::VexU::state_controller::update_private(const double& delta_seconds){
+    update_current_state();
+};
+
+AFR::VexU::state_controller::state_controller(const scheduled_update_t& update_period,
+                                              const std::unordered_map<std::string, AFR::VexU::state&>& state_map,
                                               const std::unordered_map<std::string, AFR::VexU::commandable&>& commandable_map,
-                                              const std::string& initial_state) : state_map_(state_map),
+                                              const std::string& initial_state) : scheduled(update_period),
+                                                                                  state_map_(state_map),
                                                                                   commandable_map_(commandable_map),
                                                                                   current_state_(&state_map.at(
                                                                                           initial_state)){
@@ -34,4 +41,4 @@ AFR::VexU::state& AFR::VexU::state_controller::get_current_state(std::string id)
 
 AFR::VexU::commandable& AFR::VexU::state_controller::get_commandable(std::string id){
     return commandable_map_.at(id);
-};
+}
