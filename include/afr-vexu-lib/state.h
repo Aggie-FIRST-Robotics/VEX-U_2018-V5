@@ -12,7 +12,7 @@
 namespace AFR::VexU{
     class transition;
 
-    class state : scheduled{
+    class state : public scheduled{
         const std::unordered_map<std::string, action&> action_map_;
         const std::vector<transition> transitions_;
         const std::function<void(const state&)> on_state_entry_;
