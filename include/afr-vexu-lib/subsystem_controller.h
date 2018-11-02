@@ -13,12 +13,12 @@
 namespace AFR::VexU{
     class subsystem_controller{
     private:
-        const std::unordered_map<std::string, ordered_input> input_map_;
-        std::vector<std::reference_wrapper<readable>> ordered_inputs_;
+        const std::unordered_map<std::string, ordered_input&> input_map_;
+        std::vector<readable*> ordered_inputs_;
         const std::unordered_map<std::string, state_controller&>& state_map_;
 
     public:
-        subsystem_controller(const std::unordered_map<std::string, ordered_input>& input_map,
+        subsystem_controller(const std::unordered_map<std::string, ordered_input&>& input_map,
                              const std::unordered_map<std::string, state_controller&>& state_map);
 
         result_t updateInputs();

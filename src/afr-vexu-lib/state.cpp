@@ -1,4 +1,5 @@
 #include <afr-vexu-lib/state.h>
+#include <iostream>
 
 AFR::VexU::state::state(const std::unordered_map<std::string, AFR::VexU::action&>& action_map,
                         const std::vector<AFR::VexU::transition>& transitions,
@@ -32,5 +33,6 @@ bool AFR::VexU::transition::should_change_state() const{
 }
 
 std::string AFR::VexU::transition::get_next_state() const{
+    std::cout << "Moving to " << next_state_ << std::endl;
     return next_state_;
 }

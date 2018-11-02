@@ -29,9 +29,7 @@ AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
 };
 
 AFR::VexU::result_t AFR::VexU::state_controller::update_actions(){
-    for(auto it : state_map_){
-        it.second.update_actions();
-    }
+    current_state_->update_actions();
     return SUCCESS;
 };
 
