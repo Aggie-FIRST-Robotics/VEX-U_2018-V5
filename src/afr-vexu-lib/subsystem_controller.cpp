@@ -22,21 +22,21 @@ AFR::VexU::subsystem_controller::subsystem_controller(
     }
 }
 
-AFR::VexU::result_t AFR::VexU::subsystem_controller::updateInputs(){
+AFR::VexU::error_t AFR::VexU::subsystem_controller::updateInputs(){
     for(auto it : ordered_inputs_){
         it->update();
     }
     return SUCCESS;
 };
 
-AFR::VexU::result_t AFR::VexU::subsystem_controller::updateStates(){
+AFR::VexU::error_t AFR::VexU::subsystem_controller::updateStates(){
     for(auto it : state_map_){
         it.second.update_current_state();
     }
     return SUCCESS;
 };
 
-AFR::VexU::result_t AFR::VexU::subsystem_controller::updateActions(){
+AFR::VexU::error_t AFR::VexU::subsystem_controller::updateActions(){
     for(auto it : state_map_){
         it.second.update_actions();
     }

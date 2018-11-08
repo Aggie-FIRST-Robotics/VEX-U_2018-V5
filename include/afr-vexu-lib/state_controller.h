@@ -22,8 +22,8 @@ namespace AFR::VexU{
                          const std::unordered_map<std::string, commandable&>& commandable_map,
                          const std::string& initial_state);
 
-        result_t update_current_state();
-        result_t update_actions();
+        error_t update_current_state();
+        error_t update_actions();
         state& get_current_state(std::string id);
         commandable& get_commandable(std::string id);
     };

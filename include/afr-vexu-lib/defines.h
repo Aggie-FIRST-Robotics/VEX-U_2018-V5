@@ -1,6 +1,6 @@
-#define SUCCESS true
-#define FAIL false
-
 namespace AFR::VexU{
-    typedef bool result_t;
+    enum error_t{
+        SUCCESS,
+        GENERIC_FAILURE,
+    };
 }

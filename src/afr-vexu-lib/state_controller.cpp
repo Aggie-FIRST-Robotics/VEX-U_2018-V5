@@ -16,7 +16,7 @@ AFR::VexU::state_controller::state_controller(const scheduled_update_t& update_p
     current_state_->on_state_entry(*current_state_);
 }
 
-AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
+AFR::VexU::error_t AFR::VexU::state_controller::update_current_state(){
     for(const auto& it : current_state_->get_transitions()){
         if(it.should_change_state()){
             state* last_state = current_state_;
@@ -28,7 +28,7 @@ AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
     return SUCCESS;
 };
 
-AFR::VexU::result_t AFR::VexU::state_controller::update_actions(){
+AFR::VexU::error_t AFR::VexU::state_controller::update_actions(){
     current_state_->update_actions();
     return SUCCESS;
 };
