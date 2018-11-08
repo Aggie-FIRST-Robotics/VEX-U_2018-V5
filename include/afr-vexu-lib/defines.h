@@ -5,6 +5,7 @@ namespace AFR::VexU{
     enum error_t{
         SUCCESS,
         GENERIC_FAILURE,
+        INVALID_VALUE,      //Commandable assigned invalid value
     };
 }
 
