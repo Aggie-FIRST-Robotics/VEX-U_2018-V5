@@ -11,4 +11,3 @@ AFR::VexU::error_t AFR::VexU::readable::get_value(std::any& result) const{
     result = value;
     return SUCCESS;
 }
-
