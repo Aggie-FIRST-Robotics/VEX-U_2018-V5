@@ -45,12 +45,12 @@ int main(){
     test_sensor<bool> button1{1000, false, "button1"};
     test_sensor<bool> button2{500, false, "button2"};
 
-    AFR::VexU::base_action::set_value_action<int8_t> stop_action_byte{400, byte_motor, 0};
-    AFR::VexU::base_action::set_value_action<int> stop_action_int{800, int_motor, 0};
-    AFR::VexU::base_action::set_value_action<int8_t> forward_action_byte{300, byte_motor, 127};
-    AFR::VexU::base_action::set_value_action<int> forward_action_int{1200, int_motor, 1000};
-    AFR::VexU::base_action::set_value_action<int8_t> backward_action_byte{100, byte_motor, -127};
-    AFR::VexU::base_action::set_value_action<int> backward_action_int{2000, int_motor, -1000};
+    AFR::VexU::BaseAction::set_value_action<int8_t> stop_action_byte{400, byte_motor, 0};
+    AFR::VexU::BaseAction::set_value_action<int> stop_action_int{800, int_motor, 0};
+    AFR::VexU::BaseAction::set_value_action<int8_t> forward_action_byte{300, byte_motor, 127};
+    AFR::VexU::BaseAction::set_value_action<int> forward_action_int{1200, int_motor, 1000};
+    AFR::VexU::BaseAction::set_value_action<int8_t> backward_action_byte{100, byte_motor, -127};
+    AFR::VexU::BaseAction::set_value_action<int> backward_action_int{2000, int_motor, -1000};
 
     std::unordered_map<std::string, AFR::VexU::action&> stop_action_map = {
             {"stop_action_byte", stop_action_byte},

@@ -1,12 +1,12 @@
 #ifndef VEX_U_2018_V5_SET_VALUE_H
 #define VEX_U_2018_V5_SET_VALUE_H
 
-#include "../action.h"
+#include "afr-vexu-lib/action.h"
 
-namespace AFR::VexU::base_action{
+namespace AFR::VexU::BaseAction{
     template<typename T>
     class set_value_action : public action{
-        T value_;
+        const T value_;
         void update_private(const double& delta_seconds) override;
 
     public:
