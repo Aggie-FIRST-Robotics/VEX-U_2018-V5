@@ -17,7 +17,7 @@ namespace AFR::VexU{
         std::any current_value_;
 
         virtual error_t set_value_private(const std::any& value) = 0;
-        virtual error_t check_value_private(const std::any& value, bool& result) = 0;
+        virtual error_t check_value_private(const std::any& value) = 0;
 
     public:
         explicit commandable(const std::any& initial_value, error_t* result = nullptr);

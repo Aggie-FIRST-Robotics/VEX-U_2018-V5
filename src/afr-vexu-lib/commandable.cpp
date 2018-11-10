@@ -14,10 +14,9 @@ AFR::VexU::error_t AFR::VexU::commandable::get_current_value(std::any& result) c
 }
 
 AFR::VexU::error_t AFR::VexU::commandable::set_value(const std::any& value){
-    bool is_good_value = false;
-    check_value_private(value, is_good_value);
-    if(!is_good_value){
-        return INVALID_VALUE;
+    error_t result = check_value_private(value);
+    if(result != SUCCESS){
+        return result;
     }
     current_value_ = value;
     return set_value_private(value);
