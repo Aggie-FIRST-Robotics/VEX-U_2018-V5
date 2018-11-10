@@ -26,6 +26,12 @@
 #endif
 #endif
 
+#define AFR_VEXU_INTERNAL_CALL(x)                                       \
+    error_t internal_error_num_do_not_use = (x);                        \
+    if(internal_error_num_do_not_use != SUCCESS){                       \
+        return internal_error_num_do_not_use;                           \
+    }
+
 namespace AFR::VexU{
     enum error_t{
         SUCCESS,

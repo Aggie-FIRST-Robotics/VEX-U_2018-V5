@@ -14,18 +14,18 @@ namespace AFR::VexU{
         const std::unordered_map<std::string, commandable&> commandable_map_;
         state* current_state_;
 
-        void update_private(const double& delta_seconds) override;
+        error_t update_private(const double& delta_seconds) override;
 
     public:
         state_controller(const scheduled_update_t& update_period,
                          const std::unordered_map<std::string, state&>& state_map,
                          const std::unordered_map<std::string, commandable&>& commandable_map,
-                         const std::string& initial_state);
+                         const std::string& initial_state, error_t* result);
 
         error_t update_current_state();
         error_t update_actions();
-        state& get_current_state(std::string id);
-        commandable& get_commandable(std::string id);
+        error_t get_current_state(std::string id, state*& result);
+        error_t get_commandable(std::string id, commandable*& result);
     };
 }
 
