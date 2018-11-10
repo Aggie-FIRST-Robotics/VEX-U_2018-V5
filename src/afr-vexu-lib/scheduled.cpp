@@ -10,10 +10,11 @@ AFR::VexU::scheduled::scheduled(const unsigned int& update_period, error_t* resu
     }
 }
 
-void AFR::VexU::scheduled::update(){
+AFR::VexU::error_t AFR::VexU::scheduled::update(){
     if(steady_clock_n::now() >= next_update_){
         update_private(std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1, 1>>>(
                 steady_clock_n::now() - next_update_ + update_period_).count());
         next_update_ = steady_clock_n::now() + update_period_;
     }
+    return SUCCESS;
 }
