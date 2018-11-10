@@ -1,48 +1,43 @@
-//
-// Created by HP on 10/26/2018.
-//
+#ifndef VEX_U_2018_V5_STATE_H
+#define VEX_U_2018_V5_STATE_H
 
-#ifndef UNTITLED_STATE_H
-#define UNTITLED_STATE_H
+#include <unordered_map>
+#include <string>
+#include <vector>
+#include <functional>
 
-class state()
+#include "scheduled.h"
+#include "action.h"
 
-{
-private:
-public:
-state(double &update_period_ms);
+namespace AFR::VexU{
+    class transition;
 
-~
+    class state{
+        const std::unordered_map<std::string, action&> action_map_;
+        const std::vector<transition> transitions_;
+        const std::function<void(const state&)> on_state_entry_;
 
-state() {}
+    public:
+        state(const std::unordered_map<std::string, action&>& action_map,
+              const std::vector<transition>& transitions, const std::function<void(const state&)>& on_state_entry);
 
-void update_actions();
+        void update_actions();
+        void on_state_entry(const state& previous);
+        action& get_action(const std::string& identifier);
+        const std::vector<transition>& get_transitions();
+    };
 
-void on_state_entry();
+    class transition{
+    private:
+        std::string next_state_;
+        std::function<bool()> condition_function_;
 
-action get_action(identifier_e &identifier);
+    public:
+        transition(const std::function<bool()>& condition_function, const std::string& next_state);
 
-vector <transition> *get_transitions();
+        bool should_change_state() const;
+        std::string get_next_state() const;
+    };
 }
 
-class transition()
-
-{
-private:
-state *next_state;
-function<bool()> condition_function;
-public:
-transition(function<bool()>
-condition_function,
-state *next_state
-);
-~
-
-transition() {}
-
-bool change_state();
-
-state *get_next_state();
-}
-
-#endif //UNTITLED_STATE_H
+#endif //VEX_U_2018_V5_STATE_H
