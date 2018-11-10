@@ -19,6 +19,8 @@ namespace AFR::VexU{
         explicit scheduled(const scheduled_update_t& update_period, error_t* result = nullptr);
 
         error_t update();
+
+        error_t set_update_period(const scheduled_update_t& update_period);
     };
 
     template<typename T, typename Unit>
