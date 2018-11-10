@@ -30,6 +30,7 @@ set(
         src/opcontrol.cpp
 )
 
+add_compile_definitions(AFR_VEXU_TEST AFR_VEXU_THROW_ON_ERROR)
 add_executable(APITest ${src_files} test/api_test.cpp)
 
 # Blank targte for running build.bat externally
