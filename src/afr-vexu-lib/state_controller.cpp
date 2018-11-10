@@ -1,26 +1,41 @@
 
 #include <afr-vexu-lib/state_controller.h>
 
-void AFR::VexU::state_controller::update_private(const double& delta_seconds){
-    update_current_state();
+AFR::VexU::error_t AFR::VexU::state_controller::update_private(const double& delta_seconds){
+    return update_current_state();
 };
 
 AFR::VexU::state_controller::state_controller(const scheduled_update_t& update_period,
                                               const std::unordered_map<std::string, AFR::VexU::state&>& state_map,
                                               const std::unordered_map<std::string, AFR::VexU::commandable&>& commandable_map,
-                                              const std::string& initial_state) : scheduled(update_period),
-                                                                                  state_map_(state_map),
-                                                                                  commandable_map_(commandable_map),
-                                                                                  current_state_(&state_map.at(
+                                              const std::string& initial_state, error_t* result) : scheduled(
+        update_period),
+                                                                                                   state_map_(
+                                                                                                           state_map),
+                                                                                                   commandable_map_(
+                                                                                                           commandable_map),
+                                                                                                   current_state_(
+                                                                                                           &state_map.at(
                                                                                           initial_state)){
-    current_state_->on_state_entry(*current_state_);
+    if(result != nullptr){
+        *result = current_state_->on_state_entry(*current_state_);
+    }
+    else{
+        current_state_->on_state_entry(*current_state_);
+    }
 }
 
-AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
-    for(const auto& it : current_state_->get_transitions()){
-        if(it.should_change_state()){
+AFR::VexU::error_t AFR::VexU::state_controller::update_current_state(){
+    const std::vector<transition>* transitions;
+    AFR_VEXU_INTERNAL_CALL(current_state_->get_transitions(transitions));
+    for(const auto& it : *transitions){
+        bool change_state;
+        AFR_VEXU_INTERNAL_CALL(it.should_change_state(change_state));
+        if(change_state){
             state* last_state = current_state_;
-            current_state_ = &state_map_.at(it.get_next_state());
+            std::string next_state;
+            it.get_next_state(next_state);
+            current_state_ = &state_map_.at(next_state);
             current_state_->on_state_entry(*last_state);
             break;
         }
@@ -28,15 +43,17 @@ AFR::VexU::result_t AFR::VexU::state_controller::update_current_state(){
     return SUCCESS;
 };
 
-AFR::VexU::result_t AFR::VexU::state_controller::update_actions(){
+AFR::VexU::error_t AFR::VexU::state_controller::update_actions(){
     current_state_->update_actions();
     return SUCCESS;
 };
 
-AFR::VexU::state& AFR::VexU::state_controller::get_current_state(std::string id){
-    return state_map_.at(id);
+AFR::VexU::error_t AFR::VexU::state_controller::get_current_state(std::string id, state*& result){
+    result = &state_map_.at(id);
+    return SUCCESS;
 };
 
-AFR::VexU::commandable& AFR::VexU::state_controller::get_commandable(std::string id){
-    return commandable_map_.at(id);
+AFR::VexU::error_t AFR::VexU::state_controller::get_commandable(std::string id, commandable*& result){
+    result = &commandable_map_.at(id);
+    return SUCCESS;
 }

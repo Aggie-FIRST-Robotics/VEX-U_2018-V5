@@ -10,12 +10,12 @@ namespace AFR::VexU{
 
     class ordered_input{
         order_t order;
-        readable& input;
+        readable* input;
 
     public:
-        ordered_input(const order_t& order, readable& input);
-        order_t get_order() const;
-        readable& get_input() const;
+        ordered_input(const order_t& order, readable* input, error_t* result = nullptr);
+        error_t get_order(order_t& result) const;
+        error_t get_input(readable*& result) const;
     };
 }
 

@@ -12,31 +12,36 @@ AFR::VexU::subsystem_controller::subsystem_controller(
 
     struct{
         bool operator()(const AFR::VexU::ordered_input* a, const AFR::VexU::ordered_input* b){
-            return a->get_order() < b->get_order();
+            order_t result_a, result_b;
+            a->get_order(result_a);
+            b->get_order(result_b);
+            return result_a < result_b;
         }
     } sorter;
     std::sort(order.begin(), order.end(), sorter);
 
     for(auto item : order){
-        ordered_inputs_.emplace_back(&item->get_input());
+        readable* result;
+        item->get_input(result);
+        ordered_inputs_.emplace_back(result);
     }
 }
 
-AFR::VexU::result_t AFR::VexU::subsystem_controller::updateInputs(){
+AFR::VexU::error_t AFR::VexU::subsystem_controller::updateInputs(){
     for(auto it : ordered_inputs_){
         it->update();
     }
     return SUCCESS;
 };
 
-AFR::VexU::result_t AFR::VexU::subsystem_controller::updateStates(){
+AFR::VexU::error_t AFR::VexU::subsystem_controller::updateStates(){
     for(auto it : state_map_){
         it.second.update_current_state();
     }
     return SUCCESS;
 };
 
-AFR::VexU::result_t AFR::VexU::subsystem_controller::updateActions(){
+AFR::VexU::error_t AFR::VexU::subsystem_controller::updateActions(){
     for(auto it : state_map_){
         it.second.update_actions();
     }

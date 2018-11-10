@@ -7,15 +7,15 @@ namespace AFR::VexU::BaseAction{
     template<typename T>
     class equivalent_value_action : public action{
         const T* value_ptr_;
-        void update_private(const double& delta_seconds) override;
+        error_t update_private(const double& delta_seconds) override;
 
     public:
         equivalent_value_action(const scheduled_update_t& update_period, commandable& commandable, const T* value_ptr);
     };
 
     template<typename T>
-    void equivalent_value_action<T>::update_private(const double& delta_seconds){
-        commandable_.set_value(std::any{*value_ptr_});
+    error_t equivalent_value_action<T>::update_private(const double& delta_seconds){
+        return commandable_.set_value(std::any{*value_ptr_});
     }
 
     template<typename T>
