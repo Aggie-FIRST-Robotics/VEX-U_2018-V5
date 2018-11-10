@@ -20,7 +20,7 @@ namespace AFR::VexU{
         state_controller(const scheduled_update_t& update_period,
                          const std::unordered_map<std::string, state&>& state_map,
                          const std::unordered_map<std::string, commandable&>& commandable_map,
-                         const std::string& initial_state, error_t* result);
+                         const std::string& initial_state, error_t* result = nullptr);
 
         error_t update_current_state();
         error_t update_actions();
