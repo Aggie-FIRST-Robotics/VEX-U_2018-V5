@@ -14,6 +14,7 @@
 #include "afr-vexu-lib/subsystem_controller.h"
 
 //actions
+#include "afr-vexu-lib/base_action/equivalent_value_action.h"
 #include "afr-vexu-lib/base_action/set_value_action.h"
 
 template<typename T>
