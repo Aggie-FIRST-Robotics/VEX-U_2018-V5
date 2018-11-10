@@ -24,8 +24,8 @@ namespace AFR::VexU{
     };
 
     template<typename T, typename Unit>
-    error_t convert_time(const T& amount, scheduled_update_t* result){
-        *result = std::chrono::duration_cast<scheduled_update_t, scheduled_res_t>(
+    error_t convert_time(const T& amount, scheduled_update_t& result){
+        result = std::chrono::duration_cast<scheduled_update_t, scheduled_res_t>(
                 std::chrono::duration<T, Unit>{amount});
         return SUCCESS;
     }
