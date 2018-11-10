@@ -1,16 +1,12 @@
-//
-// Created by Buzzec on 10/26/2018.
-//
-
 #include <afr-vexu-lib/ordered_input.h>
 
-AFR::VexU::ordered_input::ordered_input(unsigned int order, readable* input)
+AFR::VexU::ordered_input::ordered_input(const order_t& order, readable& input)
         : order(order), input(input){}
 
-unsigned int AFR::VexU::ordered_input::get_order(){
+unsigned int AFR::VexU::ordered_input::get_order() const{
     return order;
 }
 
-AFR::VexU::readable* AFR::VexU::ordered_input::get_input(){
+AFR::VexU::readable& AFR::VexU::ordered_input::get_input() const{
     return input;
 }

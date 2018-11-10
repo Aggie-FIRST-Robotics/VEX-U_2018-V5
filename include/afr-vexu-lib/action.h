@@ -9,10 +9,10 @@
 namespace AFR::VexU{
     class action : public scheduled {
     protected:
-        commandable *commandable_;
+        commandable& commandable_;
 
     public:
-        explicit action(const unsigned int &update_period_ms, commandable *commandable);
+        explicit action(const scheduled_update_t& update_period, commandable& commandable);
     };
 }
 
