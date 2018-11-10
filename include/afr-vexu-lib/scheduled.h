@@ -3,6 +3,8 @@
 
 #include <chrono>
 
+#include "defines.h"
+
 namespace AFR::VexU{
     typedef unsigned int scheduled_update_t;
     typedef std::milli scheduled_res_t;
@@ -11,17 +13,19 @@ namespace AFR::VexU{
         std::chrono::steady_clock::time_point next_update_;
         std::chrono::duration<scheduled_update_t, scheduled_res_t> update_period_;
 
-        virtual void update_private(const double& delta_seconds) = 0;
+        virtual error_t update_private(const double& delta_seconds) = 0;
 
     public:
-        explicit scheduled(const scheduled_update_t& update_period);
+        explicit scheduled(const scheduled_update_t& update_period, error_t* result = nullptr);
 
-        void update();
+        error_t update();
     };
 
     template<typename T, typename Unit>
-    scheduled_update_t convert_time(const T& amount){
-        return std::chrono::duration_cast<scheduled_update_t, scheduled_res_t>(std::chrono::duration<T, Unit>{amount});
+    error_t convert_time(const T& amount, scheduled_update_t* result){
+        *result = std::chrono::duration_cast<scheduled_update_t, scheduled_res_t>(
+                std::chrono::duration<T, Unit>{amount});
+        return SUCCESS;
     }
 }
 

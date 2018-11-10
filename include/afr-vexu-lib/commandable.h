@@ -4,26 +4,28 @@
 #include <any>
 #include <stdexcept>
 
+#include "defines.h"
+
 namespace AFR::VexU{
-    class invalid_value_error : public std::runtime_error{
-    public:
-        invalid_value_error();
-    };
+//    class invalid_value_error : public std::runtime_error{
+//    public:
+//        invalid_value_error();
+//    };
 
     class commandable{
     private:
         std::any current_value_;
 
-        virtual void set_value_private(const std::any& value) = 0;
-        virtual bool check_value_private(const std::any& value) = 0;
+        virtual error_t set_value_private(const std::any& value) = 0;
+        virtual error_t check_value_private(const std::any& value, bool& result) = 0;
 
     public:
-        explicit commandable(const std::any& initial_value);
+        explicit commandable(const std::any& initial_value, error_t* result = nullptr);
 
-        std::any get_current_value() const;
+        error_t get_current_value(std::any& result) const;
 
-        void set_value(const std::any& value);
-        commandable& operator=(const std::any& value);
+        error_t set_value(const std::any& value);
+//        commandable& operator=(const std::any& value);
     };
 }
 

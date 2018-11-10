@@ -11,9 +11,9 @@ namespace AFR::VexU{
         std::any value;
 
     public:
-        readable(const scheduled_update_t& update_period, const std::any& initial_value);
+        readable(const scheduled_update_t& update_period, const std::any& initial_value, error_t* result = nullptr);
 
-        std::any get_value() const;
+        error_t get_value(std::any& result) const;
     };
 }
 
