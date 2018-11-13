@@ -13,9 +13,9 @@ AFR::VexU::scheduled::scheduled(const AFR::VexU::scheduled_update_t& update_peri
 
 AFR::VexU::error_t AFR::VexU::scheduled::update(){
     if(steady_clock_n::now() >= next_update_){
-        update_private(std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1, 1>>>(
-                steady_clock_n::now() - next_update_ + update_period_).count());
         next_update_ = steady_clock_n::now() + update_period_;
+        return update_private(std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1, 1>>>(
+                steady_clock_n::now() - next_update_ + update_period_).count());
     }
     return SUCCESS;
 }
