@@ -2,7 +2,8 @@
 
 AFR::VexU::subsystem_controller::subsystem_controller(
         const std::unordered_map<std::string, ordered_input&>& input_map,
-        const std::unordered_map<std::string, AFR::VexU::state_controller&>& state_map, error_t* result) : input_map_(
+        const std::unordered_map<std::string, AFR::VexU::state_controller&>& state_map,
+        error_t* result) : input_map_(
         input_map),
                                                                                                            state_map_(state_map),
                                                                                                            ordered_inputs_(){

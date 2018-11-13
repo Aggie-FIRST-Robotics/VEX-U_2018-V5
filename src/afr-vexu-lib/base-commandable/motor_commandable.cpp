@@ -22,16 +22,14 @@ AFR::VexU::BaseCommandable::motor_commandable::motor_commandable(const std::uint
                                                                  const pros::motor_gearset_e_t& gearset,
                                                                  const bool& reverse,
                                                                  const pros::motor_brake_mode_e_t& brake_mode,
-                                                                 AFR::VexU::error_t* result) : commandable(0),
+                                                                 AFR::VexU::error_t* result) : commandable(0, result),
                                                                                                motor(port, gearset,
                                                                                                      reverse){
-    if(motor.set_brake_mode(brake_mode) == PROS_ERR){
-        if(result != nullptr){
-            *result = PROS_ERROR;
-        }
+    if(result != nullptr && *result == SUCCESS){
+        *result = motor.set_brake_mode(brake_mode) == PROS_ERR ? PROS_ERROR : SUCCESS;
     }
-    else if(result != nullptr){
-        *result = SUCCESS;
+    else if(result == nullptr){
+        motor.set_brake_mode(brake_mode);
     }
 }
 

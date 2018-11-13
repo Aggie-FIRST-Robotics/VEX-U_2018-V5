@@ -9,7 +9,7 @@ AFR::VexU::state_controller::state_controller(const scheduled_update_t& update_p
                                               const std::unordered_map<std::string, AFR::VexU::state&>& state_map,
                                               const std::unordered_map<std::string, AFR::VexU::commandable&>& commandable_map,
                                               const std::string& initial_state, error_t* result) : scheduled(
-        update_period),
+        update_period, result),
                                                                                                    state_map_(
                                                                                                            state_map),
                                                                                                    commandable_map_(
@@ -17,10 +17,10 @@ AFR::VexU::state_controller::state_controller(const scheduled_update_t& update_p
                                                                                                    current_state_(
                                                                                                            &state_map.at(
                                                                                           initial_state)){
-    if(result != nullptr){
+    if(result != nullptr && *result == SUCCESS){
         *result = current_state_->on_state_entry(*current_state_);
     }
-    else{
+    else if(result == nullptr){
         current_state_->on_state_entry(*current_state_);
     }
 }
