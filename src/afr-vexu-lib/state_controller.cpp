@@ -34,9 +34,9 @@ AFR::VexU::error_t AFR::VexU::state_controller::update_current_state(){
         if(change_state){
             state* last_state = current_state_;
             std::string next_state;
-            it.get_next_state(next_state);
+            AFR_VEXU_INTERNAL_CALL(it.get_next_state(next_state));
             current_state_ = &state_map_.at(next_state);
-            current_state_->on_state_entry(*last_state);
+            AFR_VEXU_INTERNAL_CALL(current_state_->on_state_entry(*last_state));
             break;
         }
     }
@@ -44,11 +44,11 @@ AFR::VexU::error_t AFR::VexU::state_controller::update_current_state(){
 };
 
 AFR::VexU::error_t AFR::VexU::state_controller::update_actions(){
-    current_state_->update_actions();
+    AFR_VEXU_INTERNAL_CALL(current_state_->update_actions());
     return SUCCESS;
 };
 
-AFR::VexU::error_t AFR::VexU::state_controller::get_current_state(std::string id, state*& result){
+AFR::VexU::error_t AFR::VexU::state_controller::get_state(std::string id, state*& result){
     result = &state_map_.at(id);
     return SUCCESS;
 };
