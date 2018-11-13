@@ -15,7 +15,7 @@ namespace AFR::VexU{
 
     /**
      * Represents something that can be commanded on the robot, such as a motor or piston actuator.
-     * Can be as low level as direct motor control or abstract as a drivebase, as long as it takes a singular value
+     * Can be as low level as direct motor control or abstract as a drivebase, as long as it takes a singular value.
      */
     class commandable{
     private:
@@ -50,8 +50,7 @@ namespace AFR::VexU{
         virtual error_t get_type(std::type_index& result) const = 0;
 
         /**
-         * Returns the current value of the commandable as set by get_current_value. The any returned will be of the
-         * same type as get_type
+         * Returns the current value of the commandable as set by get_current_value. The any returned will be of the same type as get_type
          * @param result the returned value copied
          * @return error_t value if error encountered
          */
