@@ -18,7 +18,7 @@ namespace AFR::VexU{
     public:
         /**
          * Creates an action
-         * @param update_period the time period to be updated in of type scheduled_update_t
+         * @param update_period passed to scheduled
          * @param commandable the commandable this action commands
          * @param result error_t value if error encountered
          */
