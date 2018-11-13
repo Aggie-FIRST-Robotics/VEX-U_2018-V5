@@ -14,6 +14,11 @@ AFR::VexU::error_t AFR::VexU::commandable::get_current_value(std::any& result) c
 }
 
 AFR::VexU::error_t AFR::VexU::commandable::set_value(const std::any& value){
+    std::type_index type{typeid(int)};
+    get_type(type);
+    if(std::type_index{value.type()} != type){
+        return INVALID_TYPE;
+    }
     error_t result = check_value_private(value);
     if(result != SUCCESS){
         return result;
