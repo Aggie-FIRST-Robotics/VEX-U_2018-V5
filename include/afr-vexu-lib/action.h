@@ -7,6 +7,10 @@
 #include "commandable.h"
 
 namespace AFR::VexU{
+    /**
+     * Represents a method of control for a single commandable. Will be updated after readables.
+     * Should not be more complicated than a PID controller or direct input conversion.
+     */
     class action : public scheduled {
     protected:
         commandable& commandable_;  ///Reference to the commandable this action commands
