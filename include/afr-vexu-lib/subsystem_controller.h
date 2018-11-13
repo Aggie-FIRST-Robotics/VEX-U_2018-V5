@@ -19,13 +19,14 @@ namespace AFR::VexU{
 
     public:
         subsystem_controller(const std::unordered_map<std::string, ordered_input&>& input_map,
-                             const std::unordered_map<std::string, state_controller&>& state_map);
+                             const std::unordered_map<std::string, state_controller&>& state_map,
+                             error_t* result = nullptr);
 
         error_t updateInputs();
         error_t updateStates();
         error_t updateActions();
-        const ordered_input& getInput(const std::string& id) const;
-        const state_controller& getStateMachine(const std::string& id) const;
+        error_t getInput(const std::string& id, ordered_input*& result) const;
+        error_t getStateMachine(const std::string& id, state_controller*& result) const;
     };
 }
 
