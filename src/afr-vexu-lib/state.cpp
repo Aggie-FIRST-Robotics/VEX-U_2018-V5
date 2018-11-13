@@ -15,7 +15,7 @@ AFR::VexU::state::state(const std::unordered_map<std::string, AFR::VexU::action&
 
 AFR::VexU::error_t AFR::VexU::state::update_actions(){
     for(auto action : action_map_){
-        action.second.update();
+        AFR_VEXU_INTERNAL_CALL(action.second.update());
     }
     return SUCCESS;
 }
