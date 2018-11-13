@@ -36,9 +36,9 @@ namespace AFR::VexU{
 
     public:
         /**
-         *
-         * @param initial_value
-         * @param result
+         * Creates commandable with initial value
+         * @param initial_value initial value to be set, not sent to child objects so should be read and set by children
+         * @param result error_t value if error encountered
          */
         explicit commandable(const std::any& initial_value, error_t* result = nullptr);
 
