@@ -1,4 +1,4 @@
-#include <afr-vexu-lib/subsystem_controller.h>
+#include "afr-vexu-lib/subsystem_controller.h"
 
 AFR::VexU::subsystem_controller::subsystem_controller(
         const std::unordered_map<std::string, ordered_input&>& input_map,
