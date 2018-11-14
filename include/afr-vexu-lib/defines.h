@@ -38,7 +38,7 @@
  * @param y error case, usually PROS_ERR or PROS_ERR_F
  */
 #define AFR_PROS_CALL(x, y){                                                                                        \
-    if((x) == (y)){                                                                                                   \
+    if((x) == (y)){                                                                                                 \
         std::stringstream ss;                                                                                       \
         ss << "Pros error encountered: " << std::strerror(errno);                                                   \
         throw std::runtime_error{ss.str();};                                                                        \
@@ -60,7 +60,7 @@
  * @param y error case, usually PROS_ERR or PROS_ERR_F
  */
 #define AFR_PROS_CALL(x, y){                                                                                        \
-    if((x) == (y)){                                                                                                   \
+    if((x) == (y)){                                                                                                 \
         std::cerr << "PROS error: " << std::strerror(errno) << std::endl;                                           \
     }                                                                                                               \
 }
@@ -81,7 +81,7 @@
  * @param y error case, usually PROS_ERR or PROS_ERR_F
  */
 #define AFR_PROS_CALL(x, y){                                                                                        \
-    if((x) == (y)){                                                                                                   \
+    if((x) == (y)){                                                                                                 \
                                                                                                                     \
     }                                                                                                               \
 }
@@ -103,8 +103,8 @@
  * @param x function call
  * @param y error case
  */
-#define AFR_PROS_INTERNAL_CALL(x, y){                                                                                  \
-    if((x) == (y)){                                                                                            \
+#define AFR_PROS_INTERNAL_CALL(x, y){                                                                               \
+    if((x) == (y)){                                                                                                 \
         return PROS_ERROR;                                                                                          \
     }                                                                                                               \
 }
