@@ -1,9 +1,9 @@
 #include <afr-vexu-lib/base-commandable/motor_commandable.h>
 
+#include "afr-vexu-lib/defines.h"
+
 AFR::VexU::error_t AFR::VexU::BaseCommandable::motor_commandable::set_value_private(const std::any& value){
-    if(motor.move_velocity(std::any_cast<int16_t>(value)) == PROS_ERR){
-        return PROS_ERROR;
-    }
+    AFR_PROS_INTERNAL_CALL(motor.move_velocity(std::any_cast<int16_t>(value)), PROS_ERR);
     return SUCCESS;
 }
 
