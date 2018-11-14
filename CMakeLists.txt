@@ -21,16 +21,18 @@ set(
         src/afr-vexu-lib/state.cpp
         src/afr-vexu-lib/state_controller.cpp
         src/afr-vexu-lib/subsystem_controller.cpp
+        src/afr-vexu-lib/base-commandable/motor_commandable.cpp
 )
 
 set(
         only_test_src_files
+        emulator/src/motors.cpp
+        emulator/src/emulator.cpp
 )
 
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(
         only_V5_src_files
-        src/afr-vexu-lib/base-commandable/motor_commandable.cpp
 )
 
 set(
