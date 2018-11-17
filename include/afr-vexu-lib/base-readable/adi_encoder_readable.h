@@ -8,13 +8,16 @@
 namespace AFR::VexU::BaseReadable{
     class adi_encoder_readable : public readable{
         pros::ADIEncoder adi_encoder;
+        double scaling_factor;
 
         error_t update_private(const double& delta_seconds) override;
 
     public:
         adi_encoder_readable(const uint8_t& port_top, const uint8_t& port_bottom, const bool& reversed,
+                             const double& scaling_factor,
                              const scheduled_update_t& update_period, error_t* result = nullptr);
         error_t reset();
+        error_t get_scaled_value(double& result);
     };
 }
 

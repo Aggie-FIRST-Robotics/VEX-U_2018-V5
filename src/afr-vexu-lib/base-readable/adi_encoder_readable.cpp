@@ -9,14 +9,21 @@ namespace AFR::VexU::BaseReadable{
     }
 
     adi_encoder_readable::adi_encoder_readable(const uint8_t& port_top, const uint8_t& port_bottom,
-                                               const bool& reversed,
+                                               const bool& reversed, const double& scaling_factor,
                                                const AFR::VexU::scheduled_update_t& update_period,
                                                AFR::VexU::error_t* result) : readable(update_period, 0, result),
                                                                              adi_encoder(port_top, port_bottom,
-                                                                                         reversed){}
+                                                                                         reversed),
+                                                                             scaling_factor(scaling_factor){
+    }
 
     error_t adi_encoder_readable::reset(){
         AFR_PROS_INTERNAL_CALL(adi_encoder.reset(), PROS_ERR);
+        return SUCCESS;
+    }
+
+    error_t adi_encoder_readable::get_scaled_value(double& result){
+        result = std::any_cast<int32_t>(readable::value) * scaling_factor / 360;
         return SUCCESS;
     }
 }
