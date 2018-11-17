@@ -1,4 +1,4 @@
-#include <afr-vexu-lib/scheduled.h>
+#include "afr-vexu-lib/scheduled.h"
 
 using steady_clock_n = std::chrono::steady_clock;
 
