@@ -26,6 +26,8 @@ namespace AFR::VexU::BaseReadable{
         error_t tare_position();
         error_t tare_position(const double& position);
         error_t tare_position_scaled(const double& position);
+
+        error_t get_value(std::any& result) const override;
     };
 }
 

@@ -61,4 +61,8 @@ namespace AFR::VexU::BaseReadable{
         AFR_PROS_INTERNAL_CALL(motor.set_zero_position(position / scale_factor), PROS_ERR);
         return SUCCESS;
     }
+
+    error_t motor_encoder_readable::get_value(std::any& result) const{
+        throw std::runtime_error("Not Possible");
+    }
 }
