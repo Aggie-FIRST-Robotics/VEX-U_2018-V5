@@ -8,8 +8,7 @@
 AFR::VexU::error_t AFR::VexU::BaseReadable::adi_digital_readable::update_private(const double& delta_seconds){
     int32_t temp_val = digital.get_value();
     AFR_PROS_INTERNAL_CALL(temp_val, PROS_ERR);
-    if(temp_val == 1) readable::value = true;
-    else if(temp_val == 0) readable::value = false;
+    readable::value = temp_val;
     return SUCCESS;
 }
 
