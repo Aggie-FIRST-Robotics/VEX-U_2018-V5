@@ -1,4 +1,4 @@
-#include <afr-vexu-lib/ordered_input.h>
+#include "afr-vexu-lib/ordered_input.h"
 
 AFR::VexU::ordered_input::ordered_input(const order_t& order, readable* input, error_t* result)
         : order(order), input(input){

@@ -14,18 +14,20 @@
 #include "afr-vexu-lib/subsystem_controller.h"
 
 //actions
-#include "afr-vexu-lib/base_action/equivalent_value_action.h"
-#include "afr-vexu-lib/base_action/set_value_action.h"
+#include "afr-vexu-lib/base-action/equivalent_value_action.h"
+#include "afr-vexu-lib/base-action/set_value_action.h"
 
 template<typename T>
 class test_motor : public AFR::VexU::commandable{
     std::string name_;
 
     AFR::VexU::error_t set_value_private(const std::any& value) override;
-    AFR::VexU::error_t check_value_private(const std::any& value, bool& result) override;
+    AFR::VexU::error_t check_value_private(const std::any& value) override;
 
 public:
     test_motor(const T& initial_value, const std::string& name);
+
+    AFR::VexU::error_t get_type(std::type_index& result) const override;
 };
 
 template<typename T>
@@ -187,13 +189,21 @@ AFR::VexU::error_t test_motor<T>::set_value_private(const std::any& value){
 }
 
 template<typename T>
-AFR::VexU::error_t test_motor<T>::check_value_private(const std::any& value, bool& result){
-    result = value.type() == typeid(T);
-    return AFR::VexU::SUCCESS;
+AFR::VexU::error_t test_motor<T>::check_value_private(const std::any& value){
+    if(value.type() == typeid(T)){
+        return AFR::VexU::SUCCESS;
+    }
+    return AFR::VexU::INVALID_TYPE;
 }
 
 template<typename T>
 test_motor<T>::test_motor(const T& initial_value, const std::string& name) : commandable(initial_value), name_(name){}
+
+template<typename T>
+AFR::VexU::error_t test_motor<T>::get_type(std::type_index& result) const{
+    result = std::type_index{typeid(T)};
+    return AFR::VexU::SUCCESS;
+}
 
 template<typename T>
 AFR::VexU::error_t test_sensor<T>::update_private(const double& delta_seconds){
