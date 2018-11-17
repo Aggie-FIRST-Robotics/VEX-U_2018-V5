@@ -22,8 +22,13 @@ namespace AFR::VexU::BaseReadable{
         return SUCCESS;
     }
 
+    error_t adi_encoder_readable::set_scalling_factor(const double& scaling_factor){
+        this->scaling_factor = scaling_factor;
+        return SUCCESS;
+    }
+
     error_t adi_encoder_readable::get_scaled_value(double& result){
-        result = std::any_cast<int32_t>(readable::value) * scaling_factor / 360;
+        result = std::any_cast<int32_t>(readable::value) * scaling_factor;
         return SUCCESS;
     }
 }

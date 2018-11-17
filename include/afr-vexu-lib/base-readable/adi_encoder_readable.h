@@ -17,6 +17,7 @@ namespace AFR::VexU::BaseReadable{
                              const double& scaling_factor,
                              const scheduled_update_t& update_period, error_t* result = nullptr);
         error_t reset();
+        error_t set_scalling_factor(const double& scaling_factor);
         error_t get_scaled_value(double& result);
     };
 }
