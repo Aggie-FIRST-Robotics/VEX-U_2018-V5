@@ -27,7 +27,7 @@ namespace AFR::VexU{
          * @param result Returns the value of the sensor
          * @return error_t value if error encountered
          */
-        error_t get_value(std::any& result) const;
+        virtual error_t get_value(std::any& result) const;
     };
 }
 
