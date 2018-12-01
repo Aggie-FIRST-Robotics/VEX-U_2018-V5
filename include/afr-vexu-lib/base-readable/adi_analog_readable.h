@@ -15,7 +15,7 @@ namespace AFR::VexU::BaseReadable {
         /**
         * Creates a pros ADIAnalogIn variable that will be wrapped
         */
-        pros::ADIAnalogIn temp;
+        pros::ADIAnalogIn prosanalog;
 
         /**
         * Overridden to  be whatever happens when update is called following the wait period
