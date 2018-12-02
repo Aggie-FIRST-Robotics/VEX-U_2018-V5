@@ -10,7 +10,7 @@ include_directories(
         include
 )
 
-# Source files list, TODO: Add all cpp files
+# General source files list with no calls to pros, files with pros calls need to be added to only_V5_src_files
 set(
         src_files
         src/afr-vexu-lib/action.cpp
@@ -24,6 +24,16 @@ set(
 )
 
 set(
+        only_test_src_files
+)
+
+# TODO: These files need to be moved to src_files by adding their referenced functions to only_test
+set(
+        only_V5_src_files
+        src/afr-vexu-lib/base-commandable/motor_commandable.cpp
+)
+
+set(
         pros_src_files
         src/autonomous.cpp
         src/initialize.cpp
@@ -31,7 +41,8 @@ set(
 )
 
 add_compile_definitions(AFR_VEXU_TEST AFR_VEXU_THROW_ON_ERROR)
-add_executable(APITest ${src_files} test/api_test.cpp)
+add_executable(APITest ${src_files} ${only_test_src_files} test/api_test.cpp)
+add_executable(DONOTCOMPILE ${only_V5_src_files} blank/v5_files_include.cpp blank/blank.cpp)
 
 # Blank targte for running build.bat externally
 add_executable(BlankBuild blank/blank.cpp)
@@ -43,7 +54,7 @@ add_custom_target(
         "$(MAKE)"
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         VERBATIM
-        SOURCES ${pros_src_files}
+        SOURCES ${src_files} ${pros_src_files} ${only_V5_src_files}
 )
 
 # Builds and uploads program
@@ -52,7 +63,7 @@ add_custom_target(
         ${upload_command}
         WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/"
         VERBATIM
-        SOURCES ${pros_src_files}
+        SOURCES ${src_files} ${pros_src_files} ${only_V5_src_files}
 )
 
 # Creates the bin directory for building with pros make file

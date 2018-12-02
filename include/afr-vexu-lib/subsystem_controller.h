@@ -11,6 +11,9 @@
 #include "defines.h"
 
 namespace AFR::VexU{
+    /**
+     * Represents an entire subsystem
+     */
     class subsystem_controller{
     private:
         const std::unordered_map<std::string, ordered_input&> input_map_;
@@ -18,14 +21,45 @@ namespace AFR::VexU{
         const std::unordered_map<std::string, state_controller&>& state_map_;
 
     public:
+        /**
+         * Creates a subsystem controller
+         * @param input_map map of ordered inputs by string
+         * @param state_map map of states by string
+         * @param result error_t value if error encountered
+         */
         subsystem_controller(const std::unordered_map<std::string, ordered_input&>& input_map,
-                             const std::unordered_map<std::string, state_controller&>& state_map);
+                             const std::unordered_map<std::string, state_controller&>& state_map,
+                             error_t* result = nullptr);
 
+        /**
+         * Updates readables in input_map_
+         * @return error_t value if error encountered
+         */
         error_t updateInputs();
+        /**
+         * Updates state transitions for the current state
+         * @return error_t value if error encountered
+         */
         error_t updateStates();
+        /**
+         * Updates current state's actions
+         * @return error_t value if error encountered
+         */
         error_t updateActions();
-        const ordered_input& getInput(const std::string& id) const;
-        const state_controller& getStateMachine(const std::string& id) const;
+        /**
+         * Gets ordered input by string
+         * @param id string to search for
+         * @param result ordered input result by pointer
+         * @return error_t value if error encountered
+         */
+        error_t getInput(const std::string& id, ordered_input*& result) const;
+        /**
+         * Gets state by string
+         * @param id string to search for
+         * @param result state result by pointer
+         * @return error_t value if error encountered
+         */
+        error_t getStateMachine(const std::string& id, state_controller*& result) const;
     };
 }
 
