@@ -14,25 +14,27 @@
 #include "afr-vexu-lib/subsystem_controller.h"
 
 //actions
-#include "afr-vexu-lib/base_action/equivalent_value_action.h"
-#include "afr-vexu-lib/base_action/set_value_action.h"
+#include "afr-vexu-lib/base-action/equivalent_value_action.h"
+#include "afr-vexu-lib/base-action/set_value_action.h"
 
 template<typename T>
 class test_motor : public AFR::VexU::commandable{
     std::string name_;
 
-    void set_value_private(const std::any& value) override;
-    bool check_value_private(const std::any& value) override;
+    AFR::VexU::error_t set_value_private(const std::any& value) override;
+    AFR::VexU::error_t check_value_private(const std::any& value) override;
 
 public:
     test_motor(const T& initial_value, const std::string& name);
+
+    AFR::VexU::error_t get_type(std::type_index& result) const override;
 };
 
 template<typename T>
 class test_sensor : public AFR::VexU::readable{
     std::string name_;
 
-    void update_private(const double& delta_seconds) override;
+    AFR::VexU::error_t update_private(const double& delta_seconds) override;
 
 public:
     test_sensor(const AFR::VexU::scheduled_update_t& update_period, const T& initial_value, const std::string& name);
@@ -66,13 +68,30 @@ int main(){
             {"backward_action_int",  backward_action_int}
     };
 
-    std::function<bool()> to_forward{[button1]() -> bool{
-        return std::any_cast<bool>(button1.get_value());
-    }
-    };
-    std::function<bool()> stop_to_backward{[button2]() -> bool{ return std::any_cast<bool>(button2.get_value()); }};
-    std::function<bool()> backward_to_stop{[button2]() -> bool{ return !std::any_cast<bool>(button2.get_value()); }};
-    std::function<bool()> forward_to_stop{[button1]() -> bool{ return !std::any_cast<bool>(button1.get_value()); }};
+    std::function<AFR::VexU::error_t(bool&)> to_forward{[button1](bool& result) -> AFR::VexU::error_t{
+        std::any value;
+        button1.get_value(value);
+        result = std::any_cast<bool>(value);
+        return AFR::VexU::SUCCESS;
+    }};
+    std::function<AFR::VexU::error_t(bool&)> stop_to_backward{[button2](bool& result) -> AFR::VexU::error_t{
+        std::any value;
+        button2.get_value(value);
+        result = std::any_cast<bool>(value);
+        return AFR::VexU::SUCCESS;
+    }};
+    std::function<AFR::VexU::error_t(bool&)> backward_to_stop{[button2](bool& result) -> AFR::VexU::error_t{
+        std::any value;
+        button2.get_value(value);
+        result = !std::any_cast<bool>(value);
+        return AFR::VexU::SUCCESS;
+    }};
+    std::function<AFR::VexU::error_t(bool&)> forward_to_stop{[button1](bool& result) -> AFR::VexU::error_t{
+        std::any value;
+        button1.get_value(value);
+        result = !std::any_cast<bool>(value);
+        return AFR::VexU::SUCCESS;
+    }};
 
     const std::vector<AFR::VexU::transition> stop_transitions = {
             AFR::VexU::transition{to_forward, "forward"},
@@ -86,14 +105,20 @@ int main(){
             AFR::VexU::transition{backward_to_stop, "backward"}
     };
 
-    const std::function<void(const AFR::VexU::state&)> on_stop_entry = [](const AFR::VexU::state& previous) -> void{
+    const std::function<AFR::VexU::error_t(const AFR::VexU::state&)> on_stop_entry = [](
+            const AFR::VexU::state& previous) -> AFR::VexU::error_t{
         std::cout << "Stop entered." << std::endl;
+        return AFR::VexU::SUCCESS;
     };
-    const std::function<void(const AFR::VexU::state&)> on_forward_entry = [](const AFR::VexU::state& previous) -> void{
+    const std::function<AFR::VexU::error_t(const AFR::VexU::state&)> on_forward_entry = [](
+            const AFR::VexU::state& previous) -> AFR::VexU::error_t{
         std::cout << "Forward entered." << std::endl;
+        return AFR::VexU::SUCCESS;
     };
-    const std::function<void(const AFR::VexU::state&)> on_backward_entry = [](const AFR::VexU::state& previous) -> void{
+    const std::function<AFR::VexU::error_t(const AFR::VexU::state&)> on_backward_entry = [](
+            const AFR::VexU::state& previous) -> AFR::VexU::error_t{
         std::cout << "Backward entered." << std::endl;
+        return AFR::VexU::SUCCESS;
     };
 
     AFR::VexU::state stop{stop_action_map, stop_transitions, on_stop_entry};
@@ -112,8 +137,8 @@ int main(){
 
     AFR::VexU::state_controller state_machine{350, states, commandables, "stop"};
 
-    AFR::VexU::ordered_input button1_order{0, button1};
-    AFR::VexU::ordered_input button2_order{3, button2};
+    AFR::VexU::ordered_input button1_order{0, &button1};
+    AFR::VexU::ordered_input button2_order{3, &button2};
 
     std::unordered_map<std::string, AFR::VexU::ordered_input&> inputs = {
             {"button1", button1_order},
@@ -133,8 +158,14 @@ int main(){
         main_subsystem.updateStates();
         main_subsystem.updateActions();
 
-        auto b1 = std::any_cast<bool>(button1.get_value());
-        auto b2 = std::any_cast<bool>(button2.get_value());
+        std::any value1;
+        std::any value2;
+
+        button1.get_value(value1);
+        button2.get_value(value2);
+
+        auto b1 = std::any_cast<bool>(value1);
+        auto b2 = std::any_cast<bool>(value2);
         if(!b1){
             button1.value = true;
         }
@@ -147,24 +178,38 @@ int main(){
 }
 
 template<typename T>
-void test_motor<T>::set_value_private(const std::any& value){
-    if(std::any_cast<T>(value) != std::any_cast<T>(commandable::get_current_value())){
+AFR::VexU::error_t test_motor<T>::set_value_private(const std::any& value){
+    std::any value_result;
+    commandable::get_current_value(value_result);
+
+    if(std::any_cast<T>(value) != std::any_cast<T>(value_result)){
         std::cout << name_ << " set to " << std::any_cast<T>(value) << std::endl;
     }
+    return AFR::VexU::SUCCESS;
 }
 
 template<typename T>
-bool test_motor<T>::check_value_private(const std::any& value){
-    return value.type() == typeid(T);
+AFR::VexU::error_t test_motor<T>::check_value_private(const std::any& value){
+    if(value.type() == typeid(T)){
+        return AFR::VexU::SUCCESS;
+    }
+    return AFR::VexU::INVALID_TYPE;
 }
 
 template<typename T>
 test_motor<T>::test_motor(const T& initial_value, const std::string& name) : commandable(initial_value), name_(name){}
 
 template<typename T>
-void test_sensor<T>::update_private(const double& delta_seconds){
+AFR::VexU::error_t test_motor<T>::get_type(std::type_index& result) const{
+    result = std::type_index{typeid(T)};
+    return AFR::VexU::SUCCESS;
+}
+
+template<typename T>
+AFR::VexU::error_t test_sensor<T>::update_private(const double& delta_seconds){
     std::cout << name_ << " updated after " << delta_seconds << " seconds, set to " << value << std::endl;
     readable::value = value;
+    return AFR::VexU::SUCCESS;
 }
 
 template<typename T>
