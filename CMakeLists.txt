@@ -30,7 +30,10 @@ set(
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(
         only_V5_src_files
+        src/afr-vexu-lib/base-commandable/adi_analog_commandable.cpp
         src/afr-vexu-lib/base-commandable/motor_commandable.cpp
+        src/afr-vexu-lib/base-readable/adi_encoder_readable.cpp
+        src/afr-vexu-lib/base-readable/motor_encoder_readable.cpp
 )
 
 set(
