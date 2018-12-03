@@ -113,18 +113,18 @@ int main(){
     };
 
     //On state entry functions
-    const std::function<AFR::VexU::error_t(const AFR::VexU::state&)> on_stop_entry = [](
-            const AFR::VexU::state& previous) -> AFR::VexU::error_t{
+    const std::function<AFR::VexU::error_t(const std::string&)> on_stop_entry = [](
+            const std::string& previous) -> AFR::VexU::error_t{
         std::cout << "Stop entered." << std::endl;
         return AFR::VexU::SUCCESS;
     };
-    const std::function<AFR::VexU::error_t(const AFR::VexU::state&)> on_forward_entry = [](
-            const AFR::VexU::state& previous) -> AFR::VexU::error_t{
+    const std::function<AFR::VexU::error_t(const std::string&)> on_forward_entry = [](
+            const std::string& previous) -> AFR::VexU::error_t{
         std::cout << "Forward entered." << std::endl;
         return AFR::VexU::SUCCESS;
     };
-    const std::function<AFR::VexU::error_t(const AFR::VexU::state&)> on_backward_entry = [](
-            const AFR::VexU::state& previous) -> AFR::VexU::error_t{
+    const std::function<AFR::VexU::error_t(const std::string&)> on_backward_entry = [](
+            const std::string& previous) -> AFR::VexU::error_t{
         std::cout << "Backward entered." << std::endl;
         return AFR::VexU::SUCCESS;
     };
