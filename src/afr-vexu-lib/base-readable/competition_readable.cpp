@@ -6,16 +6,16 @@ namespace AFR::VexU::BaseReadable {
      * @param delta_seconds new update period
      * @return error_t value if error encountered
      */
-    error_t battery_readable::update_private(const double &delta_seconds) {
-        bool temp_autonomous = proscompetition.is_autonomous();
+    error_t competition_readable::update_private(const double& delta_seconds){
+        bool temp_autonomous = pros::competition::is_autonomous();
         AFR_PROS_INTERNAL_CALL(temp_autonomous, PROS_ERR_F);
         autonomous = temp_autonomous;
 
-        bool temp_connected = proscompetition.is_connected();
+        bool temp_connected = pros::competition::is_connected();
         AFR_PROS_INTERNAL_CALL(temp_connected, PROS_ERR_F);
         connected = temp_connected;
 
-        bool temp_disabled = proscompetition.is_disabled();
+        bool temp_disabled = pros::competition::is_disabled();
         AFR_PROS_INTERNAL_CALL(temp_disabled, PROS_ERR_F);
         disabled = temp_disabled;
 
@@ -27,11 +27,11 @@ namespace AFR::VexU::BaseReadable {
      * @param update_period the update period for the readable
      * @param result error_t value if error encountered
      */
-    battery_readable::battery_readable(const scheduled_update_t &update_period, AFR::VexU::error_t *result)
+    competition_readable::competition_readable(const scheduled_update_t& update_period, AFR::VexU::error_t* result)
             : readable(update_period, 0, result),
-              autonomous(proscompetition.is_autonomous()),
-              connected(proscompetition.is_connected()),
-              diabled(proscompetition.is_disabled()) {}
+              autonomous(pros::competition::is_autonomous()),
+              connected(pros::competition::is_connected()),
+              disabled(pros::competition::is_disabled()){}
 
     /**
      * Returns true if robot is autonomous, false if otherwise
