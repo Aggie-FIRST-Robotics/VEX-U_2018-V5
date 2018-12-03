@@ -15,7 +15,7 @@ namespace AFR::VexU{
     class state_controller : public scheduled{
         const std::unordered_map<std::string, state&> state_map_;
         const std::unordered_map<std::string, commandable&> commandable_map_;
-        state* current_state_;
+        std::pair<std::string, state*> current_state_;
 
         /**
          * Calls update current state

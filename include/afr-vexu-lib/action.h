@@ -23,6 +23,9 @@ namespace AFR::VexU{
          * @param result error_t value if error encountered
          */
         explicit action(const scheduled_update_t& update_period, commandable& commandable, error_t* result = nullptr);
+
+        virtual error_t on_state_entry(const std::string& previous_state);
+        virtual error_t on_state_exit(const std::string& next_state);
     };
 }
 

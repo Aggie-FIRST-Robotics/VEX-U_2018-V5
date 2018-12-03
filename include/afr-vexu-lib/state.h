@@ -48,7 +48,7 @@ namespace AFR::VexU{
     class state{
         const std::unordered_map<std::string, action&> action_map_;
         const std::vector<transition> transitions_;
-        const std::function<error_t(const state&)> on_state_entry_;
+        const std::function<error_t(const std::string&)> on_state_entry_;
 
     public:
         /**
@@ -59,7 +59,8 @@ namespace AFR::VexU{
          * @param result error_t value if error encountered
          */
         state(const std::unordered_map<std::string, action&>& action_map,
-              const std::vector<transition>& transitions, const std::function<error_t(const state&)>& on_state_entry,
+              const std::vector<transition>& transitions,
+              const std::function<error_t(const std::string&)>& on_state_entry,
               error_t* result = nullptr);
 
         /**
@@ -72,7 +73,8 @@ namespace AFR::VexU{
          * @param previous the previous state
          * @return error_t value if error encountered
          */
-        error_t on_state_entry(const state& previous);
+        error_t on_state_entry(const std::string& previous);
+        error_t on_state_exit(const std::string& next);
         /**
          * Used to get an action by string
          * @param identifier the string to search for
