@@ -36,7 +36,7 @@ set(
         src/afr-vexu-lib/base-readable/motor_encoder_readable.cpp
         src/afr-vexu-lib/base-readable/adi_analog_readable.cpp
         src/afr-vexu-lib/base-readable/adi_digital_readable.cpp
-)
+        src/afr-vexu-lib/base-readable/controller_readable.cpp)
 
 set(
         pros_src_files

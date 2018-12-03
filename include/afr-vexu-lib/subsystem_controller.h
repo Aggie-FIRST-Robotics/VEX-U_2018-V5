@@ -18,7 +18,7 @@ namespace AFR::VexU{
     private:
         const std::unordered_map<std::string, ordered_input&> input_map_;
         std::vector<readable*> ordered_inputs_;
-        const std::unordered_map<std::string, state_controller&>& state_map_;
+        const std::unordered_map<std::string, state_controller&> state_map_;
 
     public:
         /**

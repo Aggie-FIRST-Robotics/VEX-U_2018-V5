@@ -31,7 +31,7 @@ namespace AFR::VexU::BaseReadable{
           * @param result error_t value if error encountered
           */
         adi_digital_readable(const scheduled_update_t& update_period, const std::uint8_t& port,
-                             error_t* result=nullptr);
+                             error_t* result = nullptr);
      };
 }
 
