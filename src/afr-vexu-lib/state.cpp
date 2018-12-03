@@ -1,6 +1,4 @@
 #include "afr-vexu-lib/state.h"
-#include <iostream>
-#include <afr-vexu-lib/state.h>
 
 
 AFR::VexU::state::state(const std::unordered_map<std::string, AFR::VexU::action&>& action_map,
