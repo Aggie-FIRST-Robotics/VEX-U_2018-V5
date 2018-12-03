@@ -24,6 +24,7 @@ namespace AFR::VexU::BaseReadable {
                                                            const scheduled_update_t &update_period,
                                                            AFR::VexU::error_t *result)
             : readable(update_period, 0, result),
+              prosmotor(port),
               temperature(prosmotor.get_temperature()) {}
 
     /**

@@ -11,7 +11,7 @@ namespace AFR::VexU::BaseReadable {
     */
     class motor_temperature_readable : public readable {
         pros::Motor prosmotor;
-        double current;
+        double temperature;
 
         /**
          * Overrides scheduled, updates private period
@@ -27,8 +27,7 @@ namespace AFR::VexU::BaseReadable {
          * @param update_period the update period for the readable
          * @param result error_t value if error encountered
          */
-        motor_temperature_readable(const std::uint8_t &port, const scheduled_update_t &update_period, error_t *result)
-                : temperature(prosmotor.get_temperature()) {}
+        motor_temperature_readable(const std::uint8_t& port, const scheduled_update_t& update_period, error_t* result);
 
         /**
          * Returns motor temperature

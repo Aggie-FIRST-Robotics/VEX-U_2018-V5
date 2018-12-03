@@ -7,19 +7,19 @@ namespace AFR::VexU::BaseReadable {
      * @return error_t value if error encountered
      */
     error_t battery_readable::update_private(const double &delta_seconds) {
-        double temp_capacity = prosbattery.get_capacity();
+        double temp_capacity = pros::battery::get_capacity();
         AFR_PROS_INTERNAL_CALL(temp_capacity, PROS_ERR_F);
         capacity = temp_capacity;
 
-        double temp_current = prosbattery.get_current();
+        double temp_current = pros::battery::get_current();
         AFR_PROS_INTERNAL_CALL(temp_current, PROS_ERR_F);
         current = temp_current;
 
-        double temp_temperature = prosbattery.get_temperature();
+        double temp_temperature = pros::battery::get_temperature();
         AFR_PROS_INTERNAL_CALL(temp_temperature, PROS_ERR_F);
         temperature = temp_temperature;
 
-        double temp_voltage = prosbattery.get_voltage();
+        double temp_voltage = pros::battery::get_voltage();
         AFR_PROS_INTERNAL_CALL(temp_voltage, PROS_ERR_F);
         voltage = temp_voltage;
 
@@ -33,11 +33,11 @@ namespace AFR::VexU::BaseReadable {
      */
     battery_readable::battery_readable(const scheduled_update_t &update_period, AFR::VexU::error_t *result)
             : readable(update_period, 0, result),
-              capacity(prosbattery.get_capacity()),
-              current(prosbattery.get_current()),
+              capacity(pros::battery::get_capacity()),
+              current(pros::battery::get_current()),
               temperature(
-                      prosbattery.get_temperature()),
-              voltage(prosbattery.get_voltage()) {}
+                      pros::battery::get_temperature()),
+              voltage(pros::battery::get_voltage()){}
 
     /**
      * Returns battery capacity
