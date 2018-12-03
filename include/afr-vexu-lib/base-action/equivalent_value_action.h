@@ -10,7 +10,7 @@ namespace AFR::VexU::BaseAction{
      */
     template<typename T>
     class equivalent_value_action : public action{
-        const T* value_ptr_;
+        T* const value_ptr_;
         error_t update_private(const double& delta_seconds) override;
 
     public:

@@ -10,7 +10,7 @@ namespace AFR::VexU::BaseAction{
      */
     template<typename T>
     class set_value_action : public action{
-        const T value_;
+        T value_;
         error_t update_private(const double& delta_seconds) override;
 
     public:
@@ -23,6 +23,8 @@ namespace AFR::VexU::BaseAction{
          */
         set_value_action(const scheduled_update_t& update_period, commandable& commandable, const T& value,
                          error_t* result = nullptr);
+
+        error_t set_value(const T& value);
     };
 
     template<typename T>
@@ -36,6 +38,12 @@ namespace AFR::VexU::BaseAction{
     set_value_action<T>::set_value_action(const scheduled_update_t& update_period, commandable& commandable,
                                           const T& value, error_t* result) : action(update_period, commandable, result),
                                                                              value_(value){}
+
+    template<typename T>
+    error_t set_value_action<T>::set_value(const T& value){
+        value_ = value;
+        return SUCCESS;
+    }
 
 #pragma clang diagnostic pop
 }
