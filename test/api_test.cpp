@@ -43,11 +43,15 @@ public:
 };
 
 int main(){
+    //Commandables
     test_motor<int8_t> byte_motor{0, "byte_motor"};
     test_motor<int> int_motor{0, "int_motor"};
+
+    //Readables
     test_sensor<bool> button1{1000, false, "button1"};
     test_sensor<bool> button2{500, false, "button2"};
 
+    //Actions, requires commandables
     AFR::VexU::BaseAction::set_value_action<int8_t> stop_action_byte{400, byte_motor, 0};
     AFR::VexU::BaseAction::set_value_action<int> stop_action_int{800, int_motor, 0};
     AFR::VexU::BaseAction::set_value_action<int8_t> forward_action_byte{300, byte_motor, 127};
@@ -55,6 +59,7 @@ int main(){
     AFR::VexU::BaseAction::set_value_action<int8_t> backward_action_byte{100, byte_motor, -127};
     AFR::VexU::BaseAction::set_value_action<int> backward_action_int{2000, int_motor, -1000};
 
+    //Action maps, requires actions
     std::unordered_map<std::string, AFR::VexU::action&> stop_action_map = {
             {"stop_action_byte", stop_action_byte},
             {"stop_action_int",  stop_action_int}
@@ -68,6 +73,7 @@ int main(){
             {"backward_action_int",  backward_action_int}
     };
 
+    //Transition Functions
     std::function<AFR::VexU::error_t(bool&)> to_forward{[button1](bool& result) -> AFR::VexU::error_t{
         std::any value;
         button1.get_value(value);
@@ -93,6 +99,7 @@ int main(){
         return AFR::VexU::SUCCESS;
     }};
 
+    //Transition vectors, requires transition functions
     const std::vector<AFR::VexU::transition> stop_transitions = {
             AFR::VexU::transition{to_forward, "forward"},
             AFR::VexU::transition{stop_to_backward, "backward"}
@@ -105,6 +112,7 @@ int main(){
             AFR::VexU::transition{backward_to_stop, "backward"}
     };
 
+    //On state entry functions
     const std::function<AFR::VexU::error_t(const AFR::VexU::state&)> on_stop_entry = [](
             const AFR::VexU::state& previous) -> AFR::VexU::error_t{
         std::cout << "Stop entered." << std::endl;
@@ -121,34 +129,43 @@ int main(){
         return AFR::VexU::SUCCESS;
     };
 
+    //States, requires action maps, transition vectors, and on state entry functions
     AFR::VexU::state stop{stop_action_map, stop_transitions, on_stop_entry};
     AFR::VexU::state forward{forward_action_map, forward_transitions, on_forward_entry};
     AFR::VexU::state backward{backward_action_map, backward_transitions, on_backward_entry};
 
+    //State maps, requires states
     std::unordered_map<std::string, AFR::VexU::state&> states = {
             {"stop",     stop},
             {"forward",  forward},
             {"backward", backward}
     };
+
+    //Commandable map, requires commandable
     std::unordered_map<std::string, AFR::VexU::commandable&> commandables{
             {"byte_motor", byte_motor},
             {"int_motor",  int_motor}
     };
 
+    //State controller, requires state map and commandable map
     AFR::VexU::state_controller state_machine{350, states, commandables, "stop"};
 
+    //Ordered inputs, requires readables
     AFR::VexU::ordered_input button1_order{0, &button1};
     AFR::VexU::ordered_input button2_order{3, &button2};
 
+    //Ordered input map, requires ordered inputs
     std::unordered_map<std::string, AFR::VexU::ordered_input&> inputs = {
             {"button1", button1_order},
             {"button2", button2_order}
     };
 
+    //State controller map, requires state controller
     std::unordered_map<std::string, AFR::VexU::state_controller&> state_machines = {
             {"main", state_machine}
     };
 
+    //Subsystem controller, requires ordered input map and state controller map
     AFR::VexU::subsystem_controller main_subsystem{inputs, state_machines};
 
 #pragma clang diagnostic push
