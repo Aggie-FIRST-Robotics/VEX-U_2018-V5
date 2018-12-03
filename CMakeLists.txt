@@ -32,7 +32,7 @@ set(
         only_V5_src_files
         src/afr-vexu-lib/base-commandable/motor_commandable.cpp
         src/afr-vexu-lib/base-readable/adi_analog_readable.cpp
-        src/robot/drive/drive.cpp
+
 
 )
 
