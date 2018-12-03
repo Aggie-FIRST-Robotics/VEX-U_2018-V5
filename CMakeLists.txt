@@ -47,7 +47,7 @@ set(
 
 add_compile_definitions(AFR_VEXU_TEST AFR_VEXU_THROW_ON_ERROR)
 add_executable(APITest ${src_files} ${only_test_src_files} test/api_test.cpp)
-add_executable(DONOTCOMPILE ${only_V5_src_files} blank/v5_files_include.cpp blank/blank.cpp)
+add_executable(DONOTCOMPILE ${only_V5_src_files} blank/blank.cpp)
 
 # Blank targte for running build.bat externally
 add_executable(BlankBuild blank/blank.cpp)
