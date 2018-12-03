@@ -11,7 +11,6 @@ namespace AFR::VexU::BaseReadable {
     * Represents a V5 Battery
     */
     class battery_readable : public readable {
-        pros::battery prosbattery;
         double capacity;
         double current;
         double temperature;
