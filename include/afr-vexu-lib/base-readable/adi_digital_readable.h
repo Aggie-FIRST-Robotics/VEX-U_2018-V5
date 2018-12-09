@@ -1,7 +1,3 @@
-//
-// Created by Kyle on 11/16/2018.
-//
-
 #ifndef VEX_U_2018_V5_DIGITAL_READABLE_H
 #define VEX_U_2018_V5_DIGITAL_READABLE_H
 
