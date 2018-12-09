@@ -27,7 +27,6 @@ set(
 set(
         only_V5_src_files
         ${afr-vexu-lib-V5-src}
-
 )
 
 set(
