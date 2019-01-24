@@ -1,3 +1,4 @@
+#include <afr-vexu-lib/base-readable/controller_readable.h>
 #include "robot/catapult/catapult.h"
 #include "robot/robot.h"
 
@@ -41,7 +42,10 @@ namespace AFR::VexU::Robot::Catapult{
             return SUCCESS;
         };
         hold_to_fire = [](bool& result) -> error_t{
-            throw std::runtime_error{"Implement me!"};
+            bool val = false;
+            AFR_VEXU_INTERNAL_CALL(Controller::driver_controller->digital_is_pressed(FIRE_BUTTON, val));
+            result = val;
+            return SUCCESS;
         };
         fire_to_stop = [](bool& result) -> error_t{
             double val{};
@@ -70,7 +74,7 @@ namespace AFR::VexU::Robot::Catapult{
         };
         on_stop_entry = [](const std::string& last_state) -> error_t{
             next_cock = std::chrono::steady_clock::now() +
-                        std::chrono::duration<scheduled_update_t, scheduled_res_t>{NAUTILUS_STOP_TIME};
+                    std::chrono::duration<scheduled_update_t, scheduled_res_t>{NAUTILUS_STOP_TIME};
             return SUCCESS;
         };
 

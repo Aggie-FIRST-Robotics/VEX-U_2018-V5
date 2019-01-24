@@ -18,11 +18,15 @@ namespace AFR::VexU::Robot{
     const port_t ARM_LIMIT_SWITCH_TOP_PORT = 2;
     const port_t ARM_LIMIT_SWITCH_BOTTOM_PORT = 3;
 
+    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
+
     void init_robot();
     void competition_init();
     void auto_robot();
     void opcontrol_robot();
     void disabled_robot();
+    void destroy();
+    void restart();
 }
 
 #endif //VEX_U_2018_V5_ROBOT_H
