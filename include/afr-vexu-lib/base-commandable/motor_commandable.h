@@ -27,7 +27,7 @@ namespace AFR::VexU::BaseCommandable{
          * @param brake_mode what to do when power is 0
          * @param result error_t value if error encountered
          */
-        motor_commandable(const std::uint8_t& port, const pros::motor_gearset_e_t& gearset, const bool& reverse,
+        motor_commandable(const port_t& port, const pros::motor_gearset_e_t& gearset, const bool& reverse,
                           const pros::motor_brake_mode_e_t& brake_mode, error_t* result = nullptr);
 
         /**
