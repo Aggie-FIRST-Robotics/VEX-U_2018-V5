@@ -1,6 +1,6 @@
+#include "robot/robot.h"
 
-
-namespace AFR::VexU{
+namespace AFR::VexU::Robot{
     void init_robot(){
 
     }
