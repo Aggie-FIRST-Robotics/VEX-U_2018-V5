@@ -10,27 +10,23 @@ include_directories(
         include
 )
 
+include(src/afr-vexu-lib/CMakeLists.txt)
+
 # General source files list with no calls to pros, files with pros calls need to be added to only_V5_src_files
 set(
         src_files
-        src/afr-vexu-lib/action.cpp
-        src/afr-vexu-lib/commandable.cpp
-        src/afr-vexu-lib/ordered_input.cpp
-        src/afr-vexu-lib/readable.cpp
-        src/afr-vexu-lib/scheduled.cpp
-        src/afr-vexu-lib/state.cpp
-        src/afr-vexu-lib/state_controller.cpp
-        src/afr-vexu-lib/subsystem_controller.cpp
+        ${afr-vexu-lib-src}
 )
 
 set(
         only_test_src_files
+        ${afr-vexu-lib-test-src}
 )
 
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(
         only_V5_src_files
-        src/afr-vexu-lib/base-commandable/motor_commandable.cpp
+        ${afr-vexu-lib-V5-src}
 )
 
 set(
@@ -42,7 +38,7 @@ set(
 
 add_compile_definitions(AFR_VEXU_TEST AFR_VEXU_THROW_ON_ERROR)
 add_executable(APITest ${src_files} ${only_test_src_files} test/api_test.cpp)
-add_executable(DONOTCOMPILE ${only_V5_src_files} blank/v5_files_include.cpp blank/blank.cpp)
+add_executable(DONOTCOMPILE ${only_V5_src_files} blank/blank.cpp)
 
 # Blank targte for running build.bat externally
 add_executable(BlankBuild blank/blank.cpp)
