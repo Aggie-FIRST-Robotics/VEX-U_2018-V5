@@ -5,13 +5,19 @@
 #include <afr-vexu-lib/base-commandable/motor_commandable.h>
 #include <afr-vexu-lib/base-action/set_value_action.h>
 #include <afr-vexu-lib/base-readable/adi_digital_readable.h>
+#include <afr-vexu-lib/base-readable/motor_encoder_readable.h>
 
 namespace AFR::VexU::Robot::Catapult{
+    const scheduled_update_t LIMIT_SWITCH_UPDATE_PERIOD = 100;
+    const scheduled_update_t ENCODER_UPDATE_PERIOD = 100;
+
+
     //Commandables
-    BaseCommandable::motor_commandable* nautalus_motor = nullptr;
+    BaseCommandable::motor_commandable* nautilus_motor = nullptr;
 
     //Readables
-    BaseReadable::adi_digital_readable* nautalus_limit_switch = nullptr;
+    BaseReadable::adi_digital_readable* nautilus_limit_switch = nullptr;
+    BaseReadable::motor_encoder_readable* nautalus_encoder = nullptr;
 
     //Actions
     BaseAction::set_value_action<int16_t>* hold_nautalus_action = nullptr;
@@ -60,6 +66,7 @@ namespace AFR::VexU::Robot::Catapult{
 
     //Ordered inputs
     ordered_input* nautalus_limit_switch_order = nullptr;
+    ordered_input* nautalus_encoder_order = nullptr;
 
     //Ordered input map
     std::unordered_map<std::string, ordered_input&> inputs{};
@@ -69,6 +76,9 @@ namespace AFR::VexU::Robot::Catapult{
 
     //Subsystem controller
     subsystem_controller* catapult_subsystem = nullptr;
+
+    void init();
+    void destroy();
 }
 
 #endif //VEX_U_2018_V5_CATAPULT_H

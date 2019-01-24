@@ -16,7 +16,8 @@ namespace AFR::VexU::BaseReadable{
 
     public:
         motor_encoder_readable(const std::uint8_t& port, const pros::motor_gearset_e_t& gearset, const bool& reverse,
-                               const double& scale_factor, const scheduled_update_t& update_period, error_t* result);
+                               const double& scale_factor, const scheduled_update_t& update_period,
+                               error_t* result = nullptr);
 
         error_t set_scale_factor(const double& scale_factor);
         error_t get_actual_velocity(double& result);
