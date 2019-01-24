@@ -14,6 +14,10 @@ namespace AFR::VexU::Robot{
     const port_t ELEVATOR_MOTOR_PORT = 8;
     const port_t INTAKE_MOTOR_PORT = 10;
 
+    const port_t NAUTALUS_LIMIT_SWITCH_PORT = 1;
+    const port_t ARM_LIMIT_SWITCH_TOP_PORT = 2;
+    const port_t ARM_LIMIT_SWITCH_BOTTOM_PORT = 3;
+
     void init_robot();
     void competition_init();
     void auto_robot();
