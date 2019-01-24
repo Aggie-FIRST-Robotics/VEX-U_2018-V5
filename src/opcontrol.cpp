@@ -1,6 +1,6 @@
 #include "main.h"
 
-#include "robot/robot.cpp"
+#include "robot/robot.h"
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -16,5 +16,5 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    AFR::VexU::opcontrol_robot();
+    AFR::VexU::Robot::opcontrol_robot();
 }
