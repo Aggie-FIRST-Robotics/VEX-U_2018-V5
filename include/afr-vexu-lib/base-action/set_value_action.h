@@ -10,7 +10,7 @@ namespace AFR::VexU::BaseAction{
      */
     template<typename T>
     class set_value_action : public action{
-        const T value_;
+        T value_;
         error_t update_private(const double& delta_seconds) override;
 
     public:
@@ -23,21 +23,11 @@ namespace AFR::VexU::BaseAction{
          */
         set_value_action(const scheduled_update_t& update_period, commandable& commandable, const T& value,
                          error_t* result = nullptr);
+
+        error_t set_value(const T& value);
     };
-
-    template<typename T>
-    error_t set_value_action<T>::update_private(const double& delta_seconds){
-        return commandable_.set_value(std::any{value_});
-    }
-
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "readability-non-const-parameter"
-    template<typename T>
-    set_value_action<T>::set_value_action(const scheduled_update_t& update_period, commandable& commandable,
-                                          const T& value, error_t* result) : action(update_period, commandable, result),
-                                                                             value_(value){}
-
-#pragma clang diagnostic pop
 }
+
+#include "afr-vexu-lib/base-action/set_value_action.cpp"
 
 #endif //VEX_U_2018_V5_SET_VALUE_H
