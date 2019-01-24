@@ -11,22 +11,26 @@ include_directories(
 )
 
 include(src/afr-vexu-lib/CMakeLists.txt)
+include(src/robot/CMakeLists.txt)
 
 # General source files list with no calls to pros, files with pros calls need to be added to only_V5_src_files
 set(
         src_files
         ${afr-vexu-lib-src}
+        ${robot-src}
 )
 
 set(
         only_test_src_files
         ${afr-vexu-lib-test-src}
+        ${robot-test-src}
 )
 
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(
         only_V5_src_files
         ${afr-vexu-lib-V5-src}
+        ${robot-V5-src}
 )
 
 set(
