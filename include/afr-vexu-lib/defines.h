@@ -120,6 +120,8 @@ namespace AFR::VexU{
         , INVALID_VALUE          ///Commandable assigned invalid value
         , PROS_ERROR             ///Error from pros, read errno
     };
+
+    typedef uint8_t port_t;
 }
 
 #endif //VEX_U_2018_V5_DEFINES_H

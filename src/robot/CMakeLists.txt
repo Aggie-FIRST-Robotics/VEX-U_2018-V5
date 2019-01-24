@@ -13,4 +13,5 @@ set(
 set(
         robot-V5-src
         ${robot-drive-V5-src}
+        src/robot/robot.cpp
 )
