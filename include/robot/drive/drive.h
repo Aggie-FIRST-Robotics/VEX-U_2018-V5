@@ -5,16 +5,28 @@
 
 #include "afr-vexu-lib/base-commandable/motor_commandable.h"
 #include "robot/robot.h"
+#include "afr-vexu-lib/subsystem_controller.h"
+#include "afr-vexu-lib/base-commandable/motor_commandable.h"
+#include "afr-vexu-lib/base-action/set_value_action.h"
+#include "afr-vexu-lib/base-readable/adi_digital_readable.h"
+#include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 #ifndef VEX_U_2018_V5_DRIVE_H
 #define VEX_U_2018_V5_DRIVE_H
 #endif //VEX_U_2018_V5_DRIVE_H
 
 namespace AFR::VexU::Robot::Drive {
+
+    const scheduled_update_t START_TOPLEFTMOTOR_UPDATE_PERIOD = 100;
+    const scheduled_update_t START_UPDATE_PERIOD = 100;
+    const scheduled_update_t START_TOPRIGHTMOTOR_UPDATE_PERIOD = 100;
+    const scheduled_update_t START_BOTTOMLEFTMOTOR_UPDATE_PERIOD = 100;
+    const scheduled_update_t START_BOTTOMRIGHTMOTOR_UPDATE_PERIOD = 100;
     //Commandables
-    BaseCommandable::motor_commandable topleftmotor = nullptr;
-    BaseCommandable::motor_commandable toprightmotor = nullptr;
-    BaseCommandable::motor_commandable bottomleftmotor = nullptr;
-    BaseCommandable::motor_commandable bottomrightmotor = nullptr;
+    BaseCommandable::motor_commandable* topleftmotor = nullptr;
+    BaseCommandable::motor_commandable* toprightmotor = nullptr;
+    BaseCommandable::motor_commandable* bottomleftmotor = nullptr;
+    BaseCommandable::motor_commandable* bottomrightmotor = nullptr;
+
 
 
     //Actions
@@ -25,13 +37,15 @@ namespace AFR::VexU::Robot::Drive {
 
 
     //Action Map
-    std::unordered_map<std::string, action&> start_topleftmotor_map{};
-    std::unordered_map<std::string, action&> start_toprightmotor_map{};
-    std::unordered_map<std::string, action&> start_bottomrightmotor_map{};
-    std::unordered_map<std::string, action&> start_bottomleftmotor_map{};
+    std::unordered_map<std::string, action&> start_map{};
 
+    //Transition functions
+    std::function<error_t(bool&)> to_start{};
+
+    //Transition vectors
+    std::vector<transition> start_transitions{};
     //On-state entry functions
-    std::function<error_t(std::string&)> on_start_entry{};
+    std::function<error_t(const std::string&)> on_start_entry{};
 
 
     //States
@@ -45,10 +59,9 @@ namespace AFR::VexU::Robot::Drive {
     std::unordered_map<std::string, commandable&> commandable_map{};
 
     //State controller
-    state_controller* catapult_State_machine = nullptr;
+    state_controller* drive_state_machine = nullptr;
 
-    //Ordered inputs
-    ordered_input* nautalus_limit_switch_order = nullptr;
+
 
     //Ordered input map
     std::unordered_map<std::string, ordered_input&> inputs{};
@@ -59,25 +72,11 @@ namespace AFR::VexU::Robot::Drive {
     //Subsystem controller
     subsystem_controller* drive_subsystem = nullptr;
 }
-    void init();
 
-
-    class drive {
-
-    public:
-       // std::int32_t topleftmotorport, toprightmotorport, bottomleftmotorport, bottomrightmotorport;
-
-       drive();
+       void init();
        void arcadedrive(const std::int32_t &leftpower_, const std::int32_t &rightpower_);
+       void destroy();
 
-    private:
-//        AFR::VexU::BaseCommandable::motor_commandable topleftmotor;
-//        AFR::VexU::BaseCommandable::motor_commandable toprightmotor;
-//        AFR::VexU::BaseCommandable::motor_commandable bottomleftmotor;
-//        AFR::VexU::BaseCommandable::motor_commandable bottomrightmotor;
-
-
-    };
 
 
 }
