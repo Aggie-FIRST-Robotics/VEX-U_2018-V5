@@ -4,6 +4,51 @@
 #include "robot/drive/drive.h"
 
 namespace AFR::VexU::Robot::Drive {
+    //Commandables
+    BaseCommandable::motor_commandable *topleftmotor = nullptr;
+    BaseCommandable::motor_commandable *toprightmotor = nullptr;
+    BaseCommandable::motor_commandable *bottomleftmotor = nullptr;
+    BaseCommandable::motor_commandable *bottomrightmotor = nullptr;
+
+
+    //Actions
+    BaseAction::set_value_action<int16_t> *start_topleftmotor = nullptr;
+    BaseAction::set_value_action<int16_t> *start_toprightmotor = nullptr;
+    BaseAction::set_value_action<int16_t> *start_bottomrightmotor = nullptr;
+    BaseAction::set_value_action<int16_t> *start_bottomleftmotor = nullptr;
+
+
+    //Action Map
+    std::unordered_map<std::string, action &> start_map{};
+
+    //Transition functions
+    std::function<error_t(bool &)> to_start{};
+
+    //Transition vectors
+    std::vector<transition> start_transitions{};
+    //On-state entry functions
+    std::function<error_t(const std::string &)> on_start_entry{};
+
+
+    //States
+    state *start = nullptr;
+
+
+    //State map
+    std::unordered_map<std::string, state &> state_map{};
+
+    //Commandable map
+    std::unordered_map<std::string, commandable &> commandable_map{};
+
+    //State controller
+    state_controller *drive_state_machine = nullptr;
+
+
+    //Ordered input map
+    std::unordered_map<std::string, ordered_input &> inputs{};
+
+    //State controller map
+    std::unordered_map<std::string, state_controller &> state_machines{};
 
 
     void arcadedrive(const std::int32_t &leftpower_, const std::int32_t &rightpower_) {
