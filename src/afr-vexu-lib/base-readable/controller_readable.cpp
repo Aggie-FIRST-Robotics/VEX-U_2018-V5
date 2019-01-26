@@ -47,6 +47,9 @@ namespace AFR::VexU::BaseReadable{
     }
 
     namespace Controller{
+        controller_readable* driver_controller = nullptr;
+        controller_readable* operator_controller = nullptr;
+
         error_t init(){
             driver_controller = new controller_readable{driver_update_period, pros::E_CONTROLLER_MASTER};
             operator_controller = new controller_readable{operator_update_period, pros::E_CONTROLLER_PARTNER};

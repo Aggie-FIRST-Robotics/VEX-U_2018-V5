@@ -28,8 +28,8 @@ namespace AFR::VexU::BaseReadable{
         const scheduled_update_t driver_update_period{50};
         const scheduled_update_t operator_update_period{50};
 
-        controller_readable* driver_controller;
-        controller_readable* operator_controller;
+        extern controller_readable* driver_controller;
+        extern controller_readable* operator_controller;
 
         error_t init();
         error_t update();
