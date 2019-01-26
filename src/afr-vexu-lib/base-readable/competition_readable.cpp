@@ -6,7 +6,7 @@ namespace AFR::VexU::BaseReadable {
      * @param delta_seconds new update period
      * @return error_t value if error encountered
      */
-    error_t competition_readable::update_private(const double &delta_seconds) {
+    error_t competition_readable::update_private(const double& delta_seconds){
         bool temp_autonomous = pros::competition::is_autonomous();
         AFR_PROS_INTERNAL_CALL(temp_autonomous, PROS_ERR_F);
         autonomous = temp_autonomous;
@@ -27,11 +27,11 @@ namespace AFR::VexU::BaseReadable {
      * @param update_period the update period for the readable
      * @param result error_t value if error encountered
      */
-    competition_readable::competition_readable(const scheduled_update_t &update_period, AFR::VexU::error_t *result)
+    competition_readable::competition_readable(const scheduled_update_t& update_period, AFR::VexU::error_t* result)
             : readable(update_period, 0, result),
               autonomous(pros::competition::is_autonomous()),
               connected(pros::competition::is_connected()),
-              disabled(pros::competition::is_disabled()) {}
+              disabled(pros::competition::is_disabled()){}
 
     /**
      * Returns true if robot is autonomous, false if otherwise

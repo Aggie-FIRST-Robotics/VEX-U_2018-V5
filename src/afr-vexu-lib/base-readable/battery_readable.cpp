@@ -37,7 +37,7 @@ namespace AFR::VexU::BaseReadable {
               current(pros::battery::get_current()),
               temperature(
                       pros::battery::get_temperature()),
-              voltage(pros::battery::get_voltage()) {}
+              voltage(pros::battery::get_voltage()){}
 
     /**
      * Returns battery capacity

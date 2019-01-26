@@ -27,7 +27,7 @@ namespace AFR::VexU::BaseReadable {
          * @param update_period the update period for the readable
          * @param result error_t value if error encountered
          */
-        motor_current_readable(const std::uint8_t &port, const scheduled_update_t &update_period, error_t *result);
+        motor_current_readable(const std::uint8_t& port, const scheduled_update_t& update_period, error_t* result);
 
         /**
          * Returns motor current draw

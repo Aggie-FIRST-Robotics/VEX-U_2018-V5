@@ -34,21 +34,21 @@ namespace AFR::VexU::BaseReadable {
          * @param result autonomous
          * @return error_t value if error encountered
          */
-        error_t is_autonomous(bool &result);
+        error_t is_autonomous(bool& result);
 
         /**
          * Returns true if robot is connected, false otherwise
          * @param result connected
          * @return error_t value if error encountered
          */
-        error_t is_connected(bool &result);
+        error_t is_connected(bool& result);
 
         /**
          * Returns true if robot is disabled, false otherwise
          * @param result disabled
          * @return error_t value if error encountered
          */
-        error_t is_disabled(bool &result);
+        error_t is_disabled(bool& result);
     };
 
 }
