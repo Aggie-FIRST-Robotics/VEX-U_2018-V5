@@ -24,14 +24,14 @@ set(
         only_test_src_files
         ${afr-vexu-lib-test-src}
         ${robot-test-src}
-        include/robot/cap/intake_action.h include/robot/cap/intake_action.h)
+)
 
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(
         only_V5_src_files
         ${afr-vexu-lib-V5-src}
         ${robot-V5-src}
-        src/robot/cap/intake_action.cpp)
+)
 
 set(
         pros_src_files
