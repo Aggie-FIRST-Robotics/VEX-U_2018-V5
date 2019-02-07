@@ -10,8 +10,7 @@ namespace AFR::VexU::Robot::Drive{
         pros::controller_analog_e_t left_stick_;
 
 
-
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         arcade_drive_action(const scheduled_update_t& update_period, commandable& commandable,

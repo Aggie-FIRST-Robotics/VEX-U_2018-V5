@@ -7,18 +7,19 @@
 
 namespace AFR::VexU::BaseReadable{
     class adi_encoder_readable : public readable{
-        pros::ADIEncoder adi_encoder;
-        double scaling_factor;
+        pros::c::adi_encoder_t encoder_;
+        double scaling_factor_;
 
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
-        adi_encoder_readable(const uint8_t& port_top, const uint8_t& port_bottom, const bool& reversed,
-                             const double& scaling_factor,
-                             const scheduled_update_t& update_period, error_t* result = nullptr);
-        error_t reset();
-        error_t set_scalling_factor(const double& scaling_factor);
-        error_t get_scaled_value(double& result);
+        adi_encoder_readable(port_t port_top, port_t port_bottom, bool reversed,
+                             double scaling_factor,
+                             scheduled_update_t update_period, const std::string& name = nullptr);
+
+        void reset();
+        void set_scalling_factor(const double& scaling_factor);
+        double get_scaled_value();
     };
 }
 

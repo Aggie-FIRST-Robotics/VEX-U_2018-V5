@@ -11,7 +11,7 @@ namespace AFR::VexU::BaseAction{
     template<typename T>
     class set_value_action : public action{
         T value_;
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         /**

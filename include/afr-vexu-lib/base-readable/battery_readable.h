@@ -20,7 +20,7 @@ namespace AFR::VexU::BaseReadable {
          * @param delta_seconds new update period
          * @return error_t value if error encountered
          */
-        error_t update_private(const double &delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         /**

@@ -1,7 +1,7 @@
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 
 namespace AFR::VexU::BaseReadable{
-    error_t controller_readable::update_private(const double& delta_seconds){
+    void controller_readable::update_private(const double& delta_seconds){
         for(auto& value : digital_map_){
             value.second = controller_.get_digital(value.first) != 0;
         }
@@ -14,7 +14,7 @@ namespace AFR::VexU::BaseReadable{
     controller_readable::controller_readable(const AFR::VexU::scheduled_update_t& update_period,
                                              const pros::controller_id_e_t& controller,
                                              AFR::VexU::error_t* result) : readable(update_period,
-                                                                                                  nullptr, result),
+                                                                                    nullptr, <#initializer#>),
                                                                                          controller_(controller),
                                                                                          digital_map_(), analog_map_(){
         digital_map_.insert(std::make_pair(pros::E_CONTROLLER_DIGITAL_L1, false));

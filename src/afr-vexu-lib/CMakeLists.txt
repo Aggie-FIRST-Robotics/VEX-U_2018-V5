@@ -7,7 +7,7 @@ set(
         ${base-readable-src}
         src/afr-vexu-lib/action.cpp
         src/afr-vexu-lib/commandable.cpp
-        src/afr-vexu-lib/ordered_input.cpp
+        src/afr-vexu-lib/ports_list.cpp
         src/afr-vexu-lib/readable.cpp
         src/afr-vexu-lib/scheduled.cpp
         src/afr-vexu-lib/state.cpp

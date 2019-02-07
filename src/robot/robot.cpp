@@ -37,12 +37,12 @@ namespace AFR::VexU::Robot{
             state_controller* state = nullptr;
             readable* readable1 = nullptr;
 
-            Catapult::catapult_subsystem->getInput("nautilus_encoder", nautilus_encoder);
+            Catapult::catapult_subsystem->get_input("nautilus_encoder");
             nautilus_encoder->get_input(readable1);
             auto* motor_encoder_readable = (BaseReadable::motor_encoder_readable*) readable1;
             double position = 0;
             while(true){
-                Catapult::catapult_subsystem->getStateMachine("main", state);
+                Catapult::catapult_subsystem->get_state_machine(<#initializer#>);
 //                std::cout << "State: " << state;
 //                motor_encoder_readable->get_position(position);
                 pros::lcd::print(1, std::to_string(position).c_str());

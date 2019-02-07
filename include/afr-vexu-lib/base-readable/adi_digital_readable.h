@@ -10,24 +10,24 @@ namespace AFR::VexU::BaseReadable{
      * Represents any digital sensor or readable input
      */
      class adi_digital_readable : public readable {
-        pros::ADIDigitalIn digital;
+         port_t port_;
 
          /**
           * Overrides scheduled, updates private period
           * @param delta_seconds new update period
           * @return error_t value if error encountered
           */
-        error_t update_private(const double& delta_seconds) override;
+         void update_private(const double& delta_seconds) override;
 
      public:
          /**
           * Creates a basic digital readable
           * @param update_period the update period for the readable
           * @param port v5 port to use
-          * @param result error_t value if error encountered
+          * @param name error_t value if error encountered
           */
-         adi_digital_readable(const scheduled_update_t& update_period, const port_t& port,
-                              error_t* result = nullptr);
+         adi_digital_readable(port_t port, scheduled_update_t update_period, bool initial_value,
+                              const std::string& name = nullptr);
      };
 }
 

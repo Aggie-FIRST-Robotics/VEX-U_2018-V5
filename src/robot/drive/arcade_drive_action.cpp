@@ -7,12 +7,12 @@ namespace AFR::VexU::Robot::Drive{
                                              pros::controller_analog_e_t left_stick,
                                              pros::controller_analog_e_t right_stick,
                                              bool is_right) :
-            action(update_period, commandable), is_right(is_right){
+            action(update_period, commandable, <#initializer#>), is_right(is_right){
         right_stick_=right_stick;
         left_stick_=left_stick;
     }
 
-    error_t arcade_drive_action::update_private(const double& delta_seconds){
+    void arcade_drive_action::update_private(const double& delta_seconds){
         int32_t right_val;
         int32_t left_val;
         AFR_VEXU_INTERNAL_CALL(BaseReadable::Controller::driver_controller->get_analog_value(right_stick_, right_val));

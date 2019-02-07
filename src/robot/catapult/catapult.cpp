@@ -96,7 +96,7 @@ namespace AFR::VexU::Robot::Catapult{
 
         cock_to_hold = [](bool& result) -> error_t{
             std::any out{};
-            AFR_VEXU_INTERNAL_CALL(nautilus_limit_switch->get_value(out));
+            AFR_VEXU_INTERNAL_CALL(nautilus_limit_switch->get_value());
             try{
                 result = std::any_cast<bool>(out);
 //                std::cout << "Result: " << result << " time: " << pros::millis() << std::endl;

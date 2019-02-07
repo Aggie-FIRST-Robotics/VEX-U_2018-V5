@@ -12,7 +12,7 @@ namespace AFR::VexU::BaseReadable{
         double position;
         double scale_factor;
 
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         motor_encoder_readable(const std::uint8_t& port, const pros::motor_gearset_e_t& gearset, const bool& reverse,
@@ -28,7 +28,7 @@ namespace AFR::VexU::BaseReadable{
         error_t tare_position(const double& position);
         error_t tare_position_scaled(const double& position);
 
-        error_t get_value(std::any& result) const override;
+        std::any get_value() const override;
     };
 }
 

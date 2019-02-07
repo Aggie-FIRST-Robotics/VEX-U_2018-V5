@@ -114,11 +114,12 @@ namespace AFR::VexU::Robot::Drive {
 
 
 
-        drive_state_machine = new state_controller(START_UPDATE_PERIOD, state_map, commandable_map, "start" );
+        drive_state_machine = new state_controller(START_UPDATE_PERIOD, state_map, commandable_map, "start",
+                                                   <#initializer#>);
 
         state_machines.emplace("main", *drive_state_machine);
 
-        drive_subsystem = new subsystem_controller(inputs, state_machines);
+        drive_subsystem = new subsystem_controller(inputs, state_machines, <#initializer#>);
 
 
 

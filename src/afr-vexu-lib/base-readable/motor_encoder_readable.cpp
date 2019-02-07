@@ -1,7 +1,7 @@
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 
 namespace AFR::VexU::BaseReadable{
-    error_t motor_encoder_readable::update_private(const double& delta_seconds){
+    void motor_encoder_readable::update_private(const double& delta_seconds){
         value = motor.get_position();
         double temp_velocity = motor.get_actual_velocity();
         AFR_PROS_INTERNAL_CALL(temp_velocity, PROS_ERR_F);
@@ -17,7 +17,8 @@ namespace AFR::VexU::BaseReadable{
     motor_encoder_readable::motor_encoder_readable(const std::uint8_t& port, const pros::motor_gearset_e_t& gearset,
                                                    const bool& reverse, const double& scale_factor,
                                                    const scheduled_update_t& update_period,
-                                                   AFR::VexU::error_t* result) : readable(update_period, 0, result),
+                                                   AFR::VexU::error_t* result) : readable(update_period, 0,
+                                                                                          <#initializer#>),
                                                                                  motor(port, gearset, reverse,
                                                                                        pros::E_MOTOR_ENCODER_COUNTS),
                                                                                  velocity(0), position(0),
@@ -63,7 +64,7 @@ namespace AFR::VexU::BaseReadable{
         return SUCCESS;
     }
 
-    error_t motor_encoder_readable::get_value(std::any& result) const{
+    std::any motor_encoder_readable::get_value() const{
         throw std::runtime_error("Not Possible");
     }
 }

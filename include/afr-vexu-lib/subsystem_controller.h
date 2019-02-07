@@ -6,7 +6,7 @@
 #include <string>
 #include <functional>
 
-#include "ordered_input.h"
+#include "readable.h"
 #include "state_controller.h"
 #include "defines.h"
 
@@ -14,52 +14,53 @@ namespace AFR::VexU{
     /**
      * Represents an entire subsystem
      */
-    class subsystem_controller{
+    class subsystem_controller : public nameable{
     private:
-        const std::unordered_map<std::string, ordered_input&> input_map_;
-        std::vector<readable*> ordered_inputs_;
-        const std::unordered_map<std::string, state_controller&> state_map_;
+        std::vector<readable*> inputs_;
+        std::vector<state_controller*> state_controllers_;
 
     public:
         /**
          * Creates a subsystem controller
-         * @param input_map map of ordered inputs by string
-         * @param state_map map of states by string
+         * @param inputs map of ordered inputs by string
+         * @param state_controllers map of states by string
          * @param result error_t value if error encountered
          */
-        subsystem_controller(const std::unordered_map<std::string, ordered_input&>& input_map,
-                             const std::unordered_map<std::string, state_controller&>& state_map,
-                             error_t* result = nullptr);
+        subsystem_controller(const std::vector<readable*>& inputs,
+                             const std::vector<state_controller*>& state_controllers,
+                             const std::string& name);
 
         /**
          * Updates readables in input_map_
          * @return error_t value if error encountered
          */
-        error_t updateInputs();
+        void updateInputs();
         /**
          * Updates state transitions for the current state
          * @return error_t value if error encountered
          */
-        error_t updateStates();
+        void updateStates();
         /**
          * Updates current state's actions
          * @return error_t value if error encountered
          */
-        error_t updateActions();
+        void updateActions();
         /**
          * Gets ordered input by string
-         * @param id string to search for
+         * @param name string to search for
          * @param result ordered input result by pointer
          * @return error_t value if error encountered
          */
-        error_t getInput(const std::string& id, ordered_input*& result) const;
+        readable* get_input(size_t name) const;
+        std::vector<readable*>& get_inputs();
         /**
          * Gets state by string
-         * @param id string to search for
+         * @param name string to search for
          * @param result state result by pointer
          * @return error_t value if error encountered
          */
-        error_t getStateMachine(const std::string& id, state_controller*& result) const;
+        state_controller* get_state_machine(const std::string& name) const;
+        std::vector<state_controller*> get_state_machines();
     };
 }
 

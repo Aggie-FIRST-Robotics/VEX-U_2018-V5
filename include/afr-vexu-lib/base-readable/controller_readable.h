@@ -14,7 +14,7 @@ namespace AFR::VexU::BaseReadable{
         std::unordered_map<pros::controller_digital_e_t, bool> digital_map_;
         std::unordered_map<pros::controller_analog_e_t, int32_t> analog_map_;
 
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         controller_readable(const scheduled_update_t& update_period, const pros::controller_id_e_t& controller,

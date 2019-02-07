@@ -1,6 +1,6 @@
 namespace AFR::VexU::BaseAction{
     template<typename T>
-    error_t equivalent_value_action<T>::update_private(const double& delta_seconds){
+    void equivalent_value_action<T>::update_private(const double& delta_seconds){
         return commandable_.set_value(std::any{*value_ptr_});
     }
 
@@ -11,7 +11,7 @@ namespace AFR::VexU::BaseAction{
     equivalent_value_action<T>::equivalent_value_action(const scheduled_update_t& update_period,
                                                         commandable& commandable, const T* value_ptr, error_t* result)
             : action(update_period,
-                     commandable, result),
+                     commandable, <#initializer#>),
               value_ptr_(value_ptr){}
 
 #pragma clang diagnostic pop

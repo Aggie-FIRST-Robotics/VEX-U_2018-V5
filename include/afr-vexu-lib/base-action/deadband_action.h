@@ -13,7 +13,7 @@ namespace AFR::VexU::BaseAction{
         const Write_T _below_value;
         const Write_T _above_value;
 
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
         public:
 
@@ -34,9 +34,9 @@ namespace AFR::VexU::BaseAction{
                             const Write_T& below_value, const Write_T& above_value, error_t* result = nullptr);                       
     };
     template<typename Read_T, typename Write_T>
-    error_t deadband_action<Read_T, Write_T>::update_private(const double& delta_seconds){
+    void deadband_action<Read_T, Write_T>::update_private(const double& delta_seconds){
         std::any result{};
-        AFR_VEXU_INTERNAL_CALL(_value_pointer->get_value(result))
+        AFR_VEXU_INTERNAL_CALL(_value_pointer->get_value())
         if(std::any_cast<Read_T>(result) < _bottom_threshold){
             return commandable_.set_value(_below_value);
         }
@@ -56,13 +56,13 @@ namespace AFR::VexU::BaseAction{
                                                       const Write_T& center_value,
                                                       const Write_T& below_value, const Write_T& above_value,
                                                       error_t* result) :
-                                          action(update_period, commandable, result),
-                                          _bottom_threshold(bottom_threshold),
-                                          _top_threshold(top_threshold),
-                                          _value_pointer(value_pointer),
-                                          _center_value(center_value),
-                                          _below_value(below_value),
-                                          _above_value(above_value){}
+            action(update_period, commandable, <#initializer#>),
+            _bottom_threshold(bottom_threshold),
+            _top_threshold(top_threshold),
+            _value_pointer(value_pointer),
+            _center_value(center_value),
+            _below_value(below_value),
+            _above_value(above_value){}
 
 #pragma clang diagnostic pop
 

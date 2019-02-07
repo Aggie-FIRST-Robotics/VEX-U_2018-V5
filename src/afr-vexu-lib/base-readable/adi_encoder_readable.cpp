@@ -1,34 +1,35 @@
 #include "afr-vexu-lib/base-readable/adi_encoder_readable.h"
+#include "afr-vexu-lib/ports_list.h"
 
 namespace AFR::VexU::BaseReadable{
-    error_t adi_encoder_readable::update_private(const double& delta_seconds){
-        int32_t temp_val = adi_encoder.get_value();
-        AFR_PROS_INTERNAL_CALL(temp_val, PROS_ERR);
+    void adi_encoder_readable::update_private(const double& delta_seconds){
+        int32_t temp_val = pros::c::adi_encoder_get(encoder_);
+        if(temp_val == PROS_ERR){
+            throw std::runtime_error{"Bad pros adi encoder value!"};
+        }
         readable::value = temp_val;
-        return SUCCESS;
     }
 
-    adi_encoder_readable::adi_encoder_readable(const uint8_t& port_top, const uint8_t& port_bottom,
-                                               const bool& reversed, const double& scaling_factor,
-                                               const AFR::VexU::scheduled_update_t& update_period,
-                                               AFR::VexU::error_t* result) : readable(update_period, 0, result),
-                                                                             adi_encoder(port_top, port_bottom,
-                                                                                         reversed),
-                                                                             scaling_factor(scaling_factor){
+    adi_encoder_readable::adi_encoder_readable(port_t port_top, port_t port_bottom, bool reversed,
+                                               double scaling_factor,
+                                               scheduled_update_t update_period, const std::string& name)
+            : readable(update_period, static_cast<int32_t>(0), name),
+              encoder_(pros::c::adi_encoder_init(port_top, port_bottom, reversed)), scaling_factor_(scaling_factor){
+        claim_adi(port_top, name + "_top");
+        claim_adi(port_bottom, name + "_bottom");
     }
 
-    error_t adi_encoder_readable::reset(){
-        AFR_PROS_INTERNAL_CALL(adi_encoder.reset(), PROS_ERR);
-        return SUCCESS;
+    void adi_encoder_readable::reset(){
+        if(pros::c::adi_encoder_reset(encoder_) == PROS_ERR){
+            throw std::runtime_error{"Error reseting encoder " + std::to_string(encoder_)};
+        }
     }
 
-    error_t adi_encoder_readable::set_scalling_factor(const double& scaling_factor){
-        this->scaling_factor = scaling_factor;
-        return SUCCESS;
+    void adi_encoder_readable::set_scalling_factor(const double& scaling_factor){
+        this->scaling_factor_ = scaling_factor;
     }
 
-    error_t adi_encoder_readable::get_scaled_value(double& result){
-        result = std::any_cast<int32_t>(readable::value) * scaling_factor;
-        return SUCCESS;
+    double adi_encoder_readable::get_scaled_value(){
+        return std::any_cast<int32_t>(readable::value) * scaling_factor_;
     }
 }

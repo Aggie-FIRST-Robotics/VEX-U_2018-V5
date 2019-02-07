@@ -6,7 +6,7 @@ namespace AFR::VexU::BaseReadable {
      * @param delta_seconds new update period
      * @return error_t value if error encountered
      */
-    error_t competition_readable::update_private(const double& delta_seconds){
+    void competition_readable::update_private(const double& delta_seconds){
         bool temp_autonomous = pros::competition::is_autonomous();
         AFR_PROS_INTERNAL_CALL(temp_autonomous, PROS_ERR_F);
         autonomous = temp_autonomous;
@@ -28,7 +28,7 @@ namespace AFR::VexU::BaseReadable {
      * @param result error_t value if error encountered
      */
     competition_readable::competition_readable(const scheduled_update_t& update_period, AFR::VexU::error_t* result)
-            : readable(update_period, 0, result),
+            : readable(update_period, 0, <#initializer#>),
               autonomous(pros::competition::is_autonomous()),
               connected(pros::competition::is_connected()),
               disabled(pros::competition::is_disabled()){}

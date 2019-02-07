@@ -6,7 +6,7 @@ namespace AFR::VexU::BaseReadable {
      * @param delta_seconds new update period
      * @return error_t value if error encountered
      */
-    error_t battery_readable::update_private(const double &delta_seconds) {
+    void battery_readable::update_private(const double& delta_seconds){
         double temp_capacity = pros::battery::get_capacity();
         AFR_PROS_INTERNAL_CALL(temp_capacity, PROS_ERR_F);
         capacity = temp_capacity;
@@ -32,7 +32,7 @@ namespace AFR::VexU::BaseReadable {
      * @param result error_t value if error encountered
      */
     battery_readable::battery_readable(const scheduled_update_t &update_period, AFR::VexU::error_t *result)
-            : readable(update_period, 0, result),
+            : readable(update_period, 0, <#initializer#>),
               capacity(pros::battery::get_capacity()),
               current(pros::battery::get_current()),
               temperature(

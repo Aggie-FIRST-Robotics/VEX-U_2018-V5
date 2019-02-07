@@ -6,7 +6,7 @@
 #include "defines.h"
 
 namespace AFR::VexU{
-    typedef uint32_t scheduled_update_t;    ///The tye for the count of time for scheduled
+    typedef uint32_t scheduled_update_t;    ///The type for the count of time for scheduled
 //    typedef std::milli scheduled_res_t;         ///The type for the unit of time for scheduled
 
     /**
@@ -14,37 +14,37 @@ namespace AFR::VexU{
      */
     class scheduled{
         uint32_t next_update_;
-    protected:
         uint32_t update_period_;
-    private:
 
         /**
          * Overridden to  be whatever happens when update is called following the wait period
          * @param delta_seconds the amount of seconds that have actually passed
          * @return error_t value if error encountered
          */
-        virtual error_t update_private(const double& delta_seconds) = 0;
+        virtual void update_private(const double& delta_seconds) = 0;
 
     public:
         /**
          * Creates a scheduled
-         * @param update_period the time period in scheduled_res_t to wait
+         * @param update_period the time period in scheduled_res_t to wait, if 0 will not update
          * @param result error_t value if error encountered
          */
-        explicit scheduled(const scheduled_update_t& update_period, error_t* result = nullptr);
+        explicit scheduled(const scheduled_update_t& update_period);
 
         /**
          * The function that is called to update the scheduled, calls update_private if the time period has passed
          * @return error_t value if error encountered
          */
-        error_t update();
+        void update();
+        void force_update();
 
         /**
          * Sets the update period
          * @param update_period the update period to set in scheduled_res_t
          * @return error_t value if error encountered
          */
-        error_t set_update_period(const scheduled_update_t& update_period);
+        void set_update_period(scheduled_update_t update_period);
+        scheduled_update_t get_update_period() const;
     };
 
 //    /**

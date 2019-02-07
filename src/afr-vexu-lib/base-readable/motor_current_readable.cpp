@@ -6,7 +6,7 @@ namespace AFR::VexU::BaseReadable {
      * @param delta_seconds new update period
      * @return error_t value if error encountered
      */
-    error_t motor_current_readable::update_private(const double &delta_seconds) {
+    void motor_current_readable::update_private(const double& delta_seconds){
         double temp_current = prosmotor.get_current_draw();
         AFR_PROS_INTERNAL_CALL(temp_current, PROS_ERR_F);
         current = temp_current;
@@ -22,7 +22,7 @@ namespace AFR::VexU::BaseReadable {
      */
     motor_current_readable::motor_current_readable(const std::uint8_t &port, const scheduled_update_t &update_period,
                                                    AFR::VexU::error_t *result)
-            : readable(update_period, result),
+            : readable(update_period, result, <#initializer#>),
               prosmotor(port),
               current(prosmotor.get_current_draw()) {}
 
