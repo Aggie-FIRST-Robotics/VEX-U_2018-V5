@@ -22,7 +22,7 @@ namespace AFR::VexU::Robot::Drive{
             AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(left_val - right_val)));
         }
         else{
-            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(right_val - left_val)));
+            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(left_val + right_val)));
         }
         return SUCCESS;
     }
