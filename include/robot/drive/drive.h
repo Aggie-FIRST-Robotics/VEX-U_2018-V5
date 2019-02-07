@@ -1,7 +1,5 @@
-//
-// Created by aamhi on 11/30/2018.
-//
-//#include <cmath>
+#ifndef VEX_U_2018_V5_DRIVE_H
+#define VEX_U_2018_V5_DRIVE_H
 
 #include "afr-vexu-lib/base-commandable/motor_commandable.h"
 #include "robot/robot.h"
@@ -10,9 +8,6 @@
 #include "afr-vexu-lib/base-action/set_value_action.h"
 #include "afr-vexu-lib/base-readable/adi_digital_readable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
-#ifndef VEX_U_2018_V5_DRIVE_H
-#define VEX_U_2018_V5_DRIVE_H
-#endif //VEX_U_2018_V5_DRIVE_H
 
 namespace AFR::VexU::Robot::Drive {
 
@@ -32,4 +27,5 @@ namespace AFR::VexU::Robot::Drive {
 
 
 }
-}
+
+#endif //VEX_U_2018_V5_DRIVE_H

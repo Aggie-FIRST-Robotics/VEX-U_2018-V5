@@ -9,4 +9,5 @@ set(
 set(
         robot-drive-V5-src
         src/robot/drive/drive.cpp
+        src/robot/drive/arcade_drive_action.cpp
 )

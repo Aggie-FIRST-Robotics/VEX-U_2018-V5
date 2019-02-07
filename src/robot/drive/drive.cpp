@@ -1,6 +1,3 @@
-
-#include <robot/drive/drive.h>
-
 #include "robot/drive/drive.h"
 
 namespace AFR::VexU::Robot::Drive {
@@ -52,10 +49,10 @@ namespace AFR::VexU::Robot::Drive {
 
 
     void arcadedrive(const std::int32_t &leftpower_, const std::int32_t &rightpower_) {
-        topleftmotor.set_value(rightpower_ - leftpower_);
-        bottomleftmotor.set_value(rightpower_ - leftpower_);
-        toprightmotor.set_value(rightpower_ + leftpower_);
-        bottomrightmotor.set_value(rightpower_ + leftpower_);
+        topleftmotor->set_value(rightpower_ - leftpower_);
+        bottomleftmotor->set_value(rightpower_ - leftpower_);
+        toprightmotor->set_value(rightpower_ + leftpower_);
+        bottomrightmotor->set_value(rightpower_ + leftpower_);
     }
 
     void init() {
@@ -75,7 +72,6 @@ namespace AFR::VexU::Robot::Drive {
         start_bottomrightmotor = new set_value_action<int16_t>{START_BOTTOMRIGHTMOTOR_UPDATE_PERIOD, *bottomrightmotor, 0};
 
         to_start=[](bool& result) -> error_t{
-
                 return SUCCESS;
         };
         start_transitions.emplace_back(to_start, "to_start");
