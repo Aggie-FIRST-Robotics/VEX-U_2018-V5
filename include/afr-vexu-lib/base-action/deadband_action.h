@@ -12,11 +12,11 @@ namespace AFR::VexU::BaseAction{
         const Write_T _center_value;
         const Write_T _below_value;
         const Write_T _above_value;
-        
+
         error_t update_private(const double& delta_seconds) override;
-        
+
         public:
-        
+
         /**
          * Creates a deadband action
          * @param update_period passed to scheduled
@@ -61,7 +61,7 @@ namespace AFR::VexU::BaseAction{
                                           _above_value(above_value){}
 
 #pragma clang diagnostic pop
-      
+
 }
 
-#endif
+#endif 
