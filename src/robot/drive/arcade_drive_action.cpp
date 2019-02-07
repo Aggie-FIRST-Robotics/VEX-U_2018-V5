@@ -19,10 +19,10 @@ namespace AFR::VexU::Robot::Drive{
         AFR_VEXU_INTERNAL_CALL(BaseReadable::Controller::driver_controller->get_analog_value(left_stick_, left_val));
         if(is_right){
 
-            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(left_val - right_val)));
+            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(left_val + right_val)));
         }
         else{
-            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(right_val - left_val)));
+            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(left_val - right_val)));
         }
         return SUCCESS;
     }
