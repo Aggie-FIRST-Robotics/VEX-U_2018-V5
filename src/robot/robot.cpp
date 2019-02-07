@@ -20,6 +20,7 @@ namespace AFR::VexU::Robot{
 
             throw std::runtime_error{"Init error"};
         }
+        pros::lcd::initialize();
     }
 
     void competition_init(){
@@ -32,16 +33,30 @@ namespace AFR::VexU::Robot{
 
     void opcontrol_robot(){
         try{
+            ordered_input* nautilus_encoder = nullptr;
+            state_controller* state = nullptr;
+            readable* readable1 = nullptr;
+
+            Catapult::catapult_subsystem->getInput("nautilus_encoder", nautilus_encoder);
+            nautilus_encoder->get_input(readable1);
+            auto* motor_encoder_readable = (BaseReadable::motor_encoder_readable*) readable1;
+            double position = 0;
             while(true){
+                Catapult::catapult_subsystem->getStateMachine("main", state);
+//                std::cout << "State: " << state;
+//                motor_encoder_readable->get_position(position);
+                pros::lcd::print(1, std::to_string(position).c_str());
+
                 BaseReadable::Controller::update();
                 Catapult::catapult_subsystem->updateInputs();
-                Drive::drive_subsystem->updateInputs();
+//                Drive::drive_subsystem->updateInputs();
 
                 Catapult::catapult_subsystem->updateStates();
-                Drive::drive_subsystem->updateStates();
+//                Drive::drive_subsystem->updateStates();
 
                 Catapult::catapult_subsystem->updateActions();
-                Drive::drive_subsystem->updateActions();
+//                Drive::drive_subsystem->updateActions();
+
             }
         }
         catch(std::exception& e){

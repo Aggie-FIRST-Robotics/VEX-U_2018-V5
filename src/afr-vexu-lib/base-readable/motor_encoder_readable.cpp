@@ -2,6 +2,7 @@
 
 namespace AFR::VexU::BaseReadable{
     error_t motor_encoder_readable::update_private(const double& delta_seconds){
+        value = motor.get_position();
         double temp_velocity = motor.get_actual_velocity();
         AFR_PROS_INTERNAL_CALL(temp_velocity, PROS_ERR_F);
         velocity = temp_velocity;

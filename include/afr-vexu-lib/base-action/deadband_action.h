@@ -8,7 +8,7 @@ namespace AFR::VexU::BaseAction{
     class deadband_action : public action{
         const Read_T _bottom_threshold;
         const Read_T _top_threshold;
-        Read_T* const _value_pointer;
+        readable* const _value_pointer;
         const Write_T _center_value;
         const Write_T _below_value;
         const Write_T _above_value;
@@ -30,15 +30,17 @@ namespace AFR::VexU::BaseAction{
          * @param result error_t value if error encountered
          */         
             deadband_action(const scheduled_update_t& update_period, commandable& commandable, const Read_T& bottom_threshold,
-                            const Read_T& top_threshold, Read_T* const value_pointer, const Write_T& center_value,
+                            const Read_T& top_threshold, readable* value_pointer, const Write_T& center_value,
                             const Write_T& below_value, const Write_T& above_value, error_t* result = nullptr);                       
     };
     template<typename Read_T, typename Write_T>
     error_t deadband_action<Read_T, Write_T>::update_private(const double& delta_seconds){
-        if(*_value_pointer < _bottom_threshold) {
+        std::any result{};
+        AFR_VEXU_INTERNAL_CALL(_value_pointer->get_value(result))
+        if(std::any_cast<Read_T>(result) < _bottom_threshold){
             return commandable_.set_value(_below_value);
         }
-        else if(*_value_pointer > _top_threshold) {
+        else if(std::any_cast<Read_T>(result) > _top_threshold){
             return commandable_.set_value(_above_value);
         }
         else {
@@ -50,8 +52,10 @@ namespace AFR::VexU::BaseAction{
 #pragma ide diagnostic ignored "readability-non-const-parameter"
     template<typename Read_T, typename Write_T>
     deadband_action<Read_T, Write_T>::deadband_action(const scheduled_update_t& update_period, commandable& commandable, const Read_T& bottom_threshold,
-                            const Read_T& top_threshold, Read_T* const value_pointer, const Write_T& center_value,
-                            const Write_T& below_value, const Write_T& above_value, error_t* result = nullptr) : 
+                                                      const Read_T& top_threshold, readable* const value_pointer,
+                                                      const Write_T& center_value,
+                                                      const Write_T& below_value, const Write_T& above_value,
+                                                      error_t* result) :
                                           action(update_period, commandable, result),
                                           _bottom_threshold(bottom_threshold),
                                           _top_threshold(top_threshold),

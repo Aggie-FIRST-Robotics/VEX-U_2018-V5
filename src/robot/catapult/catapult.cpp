@@ -1,9 +1,10 @@
 #include "afr-vexu-lib/base-readable/controller_readable.h"
+#include "afr-vexu-lib/base-action/deadband_action.h"
 #include "robot/catapult/catapult.h"
 #include "robot/robot.h"
 
 namespace AFR::VexU::Robot::Catapult{
-    std::chrono::steady_clock::time_point next_cock = std::chrono::steady_clock::now();
+    scheduled_update_t next_cock = 0;
 
     //Commandables
     BaseCommandable::motor_commandable* nautilus_motor = nullptr;
@@ -13,7 +14,7 @@ namespace AFR::VexU::Robot::Catapult{
     BaseReadable::motor_encoder_readable* nautilus_encoder = nullptr;
 
     //Actions
-    BaseAction::set_value_action<int16_t>* hold_nautilus_action = nullptr;
+    BaseAction::deadband_action<double, int16_t>* hold_nautilus_action = nullptr;
     BaseAction::set_value_action<int16_t>* cock_nautilus_action = nullptr;
     BaseAction::set_value_action<int16_t>* stop_nautilus_action = nullptr;
     BaseAction::set_value_action<int16_t>* fire_nautilus_action = nullptr;
@@ -82,8 +83,9 @@ namespace AFR::VexU::Robot::Catapult{
         nautilus_encoder = new motor_encoder_readable{NAUTILUS_MOTOR_PORT, NAUTILUS_MOTOR_GEARSET, false, 1.0,
                                                       ENCODER_UPDATE_PERIOD};
 
-        hold_nautilus_action = new set_value_action<int16_t>{HOLD_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, -10};
-        cock_nautilus_action = new set_value_action<int16_t>{COCK_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, 50};
+        hold_nautilus_action = new deadband_action<double, int16_t>{HOLD_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, -10,
+                                                                    10, nautilus_encoder, 0, 12000, -12000};
+        cock_nautilus_action = new set_value_action<int16_t>{COCK_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, 12000};
         stop_nautilus_action = new set_value_action<int16_t>{STOP_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, 0};
         fire_nautilus_action = new set_value_action<int16_t>{FIRE_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, 100};
 
@@ -97,6 +99,7 @@ namespace AFR::VexU::Robot::Catapult{
             AFR_VEXU_INTERNAL_CALL(nautilus_limit_switch->get_value(out));
             try{
                 result = std::any_cast<bool>(out);
+//                std::cout << "Result: " << result << " time: " << pros::millis() << std::endl;
             }
             catch(std::bad_any_cast& e){
                 std::cerr << "Error Here! 5" << std::endl;
@@ -107,7 +110,7 @@ namespace AFR::VexU::Robot::Catapult{
         };
         hold_to_fire = [](bool& result) -> error_t{
             bool val = false;
-//            AFR_VEXU_INTERNAL_CALL(Controller::driver_controller->digital_is_pressed(FIRE_BUTTON, val));
+            AFR_VEXU_INTERNAL_CALL(Controller::driver_controller->digital_is_pressed(FIRE_BUTTON, val));
             result = val;
             return SUCCESS;
         };
@@ -118,7 +121,7 @@ namespace AFR::VexU::Robot::Catapult{
             return SUCCESS;
         };
         stop_to_cock = [](bool& result) -> error_t{
-            result = next_cock <= std::chrono::steady_clock::now();
+            result = next_cock <= pros::millis();
             return SUCCESS;
         };
 
@@ -137,8 +140,7 @@ namespace AFR::VexU::Robot::Catapult{
             return SUCCESS;
         };
         on_stop_entry = [](const std::string& last_state) -> error_t{
-            next_cock = std::chrono::steady_clock::now() +
-                    std::chrono::duration<scheduled_update_t, scheduled_res_t>{NAUTILUS_STOP_TIME};
+            next_cock = pros::millis() + NAUTILUS_STOP_TIME;
             return SUCCESS;
         };
 

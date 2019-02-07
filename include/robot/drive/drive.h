@@ -13,8 +13,8 @@ namespace AFR::VexU::Robot::Drive {
 
     const scheduled_update_t START_TOPLEFTMOTOR_UPDATE_PERIOD = 100;
     const scheduled_update_t START_UPDATE_PERIOD = 100;
-    const scheduled_update_t START_TOPRIGHTMOTOR_UPDATE_PERIOD = 100;
-    const scheduled_update_t START_BOTTOMLEFTMOTOR_UPDATE_PERIOD = 100;
+    const scheduled_update_t START_TOP_RIGHT_MOTOR_UPDATE_PERIOD = 100;
+    const scheduled_update_t START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD = 100;
     const scheduled_update_t START_BOTTOMRIGHTMOTOR_UPDATE_PERIOD = 100;
     extern subsystem_controller *drive_subsystem;
 

@@ -76,13 +76,13 @@ namespace AFR::VexU::Robot::Drive {
         bottomrightmotor = new motor_commandable{RIGHT_RAIL_MOTOR_B_PORT, RIGHT_RAIL_MOTOR_B_GEARSET, true,
                                                  RIGHT_RAIL_MOTOR_B_BRAKE_MODE, nullptr};
 
-        start_topleftmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *topleftmotor,
+        start_topleftmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *topleftmotor,
                                                      LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, false};
-        start_toprightmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *toprightmotor,
+        start_toprightmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *toprightmotor,
                                                       LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, true};
-        start_bottomleftmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *bottomrightmotor,
+        start_bottomleftmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *bottomrightmotor,
                                                         LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, false};
-        start_bottomrightmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *bottomrightmotor,
+        start_bottomrightmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *bottomrightmotor,
                                                          LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, true};
 
         to_start=[](bool& result) -> error_t{

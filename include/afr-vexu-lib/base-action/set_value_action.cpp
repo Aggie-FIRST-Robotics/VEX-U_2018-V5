@@ -1,6 +1,7 @@
 namespace AFR::VexU::BaseAction{
     template<typename T>
     error_t set_value_action<T>::update_private(const double& delta_seconds){
+//        std::cout << "Called after " << delta_seconds * 1000 << " milli-seconds. Should be " << update_period_ << std::endl;
         return commandable_.set_value(std::any{value_});
     }
 
