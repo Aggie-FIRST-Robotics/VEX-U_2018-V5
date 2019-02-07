@@ -21,7 +21,7 @@ namespace AFR::VexU::Robot::Cap {
     BaseAction::set_value_action<int16_t>* intake_action = nullptr;
     BaseAction::set_value_action<int16_t>* intake_hold_action = nullptr;
     BaseAction::set_value_action<int16_t>* outtake_action = nullptr;
-    BaseAction::intake_action<int16_t>* intake_outtake_action = nullptr;
+    Cap::intake_action<int16_t>* intake_outtake_action = nullptr;
     BaseAction::set_value_action<int16_t>* elevator_down_action = nullptr;
     BaseAction::set_value_action<int16_t>* elevator_zero_action = nullptr;
     BaseAction::set_value_action<int16_t>* elevator_high_pos_action = nullptr;
@@ -500,7 +500,7 @@ namespace AFR::VexU::Robot::Cap {
         //delete(arm_b_low_prime_pos_action);
         //delete(arm_a_low_score_pos_action);
         //delete(arm_b_low_score_pos_action);
-        //delete(arm_a_high_prime_pos_action);
+        //delete(arm_a_high_prime_pos_action);F
         //delete(arm_b_high_prime_pos_action);
         //delete(arm_a_high_score_pos_action);
         //delete(arm_b_high_score_pos_action);
