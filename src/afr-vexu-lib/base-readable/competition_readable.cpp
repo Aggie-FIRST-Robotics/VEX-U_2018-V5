@@ -1,65 +1,24 @@
+
+#include <afr-vexu-lib/base-readable/competition_readable.h>
+
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 
 namespace AFR::VexU::BaseReadable {
-    /**
-     * Overrides scheduled, updates private variables and period
-     * @param delta_seconds new update period
-     * @return error_t value if error encountered
-     */
-    void competition_readable::update_private(const double& delta_seconds){
-        bool temp_autonomous = pros::competition::is_autonomous();
-        AFR_PROS_INTERNAL_CALL(temp_autonomous, PROS_ERR_F);
-        autonomous = temp_autonomous;
+    competition_readable* competition = nullptr;
 
-        bool temp_connected = pros::competition::is_connected();
-        AFR_PROS_INTERNAL_CALL(temp_connected, PROS_ERR_F);
-        connected = temp_connected;
+    void competition_readable::update_private(const double& delta_seconds){}
 
-        bool temp_disabled = pros::competition::is_disabled();
-        AFR_PROS_INTERNAL_CALL(temp_disabled, PROS_ERR_F);
-        disabled = temp_disabled;
+    competition_readable::competition_readable() : readable(0, nullptr, "competition_readable"){}
 
-        return SUCCESS;
+    std::any competition_readable::get_value(){
+        return pros::c::competition_get_status();
     }
 
-    /**
-     * Creates a competition state readable
-     * @param update_period the update period for the readable
-     * @param result error_t value if error encountered
-     */
-    competition_readable::competition_readable(const scheduled_update_t& update_period, AFR::VexU::error_t* result)
-            : readable(update_period, 0, <#initializer#>),
-              autonomous(pros::competition::is_autonomous()),
-              connected(pros::competition::is_connected()),
-              disabled(pros::competition::is_disabled()){}
-
-    /**
-     * Returns true if robot is autonomous, false if otherwise
-     * @param result autonomous
-     * @return error_t value if error encountered
-     */
-    error_t competition_readable::is_autonomous(bool &result) {
-        result = autonomous;
-        return SUCCESS;
+    void init_competition(){
+        competition = new competition_readable{};
     }
 
-    /**
-     * Returns true if robot is connected, false if otherwise
-     * @param result connected
-     * @return error_t value if error encountered
-     */
-    error_t competition_readable::is_connected(bool &result) {
-        result = connected;
-        return SUCCESS;
-    }
-
-    /**
-     * Returns true if robot is disabled, false if otherwise
-     * @param result disabled
-     * @return error_t value if error encountered
-     */
-    error_t competition_readable::is_disabled(bool &result) {
-        result = disabled;
-        return SUCCESS;
+    void destroy_competition(){
+        delete (competition);
     }
 }

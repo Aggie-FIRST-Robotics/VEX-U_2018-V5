@@ -9,32 +9,39 @@
 
 namespace AFR::VexU::BaseReadable{
     class controller_readable : public readable{
-        pros::Controller controller_;
-
-        std::unordered_map<pros::controller_digital_e_t, bool> digital_map_;
-        std::unordered_map<pros::controller_analog_e_t, int32_t> analog_map_;
-
         void update_private(const double& delta_seconds) override;
 
-    public:
-        controller_readable(const scheduled_update_t& update_period, const pros::controller_id_e_t& controller,
-                            error_t* result = nullptr);
+    protected:
+        pros::controller_id_e_t controller_;
 
-        error_t digital_is_pressed(const pros::controller_digital_e_t& button, bool& result);
-        error_t get_analog_value(const pros::controller_analog_e_t& analog, int32_t& result);
+    public:
+        explicit controller_readable(pros::controller_id_e_t controller);
     };
 
-    namespace Controller{
-        const scheduled_update_t driver_update_period{50};
-        const scheduled_update_t operator_update_period{50};
+    class controller_analog_readable : public controller_readable{
+        pros::controller_analog_e_t channel_;
 
-        extern controller_readable* driver_controller;
-        extern controller_readable* operator_controller;
+    public:
+        controller_analog_readable(pros::controller_id_e_t controller, pros::controller_analog_e_t channel);
 
-        error_t init();
-        error_t update();
-        error_t destroy();
-    }
+        std::any get_value() override;
+    };
+
+    class controller_digital_readable : public controller_readable{
+        pros::controller_digital_e_t button_;
+
+    public:
+        controller_digital_readable(pros::controller_id_e_t controller, pros::controller_digital_e_t button);
+
+        std::any get_value() override;
+    };
+
+    controller_analog_readable*
+    get_controller_analog_readable(pros::controller_id_e_t controller, pros::controller_analog_e_t channel);
+    controller_digital_readable* get_controller_digital_readable(pros::controller_id_e_t controller,
+                                                                 pros::controller_digital_e_t button);
+
+    void destroy_controllers();
 }
 
 #endif //VEX_U_2018_V5_CONTROLLER_READABLE_H
