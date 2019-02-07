@@ -63,7 +63,8 @@ namespace AFR::VexU::Robot::Drive {
         topleftmotor = new motor_commandable{LEFT_RAIL_MOTOR_A_PORT, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
         toprightmotor = new BaseCommandable::motor_commandable{RIGHT_RAIL_MOTOR_A_PORT, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
         bottomleftmotor = new BaseCommandable::motor_commandable{LEFT_RAIL_MOTOR_B_PORT, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
-        bottomrightmotor = new BaseCommandable::motor_commandable{RIGHT_RAIL_MOTOR_B_PROT, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
+        bottomrightmotor = new BaseCommandable::motor_commandable{RIGHT_RAIL_MOTOR_B_PORT, pros::E_MOTOR_GEARSET_36,
+                                                                  true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
 
 
         start_topleftmotor = new set_value_action<int16_t>{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *topleftmotor, 0};

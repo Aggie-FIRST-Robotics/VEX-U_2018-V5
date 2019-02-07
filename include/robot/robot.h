@@ -4,19 +4,19 @@
 #include "afr-vexu-lib/defines.h"
 
 namespace AFR::VexU::Robot{
-    const port_t RIGHT_RAIL_MOTOR_A_PORT = 11;
-    const port_t RIGHT_RAIL_MOTOR_B_PROT = 20;
-    const port_t LEFT_RAIL_MOTOR_A_PORT = 13;
-    const port_t LEFT_RAIL_MOTOR_B_PORT = 12;
-    const port_t NAUTILUS_MOTOR_PORT = 14;
-    const port_t ARM_MOTOR_A_PORT = 17;
-    const port_t ARM_MOTOR_B_PORT = 16;
-    const port_t ELEVATOR_MOTOR_PORT = 8;
-    const port_t INTAKE_MOTOR_PORT = 10;
+    const port_t RIGHT_RAIL_MOTOR_A_PORT = 16;      // 2/6/19
+    const port_t RIGHT_RAIL_MOTOR_B_PORT = 19;      // 2/6/19
+    const port_t LEFT_RAIL_MOTOR_A_PORT = 14;       // 2/6/19
+    const port_t LEFT_RAIL_MOTOR_B_PORT = 15;       // 2/6/19
+    const port_t NAUTILUS_MOTOR_PORT = 12;          // 2/6/19
+    const port_t ARM_MOTOR_RIGHT_PORT = 17;         // 2/6/19
+    const port_t ARM_MOTOR_LEFT_PORT = 13;          // 2/6/19
+    const port_t ELEVATOR_MOTOR_PORT = 18;          // 2/6/19
+    const port_t INTAKE_MOTOR_PORT = 10;            // 2/6/19
 
-    const port_t NAUTILUS_LIMIT_SWITCH_PORT = 1;
-    const port_t ARM_LIMIT_SWITCH_TOP_PORT = 2;
-    const port_t ARM_LIMIT_SWITCH_BOTTOM_PORT = 3;
+    const port_t NAUTILUS_LIMIT_SWITCH_PORT = 7;    // 2/6/19
+    const port_t ARM_LIMIT_SWITCH_BOTTOM_PORT = 1;  // 2/6/19
+    const port_t VEE_LIMIT_SWITCH_PORT = 2;         // 2/6/19
 
     const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
 
