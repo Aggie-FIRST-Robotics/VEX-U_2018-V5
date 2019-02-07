@@ -4,8 +4,12 @@
 #include "afr-vexu-lib/action.h"
 
 namespace AFR::VexU::Robot::Drive{
-    class arcade_drive_action : action{
+    class arcade_drive_action : public action{
         bool is_right;
+        pros::controller_analog_e_t right_stick_;
+        pros::controller_analog_e_t left_stick_;
+
+
 
         error_t update_private(const double& delta_seconds) override;
 
