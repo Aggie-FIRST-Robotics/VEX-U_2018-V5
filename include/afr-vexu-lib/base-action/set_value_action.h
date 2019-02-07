@@ -19,15 +19,14 @@ namespace AFR::VexU::BaseAction{
          * @param update_period passed to scheduled
          * @param commandable the commandable to set
          * @param value the constant value to be set
-         * @param result error_t value if error encountered
+         * @param name error_t value if error encountered
          */
-        set_value_action(const scheduled_update_t& update_period, commandable& commandable, const T& value,
-                         error_t* result = nullptr);
+        set_value_action(scheduled_update_t update_period, commandable* commandable, T value, const std::string& name);
 
-        error_t set_value(const T& value);
+        void set_value(T value);
     };
 }
 
-#include "afr-vexu-lib/base-action/set_value_action.cpp"
+#include "../../../src/afr-vexu-lib/base-action/set_value_action.cpp"
 
 #endif //VEX_U_2018_V5_SET_VALUE_H

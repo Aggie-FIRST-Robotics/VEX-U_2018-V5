@@ -7,13 +7,13 @@
 
 namespace AFR::VexU::BaseCommandable{
     class adi_analog_commandable : public commandable{
-        pros::ADIAnalogOut adi_analog_out;
+        port_t port_;
 
         void set_value_private(const std::any& value) override;
         void check_value_private(const std::any& value) override;
 
     public:
-        explicit adi_analog_commandable(const uint8_t& port, error_t* result = nullptr);
+        explicit adi_analog_commandable(port_t port, const std::string& name);
 
         std::type_index get_type() const override;
     };

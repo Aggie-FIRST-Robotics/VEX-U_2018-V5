@@ -6,11 +6,11 @@
 #include "afr-vexu-lib/readable.h"
 
 namespace AFR::VexU::BaseReadable {
-    class battery_capacity_readable : public readable{
+    class battery_readable : public readable{
         void update_private(const double& delta_seconds) override;
 
     public:
-        battery_capacity_readable();
+        battery_readable();
 
         std::any get_value() override;
     };
@@ -42,7 +42,7 @@ namespace AFR::VexU::BaseReadable {
         std::any get_value() override;
     };
 
-    extern battery_capacity_readable* battery_capacity;
+    extern battery_readable* battery_capacity;
     extern battery_current_readable* battery_current;
     extern battery_temperature_readable* battery_temperature;
     extern battery_voltage_readable* battery_voltage;

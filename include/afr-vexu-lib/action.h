@@ -15,7 +15,7 @@ namespace AFR::VexU{
      */
     class action : public scheduled, public nameable{
     protected:
-        commandable& commandable_;  ///Reference to the commandable this action commands
+        commandable* commandable_;  ///Reference to the commandable this action commands
 
     public:
         /**
@@ -24,7 +24,7 @@ namespace AFR::VexU{
          * @param commandable the commandable this action commands
          * @param result error_t value if error encountered
          */
-        explicit action(scheduled_update_t update_period, commandable& commandable, const std::string& name);
+        explicit action(scheduled_update_t update_period, commandable* commandable, const std::string& name);
 
         virtual void on_state_entry(state* previous_state);
         virtual void on_state_exit(state* next_state);
