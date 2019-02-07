@@ -18,7 +18,26 @@ namespace AFR::VexU::Robot{
     const port_t ARM_LIMIT_SWITCH_BOTTOM_PORT = 1;  // 2/6/19
     const port_t VEE_LIMIT_SWITCH_PORT = 2;         // 2/6/19
 
+    const pros::motor_gearset_e_t RIGHT_RAIL_MOTOR_A_GEARSET = pros::E_MOTOR_GEARSET_06;
+    const pros::motor_gearset_e_t RIGHT_RAIL_MOTOR_B_GEARSET = pros::E_MOTOR_GEARSET_06;
+    const pros::motor_gearset_e_t LEFT_RAIL_MOTOR_A_GEARSET = pros::E_MOTOR_GEARSET_06;
+    const pros::motor_gearset_e_t LEFT_RAIL_MOTOR_B_GEARSET = pros::E_MOTOR_GEARSET_06;
+    const pros::motor_gearset_e_t NAUTILUS_MOTOR_GEARSET = pros::E_MOTOR_GEARSET_18;
+    const pros::motor_gearset_e_t ARM_MOTOR_RIGHT_GEARSET = pros::E_MOTOR_GEARSET_36;
+    const pros::motor_gearset_e_t ARM_MOTOR_LEFT_GEARSET = pros::E_MOTOR_GEARSET_36;
+    const pros::motor_gearset_e_t ELEVATOR_MOTOR_GEARSET = pros::E_MOTOR_GEARSET_36;
+    const pros::motor_gearset_e_t INTAKE_MOTOR_GEARSET = pros::E_MOTOR_GEARSET_18;
+
+    const pros::motor_brake_mode_e_t RIGHT_RAIL_MOTOR_A_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const pros::motor_brake_mode_e_t RIGHT_RAIL_MOTOR_B_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const pros::motor_brake_mode_e_t LEFT_RAIL_MOTOR_A_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const pros::motor_brake_mode_e_t LEFT_RAIL_MOTOR_B_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const pros::motor_brake_mode_e_t NAUTILUS_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
+
+
     const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
+    const pros::controller_analog_e_t LEFT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
+    const pros::controller_analog_e_t RIGHT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_X;
 
     void init_robot();
     void competition_init();

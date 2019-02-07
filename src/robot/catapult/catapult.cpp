@@ -75,21 +75,12 @@ namespace AFR::VexU::Robot::Catapult{
         using namespace BaseReadable;
         using namespace BaseAction;
 
-        nautilus_motor = new motor_commandable{
-                NAUTILUS_MOTOR_PORT,
-                pros::E_MOTOR_GEARSET_INVALID,
-                false,
-                pros::E_MOTOR_BRAKE_INVALID
-        };
+        nautilus_motor = new motor_commandable{NAUTILUS_MOTOR_PORT, NAUTILUS_MOTOR_GEARSET, false,
+                                               NAUTILUS_MOTOR_BRAKE_MODE};
 
         nautilus_limit_switch = new adi_digital_readable{LIMIT_SWITCH_UPDATE_PERIOD, NAUTILUS_LIMIT_SWITCH_PORT};
-        nautilus_encoder = new motor_encoder_readable{
-                NAUTILUS_MOTOR_PORT,
-                pros::E_MOTOR_GEARSET_INVALID,
-                false,
-                1.0,
-                ENCODER_UPDATE_PERIOD
-        };
+        nautilus_encoder = new motor_encoder_readable{NAUTILUS_MOTOR_PORT, NAUTILUS_MOTOR_GEARSET, false, 1.0,
+                                                      ENCODER_UPDATE_PERIOD};
 
         hold_nautilus_action = new set_value_action<int16_t>{HOLD_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, -10};
         cock_nautilus_action = new set_value_action<int16_t>{COCK_NAUTILUS_UPDATE_PERIOD, *nautilus_motor, 50};
@@ -104,7 +95,13 @@ namespace AFR::VexU::Robot::Catapult{
         cock_to_hold = [](bool& result) -> error_t{
             std::any out{};
             AFR_VEXU_INTERNAL_CALL(nautilus_limit_switch->get_value(out));
-            result = std::any_cast<bool>(out);
+            try{
+                result = std::any_cast<bool>(out);
+            }
+            catch(std::bad_any_cast& e){
+                std::cerr << "Error Here! 5" << std::endl;
+                throw e;
+            }
             AFR_VEXU_INTERNAL_CALL(nautilus_encoder->tare_position());
             return SUCCESS;
         };

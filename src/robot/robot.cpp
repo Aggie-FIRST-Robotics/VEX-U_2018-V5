@@ -2,14 +2,24 @@
 
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "robot/catapult/catapult.h"
+#include "robot/drive/drive.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 namespace AFR::VexU::Robot{
     void init_robot(){
-        BaseReadable::Controller::init();
+        try{
+            BaseReadable::Controller::init();
 
-        Catapult::init();
+            Catapult::init();
+            Drive::init();
+        }
+        catch(std::exception& e){
+            std::cerr << "Init error" << std::endl;
+            std::cerr << e.what() << std::endl;
+
+            throw std::runtime_error{"Init error"};
+        }
     }
 
     void competition_init(){
@@ -21,13 +31,24 @@ namespace AFR::VexU::Robot{
     }
 
     void opcontrol_robot(){
-        while(true){
-            BaseReadable::Controller::update();
-            Catapult::catapult_subsystem->updateInputs();
+        try{
+            while(true){
+                BaseReadable::Controller::update();
+                Catapult::catapult_subsystem->updateInputs();
+                Drive::drive_subsystem->updateInputs();
 
-            Catapult::catapult_subsystem->updateStates();
+                Catapult::catapult_subsystem->updateStates();
+                Drive::drive_subsystem->updateStates();
 
-            Catapult::catapult_subsystem->updateActions();
+                Catapult::catapult_subsystem->updateActions();
+                Drive::drive_subsystem->updateActions();
+            }
+        }
+        catch(std::exception& e){
+            std::cerr << "OpControl error" << std::endl;
+            std::cerr << e.what() << std::endl;
+
+            throw std::runtime_error{"OpControl error"};
         }
     }
 

@@ -11,5 +11,5 @@ AFR::VexU::error_t AFR::VexU::BaseReadable::adi_digital_readable::update_private
 AFR::VexU::BaseReadable::adi_digital_readable::adi_digital_readable(const scheduled_update_t& update_period,
                                                                     const std::uint8_t& port,
                                                                     AFR::VexU::error_t* result)
-                                                                    : readable(update_period, 0, result),
-                                                                      digital(port) {}
+        : readable(update_period, false, result),
+          digital(port) {}

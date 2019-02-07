@@ -3,13 +3,30 @@
 #include "afr-vexu-lib/defines.h"
 
 AFR::VexU::error_t AFR::VexU::BaseCommandable::motor_commandable::set_value_private(const std::any& value){
-    AFR_PROS_INTERNAL_CALL(motor.move_velocity(std::any_cast<int16_t>(value)), PROS_ERR);
+    try{
+        AFR_PROS_INTERNAL_CALL(motor.move_velocity(std::any_cast<int16_t>(value)), PROS_ERR);
+    }
+    catch(std::bad_any_cast& e){
+        std::cerr << "1" << std::endl;
+        std::cerr << e.what() << std::endl;
+
+        return GENERIC_FAILURE;
+    }
     return SUCCESS;
 }
 
 AFR::VexU::error_t AFR::VexU::BaseCommandable::motor_commandable::check_value_private(const std::any& value){
     if(std::type_index(value.type()) == std::type_index(typeid(int16_t))){
-        auto real_value = std::any_cast<int16_t>(value);
+        int16_t real_value = 0;
+        try{
+            real_value = std::any_cast<int16_t>(value);
+        }
+        catch(std::bad_any_cast& e){
+            std::cerr << "2" << std::endl;
+            std::cerr << e.what() << std::endl;
+
+            return GENERIC_FAILURE;
+        }
         if(real_value < -12000 || real_value > 12000){
             return INVALID_VALUE;
         }

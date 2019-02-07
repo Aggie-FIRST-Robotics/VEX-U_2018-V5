@@ -1,7 +1,5 @@
 #include "main.h"
 
-#include <functional>
-
 #include "robot/robot.h"
 
 /**

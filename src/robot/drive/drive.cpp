@@ -1,5 +1,5 @@
-#include <afr-vexu-lib/base-readable/controller_readable.h>
-#include <robot/drive/arcade_drive_action.h>
+#include "afr-vexu-lib/base-readable/controller_readable.h"
+#include "robot/drive/arcade_drive_action.h"
 #include "robot/drive/drive.h"
 
 namespace AFR::VexU::Robot::Drive {
@@ -12,10 +12,10 @@ namespace AFR::VexU::Robot::Drive {
     BaseReadable::controller_readable *controller = nullptr;
 
     //Actions
-    BaseAction::set_value_action<int16_t> *start_topleftmotor = nullptr;
-    BaseAction::set_value_action<int16_t> *start_toprightmotor = nullptr;
-    BaseAction::set_value_action<int16_t> *start_bottomrightmotor = nullptr;
-    BaseAction::set_value_action<int16_t> *start_bottomleftmotor = nullptr;
+    arcade_drive_action* start_topleftmotor = nullptr;
+    arcade_drive_action* start_toprightmotor = nullptr;
+    arcade_drive_action* start_bottomrightmotor = nullptr;
+    arcade_drive_action* start_bottomleftmotor = nullptr;
 
 
     //Action Map
@@ -52,6 +52,8 @@ namespace AFR::VexU::Robot::Drive {
     //State controller map
     std::unordered_map<std::string, state_controller &> state_machines{};
 
+    subsystem_controller* drive_subsystem = nullptr;
+
 
     /*void arcadedrive(const std::int32_t &leftpower_, const std::int32_t &rightpower_) {
         topleftmotor->set_value(rightpower_ - leftpower_);
@@ -60,31 +62,33 @@ namespace AFR::VexU::Robot::Drive {
         bottomrightmotor->set_value(rightpower_ + leftpower_);
     }*/
 
-    void in5it() {
+    void init(){
         using namespace BaseCommandable;
         using namespace BaseReadable;
         using namespace BaseAction;
 
-        topleftmotor = new motor_commandable{LEFT_RAIL_MOTOR_A_PORT, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
-        toprightmotor = new BaseCommandable::motor_commandable{RIGHT_RAIL_MOTOR_A_PORT, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
-        bottomleftmotor = new BaseCommandable::motor_commandable{LEFT_RAIL_MOTOR_B_PORT, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
-        bottomrightmotor = new BaseCommandable::motor_commandable{RIGHT_RAIL_MOTOR_B_PORT, pros::E_MOTOR_GEARSET_36,
-                                                                  true, pros::E_MOTOR_BRAKE_BRAKE, nullptr};
+        topleftmotor = new motor_commandable{LEFT_RAIL_MOTOR_A_PORT, LEFT_RAIL_MOTOR_A_GEARSET, true,
+                                             LEFT_RAIL_MOTOR_A_BRAKE_MODE, nullptr};
+        toprightmotor = new motor_commandable{RIGHT_RAIL_MOTOR_A_PORT, RIGHT_RAIL_MOTOR_A_GEARSET, true,
+                                              RIGHT_RAIL_MOTOR_A_BRAKE_MODE, nullptr};
+        bottomleftmotor = new motor_commandable{LEFT_RAIL_MOTOR_B_PORT, LEFT_RAIL_MOTOR_B_GEARSET, true,
+                                                LEFT_RAIL_MOTOR_B_BRAKE_MODE, nullptr};
+        bottomrightmotor = new motor_commandable{RIGHT_RAIL_MOTOR_B_PORT, RIGHT_RAIL_MOTOR_B_GEARSET, true,
+                                                 RIGHT_RAIL_MOTOR_B_BRAKE_MODE, nullptr};
 
-
-        start_topleftmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *topleftmotor, pros::controller_analog_e_t,
-                pros::controller_analog_e_t, false};
-        start_toprightmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *toprightmotor, pros::controller_analog_e_t,
-                                                      pros::controller_analog_e_t, true};
-        start_bottomleftmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *bottomrightmotor, pros::controller_analog_e_t,
-                                                        pros::controller_analog_e_t, false};
-        start_bottomrightmotor = new  arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *bottomrightmotor, pros::controller_analog_e_t,
-                                                             pros::controller_analog_e_t, true};
+        start_topleftmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *topleftmotor,
+                                                     LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, false};
+        start_toprightmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *toprightmotor,
+                                                      LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, true};
+        start_bottomleftmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *bottomrightmotor,
+                                                        LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, false};
+        start_bottomrightmotor = new arcade_drive_action{START_BOTTOMLEFTMOTOR_UPDATE_PERIOD, *bottomrightmotor,
+                                                         LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, true};
 
         to_start=[](bool& result) -> error_t{
                 return SUCCESS;
         };
-        start_transitions.emplace_back(to_start, "to_start");
+        start_transitions.emplace_back(to_start, "start");
 
         on_start_entry=[](const std::string& last_state) -> error_t{
             return SUCCESS;
@@ -132,12 +136,7 @@ namespace AFR::VexU::Robot::Drive {
         delete(start);
         delete(drive_state_machine);
         delete(drive_subsystem);
-
-
     }
-
-
-
 };
 
 
