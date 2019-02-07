@@ -27,6 +27,7 @@ error_t intake_action::update_private(const double& delta_seconds){
             AFR_VEXU_INTERNAL_CALL(commandable_.set_value(6000))
         }
 
+        return SUCCESS;
     }
 
 
