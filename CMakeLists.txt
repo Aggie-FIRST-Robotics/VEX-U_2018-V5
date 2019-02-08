@@ -24,7 +24,7 @@ set(
         only_test_src_files
         ${afr-vexu-lib-test-src}
         ${robot-test-src}
-)
+        include/robot/cap/cap.h src/robot/cap/cap.cpp)
 
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(

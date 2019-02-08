@@ -9,15 +9,15 @@
 #ifndef VEX_U_2018_V5_INTAKE_ACTION_H
 #define VEX_U_2018_V5_INTAKE_ACTION_H
 
-//VEX_U_2018_V5_INTAKE_ACTION_H
+#endif //VEX_U_2018_V5_INTAKE_ACTION_H
 
 namespace AFR::VexU::Robot::Cap{
 
     class intake_action : public action{
-
+        error_t update_private(const double &delta_seconds) override;
         pros::controller_digital_e_t right_;
         pros::controller_digital_e_t left_;
-        void update_private(const double& delta_seconds) override;
+
 
     public:
         intake_action(const scheduled_update_t& update_period, commandable& commandable,
@@ -31,4 +31,3 @@ namespace AFR::VexU::Robot::Cap{
 
 
 }
-#endif
