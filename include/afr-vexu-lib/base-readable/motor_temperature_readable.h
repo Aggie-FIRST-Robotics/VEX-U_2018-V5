@@ -10,8 +10,7 @@ namespace AFR::VexU::BaseReadable {
     * Represents motor temperature
     */
     class motor_temperature_readable : public readable {
-        pros::Motor prosmotor;
-        double temperature;
+        port_t port_;
 
         /**
          * Overrides scheduled, updates private period
@@ -25,16 +24,16 @@ namespace AFR::VexU::BaseReadable {
          * Creates a motor temperature readable
          * @param port smart cable port
          * @param update_period the update period for the readable
-         * @param result error_t value if error encountered
+         * @param name error_t value if error encountered
          */
-        motor_temperature_readable(const std::uint8_t& port, const scheduled_update_t& update_period, error_t* result);
+        motor_temperature_readable(port_t port, const std::string& name);
 
         /**
          * Returns motor temperature
          * @param result temperature
          * @return error_t value if error encountered
          */
-        error_t get_temperature(double &result);
+        std::any get_value() override;
     };
 
 }

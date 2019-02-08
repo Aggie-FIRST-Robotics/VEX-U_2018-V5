@@ -7,14 +7,14 @@
 
 namespace AFR::VexU::BaseCommandable {
     class adi_digital_commandable : public commandable {
-        pros::ADIDigitalOut adi_digital_out;
+        port_t port_;
 
         void set_value_private(const std::any& value) override;
 
         void check_value_private(const std::any& value) override;
 
     public:
-        explicit adi_digital_commandable(const uint8_t &port, error_t *result = nullptr);
+        explicit adi_digital_commandable(port_t port, const std::string& name = nullptr);
 
         std::type_index get_type() const override;
     };

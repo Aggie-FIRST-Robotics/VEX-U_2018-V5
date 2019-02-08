@@ -1,20 +1,20 @@
 
-#include <afr-vexu-lib/base-readable/battery_capacity_readable.h>
+#include <afr-vexu-lib/base-readable/battery_readable.h>
 
-#include "afr-vexu-lib/base-readable/battery_capacity_readable.h"
+#include "afr-vexu-lib/base-readable/battery_readable.h"
 
 namespace AFR::VexU::BaseReadable {
-    battery_capacity_readable* battery_capacity = nullptr;
+    battery_readable* battery_capacity = nullptr;
     battery_current_readable* battery_current = nullptr;
     battery_temperature_readable* battery_temperature = nullptr;
     battery_voltage_readable* battery_voltage = nullptr;
 
-    void battery_capacity_readable::update_private(const double& delta_seconds){}
+    void battery_readable::update_private(const double& delta_seconds){}
 
-    battery_capacity_readable::battery_capacity_readable()
+    battery_readable::battery_readable()
             : readable(0, nullptr, "battery_capacity"){}
 
-    std::any battery_capacity_readable::get_value(){
+    std::any battery_readable::get_value(){
         return pros::c::battery_get_capacity();
     }
 
@@ -43,7 +43,7 @@ namespace AFR::VexU::BaseReadable {
     }
 
     void init_battery(){
-        battery_capacity = new battery_capacity_readable{};
+        battery_capacity = new battery_readable{};
         battery_current = new battery_current_readable{};
         battery_temperature = new battery_temperature_readable{};
         battery_voltage = new battery_voltage_readable{};

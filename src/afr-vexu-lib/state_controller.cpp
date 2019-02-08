@@ -16,7 +16,7 @@ namespace AFR::VexU{
 
     void AFR::VexU::state_controller::update_current_state(){
         for(const auto& transition : current_state_->get_transitions()){
-            if(transition.should_change_state();){
+            if(transition.should_change_state()){
                 auto last_state = current_state_;
                 auto next_state = transition.get_next_state();
                 current_state_->on_state_exit(next_state);

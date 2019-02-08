@@ -13,7 +13,7 @@ namespace AFR::VexU::BaseCommandable{
      * </p>
      */
     class motor_commandable : public commandable{
-        pros::Motor motor;
+        port_t port_;
 
         void set_value_private(const std::any& value) override;
         void check_value_private(const std::any& value) override;
@@ -25,10 +25,10 @@ namespace AFR::VexU::BaseCommandable{
          * @param gearset gearset attached to motor
          * @param reverse should be reversed
          * @param brake_mode what to do when power is 0
-         * @param result error_t value if error encountered
+         * @param name error_t value if error encountered
          */
-        motor_commandable(const port_t& port, const pros::motor_gearset_e_t& gearset, const bool& reverse,
-                          const pros::motor_brake_mode_e_t& brake_mode, error_t* result = nullptr);
+        motor_commandable(port_t port, pros::motor_gearset_e_t gearset, bool reverse,
+                          pros::motor_brake_mode_e_t brake_mode, const std::string& name = nullptr);
 
         /**
          * Type is int16_t

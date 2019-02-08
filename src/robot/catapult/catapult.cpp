@@ -116,7 +116,7 @@ namespace AFR::VexU::Robot::Catapult{
         };
         fire_to_stop = [](bool& result) -> error_t{
             double val{};
-            AFR_VEXU_INTERNAL_CALL(nautilus_encoder->get_position(val));
+            AFR_VEXU_INTERNAL_CALL(nautilus_encoder->get_position());
             result = val >= NAUTILUS_FIRE_THRESHOLD;
             return SUCCESS;
         };
