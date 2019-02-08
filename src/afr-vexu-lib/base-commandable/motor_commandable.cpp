@@ -25,7 +25,6 @@ AFR::VexU::BaseCommandable::motor_commandable::motor_commandable(port_t port, pr
                                                                  bool reverse, pros::motor_brake_mode_e_t brake_mode,
                                                                  const std::string& name)
         : commandable(static_cast<int16_t>(0), name), port_(port){
-    std::cout << "COMMANDABLE!" << std::endl;
     claim_smart(port, name);
     pros::c::motor_set_gearing(port, gearset);
     pros::c::motor_set_reversed(port, reverse);
@@ -33,6 +32,5 @@ AFR::VexU::BaseCommandable::motor_commandable::motor_commandable(port_t port, pr
 }
 
 std::type_index AFR::VexU::BaseCommandable::motor_commandable::get_type() const{
-    std::cout << "fshfiah" << std::endl;
     return typeid(int16_t);
 }

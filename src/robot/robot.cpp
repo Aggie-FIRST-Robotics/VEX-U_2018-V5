@@ -44,6 +44,7 @@ namespace AFR::VexU::Robot{
     }
 
     void opcontrol_robot(){
+        std::cout << "OPControl Begin" << std::endl;
         while(true){
             try{
 //                Catapult::catapult_subsystem->updateInputs();
