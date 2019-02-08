@@ -31,10 +31,10 @@ namespace AFR::VexU::Robot::Cap {
 
     const scheduled_update_t CAP_SYSTEM_UPDATE_PERIOD = 100;
 
-    const order_t ARM_LIMIT_SWITCH_TOP_ORDER = 1;
-    const order_t ARM_LIMIT_SWITCH_BOTTOM_ORDER = 1;
-    const order_t ARM_ENCODER_ORDER = 1;
-    const order_t ELEVATOR_ENCODER_ORDER = 1;
+    /* const order_t ARM_LIMIT_SWITCH_TOP_ORDER = 1;
+     const order_t ARM_LIMIT_SWITCH_BOTTOM_ORDER = 1;
+     const order_t ARM_ENCODER_ORDER = 1;
+     const order_t ELEVATOR_ENCODER_ORDER = 1;*/
 
     //Subsystem controller
     extern subsystem_controller *cap_subsystem;
