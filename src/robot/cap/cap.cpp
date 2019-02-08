@@ -1,4 +1,4 @@
-#include <robot/cap/intake_action.h>
+#include "robot/cap/intake_action.h"
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "robot/cap/cap.h"
 #include "robot/robot.h"
@@ -340,35 +340,36 @@ namespace AFR::VexU::Robot::Cap {
         high_score_to_ground_all = [](bool &result) -> error_t { return SUCCESS; };
 
         //Transition vectors
-        ground_all_transitions.emplace_back(ground_all_to_ground_elevator, "ground_elevator");
-        ground_all_transitions.emplace_back(ground_all_to_ground_arm, "ground_arm");
-        ground_all_transitions.emplace_back(ground_all_to_angle, "angle");
-        ground_all_transitions.emplace_back(ground_all_to_low_prime, "low_prime");
-        ground_elevator_transitions.emplace_back(ground_elevator_to_ground, "ground");
-        ground_elevator_transitions.emplace_back(ground_elevator_to_angle, "angle");
-        ground_elevator_transitions.emplace_back(ground_elevator_to_low_prime, "low_prime");
-        ground_arm_transitions.emplace_back(ground_arm_to_ground, "ground");
-        ground_arm_transitions.emplace_back(ground_arm_to_angle, "angle");
-        ground_arm_transitions.emplace_back(ground_arm_to_low_prime, "low_prime");
-        ground_transitions.emplace_back(ground_to_flip, "flip");
-        ground_transitions.emplace_back(ground_to_angle, "angle");
-        flip_transitions.emplace_back(flip_to_ground_all, "ground_all");
-        flip_transitions.emplace_back(flip_to_angle, "angle");
-        flip_transitions.emplace_back(flip_to_low_prime, "low_prime");
-        angle_transitions.emplace_back(angle_to_low_prime, "low_prime");
-        low_prime_transitions.emplace_back(low_prime_to_high_prime, "high_prime");
-        low_prime_transitions.emplace_back(low_prime_to_angle, "angle");
-        low_prime_transitions.emplace_back(low_prime_to_ground_all, "ground_all");
-        low_prime_transitions.emplace_back(low_prime_to_low_move, "low_move");
-        low_move_transitions.emplace_back(low_move_to_low_prime, "low_prime");
-        low_move_transitions.emplace_back(low_move_to_low_score, "low_score");
-        low_score_transitions.emplace_back(low_score_to_ground_all, "ground_all");
-        high_prime_transitions.emplace_back(high_prime_to_low_prime, "low_prime");
-        high_prime_transitions.emplace_back(high_prime_to_angle, "angle");
-        high_prime_transitions.emplace_back(high_prime_to_high_move, "high_move");
-        high_move_transitions.emplace_back(high_move_to_high_prime, "high_prime");
-        high_move_transitions.emplace_back(high_move_to_high_score, "high_score");
-        high_score_transitions.emplace_back(high_score_to_ground_all, "ground_all");
+        ground_all_transitions.emplace_back(ground_all_to_ground_elevator, ground_elevator, "ground_all_to_elevatgr");
+        ground_all_transitions.emplace_back(ground_all_to_ground_arm, ground_arm, "ground_all_to_ground_arm");
+        ground_all_transitions.emplace_back(ground_all_to_angle, angle, "ground_all_to_angle");
+        ground_all_transitions.emplace_back(ground_all_to_low_prime, low_prime, "ground_all_to_low_prime");
+        ground_elevator_transitions.emplace_back(ground_elevator_to_ground, ground, "ground_elevator_to_ground");
+        ground_elevator_transitions.emplace_back(ground_elevator_to_angle, angle, "ground_elevator_to_angle");
+        ground_elevator_transitions.emplace_back(ground_elevator_to_low_prime, low_prime,
+                                                 "ground_elevator_to_low_prime");
+        ground_arm_transitions.emplace_back(ground_arm_to_ground, ground, "ground_arm_to_ground");
+        ground_arm_transitions.emplace_back(ground_arm_to_angle, angle, "ground_arm_to_angle");
+        ground_arm_transitions.emplace_back(ground_arm_to_low_prime, low_prime, "ground_arm_to_low_prime");
+        ground_transitions.emplace_back(ground_to_flip, flip, "ground_to_flip");
+        ground_transitions.emplace_back(ground_to_angle, angle, "ground_to_angle");
+        flip_transitions.emplace_back(flip_to_ground_all, ground_all, "flip_to_ground_all");
+        flip_transitions.emplace_back(flip_to_angle, angle, "flip_to_angle");
+        flip_transitions.emplace_back(flip_to_low_prime, low_prime, "flip_to_low_prime");
+        angle_transitions.emplace_back(angle_to_low_prime, low_prime, "angle_to_low_prime");
+        low_prime_transitions.emplace_back(low_prime_to_high_prime, high_prime, "low_prime_to_high_prime");
+        low_prime_transitions.emplace_back(low_prime_to_angle, angle, "low_prime_to_angle");
+        low_prime_transitions.emplace_back(low_prime_to_ground_all, ground_all, "low_prime_to_ground_all");
+        low_prime_transitions.emplace_back(low_prime_to_low_move, low_move, "low_prime_to_low_move");
+        low_move_transitions.emplace_back(low_move_to_low_prime, low_prime, "low_move_to_low_prime");
+        low_move_transitions.emplace_back(low_move_to_low_score, low_score, "low_move_to_low_score");
+        low_score_transitions.emplace_back(low_score_to_ground_all, ground_all, "low_score_to_ground_all");
+        high_prime_transitions.emplace_back(high_prime_to_low_prime, low_prime, "high_prime_to_low_prime");
+        high_prime_transitions.emplace_back(high_prime_to_angle, angle, "high_prime_to_angle");
+        high_prime_transitions.emplace_back(high_prime_to_high_move, high_move, "high_prime_to_high_move");
+        high_move_transitions.emplace_back(high_move_to_high_prime, high_prime, "high_move_to_high_prime");
+        high_move_transitions.emplace_back(high_move_to_high_score, high_score, "high_move_to_high_score");
+        high_score_transitions.emplace_back(high_score_to_ground_all, ground_all, "high_score_to_ground_all");
 
         //On-state entry functions
         on_ground_all_entry = [](state *last_state) -> void {};
