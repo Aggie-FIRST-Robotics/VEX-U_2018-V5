@@ -33,8 +33,9 @@ namespace AFR::VexU::BaseReadable {
          * @param initial_value passed to readable
          * @param name error_t passed to readable
          */
-        adi_analog_readable(port_t port, scheduled_update_t update_period, const std::any& initial_value,
-                            const std::string& name);
+        adi_analog_readable(port_t port, const std::string& name);
+
+        std::any get_value() override;
     };
 
 }

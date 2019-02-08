@@ -1,5 +1,4 @@
-
-#include <afr-vexu-lib/subsystem_controller.h>
+#include "afr-vexu-lib/subsystem_controller.h"
 
 namespace AFR::VexU{
     subsystem_controller::subsystem_controller(
@@ -26,7 +25,7 @@ namespace AFR::VexU{
         }
     };
 
-    readable* subsystem_controller::get_input(size_t name) const{
+    readable* subsystem_controller::get_input(const std::string& name) const{
         for(auto ordered_input : inputs_){
             if(ordered_input->get_name() == name){
                 return ordered_input;

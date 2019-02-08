@@ -1,3 +1,6 @@
+#include "afr-vexu-lib/base-readable/battery_readable.h"
+#include "afr-vexu-lib/base-readable/competition_readable.h"
+#include "afr-vexu-lib/ports_list.h"
 #include "robot/robot.h"
 
 #include "afr-vexu-lib/base-readable/controller_readable.h"
@@ -9,10 +12,15 @@
 namespace AFR::VexU::Robot{
     void init_robot(){
         try{
-            BaseReadable::Controller::init();
+            BaseReadable::init_battery();
+            BaseReadable::init_competition();
+
+            init_ports_list();
 
             Catapult::init();
             Drive::init();
+
+            pros::lcd::initialize();
         }
         catch(std::exception& e){
             std::cerr << "Init error" << std::endl;
@@ -20,7 +28,6 @@ namespace AFR::VexU::Robot{
 
             throw std::runtime_error{"Init error"};
         }
-        pros::lcd::initialize();
     }
 
     void competition_init(){
@@ -32,39 +39,25 @@ namespace AFR::VexU::Robot{
     }
 
     void opcontrol_robot(){
-        try{
-            ordered_input* nautilus_encoder = nullptr;
-            state_controller* state = nullptr;
-            readable* readable1 = nullptr;
-
-            Catapult::catapult_subsystem->get_input("nautilus_encoder");
-            nautilus_encoder->get_input(readable1);
-            auto* motor_encoder_readable = (BaseReadable::motor_encoder_readable*) readable1;
-            double position = 0;
-            while(true){
-                Catapult::catapult_subsystem->get_state_machine(<#initializer#>);
-//                std::cout << "State: " << state;
-//                motor_encoder_readable->get_position(position);
-                pros::lcd::print(1, std::to_string(position).c_str());
-
-                BaseReadable::Controller::update();
+        while(true){
+            try{
                 Catapult::catapult_subsystem->updateInputs();
-//                Drive::drive_subsystem->updateInputs();
+                Drive::drive_subsystem->updateInputs();
 
                 Catapult::catapult_subsystem->updateStates();
-//                Drive::drive_subsystem->updateStates();
+                Drive::drive_subsystem->updateStates();
 
                 Catapult::catapult_subsystem->updateActions();
-//                Drive::drive_subsystem->updateActions();
+                Drive::drive_subsystem->updateActions();
+            }
+            catch(std::exception& e){
+                std::cerr << "OpControl error" << std::endl;
+                std::cerr << e.what() << std::endl;
 
+                throw std::runtime_error{"OpControl error"};
             }
         }
-        catch(std::exception& e){
-            std::cerr << "OpControl error" << std::endl;
-            std::cerr << e.what() << std::endl;
 
-            throw std::runtime_error{"OpControl error"};
-        }
     }
 
     void disabled_robot(){
@@ -72,7 +65,10 @@ namespace AFR::VexU::Robot{
     }
 
     void destroy(){
-        BaseReadable::Controller::destroy();
+        BaseReadable::destroy_battery();
+        BaseReadable::destroy_competition();
+        BaseReadable::destroy_controllers();
+        destroy_ports_list();
 
         Catapult::destroy();
     }

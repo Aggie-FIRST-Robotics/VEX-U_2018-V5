@@ -4,141 +4,119 @@
 
 namespace AFR::VexU::Robot::Drive {
     //Commandables
-    BaseCommandable::motor_commandable *topleftmotor = nullptr;
-    BaseCommandable::motor_commandable *toprightmotor = nullptr;
-    BaseCommandable::motor_commandable *bottomleftmotor = nullptr;
-    BaseCommandable::motor_commandable *bottomrightmotor = nullptr;
+    BaseCommandable::motor_commandable* front_left_motor = nullptr;
+    BaseCommandable::motor_commandable* front_right_motor = nullptr;
+    BaseCommandable::motor_commandable* back_left_motor = nullptr;
+    BaseCommandable::motor_commandable* back_right_motor = nullptr;
+
     //Readables
-    BaseReadable::controller_readable *controller = nullptr;
+    BaseReadable::controller_analog_readable* left_stick = nullptr;
+    BaseReadable::controller_analog_readable* right_stick = nullptr;
 
     //Actions
-    arcade_drive_action* start_topleftmotor = nullptr;
-    arcade_drive_action* start_toprightmotor = nullptr;
-    arcade_drive_action* start_bottomrightmotor = nullptr;
-    arcade_drive_action* start_bottomleftmotor = nullptr;
-
+    arcade_drive_action* start_front_left_motor = nullptr;
+    arcade_drive_action* start_front_right_motor = nullptr;
+    arcade_drive_action* start_back_right_motor = nullptr;
+    arcade_drive_action* start_back_left_motor = nullptr;
 
     //Action Map
-    std::unordered_map<std::string, action &> start_map{};
-
-    //Transition functions
-    std::function<error_t(bool &)> to_start{};
+    std::vector<action*> start_actions{};
 
     //Transition vectors
     std::vector<transition> start_transitions{};
     //On-state entry functions
-    std::function<error_t(const std::string &)> on_start_entry{};
-
-    //Ordered inputs
-    ordered_input* joystick_order = nullptr;
+    std::function<void(state*)> on_start_entry{};
 
     //States
     state *start = nullptr;
 
-
     //State map
-    std::unordered_map<std::string, state &> state_map{};
+    std::vector<state*> states{};
 
     //Commandable map
-    std::unordered_map<std::string, commandable &> commandable_map{};
+    std::vector<commandable*> commandables{};
 
     //State controller
-    state_controller *drive_state_machine = nullptr;
+    state_controller* drive_state_machine = nullptr;
 
 
     //Ordered input map
-    std::unordered_map<std::string, ordered_input &> inputs{};
+    std::vector<readable*> inputs{};
 
     //State controller map
-    std::unordered_map<std::string, state_controller &> state_machines{};
+    std::vector<state_controller*> state_machines{};
 
     subsystem_controller* drive_subsystem = nullptr;
-
-
-    /*void arcadedrive(const std::int32_t &leftpower_, const std::int32_t &rightpower_) {
-        topleftmotor->set_value(rightpower_ - leftpower_);
-        bottomleftmotor->set_value(rightpower_ - leftpower_);
-        toprightmotor->set_value(rightpower_ + leftpower_);
-        bottomrightmotor->set_value(rightpower_ + leftpower_);
-    }*/
 
     void init(){
         using namespace BaseCommandable;
         using namespace BaseReadable;
         using namespace BaseAction;
 
-        topleftmotor = new motor_commandable{LEFT_RAIL_MOTOR_A_PORT, LEFT_RAIL_MOTOR_A_GEARSET, true,
-                                             LEFT_RAIL_MOTOR_A_BRAKE_MODE, nullptr};
-        toprightmotor = new motor_commandable{RIGHT_RAIL_MOTOR_A_PORT, RIGHT_RAIL_MOTOR_A_GEARSET, true,
-                                              RIGHT_RAIL_MOTOR_A_BRAKE_MODE, nullptr};
-        bottomleftmotor = new motor_commandable{LEFT_RAIL_MOTOR_B_PORT, LEFT_RAIL_MOTOR_B_GEARSET, true,
-                                                LEFT_RAIL_MOTOR_B_BRAKE_MODE, nullptr};
-        bottomrightmotor = new motor_commandable{RIGHT_RAIL_MOTOR_B_PORT, RIGHT_RAIL_MOTOR_B_GEARSET, true,
-                                                 RIGHT_RAIL_MOTOR_B_BRAKE_MODE, nullptr};
+        front_left_motor = new motor_commandable{LEFT_RAIL_MOTOR_A_PORT, LEFT_RAIL_MOTOR_A_GEARSET, true,
+                                                 LEFT_RAIL_MOTOR_A_BRAKE_MODE, "front_left_motor"};
+        front_right_motor = new motor_commandable{RIGHT_RAIL_MOTOR_A_PORT, RIGHT_RAIL_MOTOR_A_GEARSET, false,
+                                                  RIGHT_RAIL_MOTOR_A_BRAKE_MODE, "front_right_motor"};
+        back_left_motor = new motor_commandable{LEFT_RAIL_MOTOR_B_PORT, LEFT_RAIL_MOTOR_B_GEARSET, true,
+                                                LEFT_RAIL_MOTOR_B_BRAKE_MODE, "back_left_motor"};
+        back_right_motor = new motor_commandable{RIGHT_RAIL_MOTOR_B_PORT, RIGHT_RAIL_MOTOR_B_GEARSET, false,
+                                                 RIGHT_RAIL_MOTOR_B_BRAKE_MODE, "back_right_motor"};
 
-        start_topleftmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *topleftmotor,
-                                                     LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, false};
-        start_toprightmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *toprightmotor,
-                                                      LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, true};
-        start_bottomleftmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *bottomrightmotor,
-                                                        LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, false};
-        start_bottomrightmotor = new arcade_drive_action{START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD, *bottomrightmotor,
-                                                         LEFT_DRIVE_STICK, RIGHT_DRIVE_STICK, true};
+        left_stick = get_controller_analog_readable(pros::E_CONTROLLER_MASTER, LEFT_DRIVE_STICK);
+        right_stick = get_controller_analog_readable(pros::E_CONTROLLER_MASTER, RIGHT_DRIVE_STICK);
 
-        to_start=[](bool& result) -> error_t{
-                return SUCCESS;
-        };
-        start_transitions.emplace_back(to_start, "start");
+        start_front_left_motor = new arcade_drive_action{START_FRONT_LEFT_MOTOR_UPDATE_PERIOD, front_left_motor,
+                                                         left_stick, right_stick, false, "start_front_left_motor"};
+        start_front_right_motor = new arcade_drive_action{START_FRONT_RIGHT_MOTOR_UPDATE_PERIOD, front_right_motor,
+                                                          left_stick, right_stick, true, "start_front_right_motor"};
+        start_back_left_motor = new arcade_drive_action{START_BACK_LEFT_MOTOR_UPDATE_PERIOD, back_right_motor,
+                                                        left_stick, right_stick, false, "start_back_left_motor"};
+        start_back_right_motor = new arcade_drive_action{START_BACK_RIGHT_MOTOR_UPDATE_PERIOD, back_right_motor,
+                                                         left_stick, right_stick, true, "start_back_right_motor"};
 
-        on_start_entry=[](const std::string& last_state) -> error_t{
-            return SUCCESS;
-        };
+        on_start_entry = [](state* last_state) -> void{};
 
 
-        start_map.emplace("start_topleftmotor", *start_topleftmotor);
-        start_map.emplace("start_toprightmotor", *start_toprightmotor);
-        start_map.emplace("start_bottomleftmotor", *start_bottomleftmotor);
-        start_map.emplace("start_bottomrightmotor", *start_bottomrightmotor);
-      //  AFR::VexU::Robot::BaseAction::set_value_action<int> stop_action_int{800, int_motor, 0};
-        start = new state{start_map, start_transitions, on_start_entry};
-        state_map.emplace("start", *start);
+        start_actions.push_back(start_front_left_motor);
+        start_actions.push_back(start_front_right_motor);
+        start_actions.push_back(start_back_left_motor);
+        start_actions.push_back(start_back_right_motor);
 
-        commandable_map.emplace("topleftmotor", *topleftmotor);
-        commandable_map.emplace("toprightmotor", *toprightmotor);
-        commandable_map.emplace("bottomleftmotor", *bottomleftmotor);
-        commandable_map.emplace("bottomrightmotor", *bottomrightmotor);
+        start = new state{start_actions, start_transitions, on_start_entry, "start"};
 
-//        joystick_order = new ordered_input{1, controller};
+        states.push_back(start);
 
-        //inputs.emplace("controller", *controller);
+        commandables.push_back(front_left_motor);
+        commandables.push_back(front_right_motor);
+        commandables.push_back(back_left_motor);
+        commandables.push_back(back_right_motor);
 
+        drive_state_machine = new state_controller(START_UPDATE_PERIOD, states, commandables, start,
+                                                   "drive_state_machine");
 
+        state_machines.push_back(drive_state_machine);
 
-        drive_state_machine = new state_controller(START_UPDATE_PERIOD, state_map, commandable_map, "start",
-                                                   <#initializer#>);
-
-        state_machines.emplace("main", *drive_state_machine);
-
-        drive_subsystem = new subsystem_controller(inputs, state_machines, <#initializer#>);
-
-
-
+        drive_subsystem = new subsystem_controller(inputs, state_machines, "drive_subsystem");
     }
 
     void destroy(){
-        delete(topleftmotor);
-        delete(toprightmotor);
-        delete(bottomleftmotor);
-        delete(bottomrightmotor);
-        delete(start_topleftmotor);
-        delete(start_toprightmotor);
-        delete(start_bottomrightmotor);
-        delete(start_bottomleftmotor);
+        delete (front_left_motor);
+        delete (front_right_motor);
+        delete (back_left_motor);
+        delete (back_right_motor);
+
+        delete (left_stick);
+        delete (right_stick);
+
+        delete (start_front_left_motor);
+        delete (start_front_right_motor);
+        delete (start_back_right_motor);
+        delete (start_back_left_motor);
+
         delete(start);
+
         delete(drive_state_machine);
+
         delete(drive_subsystem);
     }
 };
-
-
-

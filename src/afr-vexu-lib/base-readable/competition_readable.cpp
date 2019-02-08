@@ -1,6 +1,3 @@
-
-#include <afr-vexu-lib/base-readable/competition_readable.h>
-
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 
 namespace AFR::VexU::BaseReadable {

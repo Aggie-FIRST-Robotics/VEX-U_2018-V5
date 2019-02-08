@@ -24,6 +24,8 @@ namespace AFR::VexU::BaseReadable{
     public:
         controller_analog_readable(pros::controller_id_e_t controller, pros::controller_analog_e_t channel);
 
+        int32_t get_position();
+
         std::any get_value() override;
     };
 
@@ -32,6 +34,8 @@ namespace AFR::VexU::BaseReadable{
 
     public:
         controller_digital_readable(pros::controller_id_e_t controller, pros::controller_digital_e_t button);
+
+        bool is_pressed();
 
         std::any get_value() override;
     };

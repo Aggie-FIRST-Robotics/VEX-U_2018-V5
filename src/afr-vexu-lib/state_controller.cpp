@@ -1,15 +1,14 @@
-
-#include <afr-vexu-lib/state_controller.h>
+#include "afr-vexu-lib/state_controller.h"
 
 namespace AFR::VexU{
     void state_controller::update_private(const double& delta_seconds){
         update_current_state();
     };
 
-    state_controller::state_controller(const scheduled_update_t& update_period, const std::vector<state*>& state_map,
-                                       const std::vector<commandable*>& commandable_map, state* initial_state,
+    state_controller::state_controller(const scheduled_update_t& update_period, const std::vector<state*>& states,
+                                       const std::vector<commandable*>& commandables, state* initial_state,
                                        const std::string& name)
-            : scheduled(update_period), nameable(name), states_(state_map), commandables_(commandable_map),
+            : scheduled(update_period), nameable(name), states_(states), commandables_(commandables),
               current_state_(initial_state){
         current_state_->on_state_entry(current_state_);
     }

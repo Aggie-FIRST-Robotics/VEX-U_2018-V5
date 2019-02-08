@@ -1,6 +1,3 @@
-
-#include <afr-vexu-lib/base-readable/controller_readable.h>
-
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 
 namespace AFR::VexU::BaseReadable{
@@ -20,6 +17,10 @@ namespace AFR::VexU::BaseReadable{
             : controller_readable(controller), channel_(channel){}
 
     std::any controller_analog_readable::get_value(){
+        return get_position();
+    }
+
+    int32_t controller_analog_readable::get_position(){
         return pros::c::controller_get_analog(controller_, channel_);
     }
 
@@ -28,7 +29,11 @@ namespace AFR::VexU::BaseReadable{
             : controller_readable(controller), button_(button){}
 
     std::any controller_digital_readable::get_value(){
-        return pros::c::controller_get_digital(controller_, button_);
+        return is_pressed();
+    }
+
+    bool controller_digital_readable::is_pressed(){
+        return pros::c::controller_get_digital(controller_, button_) == 1;
     }
 
     controller_analog_readable*

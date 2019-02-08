@@ -26,8 +26,10 @@ namespace AFR::VexU::BaseReadable{
           * @param port v5 port to use
           * @param name error_t value if error encountered
           */
-         adi_digital_readable(port_t port, scheduled_update_t update_period, bool initial_value,
-                              const std::string& name = nullptr);
+         adi_digital_readable(port_t port, const std::string& name);
+
+         bool is_pressed();
+         std::any get_value() override;
      };
 }
 

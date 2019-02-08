@@ -1,32 +1,23 @@
 #include "robot/drive/arcade_drive_action.h"
+
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 
 namespace AFR::VexU::Robot::Drive{
-    arcade_drive_action::arcade_drive_action(const AFR::VexU::scheduled_update_t& update_period,
-                                             AFR::VexU::commandable& commandable,
-                                             pros::controller_analog_e_t left_stick,
-                                             pros::controller_analog_e_t right_stick,
-                                             bool is_right) :
-            action(update_period, commandable, <#initializer#>), is_right(is_right){
-        right_stick_=right_stick;
-        left_stick_=left_stick;
-    }
+    arcade_drive_action::arcade_drive_action(scheduled_update_t update_period, commandable* commandable,
+                                             BaseReadable::controller_analog_readable* left_stick,
+                                             BaseReadable::controller_analog_readable* right_stick, bool is_right,
+                                             const std::string& name)
+            : action(update_period, commandable, name), is_right(is_right), left_stick_(left_stick),
+              right_stick_(right_stick){}
 
     void arcade_drive_action::update_private(const double& delta_seconds){
-        int32_t right_val;
-        int32_t left_val;
-        AFR_VEXU_INTERNAL_CALL(BaseReadable::Controller::driver_controller->get_analog_value(right_stick_, right_val));
-        AFR_VEXU_INTERNAL_CALL(BaseReadable::Controller::driver_controller->get_analog_value(left_stick_, left_val));
+        auto right_val = right_stick_->get_position();
+        auto left_val = left_stick_->get_position();
         if(is_right){
-
-            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(left_val - right_val)));
+            commandable_->set_value(int16_t((left_val - right_val) * 12000 / 128));
         }
         else{
-            AFR_VEXU_INTERNAL_CALL(commandable_.set_value(int16_t(left_val + right_val)));
+            commandable_->set_value(int16_t((left_val + right_val) * 12000 / 128));
         }
-        return SUCCESS;
     }
-
-
-
 }

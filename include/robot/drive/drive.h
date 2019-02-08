@@ -10,22 +10,17 @@
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 
 namespace AFR::VexU::Robot::Drive {
+    const scheduled_update_t START_UPDATE_PERIOD = 1000;
 
-    const scheduled_update_t START_TOPLEFTMOTOR_UPDATE_PERIOD = 10;
-    const scheduled_update_t START_UPDATE_PERIOD = 10;
-    const scheduled_update_t START_TOP_RIGHT_MOTOR_UPDATE_PERIOD = 10;
-    const scheduled_update_t START_BOTTOM_LEFT_MOTOR_UPDATE_PERIOD = 10;
-    const scheduled_update_t START_BOTTOMRIGHTMOTOR_UPDATE_PERIOD = 10;
+    const scheduled_update_t START_FRONT_LEFT_MOTOR_UPDATE_PERIOD = 10;
+    const scheduled_update_t START_FRONT_RIGHT_MOTOR_UPDATE_PERIOD = 10;
+    const scheduled_update_t START_BACK_LEFT_MOTOR_UPDATE_PERIOD = 10;
+    const scheduled_update_t START_BACK_RIGHT_MOTOR_UPDATE_PERIOD = 10;
+
     extern subsystem_controller *drive_subsystem;
 
-
     void init();
-
-    void arcadedrive(const std::int32_t &leftpower_, const std::int32_t &rightpower_);
-
     void destroy();
-
-
 }
 
 #endif //VEX_U_2018_V5_DRIVE_H

@@ -28,7 +28,7 @@ namespace AFR::VexU::BaseCommandable{
          * @param name error_t value if error encountered
          */
         motor_commandable(port_t port, pros::motor_gearset_e_t gearset, bool reverse,
-                          pros::motor_brake_mode_e_t brake_mode, const std::string& name = nullptr);
+                          pros::motor_brake_mode_e_t brake_mode, const std::string& name);
 
         /**
          * Type is int16_t
