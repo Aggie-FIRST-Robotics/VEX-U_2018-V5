@@ -55,4 +55,8 @@ namespace AFR::VexU{
     std::vector<commandable*>& state_controller::get_commandables(){
         return commandables_;
     }
+
+    state* state_controller::get_current_state(){
+        return current_state_;
+    }
 }

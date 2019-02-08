@@ -19,5 +19,6 @@ namespace AFR::VexU::Robot::Drive{
         else{
             commandable_->set_value(int16_t((left_val + right_val) * 12000 / 128));
         }
+        std::cout << get_name() << " value: " << std::any_cast<int16_t>(commandable_->get_current_value());
     }
 }
