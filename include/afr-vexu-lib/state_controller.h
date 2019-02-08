@@ -60,6 +60,7 @@ namespace AFR::VexU{
          */
         state* get_state(const std::string& name);
         std::vector<state*>& get_states();
+        state* get_current_state();
         /**
          * Gets a commandable by string
          * @param name the string to search for

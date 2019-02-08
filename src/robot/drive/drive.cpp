@@ -53,8 +53,10 @@ namespace AFR::VexU::Robot::Drive {
         using namespace BaseReadable;
         using namespace BaseAction;
 
+        std::cout << "Spot 5" << std::endl;
         front_left_motor = new motor_commandable{LEFT_RAIL_MOTOR_A_PORT, LEFT_RAIL_MOTOR_A_GEARSET, true,
                                                  LEFT_RAIL_MOTOR_A_BRAKE_MODE, "front_left_motor"};
+        std::cout << "Spot 6" << std::endl;
         front_right_motor = new motor_commandable{RIGHT_RAIL_MOTOR_A_PORT, RIGHT_RAIL_MOTOR_A_GEARSET, false,
                                                   RIGHT_RAIL_MOTOR_A_BRAKE_MODE, "front_right_motor"};
         back_left_motor = new motor_commandable{LEFT_RAIL_MOTOR_B_PORT, LEFT_RAIL_MOTOR_B_GEARSET, true,
@@ -62,8 +64,12 @@ namespace AFR::VexU::Robot::Drive {
         back_right_motor = new motor_commandable{RIGHT_RAIL_MOTOR_B_PORT, RIGHT_RAIL_MOTOR_B_GEARSET, false,
                                                  RIGHT_RAIL_MOTOR_B_BRAKE_MODE, "back_right_motor"};
 
+        std::cout << "Spot 3" << std::endl;
+
         left_stick = get_controller_analog_readable(pros::E_CONTROLLER_MASTER, LEFT_DRIVE_STICK);
         right_stick = get_controller_analog_readable(pros::E_CONTROLLER_MASTER, RIGHT_DRIVE_STICK);
+
+        std::cout << "Spot 4" << std::endl;
 
         start_front_left_motor = new arcade_drive_action{START_FRONT_LEFT_MOTOR_UPDATE_PERIOD, front_left_motor,
                                                          left_stick, right_stick, false, "start_front_left_motor"};
@@ -76,6 +82,7 @@ namespace AFR::VexU::Robot::Drive {
 
         on_start_entry = [](state* last_state) -> void{};
 
+        std::cout << "Spot 1" << std::endl;
 
         start_actions.push_back(start_front_left_motor);
         start_actions.push_back(start_front_right_motor);
@@ -85,6 +92,8 @@ namespace AFR::VexU::Robot::Drive {
         start = new state{start_actions, start_transitions, on_start_entry, "start"};
 
         states.push_back(start);
+
+        std::cout << "Spot 2" << std::endl;
 
         commandables.push_back(front_left_motor);
         commandables.push_back(front_right_motor);

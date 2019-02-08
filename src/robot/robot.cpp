@@ -13,12 +13,16 @@ namespace AFR::VexU::Robot{
     void init_robot(){
         try{
             BaseReadable::init_battery();
+            std::cout << "Battery Initialized" << std::endl;
             BaseReadable::init_competition();
+            std::cout << "Competition Initialized" << std::endl;
 
             init_ports_list();
+            std::cout << "Ports List Initialized" << std::endl;
 
-            Catapult::init();
+//            Catapult::init();
             Drive::init();
+            std::cout << "Drive Initialized" << std::endl;
 
             pros::lcd::initialize();
         }
@@ -28,6 +32,7 @@ namespace AFR::VexU::Robot{
 
             throw std::runtime_error{"Init error"};
         }
+        std::cout << "Initialization Complete" << std::endl;
     }
 
     void competition_init(){
@@ -41,14 +46,17 @@ namespace AFR::VexU::Robot{
     void opcontrol_robot(){
         while(true){
             try{
-                Catapult::catapult_subsystem->updateInputs();
+//                Catapult::catapult_subsystem->updateInputs();
                 Drive::drive_subsystem->updateInputs();
 
-                Catapult::catapult_subsystem->updateStates();
+//                Catapult::catapult_subsystem->updateStates();
                 Drive::drive_subsystem->updateStates();
 
-                Catapult::catapult_subsystem->updateActions();
+//                Catapult::catapult_subsystem->updateActions();
                 Drive::drive_subsystem->updateActions();
+                std::cout << "Current drive state: "
+                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
+                          << std::endl;
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;

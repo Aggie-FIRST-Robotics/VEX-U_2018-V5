@@ -25,7 +25,7 @@ namespace AFR::VexU{
             throw std::runtime_error{"Bad port " + std::to_string(port) + " for smart claim for " + name};
         }
         auto port_index = static_cast<size_t>(port - 1);
-        if(ports_list->at(port_index).empty()){
+        if(!ports_list->at(port_index).empty()){
             throw std::runtime_error{"Smart port " + std::to_string(port) + " already taken by " + get_smart_claim(port)
                                      + " trying to be claimed by " + name};
         }
@@ -47,7 +47,7 @@ namespace AFR::VexU{
             throw std::runtime_error{"Bad port " + std::to_string(port) + " for adi claim for " + name};
         }
         auto port_index = static_cast<size_t>(port + 20);
-        if(ports_list->at(port_index).empty()){
+        if(!ports_list->at(port_index).empty()){
             throw std::runtime_error{"Adi port " + std::to_string(port) + " already taken by " + get_adi_claim(port)
                                      + " trying to be claimed by " + name};
         }
