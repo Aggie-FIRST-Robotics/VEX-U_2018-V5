@@ -27,6 +27,6 @@ namespace AFR::VexU::BaseAction{
     };
 }
 
-#include "../../../src/afr-vexu-lib/base-action/set_value_action.cpp"
+#include "set_value_action.cpp"
 
 #endif //VEX_U_2018_V5_SET_VALUE_H

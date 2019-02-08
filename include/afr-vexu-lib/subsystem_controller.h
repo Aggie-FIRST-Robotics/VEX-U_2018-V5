@@ -51,7 +51,7 @@ namespace AFR::VexU{
          * @param result ordered input result by pointer
          * @return error_t value if error encountered
          */
-        readable* get_input(size_t name) const;
+        readable* get_input(const std::string& name) const;
         std::vector<readable*>& get_inputs();
         /**
          * Gets state by string

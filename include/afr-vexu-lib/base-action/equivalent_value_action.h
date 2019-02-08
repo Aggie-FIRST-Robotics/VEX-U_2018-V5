@@ -26,6 +26,6 @@ namespace AFR::VexU::BaseAction{
     };
 }
 
-#include "../../../src/afr-vexu-lib/base-action/equivalent_value_action.cpp"
+#include "equivalent_value_action.cpp"
 
 #endif //VEX_U_2018_V5_EQUIVALENT_VALUE_ACTION_H

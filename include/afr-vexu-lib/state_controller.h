@@ -29,15 +29,15 @@ namespace AFR::VexU{
         /**
          * Creates a state controller
          * @param update_period passed to scheduled
-         * @param state_map contains all states by string
-         * @param commandable_map the map of commandables by string
+         * @param states contains all states by string
+         * @param commandables the map of commandables by string
          * @param initial_state the initial state by string within state_map
          * @param result error_t value if error encountered
          */
         state_controller(
                 const scheduled_update_t& update_period,
-                const std::vector<state*>& state_map,
-                const std::vector<commandable*>& commandable_map,
+                const std::vector<state*>& states,
+                const std::vector<commandable*>& commandables,
                 state* initial_state,
                 const std::string& name);
 
