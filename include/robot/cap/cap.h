@@ -8,8 +8,8 @@
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 
 namespace AFR::VexU::Robot::Cap {
-    const scheduled_update_t LIMIT_SWITCH_TOP_UPDATE_PERIOD = 100;
-    const scheduled_update_t LIMIT_SWITCH_BOTTOM_UPDATE_PERIOD = 100;
+    const scheduled_update_t ARM_LIMIT_SWITCH_UPDATE_PERIOD = 100;
+    const scheduled_update_t ELEVATOR_LIMIT_SWITCH_UPDATE_PERIOD = 100;
     const scheduled_update_t ARM_ENCODER_UPDATE_PERIOD = 100;
     const scheduled_update_t ELEVATOR_ENCODER_UPDATE_PERIOD = 100;
 
@@ -31,8 +31,14 @@ namespace AFR::VexU::Robot::Cap {
 
     const scheduled_update_t CAP_SYSTEM_UPDATE_PERIOD = 100;
 
-    /* const order_t ARM_LIMIT_SWITCH_TOP_ORDER = 1;
-     const order_t ARM_LIMIT_SWITCH_BOTTOM_ORDER = 1;
+    const double ARM_ENCODER_LOW_SCORE_THRESHOLD = 50;
+    const double ELEVATOR_ENCODER_LOW_SCORE_THRESHOLD = 50;
+    const double ARM_ENCODER_HIGH_SCORE_THRESHOLD = 50;
+    const double ELEVATOR_ENCODER_HIGH_SCORE_THRESHOLD = 50;
+    const scheduled_update_t SCORE_TIME = 500;
+
+    /* const order_t ARM_LIMIT_SWITCH_ORDER = 1;
+     const order_t ELEVATOR_LIMIT_SWITCH_ORDER = 1;
      const order_t ARM_ENCODER_ORDER = 1;
      const order_t ELEVATOR_ENCODER_ORDER = 1;*/
 

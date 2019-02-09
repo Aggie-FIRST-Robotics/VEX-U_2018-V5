@@ -1,9 +1,5 @@
-#include "robot/cap/intake_action.h"
-#include "afr-vexu-lib/base-readable/controller_readable.h"
-
-
-namespace AFR::VexU::Robot::Cap {
-    intake_action::intake_action(const AFR::VexU::scheduled_update_t &update_period,
+namespace AFR::VexU::BaseAction {
+    intake_control_action::intake_control_action(const AFR::VexU::scheduled_update_t &update_period,
                                  AFR::VexU::commandable *commandable,
                                  AFR::VexU::BaseReadable::controller_digital_readable *left,
                                  AFR::VexU::BaseReadable::controller_digital_readable *right, const std::string &name) :
@@ -13,7 +9,7 @@ namespace AFR::VexU::Robot::Cap {
     }
 
 
-    void intake_action::update_private(const double &delta_seconds) {
+    void intake_control_action::update_private(const double &delta_seconds) {
         bool leftval = left_->is_pressed();
         bool rightval = right_->is_pressed();
 

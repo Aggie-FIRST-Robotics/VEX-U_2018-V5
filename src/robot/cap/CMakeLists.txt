@@ -9,5 +9,4 @@ set(
 set(
         robot-cap-V5-src
         src/robot/cap/cap.cpp
-        src/robot/cap/intake_action.cpp
 )
