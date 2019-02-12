@@ -23,6 +23,10 @@ namespace AFR::VexU::BaseReadable {
      * @return error_t value if error encountered
      */
     std::any motor_current_readable::get_value(){
+        return get_current();
+    }
+
+    int32_t motor_current_readable::get_current() const{
         return pros::c::motor_get_current_draw(port_);
     }
 }

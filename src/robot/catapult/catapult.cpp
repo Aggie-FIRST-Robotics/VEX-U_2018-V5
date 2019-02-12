@@ -81,14 +81,14 @@ namespace AFR::VexU::Robot::Catapult{
 
         fire_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, FIRE_BUTTON);
 
-        hold_nautilus_action = new dead_band_action<double, int16_t>{HOLD_NAUTILUS_UPDATE_PERIOD, nautilus_motor, -10,
-                                                                     10, nautilus_encoder, 0, 12000, -12000,
+        hold_nautilus_action = new dead_band_action<double, int16_t>{HOLD_NAUTILUS_UPDATE_PERIOD, nautilus_motor, -90,
+                                                                     90, nautilus_encoder, 0, 6000, -6000,
                                                                      "hold_nautilus_action"};
         cock_nautilus_action = new set_value_action<int16_t>{COCK_NAUTILUS_UPDATE_PERIOD, nautilus_motor, 12000,
                                                              "cock_nautilus_action"};
         stop_nautilus_action = new set_value_action<int16_t>{STOP_NAUTILUS_UPDATE_PERIOD, nautilus_motor, 0,
                                                              "stop_nautilus_action"};
-        fire_nautilus_action = new set_value_action<int16_t>{FIRE_NAUTILUS_UPDATE_PERIOD, nautilus_motor, 100,
+        fire_nautilus_action = new set_value_action<int16_t>{FIRE_NAUTILUS_UPDATE_PERIOD, nautilus_motor, 12000,
                                                              "fire_nautilus_action"};
 
         hold_actions.push_back(hold_nautilus_action);
