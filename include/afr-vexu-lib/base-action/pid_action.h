@@ -3,6 +3,7 @@
 
 #include "afr-vexu-lib/readable.h"
 #include "afr-vexu-lib/action.h"
+//min max -12000, +120000 imin imax -6000, 6000
 
 namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>

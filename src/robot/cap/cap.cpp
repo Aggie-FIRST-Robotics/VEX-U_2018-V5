@@ -221,47 +221,62 @@ namespace AFR::VexU::Robot::Cap {
         elevator_down_action = new set_value_action<int16_t>{ELEVATOR_DOWN_UPDATE_PERIOD, elevator_motor, -100, "elevator_down"};
         elevator_zero_action = new set_value_action<int16_t>{ELEVATOR_ZERO_UPDATE_PERIOD, elevator_motor, 0, "elevator_zero"};
         elevator_high_pos_action = new pid_action<int16_t, int16_t>{ELEVATOR_HIGH_POS_UPDATE_PERIOD, elevator_motor,
-                                                                    2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                    2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                    nullptr, 100,
                                                                     "elevator_high_pos"};
         arm_a_down_action = new set_value_action<int16_t>{ARM_DOWN_UPDATE_PERIOD, arm_a_motor, -100, "arm_a_down_action"};
         arm_b_down_action = new set_value_action<int16_t>{ARM_DOWN_UPDATE_PERIOD, arm_b_motor, -100, "arm_b_down_action"};
         arm_a_zero_action = new set_value_action<int16_t>{ARM_ZERO_UPDATE_PERIOD, arm_a_motor, 0, "arm_a_zero_action"};
         arm_b_zero_action = new set_value_action<int16_t>{ARM_ZERO_UPDATE_PERIOD, arm_b_motor, 0, "arm_b_zero_action"};
+        //min max -12000, +120000 imin imax -6000, 6000
+
         arm_a_flip_pos_action = new pid_action<int16_t, int16_t>{ARM_FLIP_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                 2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                 2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
+                                                                 100,
                                                                  "arm_a_flip_pos_action"};
         arm_b_flip_pos_action = new pid_action<int16_t, int16_t>{ARM_FLIP_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                 2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                 2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
+                                                                 100,
                                                                  "arm_b_flip_pos_action"};
         arm_a_angle_pos_action = new pid_action<int16_t, int16_t>{ARM_ANGLE_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                  2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                  2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
+                                                                  100,
                                                                   "arm_a_angle_pos_action"};
         arm_b_angle_pos_action = new pid_action<int16_t, int16_t>{ARM_ANGLE_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                  2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                  2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
+                                                                  100,
                                                                   "arm_b_angle_pos_action"};
         arm_a_low_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_PRIME_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                      2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                      nullptr, 100,
                                                                       "arm_a_low_prime_pos_action"};
         arm_b_low_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_PRIME_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                      2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                      nullptr, 100,
                                                                       "arm_b_low_prime_pos_action"};
         arm_a_low_score_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_SCORE_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                      2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                      nullptr, 100,
                                                                       "arm_a_low_score_pos_action"};
         arm_b_low_score_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_SCORE_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                      2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                      nullptr, 100,
                                                                       "arm_b_low_score_pos_action"};
         arm_a_high_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_PRIME_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                       2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                       nullptr, 100,
                                                                        "arm_a_high_prime_pos_action"};
         arm_b_high_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_PRIME_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                       2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                       nullptr, 100,
                                                                        "arm_b_high_prime_pos_action"};
         arm_a_high_score_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_SCORE_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                       2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                       nullptr, 100,
                                                                        "arm_a_high_score_pos_action"};
         arm_b_high_score_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_SCORE_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                       2.0, 0.1, 0.0, -100, 100, -50, 50, 0, nullptr, 100,
+                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
+                                                                       nullptr, 100,
                                                                        "arm_b_high_score_pos_action"};
 
         //Action maps
