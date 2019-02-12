@@ -13,12 +13,19 @@ namespace AFR::VexU::Robot::Drive{
     void arcade_drive_action::update_private(const double& delta_seconds){
         auto right_val = right_stick_->get_position();
         auto left_val = left_stick_->get_position();
+        auto last_val = std::any_cast<int16_t>(commandable_->get_current_value());
+        int16_t val = 0;
         if(is_right){
-            commandable_->set_value(int16_t((left_val - right_val) * 12000 / 128));
+            val = static_cast<int16_t>((left_val - right_val) * 12000 / 127);
         }
         else{
-            commandable_->set_value(int16_t((left_val + right_val) * 12000 / 128));
+            val = static_cast<int16_t>((left_val + right_val) * 12000 / 127);
+//            std::cout << val << std::endl;
         }
-        std::cout << get_name() << " value: " << std::any_cast<int16_t>(commandable_->get_current_value());
+//        if(std::abs(val - last_val) > 1000){
+//            std::cout << commandable_->get_name() << " changed from " << last_val << " to " << val << std::endl;
+//        }
+        commandable_->set_value(val);
+//        std::cout << get_name() << " value: " << std::any_cast<int16_t>(commandable_->get_current_value());
     }
 }

@@ -1,7 +1,7 @@
 #ifndef VEX_U_2018_V5_PID_H
 #define VEX_U_2018_V5_PID_H
 
-#include <afr-vexu-lib/readable.h>
+#include "afr-vexu-lib/readable.h"
 #include "afr-vexu-lib/action.h"
 
 namespace AFR::VexU::BaseAction{
@@ -89,7 +89,7 @@ namespace AFR::VexU::BaseAction{
 
     template<typename Read_T, typename Write_T>
     void pid_action<Read_T, Write_T>::update_private(const double& delta_seconds){
-        auto error = static_cast<double>(_set_point - *_value_pointer);
+        auto error = static_cast<double>(_set_point - std::any_cast<Read_T>(_value_pointer->get_value()));
         auto p_term = static_cast<Write_T>(_p_value * error);
         
         Write_T d_term;
@@ -106,7 +106,9 @@ namespace AFR::VexU::BaseAction{
                 i_term = _min_i_value;
             }
 
-            d_term = static_cast<Write_T>(static_cast<double>(last_value - *_value_pointer) * _d_value / delta_seconds);
+            d_term = static_cast<Write_T>(
+                    static_cast<double>(last_value - std::any_cast<Read_T>(_value_pointer->get_value())) * _d_value /
+                    delta_seconds);
         }
         else {
             d_term = 0;
@@ -121,8 +123,8 @@ namespace AFR::VexU::BaseAction{
         else if(write_value < _min_value) {
             write_value = _min_value;
         }
-        
-        last_value = *_value_pointer;
+
+        last_value = std::any_cast<Read_T>(_value_pointer->get_value());
         return commandable_->set_value(write_value);
     }
     

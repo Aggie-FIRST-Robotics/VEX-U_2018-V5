@@ -69,7 +69,7 @@ namespace AFR::VexU::Robot::Drive {
                                                          left_stick, right_stick, false, "start_front_left_motor"};
         start_front_right_motor = new arcade_drive_action{START_FRONT_RIGHT_MOTOR_UPDATE_PERIOD, front_right_motor,
                                                           left_stick, right_stick, true, "start_front_right_motor"};
-        start_back_left_motor = new arcade_drive_action{START_BACK_LEFT_MOTOR_UPDATE_PERIOD, back_right_motor,
+        start_back_left_motor = new arcade_drive_action{START_BACK_LEFT_MOTOR_UPDATE_PERIOD, back_left_motor,
                                                         left_stick, right_stick, false, "start_back_left_motor"};
         start_back_right_motor = new arcade_drive_action{START_BACK_RIGHT_MOTOR_UPDATE_PERIOD, back_right_motor,
                                                          left_stick, right_stick, true, "start_back_right_motor"};
@@ -79,7 +79,7 @@ namespace AFR::VexU::Robot::Drive {
         start_actions.push_back(start_front_left_motor);
         start_actions.push_back(start_front_right_motor);
         start_actions.push_back(start_back_left_motor);
-        start_actions.push_back(start_back_right_motor);
+//        start_actions.push_back(start_back_right_motor);
 
         start = new state{start_actions, start_transitions, on_start_entry, "start"};
 

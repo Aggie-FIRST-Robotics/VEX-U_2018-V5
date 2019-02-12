@@ -2,19 +2,23 @@
 #include "afr-vexu-lib/ports_list.h"
 
 void AFR::VexU::BaseCommandable::motor_commandable::set_value_private(const std::any& value){
-    if(pros::c::motor_move_voltage(port_, std::any_cast<int16_t>(value)) == PROS_ERR){
-        throw std::runtime_error{
-                "Error moving motor " + get_name() + " for voltage: " + std::to_string(std::any_cast<int16_t>(value))};
+    auto val = std::any_cast<int16_t>(value);
+    if(val < -12000){
+        val = -12000;
     }
+    else if(val > 12000){
+        val = 12000;
+    }
+    pros::c::motor_move_voltage(port_, val);
 }
 
 void AFR::VexU::BaseCommandable::motor_commandable::check_value_private(const std::any& value){
     if(std::type_index{value.type()} == get_type()){
-        auto real_value = std::any_cast<int16_t>(value);
-        if(real_value < -12000 || real_value > 12000){
-            throw std::runtime_error{
-                    "Bad value for motor_commandable " + get_name() + ": " + std::to_string(real_value)};
-        }
+//        auto real_value = std::any_cast<int16_t>(value);
+//        if(real_value < -12000 || real_value > 12000){
+//            throw std::runtime_error{
+//                    "Bad value for motor_commandable " + get_name() + ": " + std::to_string(real_value)};
+//        }
     }
     else{
         throw std::runtime_error{"Bad type for motor_commandable " + get_name() + ": " + value.type().name()};

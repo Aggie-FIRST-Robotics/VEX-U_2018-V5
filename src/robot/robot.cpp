@@ -21,6 +21,7 @@ namespace AFR::VexU::Robot{
             std::cout << "Ports List Initialized" << std::endl;
 
 //            Catapult::init();
+//            std::cout << "Catapult Initialized" << std::endl;
             Drive::init();
             std::cout << "Drive Initialized" << std::endl;
 
@@ -47,17 +48,17 @@ namespace AFR::VexU::Robot{
         std::cout << "OPControl Begin" << std::endl;
         while(true){
             try{
-//                Catapult::catapult_subsystem->updateInputs();
+                Catapult::catapult_subsystem->updateInputs();
                 Drive::drive_subsystem->updateInputs();
 
-//                Catapult::catapult_subsystem->updateStates();
+                Catapult::catapult_subsystem->updateStates();
                 Drive::drive_subsystem->updateStates();
 
-//                Catapult::catapult_subsystem->updateActions();
+                Catapult::catapult_subsystem->updateActions();
                 Drive::drive_subsystem->updateActions();
-                std::cout << "Current drive state: "
-                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
-                          << std::endl;
+//                std::cout << "Current drive state: "
+//                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
+//                          << std::endl;
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;
@@ -80,6 +81,7 @@ namespace AFR::VexU::Robot{
         destroy_ports_list();
 
         Catapult::destroy();
+        Drive::destroy();
     }
 
     void restart(){
