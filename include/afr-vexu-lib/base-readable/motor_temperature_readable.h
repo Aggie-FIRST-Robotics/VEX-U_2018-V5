@@ -34,6 +34,7 @@ namespace AFR::VexU::BaseReadable {
          * @return error_t value if error encountered
          */
         std::any get_value() override;
+        double get_temperature() const;
     };
 
 }

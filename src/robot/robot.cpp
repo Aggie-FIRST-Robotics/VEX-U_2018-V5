@@ -6,12 +6,19 @@
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "robot/catapult/catapult.h"
 #include "robot/drive/drive.h"
+#include "afr-vexu-lib/base-readable/motor_current_readable.h"
+#include "afr-vexu-lib/base-readable/motor_temperature_readable.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 namespace AFR::VexU::Robot{
+    BaseReadable::motor_temperature_readable* nautilus_temp = nullptr;
+    BaseReadable::motor_current_readable* nautilus_current = nullptr;
     void init_robot(){
         try{
+            nautilus_temp = new BaseReadable::motor_temperature_readable{NAUTILUS_MOTOR_PORT, "nautilus_temp"};
+            nautilus_current = new BaseReadable::motor_current_readable{NAUTILUS_MOTOR_PORT, "nautilus_current"};
+
             BaseReadable::init_battery();
             std::cout << "Battery Initialized" << std::endl;
             BaseReadable::init_competition();
@@ -20,8 +27,8 @@ namespace AFR::VexU::Robot{
             init_ports_list();
             std::cout << "Ports List Initialized" << std::endl;
 
-//            Catapult::init();
-//            std::cout << "Catapult Initialized" << std::endl;
+            Catapult::init();
+            std::cout << "Catapult Initialized" << std::endl;
             Drive::init();
             std::cout << "Drive Initialized" << std::endl;
 
@@ -59,6 +66,9 @@ namespace AFR::VexU::Robot{
 //                std::cout << "Current drive state: "
 //                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
 //                          << std::endl;
+
+                std::cout << "Temp: " << nautilus_temp->get_temperature() << ", Current: "
+                          << nautilus_current->get_current() << std::endl;
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;

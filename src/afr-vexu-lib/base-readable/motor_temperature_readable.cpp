@@ -1,3 +1,6 @@
+
+#include <afr-vexu-lib/base-readable/motor_temperature_readable.h>
+
 #include "afr-vexu-lib/base-readable/motor_temperature_readable.h"
 
 namespace AFR::VexU::BaseReadable {
@@ -8,6 +11,10 @@ namespace AFR::VexU::BaseReadable {
               port_(port){}
 
     std::any motor_temperature_readable::get_value(){
+        return get_temperature();
+    }
+
+    double motor_temperature_readable::get_temperature() const{
         return pros::c::motor_get_temperature(port_);
     }
 }
