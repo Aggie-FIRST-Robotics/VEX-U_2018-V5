@@ -1,3 +1,4 @@
+#include "robot/shooter/shooter.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 #include "afr-vexu-lib/ports_list.h"
@@ -14,6 +15,7 @@
 namespace AFR::VexU::Robot{
     BaseReadable::motor_temperature_readable* nautilus_temp = nullptr;
     BaseReadable::motor_current_readable* nautilus_current = nullptr;
+
     void init_robot(){
         try{
             nautilus_temp = new BaseReadable::motor_temperature_readable{NAUTILUS_MOTOR_PORT, "nautilus_temp"};
@@ -27,11 +29,11 @@ namespace AFR::VexU::Robot{
             init_ports_list();
             std::cout << "Ports List Initialized" << std::endl;
 
-            Catapult::init();
+            //  Catapult::init();
             std::cout << "Catapult Initialized" << std::endl;
-            Drive::init();
+            //  Drive::init();
             std::cout << "Drive Initialized" << std::endl;
-
+            Shooter::init();
             pros::lcd::initialize();
         }
         catch(std::exception& e){
@@ -68,7 +70,7 @@ namespace AFR::VexU::Robot{
 //                          << std::endl;
 
                 std::cout << "Temp: " << nautilus_temp->get_temperature() << ", Current: "
-                          << nautilus_current->get_current() << std::endl;
+                        << nautilus_current->get_current() << std::endl;
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;
