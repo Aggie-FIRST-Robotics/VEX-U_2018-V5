@@ -1,83 +1,53 @@
 #include "afr-vexu-lib/subsystem_controller.h"
 
-AFR::VexU::subsystem_controller::subsystem_controller(
-        const std::unordered_map<std::string, ordered_input&>& input_map,
-        const std::unordered_map<std::string, AFR::VexU::state_controller&>& state_map,
-        error_t* result) : input_map_(
-        input_map),
-                                                                                                           state_map_(state_map),
-                                                                                                           ordered_inputs_(){
-    if(result != nullptr){
-        *result = SUCCESS;
-    }
-    std::vector<ordered_input*> order;
-    for(auto& input_pair : input_map_){
-        order.push_back(&input_map_.at(input_pair.first));
+namespace AFR::VexU{
+    subsystem_controller::subsystem_controller(
+            const std::vector<readable*>& inputs,
+            const std::vector<state_controller*>& state_controllers,
+            const std::string& name)
+            : nameable(name), inputs_(inputs), state_controllers_(state_controllers){}
+
+    void subsystem_controller::updateInputs(){
+        for(auto& input : inputs_){
+            input->update();
+        }
+    };
+
+    void subsystem_controller::updateStates(){
+        for(auto* state_controller : state_controllers_){
+            state_controller->update_current_state();
+        }
+    };
+
+    void subsystem_controller::updateActions(){
+        for(auto state_controller : state_controllers_){
+            state_controller->update_actions();
+        }
+    };
+
+    readable* subsystem_controller::get_input(const std::string& name) const{
+        for(auto ordered_input : inputs_){
+            if(ordered_input->get_name() == name){
+                return ordered_input;
+            }
+        }
+        return nullptr;
+    };
+
+    state_controller* subsystem_controller::get_state_machine(const std::string& name) const{
+        for(auto state_controller : state_controllers_){
+            if(state_controller->get_name() == name){
+                return state_controller;
+            }
+        }
+        return nullptr;
     }
 
-    struct{
-        bool operator()(const AFR::VexU::ordered_input* a, const AFR::VexU::ordered_input* b){
-            order_t result_a, result_b;
-            if(a->get_order(result_a) != SUCCESS) throw std::runtime_error{""};
-            if(b->get_order(result_b) != SUCCESS) throw std::runtime_error{""};
-            return result_a < result_b;
-        }
-    } sorter;
-    try{
-        std::sort(order.begin(), order.end(), sorter);
-    }
-    catch(...){
-        if(result != nullptr){
-            *result = GENERIC_FAILURE;
-        }
-        return;
+    std::vector<readable*>& subsystem_controller::get_inputs(){
+        return inputs_;
     }
 
-    if(result != nullptr){
-        for(auto item : order){
-            readable* res;
-            *result = item->get_input(res);
-            if(*result != SUCCESS) break;
-            ordered_inputs_.emplace_back(res);
-        }
-    }
-    else{
-        for(auto item : order){
-            readable* res;
-            item->get_input(res);
-            ordered_inputs_.emplace_back(res);
-        }
-    }
+    std::vector<state_controller*> subsystem_controller::get_state_machines(){
+        return state_controllers_;
+    };
 }
-
-AFR::VexU::error_t AFR::VexU::subsystem_controller::updateInputs(){
-    for(auto it : ordered_inputs_){
-        AFR_VEXU_INTERNAL_CALL(it->update());
-    }
-    return SUCCESS;
-};
-
-AFR::VexU::error_t AFR::VexU::subsystem_controller::updateStates(){
-    for(auto it : state_map_){
-        AFR_VEXU_INTERNAL_CALL(it.second.update_current_state());
-    }
-    return SUCCESS;
-};
-
-AFR::VexU::error_t AFR::VexU::subsystem_controller::updateActions(){
-    for(auto it : state_map_){
-        AFR_VEXU_INTERNAL_CALL(it.second.update_actions());
-    }
-    return SUCCESS;
-};
-
-AFR::VexU::error_t AFR::VexU::subsystem_controller::getInput(const std::string& id, ordered_input*& result) const{
-    result = &input_map_.at(id);
-    return SUCCESS;
-};
-
-AFR::VexU::error_t
-AFR::VexU::subsystem_controller::getStateMachine(const std::string& id, state_controller*& result) const{
-    result = &state_map_.at(id);
-    return SUCCESS;
-};

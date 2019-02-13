@@ -1,81 +1,55 @@
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 
 namespace AFR::VexU::BaseReadable {
-    /**
-     * Overrides scheduled, updates private variables and period
-     * @param delta_seconds new update period
-     * @return error_t value if error encountered
-     */
-    error_t battery_readable::update_private(const double &delta_seconds) {
-        double temp_capacity = pros::battery::get_capacity();
-        AFR_PROS_INTERNAL_CALL(temp_capacity, PROS_ERR_F);
-        capacity = temp_capacity;
+    battery_readable* battery_capacity = nullptr;
+    battery_current_readable* battery_current = nullptr;
+    battery_temperature_readable* battery_temperature = nullptr;
+    battery_voltage_readable* battery_voltage = nullptr;
 
-        double temp_current = pros::battery::get_current();
-        AFR_PROS_INTERNAL_CALL(temp_current, PROS_ERR_F);
-        current = temp_current;
+    void battery_readable::update_private(const double& delta_seconds){}
 
-        double temp_temperature = pros::battery::get_temperature();
-        AFR_PROS_INTERNAL_CALL(temp_temperature, PROS_ERR_F);
-        temperature = temp_temperature;
+    battery_readable::battery_readable()
+            : readable(0, nullptr, "battery_capacity"){}
 
-        double temp_voltage = pros::battery::get_voltage();
-        AFR_PROS_INTERNAL_CALL(temp_voltage, PROS_ERR_F);
-        voltage = temp_voltage;
-
-        return SUCCESS;
+    std::any battery_readable::get_value(){
+        return pros::c::battery_get_capacity();
     }
 
-    /**
-     * Creates a battery readable
-     * @param update_period the update period for the readable
-     * @param result error_t value if error encountered
-     */
-    battery_readable::battery_readable(const scheduled_update_t &update_period, AFR::VexU::error_t *result)
-            : readable(update_period, 0, result),
-              capacity(pros::battery::get_capacity()),
-              current(pros::battery::get_current()),
-              temperature(
-                      pros::battery::get_temperature()),
-              voltage(pros::battery::get_voltage()) {}
+    void battery_current_readable::update_private(const double& delta_seconds){}
 
-    /**
-     * Returns battery capacity
-     * @param result battery capacity
-     * @return error_t value if error encountered
-     */
-    error_t battery_readable::get_capacity(double &result) {
-        result = capacity;
-        return SUCCESS;
+    battery_current_readable::battery_current_readable() : readable(0, nullptr, "battery_current"){}
+
+    std::any battery_current_readable::get_value(){
+        return pros::c::battery_get_current();
     }
 
-    /**
-     * Returns battery current
-     * @param result battery current
-     * @return error_t value if error encountered
-     */
-    error_t battery_readable::get_current(double &result) {
-        result = current;
-        return SUCCESS;
+    void battery_temperature_readable::update_private(const double& delta_seconds){}
+
+    battery_temperature_readable::battery_temperature_readable() : readable(0, nullptr, "battery_temperature"){}
+
+    std::any battery_temperature_readable::get_value(){
+        return pros::c::battery_get_temperature();
     }
 
-    /**
-     * Returns battery temperature
-     * @param result battery temperature
-     * @return error_t value if error encountered
-     */
-    error_t battery_readable::get_temperature(double &result) {
-        result = temperature;
-        return SUCCESS;
+    void battery_voltage_readable::update_private(const double& delta_seconds){}
+
+    battery_voltage_readable::battery_voltage_readable() : readable(0, nullptr, "battery_voltage"){}
+
+    std::any battery_voltage_readable::get_value(){
+        return pros::c::battery_get_voltage();
     }
 
-    /**
-     * Returns battery voltage
-     * @param result battery voltage
-     * @return error_t value if error encountered
-     */
-    error_t battery_readable::get_voltage(double &result) {
-        result = voltage;
-        return SUCCESS;
+    void init_battery(){
+        battery_capacity = new battery_readable{};
+        battery_current = new battery_current_readable{};
+        battery_temperature = new battery_temperature_readable{};
+        battery_voltage = new battery_voltage_readable{};
+    }
+
+    void destroy_battery(){
+        delete (battery_capacity);
+        delete (battery_current);
+        delete (battery_temperature);
+        delete (battery_voltage);
     }
 }

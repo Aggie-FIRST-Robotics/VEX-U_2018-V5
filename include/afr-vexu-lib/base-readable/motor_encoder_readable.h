@@ -7,27 +7,24 @@
 
 namespace AFR::VexU::BaseReadable{
     class motor_encoder_readable : public readable{
-        pros::Motor motor;
-        double velocity;
-        double position;
+        port_t port_;
         double scale_factor;
 
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
-        motor_encoder_readable(const std::uint8_t& port, const pros::motor_gearset_e_t& gearset, const bool& reverse,
-                               const double& scale_factor, const scheduled_update_t& update_period, error_t* result);
+        motor_encoder_readable(port_t port, double scale_factor, const std::string& name);
 
-        error_t set_scale_factor(const double& scale_factor);
-        error_t get_actual_velocity(double& result);
-        error_t get_scaled_velocity(double& result);
-        error_t get_position(double& result);
-        error_t get_scaled_position(double& result);
-        error_t tare_position();
-        error_t tare_position(const double& position);
-        error_t tare_position_scaled(const double& position);
+        void set_scale_factor(double scale_factor);
+        double get_actual_velocity();
+        double get_scaled_velocity();
+        double get_position();
+        double get_scaled_position();
+        void tare_position();
+        void tare_position(double position);
+        void tare_position_scaled(double position);
 
-        error_t get_value(std::any& result) const override;
+        std::any get_value() override;
     };
 }
 

@@ -11,7 +11,7 @@ namespace AFR::VexU::BaseAction{
     template<typename T>
     class set_value_action : public action{
         T value_;
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         /**
@@ -19,33 +19,14 @@ namespace AFR::VexU::BaseAction{
          * @param update_period passed to scheduled
          * @param commandable the commandable to set
          * @param value the constant value to be set
-         * @param result error_t value if error encountered
+         * @param name error_t value if error encountered
          */
-        set_value_action(const scheduled_update_t& update_period, commandable& commandable, const T& value,
-                         error_t* result = nullptr);
+        set_value_action(scheduled_update_t update_period, commandable* commandable, T value, const std::string& name);
 
-        error_t set_value(const T& value);
+        void set_value(T value);
     };
-
-    template<typename T>
-    error_t set_value_action<T>::update_private(const double& delta_seconds){
-        return commandable_.set_value(std::any{value_});
-    }
-
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "readability-non-const-parameter"
-    template<typename T>
-    set_value_action<T>::set_value_action(const scheduled_update_t& update_period, commandable& commandable,
-                                          const T& value, error_t* result) : action(update_period, commandable, result),
-                                                                             value_(value){}
-
-    template<typename T>
-    error_t set_value_action<T>::set_value(const T& value){
-        value_ = value;
-        return SUCCESS;
-    }
-
-#pragma clang diagnostic pop
 }
+
+#include "set_value_action.cpp"
 
 #endif //VEX_U_2018_V5_SET_VALUE_H

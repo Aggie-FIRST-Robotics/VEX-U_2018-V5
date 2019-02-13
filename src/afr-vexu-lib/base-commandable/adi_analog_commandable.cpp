@@ -1,27 +1,31 @@
 #include "afr-vexu-lib/base-commandable/adi_analog_commandable.h"
+#include "afr-vexu-lib/ports_list.h"
 
 namespace AFR::VexU::BaseCommandable{
-    error_t adi_analog_commandable::set_value_private(const std::any& value){
-        AFR_PROS_INTERNAL_CALL(adi_analog_out.set_value(std::any_cast<int32_t>(value)), PROS_ERR);
-        return SUCCESS;
+    void adi_analog_commandable::set_value_private(const std::any& value){
+        pros::c::adi_port_set_value(port_, std::any_cast<int32_t>(value));
     }
 
-    error_t adi_analog_commandable::check_value_private(const std::any& value){
-        if(std::type_index(value.type()) == std::type_index(typeid(int32_t))){
+    void adi_analog_commandable::check_value_private(const std::any& value){
+        if(std::type_index(value.type()) == get_type()){
             auto real_value = std::any_cast<int32_t>(value);
             if(real_value < 0 || real_value > 4095){
-                return INVALID_VALUE;
+                throw std::runtime_error{
+                        "Bad value for adi_analog_commandable " + get_name() + ": " + std::to_string(real_value)};
             }
-            return SUCCESS;
         }
-        return INVALID_TYPE;
+        else{
+            throw std::runtime_error{"Bad type for adi_analog_commandable " + get_name() + ": " + value.type().name()};
+        }
     }
 
-    adi_analog_commandable::adi_analog_commandable(const uint8_t& port, error_t* result) : commandable(0, result),
-                                                                                           adi_analog_out(port){}
+    adi_analog_commandable::adi_analog_commandable(port_t port, const std::string& name) : commandable(0, name),
+                                                                                           port_(port){
+        claim_adi(port, name);
+        pros::c::adi_port_set_config(port, pros::E_ADI_ANALOG_OUT);
+    }
 
-    error_t adi_analog_commandable::get_type(std::type_index& result) const{
-        result = typeid(int32_t);
-        return SUCCESS;
+    std::type_index adi_analog_commandable::get_type() const{
+        return typeid(int32_t);
     }
 }

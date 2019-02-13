@@ -4,12 +4,13 @@
 #include <any>
 
 #include "scheduled.h"
+#include "nameable.h"
 
 namespace AFR::VexU{
     /**
      * Represents a sensor or other readable value, should be extended
      */
-    class readable : public scheduled{
+    class readable : public scheduled, public nameable{
     protected:
         std::any value; ///The last read value of the readable
 
@@ -20,14 +21,14 @@ namespace AFR::VexU{
          * @param initial_value the initial value of the readable
          * @param result error_t value if error encountered
          */
-        readable(const scheduled_update_t& update_period, const std::any& initial_value, error_t* result = nullptr);
+        readable(scheduled_update_t update_period, const std::any& initial_value, const std::string& name);
 
         /**
          * Used to get the value of the readable
          * @param result Returns the value of the sensor
          * @return error_t value if error encountered
          */
-        virtual error_t get_value(std::any& result) const;
+        virtual std::any get_value();
     };
 }
 

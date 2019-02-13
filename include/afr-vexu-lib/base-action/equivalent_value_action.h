@@ -11,7 +11,7 @@ namespace AFR::VexU::BaseAction{
     template<typename T>
     class equivalent_value_action : public action{
         T* const value_ptr_;
-        error_t update_private(const double& delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         /**
@@ -19,27 +19,13 @@ namespace AFR::VexU::BaseAction{
          * @param update_period passed to scheduled
          * @param commandable passed to action
          * @param value_ptr the pointer to the value to be copied every update
-         * @param result error_t value if error encountered
+         * @param name error_t value if error encountered
          */
-        equivalent_value_action(const scheduled_update_t& update_period, commandable& commandable, const T* value_ptr,
-                                error_t* result = nullptr);
+        equivalent_value_action(scheduled_update_t update_period, commandable* commandable, const T* value_ptr,
+                                const std::string& name);
     };
-
-    template<typename T>
-    error_t equivalent_value_action<T>::update_private(const double& delta_seconds){
-        return commandable_.set_value(std::any{*value_ptr_});
-    }
-
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "readability-non-const-parameter"
-    template<typename T>
-    equivalent_value_action<T>::equivalent_value_action(const scheduled_update_t& update_period,
-                                                        commandable& commandable, const T* value_ptr, error_t* result)
-            : action(update_period,
-                     commandable, result),
-              value_ptr_(value_ptr){}
-
-#pragma clang diagnostic pop
 }
+
+#include "equivalent_value_action.cpp"
 
 #endif //VEX_U_2018_V5_EQUIVALENT_VALUE_ACTION_H

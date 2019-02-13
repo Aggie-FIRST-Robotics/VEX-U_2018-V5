@@ -10,31 +10,31 @@ namespace AFR::VexU::BaseReadable {
     * Represents motor current
     */
     class motor_current_readable : public readable {
-        pros::Motor prosmotor;
-        std::int32_t current;
+        port_t port_;
 
         /**
          * Overrides scheduled, updates private period
          * @param delta_seconds new update period
          * @return error_t value if error encountered
          */
-        error_t update_private(const double &delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         /**
          * Creates a motor current readable
          * @param port smart cable port
          * @param update_period the update period for the readable
-         * @param result error_t value if error encountered
+         * @param name error_t value if error encountered
          */
-        motor_current_readable(const std::uint8_t &port, const scheduled_update_t &update_period, error_t *result);
+        motor_current_readable(port_t port, const std::string& name);
 
         /**
          * Returns motor current draw
          * @param result current
          * @return error_t value if error encountered
          */
-        error_t get_current(std::int32_t &result);
+        std::any get_value() override;
+        int32_t get_current() const;
     };
 
 }

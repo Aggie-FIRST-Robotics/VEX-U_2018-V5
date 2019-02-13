@@ -1,10 +1,10 @@
-
 #ifndef VEX_U_2018_V51_ADI_ANALOG_READABLE_H
 #define VEX_U_2018_V51_ADI_ANALOG_READABLE_H
 
 #include "main.h"
 
 #include "afr-vexu-lib/readable.h"
+#include "afr-vexu-lib/ports_list.h"
 
 namespace AFR::VexU::BaseReadable {
     /**
@@ -15,7 +15,7 @@ namespace AFR::VexU::BaseReadable {
         /**
         * Creates a pros ADIAnalogIn variable that will be wrapped
         */
-        pros::ADIAnalogIn prosanalog;
+        port_t port_;
 
         /**
         * Overridden to  be whatever happens when update is called following the wait period
@@ -23,7 +23,7 @@ namespace AFR::VexU::BaseReadable {
         * @return error_t value if error encountered
         */
 
-        error_t update_private(const double &delta_seconds) override;
+        void update_private(const double& delta_seconds) override;
 
     public:
         /**
@@ -31,11 +31,11 @@ namespace AFR::VexU::BaseReadable {
          * @param port the port of the object
          * @param update_period passed to readable
          * @param initial_value passed to readable
-         * @param result error_t passed to readable
+         * @param name error_t passed to readable
          */
-        adi_analog_readable(const std::uint8_t &port, const scheduled_update_t &update_period,
-                            const std::any &initial_value, error_t *result);
+        adi_analog_readable(port_t port, const std::string& name);
 
+        std::any get_value() override;
     };
 
 }

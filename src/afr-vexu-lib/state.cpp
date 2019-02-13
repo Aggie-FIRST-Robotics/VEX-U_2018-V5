@@ -1,63 +1,56 @@
 #include "afr-vexu-lib/state.h"
 
+namespace AFR::VexU{
+    state::state(const std::vector<action*>& action_map, const std::vector<transition>& transitions,
+                 const std::function<void(state*)>& on_state_entry, const std::string& name)
+            : nameable(name), actions_(action_map), transitions_(transitions), on_state_entry_(on_state_entry){}
 
-AFR::VexU::state::state(const std::unordered_map<std::string, AFR::VexU::action&>& action_map,
-                        const std::vector<AFR::VexU::transition>& transitions,
-                        const std::function<error_t(const std::string&)>& on_state_entry, error_t* result)
-        : action_map_(
-        action_map),
-          transitions_(transitions),
-          on_state_entry_(
-                                                                                                               on_state_entry){
-    if(result != nullptr){
-        *result = SUCCESS;
+    void state::update_actions(){
+        for(auto action : actions_){
+            action->update();
+        }
     }
-}
 
-AFR::VexU::error_t AFR::VexU::state::update_actions(){
-    for(auto& action : action_map_){
-        AFR_VEXU_INTERNAL_CALL(action.second.update());
+    void AFR::VexU::state::on_state_entry(state* previous){
+        for(auto action : actions_){
+            action->on_state_entry(previous);
+        }
+        on_state_entry_(previous);
     }
-    return SUCCESS;
-}
 
-AFR::VexU::error_t AFR::VexU::state::on_state_entry(const std::string& previous){
-    for(auto& action : action_map_){
-        action.second.on_state_entry(previous);
+    action* AFR::VexU::state::get_action(const std::string& name){
+        for(auto action : actions_){
+            if(action->get_name() == name){
+                return action;
+            }
+        }
+        return nullptr;
     }
-    return on_state_entry_(previous);
-}
 
-AFR::VexU::error_t AFR::VexU::state::get_action(const std::string& identifier, action*& result){
-    result = &action_map_.at(identifier);
-    return SUCCESS;
-}
-
-AFR::VexU::error_t AFR::VexU::state::get_transitions(const std::vector<transition>*& result){
-    result = &transitions_;
-    return SUCCESS;
-}
-
-AFR::VexU::error_t AFR::VexU::state::on_state_exit(const std::string& next){
-    for(auto& action : action_map_){
-        action.second.on_state_exit(next);
+    std::vector<transition>& AFR::VexU::state::get_transitions(){
+        return transitions_;
     }
-    return SUCCESS;
-}
 
-AFR::VexU::transition::transition(const std::function<error_t(bool&)>& condition_function,
-                                  const std::string& next_state, error_t* result)
-        : condition_function_(condition_function), next_state_(next_state){
-    if(result != nullptr){
-        *result = SUCCESS;
+    void AFR::VexU::state::on_state_exit(state* next){
+        for(auto action : actions_){
+            action->on_state_exit(next);
+        }
     }
-}
 
-AFR::VexU::error_t AFR::VexU::transition::should_change_state(bool& result) const{
-    return condition_function_(result);
-}
+    std::vector<action*>& state::get_actions(){
+        return actions_;
+    }
 
-AFR::VexU::error_t AFR::VexU::transition::get_next_state(std::string& result) const{
-    result = next_state_;
-    return SUCCESS;
+    transition::transition(const std::function<bool()>& condition_function, state*& next_state,
+                           const std::string& name)
+            : nameable(name), condition_function_(condition_function), next_state_(next_state){
+    }
+
+    bool transition::should_change_state() const{
+        return condition_function_();
+    }
+
+    state* transition::get_next_state() const{
+        return next_state_;
+    }
 }

@@ -1,2 +1,2 @@
-prosv5 make --debug --verbose
+call build.bat
 prosv5 upload --debug --verbose --no-run-after

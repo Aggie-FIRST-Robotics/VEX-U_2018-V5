@@ -1,17 +1,15 @@
-
-
 #include "afr-vexu-lib/base-readable/adi_analog_readable.h"
 
+namespace AFR::VexU::BaseReadable{
+    adi_analog_readable::adi_analog_readable(port_t port, const std::string& name)
+            : readable(0, nullptr, name), port_(port){
+        claim_adi(port_, name);
+        pros::c::adi_port_set_config(port_, pros::E_ADI_DIGITAL_IN);
+    }
 
-AFR::VexU::BaseReadable::adi_analog_readable::adi_analog_readable(const std::uint8_t &port,
-                                                                  const scheduled_update_t &update_period,
-                                                                  const std::any &initial_value, error_t *result)
-        : readable(update_period, initial_value, result), prosanalog(port) {}
+    void adi_analog_readable::update_private(const double& delta_seconds){}
 
-AFR::VexU::error_t AFR::VexU::BaseReadable::adi_analog_readable::update_private(const double &delta_seconds) {
-    int32_t temp_val = prosanalog.get_value();
-    AFR_PROS_INTERNAL_CALL(temp_val, PROS_ERR);
-    readable::value = temp_val;
-    return SUCCESS;
+    std::any adi_analog_readable::get_value(){
+        return pros::c::adi_analog_read(port_);
+    }
 }
-

@@ -7,7 +7,6 @@
 #include <thread>
 
 #include "afr-vexu-lib/action.h"
-#include "afr-vexu-lib/defines.h"
 #include "afr-vexu-lib/ordered_input.h"
 #include "afr-vexu-lib/state.h"
 #include "afr-vexu-lib/state_controller.h"
@@ -21,20 +20,20 @@ template<typename T>
 class test_motor : public AFR::VexU::commandable{
     std::string name_;
 
-    AFR::VexU::error_t set_value_private(const std::any& value) override;
-    AFR::VexU::error_t check_value_private(const std::any& value) override;
+    void set_value_private(const std::any& value) override;
+    void check_value_private(const std::any& value) override;
 
 public:
     test_motor(const T& initial_value, const std::string& name);
 
-    AFR::VexU::error_t get_type(std::type_index& result) const override;
+    std::type_index get_type() const override;
 };
 
 template<typename T>
 class test_sensor : public AFR::VexU::readable{
     std::string name_;
 
-    AFR::VexU::error_t update_private(const double& delta_seconds) override;
+    void update_private(const double& delta_seconds) override;
 
 public:
     test_sensor(const AFR::VexU::scheduled_update_t& update_period, const T& initial_value, const std::string& name);
@@ -76,25 +75,25 @@ int main(){
     //Transition Functions
     std::function<AFR::VexU::error_t(bool&)> to_forward{[button1](bool& result) -> AFR::VexU::error_t{
         std::any value;
-        button1.get_value(value);
+        button1.get_value();
         result = std::any_cast<bool>(value);
         return AFR::VexU::SUCCESS;
     }};
     std::function<AFR::VexU::error_t(bool&)> stop_to_backward{[button2](bool& result) -> AFR::VexU::error_t{
         std::any value;
-        button2.get_value(value);
+        button2.get_value();
         result = std::any_cast<bool>(value);
         return AFR::VexU::SUCCESS;
     }};
     std::function<AFR::VexU::error_t(bool&)> backward_to_stop{[button2](bool& result) -> AFR::VexU::error_t{
         std::any value;
-        button2.get_value(value);
+        button2.get_value();
         result = !std::any_cast<bool>(value);
         return AFR::VexU::SUCCESS;
     }};
     std::function<AFR::VexU::error_t(bool&)> forward_to_stop{[button1](bool& result) -> AFR::VexU::error_t{
         std::any value;
-        button1.get_value(value);
+        button1.get_value();
         result = !std::any_cast<bool>(value);
         return AFR::VexU::SUCCESS;
     }};
@@ -130,9 +129,19 @@ int main(){
     };
 
     //States, requires action maps, transition vectors, and on state entry functions
-    AFR::VexU::state stop{stop_action_map, stop_transitions, on_stop_entry};
-    AFR::VexU::state forward{forward_action_map, forward_transitions, on_forward_entry};
-    AFR::VexU::state backward{backward_action_map, backward_transitions, on_backward_entry};
+    AFR::VexU::state stop{stop_action_map, stop_transitions, on_stop_entry}
+    (<#initializer#>, <#initializer#>,
+            <#initializer#>, <#initializer#>);
+    AFR::VexU::state forward{forward_action_map, forward_transitions, on_forward_entry}
+    (<#initializer#>,
+            <#initializer#>,
+            <#initializer#>,
+            <#initializer#>);
+    AFR::VexU::state backward{backward_action_map, backward_transitions, on_backward_entry}
+    (<#initializer#>,
+            <#initializer#>,
+            <#initializer#>,
+            <#initializer#>);
 
     //State maps, requires states
     std::unordered_map<std::string, AFR::VexU::state&> states = {
@@ -148,7 +157,12 @@ int main(){
     };
 
     //State controller, requires state map and commandable map
-    AFR::VexU::state_controller state_machine{350, states, commandables, "stop"};
+    AFR::VexU::state_controller state_machine{350, states, commandables, "stop"}
+    (<#initializer#>, <#initializer#>,
+            <#initializer#>, nullptr,
+            <#initializer#>)
+            (<#initializer#>, <#initializer#>,
+             <#initializer#>, nullptr, 0);
 
     //Ordered inputs, requires readables
     AFR::VexU::ordered_input button1_order{0, &button1};
@@ -166,7 +180,9 @@ int main(){
     };
 
     //Subsystem controller, requires ordered input map and state controller map
-    AFR::VexU::subsystem_controller main_subsystem{inputs, state_machines};
+    AFR::VexU::subsystem_controller main_subsystem{inputs, state_machines}
+    (<#initializer#>, <#initializer#>,
+            <#initializer#>);
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
@@ -178,8 +194,8 @@ int main(){
         std::any value1;
         std::any value2;
 
-        button1.get_value(value1);
-        button2.get_value(value2);
+        button1.get_value();
+        button2.get_value();
 
         auto b1 = std::any_cast<bool>(value1);
         auto b2 = std::any_cast<bool>(value2);
@@ -195,9 +211,9 @@ int main(){
 }
 
 template<typename T>
-AFR::VexU::error_t test_motor<T>::set_value_private(const std::any& value){
+void test_motor<T>::set_value_private(const std::any& value){
     std::any value_result;
-    commandable::get_current_value(value_result);
+    commandable::get_current_value();
 
     if(std::any_cast<T>(value) != std::any_cast<T>(value_result)){
         std::cout << name_ << " set to " << std::any_cast<T>(value) << std::endl;
@@ -206,7 +222,7 @@ AFR::VexU::error_t test_motor<T>::set_value_private(const std::any& value){
 }
 
 template<typename T>
-AFR::VexU::error_t test_motor<T>::check_value_private(const std::any& value){
+void test_motor<T>::check_value_private(const std::any& value){
     if(value.type() == typeid(T)){
         return AFR::VexU::SUCCESS;
     }
@@ -214,16 +230,17 @@ AFR::VexU::error_t test_motor<T>::check_value_private(const std::any& value){
 }
 
 template<typename T>
-test_motor<T>::test_motor(const T& initial_value, const std::string& name) : commandable(initial_value), name_(name){}
+test_motor<T>::test_motor(const T& initial_value, const std::string& name) : commandable(initial_value,
+                                                                                         <#initializer#>), name_(name){}
 
 template<typename T>
-AFR::VexU::error_t test_motor<T>::get_type(std::type_index& result) const{
+std::type_index test_motor<T>::get_type() const{
     result = std::type_index{typeid(T)};
     return AFR::VexU::SUCCESS;
 }
 
 template<typename T>
-AFR::VexU::error_t test_sensor<T>::update_private(const double& delta_seconds){
+void test_sensor<T>::update_private(const double& delta_seconds){
     std::cout << name_ << " updated after " << delta_seconds << " seconds, set to " << value << std::endl;
     readable::value = value;
     return AFR::VexU::SUCCESS;
@@ -231,7 +248,8 @@ AFR::VexU::error_t test_sensor<T>::update_private(const double& delta_seconds){
 
 template<typename T>
 test_sensor<T>::test_sensor(const AFR::VexU::scheduled_update_t& update_period, const T& initial_value,
-                            const std::string& name) : readable(update_period, initial_value), name_(name),
+                            const std::string& name) : readable(update_period, initial_value, <#initializer#>),
+                                                       name_(name),
                                                        value(initial_value){}
 
 #pragma clang diagnostic pop

@@ -120,6 +120,20 @@ namespace AFR::VexU{
         , INVALID_VALUE          ///Commandable assigned invalid value
         , PROS_ERROR             ///Error from pros, read errno
     };
+
+    typedef uint8_t port_t;
+}
+
+#define AFR_TRY(x, y){                                                                                                 \
+    try{                                                                                                            \
+        (x);                                                                                                        \
+    }                                                                                                               \
+    catch(std::exception& e){                                                                                       \
+        std::cerr << "Error: " << e.what() << std::endl;                                                             \
+        std::cerr << "Line " << __LINE__ << " In file " << __FILE__ << std::endl;                                  \
+        std::cerr << (y) << std::endl;\
+        throw e;\
+    }                                                                                                               \
 }
 
 #endif //VEX_U_2018_V5_DEFINES_H
