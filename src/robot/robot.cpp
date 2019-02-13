@@ -6,6 +6,7 @@
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "robot/catapult/catapult.h"
 #include "robot/drive/drive.h"
+#include "robot/cap/cap.h"
 #include "afr-vexu-lib/base-readable/motor_current_readable.h"
 #include "afr-vexu-lib/base-readable/motor_temperature_readable.h"
 
@@ -31,8 +32,15 @@ namespace AFR::VexU::Robot{
             std::cout << "Catapult Initialized" << std::endl;
             Drive::init();
             std::cout << "Drive Initialized" << std::endl;
+            Cap::init();
+            std::cout << "Cap Initialized" << std::endl;
 
-            pros::lcd::initialize();
+            if(!pros::lcd::initialize()){
+                throw std::runtime_error{"Cannot initialize lcd! " + std::to_string(pros::lcd::is_initialized())};
+            }
+//            std::cout << "Current Limit: " << pros::c::motor_get_current_limit(NAUTILUS_MOTOR_PORT) << std::endl;
+//            std::cout << "Voltage Limit: " << pros::c::motor_get_voltage_limit(NAUTILUS_MOTOR_PORT) << std::endl;
+//            std::cout << (pros::c::motor_get_faults(NAUTILUS_MOTOR_PORT) & pros::E_MOTOR_FAULT_MOTOR_OVER_TEMP) << std::endl;
         }
         catch(std::exception& e){
             std::cerr << "Init error" << std::endl;
@@ -57,18 +65,24 @@ namespace AFR::VexU::Robot{
             try{
                 Catapult::catapult_subsystem->updateInputs();
                 Drive::drive_subsystem->updateInputs();
+                Cap::cap_subsystem->updateInputs();
 
                 Catapult::catapult_subsystem->updateStates();
                 Drive::drive_subsystem->updateStates();
+                Cap::cap_subsystem->updateStates();
 
                 Catapult::catapult_subsystem->updateActions();
                 Drive::drive_subsystem->updateActions();
+                Cap::cap_subsystem->updateActions();
 //                std::cout << "Current drive state: "
 //                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
 //                          << std::endl;
 
-                std::cout << "Temp: " << nautilus_temp->get_temperature() << ", Current: "
-                          << nautilus_current->get_current() << std::endl;
+                std::string temp = "Temperature: " + std::to_string(nautilus_temp->get_temperature());
+                std::string current = "Current:     " + std::to_string(nautilus_current->get_current());
+                pros::lcd::set_text(0, temp);
+                pros::lcd::set_text(1, current);
+//                std::cout << temp << ", " << current << std::endl;
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;
@@ -92,6 +106,7 @@ namespace AFR::VexU::Robot{
 
         Catapult::destroy();
         Drive::destroy();
+        Cap::destroy();
     }
 
     void restart(){

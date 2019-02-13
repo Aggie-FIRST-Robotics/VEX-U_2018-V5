@@ -1,6 +1,7 @@
 #include "afr-vexu-lib/base-action/intake_control_action.h"
 #include "afr-vexu-lib/base-action/pid_action.h"
 #include "afr-vexu-lib/base-readable/controller_readable.h"
+#include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
 #include "robot/cap/cap.h"
 #include "robot/robot.h"
 
@@ -8,98 +9,136 @@ namespace AFR::VexU::Robot::Cap {
     scheduled_update_t score_timer = 0;
 
     //Commandables
-    BaseCommandable::motor_commandable *elevator_motor = nullptr;
-    BaseCommandable::motor_commandable *arm_a_motor = nullptr;
-    BaseCommandable::motor_commandable *arm_b_motor = nullptr;
-    BaseCommandable::motor_commandable *intake_motor = nullptr;
+    BaseCommandable::motor_commandable* elevator_motor = nullptr;
+    BaseCommandable::motor_commandable* arm_left_motor = nullptr;
+    BaseCommandable::motor_commandable* arm_right_motor = nullptr;
+    BaseCommandable::motor_commandable* intake_motor = nullptr;
+    BaseCommandable::multi_motor_commandable* arm_motors = nullptr;
 
     //Readables
-    BaseReadable::adi_digital_readable *arm_limit_switch = nullptr;
-    BaseReadable::adi_digital_readable *elevator_limit_switch = nullptr;
-    BaseReadable::motor_encoder_readable *arm_encoder = nullptr;
-    BaseReadable::motor_encoder_readable *elevator_encoder = nullptr;
-    BaseReadable::controller_digital_readable *intake_button = nullptr;
-    BaseReadable::controller_digital_readable *outtake_button = nullptr;
-    BaseReadable::controller_digital_readable *flip_button = nullptr;
-    BaseReadable::controller_digital_readable *angle_button = nullptr;
-    BaseReadable::controller_digital_readable *low_button = nullptr;
-    BaseReadable::controller_digital_readable *high_button = nullptr;
-    BaseReadable::controller_digital_readable *score_button = nullptr;
+    BaseReadable::adi_digital_readable* arm_limit_switch_left = nullptr;
+    BaseReadable::adi_digital_readable* arm_limit_switch_right = nullptr;
+    BaseReadable::adi_digital_readable* elevator_limit_switch = nullptr;
+    BaseReadable::motor_encoder_readable* arm_encoder = nullptr;
+    BaseReadable::motor_encoder_readable* elevator_encoder = nullptr;
+
+    BaseReadable::controller_digital_readable* intake_button = nullptr;
+    BaseReadable::controller_digital_readable* outtake_button = nullptr;
+    BaseReadable::controller_digital_readable* flip_button = nullptr;
+    BaseReadable::controller_digital_readable* angle_button = nullptr;
+    BaseReadable::controller_digital_readable* low_button = nullptr;
+    BaseReadable::controller_digital_readable* high_button = nullptr;
+    BaseReadable::controller_digital_readable* score_button = nullptr;
 
     //Actions
-    BaseAction::set_value_action<int16_t> *intake_action = nullptr;
-    BaseAction::set_value_action<int16_t> *intake_hold_action = nullptr;
-    BaseAction::set_value_action<int16_t> *outtake_action = nullptr;
-    BaseAction::intake_control_action *intake_outtake_action = nullptr;
-    BaseAction::set_value_action<int16_t> *elevator_down_action = nullptr;
-    BaseAction::set_value_action<int16_t> *elevator_zero_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *elevator_high_pos_action = nullptr;
-    BaseAction::set_value_action<int16_t> *arm_a_down_action = nullptr;
-    BaseAction::set_value_action<int16_t> *arm_b_down_action = nullptr;
-    BaseAction::set_value_action<int16_t> *arm_a_zero_action = nullptr;
-    BaseAction::set_value_action<int16_t> *arm_b_zero_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_a_flip_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_b_flip_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_a_angle_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_b_angle_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_a_low_prime_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_b_low_prime_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_a_low_score_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_b_low_score_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_a_high_prime_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_b_high_prime_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_a_high_score_pos_action = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *arm_b_high_score_pos_action = nullptr;
+    BaseAction::set_value_action<int16_t>* intake_action = nullptr;
+    BaseAction::set_value_action<int16_t>* intake_hold_action = nullptr;
+    BaseAction::set_value_action<int16_t>* outtake_action = nullptr;
+    BaseAction::intake_control_action* intake_outtake_action = nullptr;
+
+    BaseAction::set_value_action<int16_t>* elevator_down_action = nullptr;
+    BaseAction::set_value_action<int16_t>* arm_left_down_action = nullptr;
+    BaseAction::set_value_action<int16_t>* arm_right_down_action = nullptr;
+
+    BaseAction::set_value_action<int16_t>* arm_left_stop_action = nullptr;
+    BaseAction::set_value_action<int16_t>* arm_right_stop_action = nullptr;
+
+    BaseAction::pid_action<double, int16_t>* arm_pid_action = nullptr;
+    BaseAction::pid_action<double, int16_t>* elevator_pid_action = nullptr;
 
     //Action Maps
-    std::vector<action *> ground_all_action_map{};
-    std::vector<action *> ground_arm_action_map{};
-    std::vector<action *> ground_elevator_action_map{};
-    std::vector<action *> ground_action_map{};
-    std::vector<action *> flip_action_map{};
-    std::vector<action *> angle_action_map{};
-    std::vector<action *> low_prime_action_map{};
-    std::vector<action *> low_move_action_map{};
-    std::vector<action *> low_score_action_map{};
-    std::vector<action *> high_prime_action_map{};
-    std::vector<action *> high_move_action_map{};
-    std::vector<action *> high_score_action_map{};
+    std::vector<action*> ground_all_action_map{};
+    std::vector<action*> ground_arm_both_action_map{};
+    std::vector<action*> ground_arm_left_elevator_action_map{};
+    std::vector<action*> ground_arm_right_elevator_action_map{};
+    std::vector<action*> ground_arm_left_action_map{};
+    std::vector<action*> ground_arm_right_action_map{};
+    std::vector<action*> ground_elevator_action_map{};
+    std::vector<action*> ground_action_map{};
+
+    std::vector<action*> flip_action_map{};
+    std::vector<action*> angle_action_map{};
+    std::vector<action*> low_prime_action_map{};
+    std::vector<action*> low_move_action_map{};
+    std::vector<action*> low_score_action_map{};
+    std::vector<action*> high_prime_action_map{};
+    std::vector<action*> high_move_action_map{};
+    std::vector<action*> high_score_action_map{};
 
     //Transition functions
-    std::function<bool()> ground_all_to_ground_arm{};
-    std::function<bool()> ground_all_to_ground_elevator{};
+    std::function<bool()> ground_all_to_ground_arm_both{};
+    std::function<bool()> ground_all_to_ground_arm_left_elevator{};
+    std::function<bool()> ground_all_to_ground_arm_right_elevator{};
     std::function<bool()> ground_all_to_angle{};
     std::function<bool()> ground_all_to_low_prime{};
+
+    std::function<bool()> ground_arm_both_to_ground_arm_right{};
+    std::function<bool()> ground_arm_both_to_ground_arm_left{};
+    std::function<bool()> ground_arm_both_to_angle{};
+    std::function<bool()> ground_arm_both_to_low_prime{};
+
+    std::function<bool()> ground_arm_left_elevator_to_ground_arm_right{};
+    std::function<bool()> ground_arm_left_elevator_to_ground_arm_left{};
+    std::function<bool()> ground_arm_left_elevator_to_ground_elevator{};
+    std::function<bool()> ground_arm_left_elevator_to_angle{};
+    std::function<bool()> ground_arm_left_elevator_to_low_prime{};
+
+    std::function<bool()> ground_arm_right_elevator_to_ground_arm_right{};
+    std::function<bool()> ground_arm_right_elevator_to_ground_arm_left{};
+    std::function<bool()> ground_arm_right_elevator_to_ground_elevator{};
+    std::function<bool()> ground_arm_right_elevator_to_angle{};
+    std::function<bool()> ground_arm_right_elevator_to_low_prime{};
+
+    std::function<bool()> ground_arm_left_to_ground{};
+    std::function<bool()> ground_arm_left_to_angle{};
+    std::function<bool()> ground_arm_left_to_low_prime{};
+
+    std::function<bool()> ground_arm_right_to_ground{};
+    std::function<bool()> ground_arm_right_to_angle{};
+    std::function<bool()> ground_arm_right_to_low_prime{};
+
     std::function<bool()> ground_elevator_to_ground{};
     std::function<bool()> ground_elevator_to_angle{};
     std::function<bool()> ground_elevator_to_low_prime{};
-    std::function<bool()> ground_arm_to_ground{};
-    std::function<bool()> ground_arm_to_angle{};
-    std::function<bool()> ground_arm_to_low_prime{};
+
     std::function<bool()> ground_to_flip{};
     std::function<bool()> ground_to_angle{};
+    std::function<bool()> ground_to_low_prime{};
+
     std::function<bool()> flip_to_ground_all{};
     std::function<bool()> flip_to_angle{};
     std::function<bool()> flip_to_low_prime{};
+
     std::function<bool()> angle_to_low_prime{};
+    std::function<bool()> angle_to_ground_all{};
+
     std::function<bool()> low_prime_to_high_prime{};
     std::function<bool()> low_prime_to_angle{};
     std::function<bool()> low_prime_to_ground_all{};
     std::function<bool()> low_prime_to_low_move{};
+
     std::function<bool()> low_move_to_low_prime{};
     std::function<bool()> low_move_to_low_score{};
+
     std::function<bool()> low_score_to_ground_all{};
+
     std::function<bool()> high_prime_to_low_prime{};
     std::function<bool()> high_prime_to_angle{};
     std::function<bool()> high_prime_to_high_move{};
+
     std::function<bool()> high_move_to_high_prime{};
     std::function<bool()> high_move_to_high_score{};
+
     std::function<bool()> high_score_to_ground_all{};
 
     //Transition vectors
     std::vector<transition> ground_all_transitions{};
+    std::vector<transition> ground_arm_both_transitions{};
+    std::vector<transition> ground_arm_left_elevator_transitions{};
+    std::vector<transition> ground_arm_right_elevator_transitions{};
+    std::vector<transition> ground_arm_left_transitions{};
+    std::vector<transition> ground_arm_right_transitions{};
     std::vector<transition> ground_elevator_transitions{};
-    std::vector<transition> ground_arm_transitions{};
     std::vector<transition> ground_transitions{};
     std::vector<transition> flip_transitions{};
     std::vector<transition> angle_transitions{};
@@ -111,56 +150,56 @@ namespace AFR::VexU::Robot::Cap {
     std::vector<transition> high_score_transitions{};
 
     //On-state entry functions
-    std::function<void(state *)> on_ground_all_entry{};
-    std::function<void(state *)> on_ground_elevator_entry{};
-    std::function<void(state *)> on_ground_arm_entry{};
-    std::function<void(state *)> on_ground_entry{};
-    std::function<void(state *)> on_flip_entry{};
-    std::function<void(state *)> on_angle_entry{};
-    std::function<void(state *)> on_low_prime_entry{};
-    std::function<void(state *)> on_low_move_entry{};
-    std::function<void(state *)> on_low_score_entry{};
-    std::function<void(state *)> on_high_prime_entry{};
-    std::function<void(state *)> on_high_move_entry{};
-    std::function<void(state *)> on_high_score_entry{};
+    std::function<void(state*)> on_ground_all_entry{};
+    std::function<void(state*)> on_ground_arm_both_entry{};
+    std::function<void(state*)> on_ground_arm_left_elevator_entry{};
+    std::function<void(state*)> on_ground_arm_right_elevator_entry{};
+    std::function<void(state*)> on_ground_arm_left_entry{};
+    std::function<void(state*)> on_ground_arm_right_entry{};
+    std::function<void(state*)> on_ground_elevator_entry{};
+    std::function<void(state*)> on_ground_entry{};
+    std::function<void(state*)> on_flip_entry{};
+    std::function<void(state*)> on_angle_entry{};
+    std::function<void(state*)> on_low_prime_entry{};
+    std::function<void(state*)> on_low_move_entry{};
+    std::function<void(state*)> on_low_score_entry{};
+    std::function<void(state*)> on_high_prime_entry{};
+    std::function<void(state*)> on_high_move_entry{};
+    std::function<void(state*)> on_high_score_entry{};
 
     //States
-    state *ground_all = nullptr;
-    state *ground_elevator = nullptr;
-    state *ground_arm = nullptr;
-    state *ground = nullptr;
-    state *flip = nullptr;
-    state *angle = nullptr;
-    state *low_prime = nullptr;
-    state *low_move = nullptr;
-    state *low_score = nullptr;
-    state *high_prime = nullptr;
-    state *high_move = nullptr;
-    state *high_score = nullptr;
+    state* ground_all = nullptr;
+    state* ground_arm_both = nullptr;
+    state* ground_arm_left_elevator = nullptr;
+    state* ground_arm_right_elevator = nullptr;
+    state* ground_arm_left = nullptr;
+    state* ground_arm_right = nullptr;
+    state* ground_elevator = nullptr;
+    state* ground = nullptr;
+    state* flip = nullptr;
+    state* angle = nullptr;
+    state* low_prime = nullptr;
+    state* low_move = nullptr;
+    state* low_score = nullptr;
+    state* high_prime = nullptr;
+    state* high_move = nullptr;
+    state* high_score = nullptr;
 
     //State map
-    std::vector<state *> states{};
+    std::vector<state*> states{};
 
     //Commandable vector
-    std::vector<commandable *> commandables{};
+    std::vector<commandable*> commandables{};
 
     //State controller
-    state_controller *cap_state_machine = nullptr;
-    std::vector<readable *> inputs{};
-    /*//Ordered inputs
-    ordered_input *arm_limit_switch_top_order = nullptr;
-    ordered_input *arm_limit_switch_bottom_order = nullptr;
-    ordered_input *arm_encoder_order = nullptr;
-    ordered_input *elevator_encoder_order = nullptr;
+    state_controller* cap_state_machine = nullptr;
+    std::vector<readable*> inputs{};
 
-    //Ordered input map
-    std::unordered_map<std::string, ordered_input &> inputs{};*/
-
-    //State controller map
-    std::vector<state_controller *> state_machines{};
+    //State controller vector
+    std::vector<state_controller*> state_machines{};
 
     //Subsystem controller
-    subsystem_controller *cap_subsystem = nullptr;
+    subsystem_controller* cap_subsystem = nullptr;
 
     void init() {
         using namespace BaseCommandable;
@@ -170,35 +209,39 @@ namespace AFR::VexU::Robot::Cap {
         //Commandables
         elevator_motor = new motor_commandable{
                 ELEVATOR_MOTOR_PORT,
-                pros::E_MOTOR_GEARSET_INVALID,
+                ELEVATOR_MOTOR_GEARSET,
                 false,
-                pros::E_MOTOR_BRAKE_INVALID, "elevator_motor"
+                pros::E_MOTOR_BRAKE_BRAKE, "elevator_motor"
         };
 
-        arm_a_motor = new motor_commandable{
+        arm_left_motor = new motor_commandable{
                 ARM_MOTOR_LEFT_PORT,
-                pros::E_MOTOR_GEARSET_INVALID,
-                false,
-                pros::E_MOTOR_BRAKE_INVALID, "arm_a_motor"
+                ARM_MOTOR_LEFT_GEARSET,
+                true,
+                pros::E_MOTOR_BRAKE_BRAKE,
+                "arm_left_motor"
         };
 
-        arm_b_motor = new motor_commandable{
+        arm_right_motor = new motor_commandable{
                 ARM_MOTOR_RIGHT_PORT,
-                pros::E_MOTOR_GEARSET_INVALID,
+                ARM_MOTOR_RIGHT_GEARSET,
                 false,
-                pros::E_MOTOR_BRAKE_INVALID, "arm_b_motor"
+                pros::E_MOTOR_BRAKE_BRAKE,
+                "arm_right_motor"
         };
 
         intake_motor = new motor_commandable{
                 INTAKE_MOTOR_PORT,
-                pros::E_MOTOR_GEARSET_INVALID,
+                INTAKE_MOTOR_GEARSET,
                 false,
-                pros::E_MOTOR_BRAKE_INVALID, "intake_motor"
+                pros::E_MOTOR_BRAKE_BRAKE,
+                "intake_motor"
         };
 
         //Readables
 
-        arm_limit_switch = new adi_digital_readable{ARM_LIMIT_SWITCH_PORT, "arm_limit_switch"};
+        arm_limit_switch_left = new adi_digital_readable{ARM_LIMIT_SWITCH_LEFT_PORT, "arm_limit_switch_left"};
+        arm_limit_switch_right = new adi_digital_readable{ARM_LIMIT_SWITCH_RIGHT_PORT, "arm_limit_switch_right"};
         elevator_limit_switch = new adi_digital_readable{ELEVATOR_LIMIT_SWITCH_PORT, "elevator_limit_switch"};
 
         arm_encoder = new motor_encoder_readable{ARM_MOTOR_LEFT_PORT, 1.0, "arm_encoder"};
@@ -213,138 +256,114 @@ namespace AFR::VexU::Robot::Cap {
         score_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, SCORE_BUTTON);
 
         //Action initializations
-        intake_action = new set_value_action<int16_t>{INTAKE_UPDATE_PERIOD, intake_motor, 100, "intake_action"};
-        intake_hold_action = new set_value_action<int16_t>{INTAKE_HOLD_UPDATE_PERIOD, intake_motor, 10, "intake_hold_action"};
-        outtake_action = new set_value_action<int16_t>{OUTTAKE_UPDATE_PERIOD, intake_motor, -100, "outtake_action"};
+        intake_action = new set_value_action<int16_t>{INTAKE_UPDATE_PERIOD, intake_motor, 12000, "intake_action"};
+        intake_hold_action = new set_value_action<int16_t>{INTAKE_HOLD_UPDATE_PERIOD, intake_motor, 1200,
+                                                           "intake_hold_action"};
+        outtake_action = new set_value_action<int16_t>{OUTTAKE_UPDATE_PERIOD, intake_motor, -12000, "outtake_action"};
         intake_outtake_action = new intake_control_action{INTAKE_OUTTAKE_UPDATE_PERIOD, intake_motor, intake_button, outtake_button,
                                                   "intake_outtake_action"};
-        elevator_down_action = new set_value_action<int16_t>{ELEVATOR_DOWN_UPDATE_PERIOD, elevator_motor, -100, "elevator_down"};
-        elevator_zero_action = new set_value_action<int16_t>{ELEVATOR_ZERO_UPDATE_PERIOD, elevator_motor, 0, "elevator_zero"};
-        elevator_high_pos_action = new pid_action<int16_t, int16_t>{ELEVATOR_HIGH_POS_UPDATE_PERIOD, elevator_motor,
-                                                                    2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                    nullptr, 100,
-                                                                    "elevator_high_pos"};
-        arm_a_down_action = new set_value_action<int16_t>{ARM_DOWN_UPDATE_PERIOD, arm_a_motor, -100, "arm_a_down_action"};
-        arm_b_down_action = new set_value_action<int16_t>{ARM_DOWN_UPDATE_PERIOD, arm_b_motor, -100, "arm_b_down_action"};
-        arm_a_zero_action = new set_value_action<int16_t>{ARM_ZERO_UPDATE_PERIOD, arm_a_motor, 0, "arm_a_zero_action"};
-        arm_b_zero_action = new set_value_action<int16_t>{ARM_ZERO_UPDATE_PERIOD, arm_b_motor, 0, "arm_b_zero_action"};
-        //min max -12000, +120000 imin imax -6000, 6000
 
-        arm_a_flip_pos_action = new pid_action<int16_t, int16_t>{ARM_FLIP_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                 2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
-                                                                 100,
-                                                                 "arm_a_flip_pos_action"};
-        arm_b_flip_pos_action = new pid_action<int16_t, int16_t>{ARM_FLIP_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                 2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
-                                                                 100,
-                                                                 "arm_b_flip_pos_action"};
-        arm_a_angle_pos_action = new pid_action<int16_t, int16_t>{ARM_ANGLE_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                  2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
-                                                                  100,
-                                                                  "arm_a_angle_pos_action"};
-        arm_b_angle_pos_action = new pid_action<int16_t, int16_t>{ARM_ANGLE_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                  2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0, nullptr,
-                                                                  100,
-                                                                  "arm_b_angle_pos_action"};
-        arm_a_low_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_PRIME_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                      nullptr, 100,
-                                                                      "arm_a_low_prime_pos_action"};
-        arm_b_low_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_PRIME_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                      nullptr, 100,
-                                                                      "arm_b_low_prime_pos_action"};
-        arm_a_low_score_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_SCORE_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                      nullptr, 100,
-                                                                      "arm_a_low_score_pos_action"};
-        arm_b_low_score_pos_action = new pid_action<int16_t, int16_t>{ARM_LOW_SCORE_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                      2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                      nullptr, 100,
-                                                                      "arm_b_low_score_pos_action"};
-        arm_a_high_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_PRIME_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                       nullptr, 100,
-                                                                       "arm_a_high_prime_pos_action"};
-        arm_b_high_prime_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_PRIME_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                       nullptr, 100,
-                                                                       "arm_b_high_prime_pos_action"};
-        arm_a_high_score_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_SCORE_POS_UPDATE_PERIOD, arm_a_motor,
-                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                       nullptr, 100,
-                                                                       "arm_a_high_score_pos_action"};
-        arm_b_high_score_pos_action = new pid_action<int16_t, int16_t>{ARM_HIGH_SCORE_POS_UPDATE_PERIOD, arm_b_motor,
-                                                                       2.0, 0.1, 0.0, -12000, 12000, -6000, 6000, 0,
-                                                                       nullptr, 100,
-                                                                       "arm_b_high_score_pos_action"};
+        elevator_down_action = new set_value_action<int16_t>{ELEVATOR_DOWN_UPDATE_PERIOD, elevator_motor, -1200,
+                                                             "elevator_down"};
+        arm_left_down_action = new set_value_action<int16_t>{ARM_DOWN_UPDATE_PERIOD, arm_left_motor, -1200,
+                                                             "arm_left_down_action"};
+        arm_right_down_action = new set_value_action<int16_t>{ARM_DOWN_UPDATE_PERIOD, arm_right_motor, -1200,
+                                                              "arm_right_down_action"};
+
+        arm_left_stop_action = new set_value_action<int16_t>{ARM_STOP_UPDATE_PERIOD, arm_left_motor, 0,
+                                                             "arm_left_stop_action"};
+        arm_right_stop_action = new set_value_action<int16_t>{ARM_STOP_UPDATE_PERIOD, arm_right_motor, 0,
+                                                              "arm_right_stop_action"};
+
+        arm_pid_action = new pid_action<double, int16_t>{ARM_PID_UPDATE_PERIOD, arm_motors, 100, 0, 0, -1200, 12000,
+                                                         -1200, 6000, 0, arm_encoder, 0, "arm_pid_action"};
+        elevator_pid_action = new pid_action<double, int16_t>{ELEVATOR_PID_UPDATE_PERIOD, elevator_motor,};
 
         //Action maps
         //Ground all
         ground_all_action_map.push_back(intake_action);
-        ground_all_action_map.push_back(arm_a_down_action);
-        ground_all_action_map.push_back(arm_b_down_action);
-        //Ground arm
-        ground_arm_action_map.push_back(arm_a_down_action);
-        ground_arm_action_map.push_back(arm_b_down_action);
-        ground_arm_action_map.push_back(elevator_zero_action);
-        ground_arm_action_map.push_back(intake_action);
+        ground_all_action_map.push_back(arm_left_down_action);
+        ground_all_action_map.push_back(arm_right_down_action);
+        ground_all_action_map.push_back(elevator_down_action);
+        //Ground arm both
+        ground_arm_both_action_map.push_back(arm_left_down_action);
+        ground_arm_both_action_map.push_back(arm_right_down_action);
+        ground_arm_both_action_map.push_back(elevator_pid_action);
+        ground_arm_both_action_map.push_back(intake_action);
+        //Ground arm left elevator
+        ground_arm_left_elevator_action_map.push_back(arm_left_down_action);
+        ground_arm_left_elevator_action_map.push_back(arm_right_stop_action);
+        ground_arm_left_elevator_action_map.push_back(elevator_down_action);
+        ground_arm_left_elevator_action_map.push_back(intake_action);
+        //Ground arm right elevator
+        ground_arm_right_elevator_action_map.push_back(arm_left_stop_action);
+        ground_arm_right_elevator_action_map.push_back(arm_right_down_action);
+        ground_arm_right_elevator_action_map.push_back(elevator_down_action);
+        ground_arm_right_elevator_action_map.push_back(intake_action);
+        //Ground arm left
+        ground_arm_left_action_map.push_back(arm_left_down_action);
+        ground_arm_left_action_map.push_back(arm_right_stop_action);
+        ground_arm_left_action_map.push_back(elevator_pid_action);
+        ground_arm_left_action_map.push_back(intake_action);
+        //Ground arm right
+        ground_arm_right_action_map.push_back(arm_left_stop_action);
+        ground_arm_right_action_map.push_back(arm_right_down_action);
+        ground_arm_right_action_map.push_back(elevator_pid_action);
+        ground_arm_right_action_map.push_back(intake_action);
         //Ground elevator
+        ground_elevator_action_map.push_back(arm_left_stop_action);
+        ground_elevator_action_map.push_back(arm_right_stop_action);
         ground_elevator_action_map.push_back(elevator_down_action);
-        ground_elevator_action_map.push_back(arm_a_zero_action);
-        ground_elevator_action_map.push_back(arm_b_zero_action);
         ground_elevator_action_map.push_back(intake_action);
         //Ground
-        ground_action_map.push_back(elevator_zero_action);
-        ground_action_map.push_back(arm_a_zero_action);
-        ground_action_map.push_back(arm_b_zero_action);
+        ground_action_map.push_back(arm_pid_action);
+        ground_action_map.push_back(elevator_pid_action);
         ground_action_map.push_back(intake_outtake_action);
         //Flip
-        flip_action_map.push_back(arm_a_flip_pos_action);
-        flip_action_map.push_back(arm_b_flip_pos_action);
-        flip_action_map.push_back(elevator_zero_action);
+        flip_action_map.push_back(arm_pid_action);
+        flip_action_map.push_back(elevator_pid_action);
         flip_action_map.push_back(intake_hold_action);
         //Angle
-        angle_action_map.push_back(arm_a_angle_pos_action);
-        angle_action_map.push_back(arm_b_angle_pos_action);
-        angle_action_map.push_back(elevator_zero_action);
+        angle_action_map.push_back(arm_pid_action);
+        angle_action_map.push_back(elevator_pid_action);
         angle_action_map.push_back(intake_action);
         //Low prime
-        low_prime_action_map.push_back(arm_a_low_prime_pos_action);
-        low_prime_action_map.push_back(arm_b_low_prime_pos_action);
-        low_prime_action_map.push_back(elevator_zero_action);
+        low_prime_action_map.push_back(arm_pid_action);
+        low_prime_action_map.push_back(elevator_pid_action);
         low_prime_action_map.push_back(intake_hold_action);
         //Low move
-        low_move_action_map.push_back(arm_a_low_score_pos_action);
-        low_move_action_map.push_back(arm_b_low_score_pos_action);
-        low_move_action_map.push_back(elevator_zero_action);
+        low_move_action_map.push_back(arm_pid_action);
+        low_move_action_map.push_back(elevator_pid_action);
         low_move_action_map.push_back(intake_hold_action);
         //Low score
-        low_score_action_map.push_back(arm_a_low_score_pos_action);
-        low_score_action_map.push_back(arm_b_low_score_pos_action);
-        low_score_action_map.push_back(elevator_zero_action);
+        low_score_action_map.push_back(arm_pid_action);
+        low_score_action_map.push_back(elevator_pid_action);
         low_score_action_map.push_back(outtake_action);
         //High prime
-        high_prime_action_map.push_back(arm_a_high_prime_pos_action);
-        high_prime_action_map.push_back(arm_b_high_prime_pos_action);
-        high_prime_action_map.push_back(elevator_high_pos_action);
+        high_prime_action_map.push_back(arm_pid_action);
+        high_prime_action_map.push_back(elevator_pid_action);
         high_prime_action_map.push_back(intake_hold_action);
         //High move
-        high_move_action_map.push_back(arm_a_high_score_pos_action);
-        high_move_action_map.push_back(arm_b_high_score_pos_action);
-        high_move_action_map.push_back(elevator_high_pos_action);
+        high_move_action_map.push_back(arm_pid_action);
+        high_move_action_map.push_back(elevator_pid_action);
         high_move_action_map.push_back(intake_hold_action);
         //High score
-        high_score_action_map.push_back(arm_a_high_score_pos_action);
-        high_score_action_map.push_back(arm_b_high_score_pos_action);
-        high_score_action_map.push_back(elevator_high_pos_action);
+        high_score_action_map.push_back(arm_pid_action);
+        high_score_action_map.push_back(elevator_pid_action);
         high_score_action_map.push_back(outtake_action);
 
         //Transition functions
-        ground_all_to_ground_elevator = []() -> bool { return arm_limit_switch->is_pressed(); };
-        ground_all_to_ground_arm = []() -> bool { return elevator_limit_switch->is_pressed(); };
+        ground_all_to_ground_arm_both = []() -> bool{ return elevator_limit_switch->is_pressed(); };
+        ground_all_to_ground_arm_left_elevator = []() -> bool{ return arm_limit_switch_right->is_pressed(); };
+        ground_all_to_ground_arm_right_elevator = []() -> bool{ return arm_limit_switch_left->is_pressed(); };
         ground_all_to_angle = []() -> bool { return angle_button->is_pressed(); };
         ground_all_to_low_prime = []() -> bool { return high_button->is_pressed(); };
+
+        ground_arm_both_to_ground_arm_right = []() -> bool{ return arm_limit_switch_left->is_pressed(); };
+        ground_arm_both_to_ground_arm_left = []() -> bool{ return arm_limit_switch_right->is_pressed(); };
+        ground_arm_both_to_angle = []() -> bool{ return angle_button->is_pressed(); };
+        ground_arm_both_to_low_prime = []() -> bool{ return high_button->is_pressed() };
+
         ground_elevator_to_ground = []() -> bool { return elevator_limit_switch->is_pressed(); };
         ground_elevator_to_angle = []() -> bool { return angle_button->is_pressed(); };
         ground_elevator_to_low_prime = []() -> bool { return low_button->is_pressed() || high_button->is_pressed(); };
@@ -405,35 +424,35 @@ namespace AFR::VexU::Robot::Cap {
         high_score_transitions.emplace_back(high_score_to_ground_all, ground_all, "high_score_to_ground_all");
 
         //On-state entry functions
-        on_ground_all_entry = [](state *last_state) -> void {};
+        on_ground_all_entry = [](state* last_state) -> void{};
 
-        on_ground_elevator_entry = [](state *last_state) -> void {
+        on_ground_elevator_entry = [](state* last_state) -> void{
             arm_encoder->tare_position();
         };
 
-        on_ground_arm_entry = [](state *last_state) -> void {
+        on_ground_arm_entry = [](state* last_state) -> void{
             elevator_encoder->tare_position();
         };
 
-        on_ground_entry = [](state *last_state) -> void {};
+        on_ground_entry = [](state* last_state) -> void{};
 
-        on_flip_entry = [](state *last_state) -> void {};
+        on_flip_entry = [](state* last_state) -> void{};
 
-        on_angle_entry = [](state *last_state) -> void {};
+        on_angle_entry = [](state* last_state) -> void{};
 
-        on_low_prime_entry = [](state *last_state) -> void {};
+        on_low_prime_entry = [](state* last_state) -> void{};
 
-        on_low_move_entry = [](state *last_state) -> void {};
+        on_low_move_entry = [](state* last_state) -> void{};
 
-        on_low_score_entry = [](state *last_state) -> void {
+        on_low_score_entry = [](state* last_state) -> void{
             score_timer = pros::millis() + SCORE_TIME;
         };
 
-        on_high_prime_entry = [](state *last_state) -> void {};
+        on_high_prime_entry = [](state* last_state) -> void{};
 
-        on_high_move_entry = [](state *last_state) -> void {};
+        on_high_move_entry = [](state* last_state) -> void{};
 
-        on_high_score_entry = [](state *last_state) -> void {
+        on_high_score_entry = [](state* last_state) -> void{
             score_timer = pros::millis() + SCORE_TIME;
         };
 
