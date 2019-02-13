@@ -9,7 +9,6 @@ namespace AFR::VexU::BaseAction{
         const Read_T _bottom_threshold;
         const Read_T _top_threshold;
         readable* const _value_pointer;
-        const Write_T _center_value;
         const Write_T _below_value;
         const Write_T _above_value;
 
@@ -24,14 +23,13 @@ namespace AFR::VexU::BaseAction{
          * @param bottom_threshold bottom bound of deadband
          * @param top_threshold top bound of deadband
          * @param value_ptr the pointer to the value to be copied every update
-         * @param center_value output value while in deadband
          * @param below_value output value while below deadband
          * @param above_value output value while above deadband
          * @param name error_t value if error encountered
          */
         dead_band_action(scheduled_update_t update_period, commandable* commandable, Read_T bottom_threshold,
-                         Read_T top_threshold, readable* value_pointer, Write_T center_value,
-                         Write_T below_value, Write_T above_value, const std::string& name);
+                         Read_T top_threshold, readable* value_pointer, Write_T below_value, Write_T above_value, 
+                         const std::string& name);
     };
     template<typename Read_T, typename Write_T>
     void dead_band_action<Read_T, Write_T>::update_private(const double& delta_seconds){
@@ -43,7 +41,9 @@ namespace AFR::VexU::BaseAction{
             return commandable_->set_value(_above_value);
         }
         else {
-            return commandable_->set_value(_center_value);
+            return commandable_->set_value(static_cast<Write_T>(result-_bottom_threshold)*
+                                            (_above_value-_below_value)/static_cast<Write_T>(_top_threshold-_bottom_threshold) +
+                                            _below_value);
         }
     }
 
@@ -52,10 +52,10 @@ namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>
     dead_band_action<Read_T, Write_T>::dead_band_action(scheduled_update_t update_period, commandable* commandable,
                                                         Read_T bottom_threshold, Read_T top_threshold,
-                                                        readable* value_pointer, Write_T center_value,
-                                                        Write_T below_value, Write_T above_value, const std::string& name)
+                                                        readable* value_pointer, Write_T below_value, 
+                                                        Write_T above_value, const std::string& name)
             : action(update_period, commandable, name), _bottom_threshold(bottom_threshold),
-              _top_threshold(top_threshold), _value_pointer(value_pointer), _center_value(center_value),
+              _top_threshold(top_threshold), _value_pointer(value_pointer),
               _below_value(below_value), _above_value(above_value){}
 
 #pragma clang diagnostic pop
