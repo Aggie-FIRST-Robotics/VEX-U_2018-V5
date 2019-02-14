@@ -7,6 +7,13 @@
 
 namespace AFR::VexU::Robot::Cap {
     scheduled_update_t score_timer = 0;
+    scheduled_update_t limit_timer = 0;
+    bool angle_mem = false;
+
+    template<typename T>
+    bool in_range(const T& lower, const T& val, const T& upper){
+        return val >= lower && val <= upper;
+    }
 
     //Commandables
     BaseCommandable::motor_commandable* elevator_motor = nullptr;
@@ -16,7 +23,7 @@ namespace AFR::VexU::Robot::Cap {
     BaseCommandable::multi_motor_commandable* arm_motors = nullptr;
 
     //Readables
-    BaseReadable::adi_digital_readable* arm_limit_switch_left = nullptr;
+//    BaseReadable::adi_digital_readable* arm_limit_switch_left = nullptr;
     BaseReadable::adi_digital_readable* arm_limit_switch_right = nullptr;
     BaseReadable::adi_digital_readable* elevator_limit_switch = nullptr;
     BaseReadable::motor_encoder_readable* arm_encoder = nullptr;
@@ -68,34 +75,32 @@ namespace AFR::VexU::Robot::Cap {
     //Transition functions
     std::function<bool()> ground_all_to_ground_arm_both{};
     std::function<bool()> ground_all_to_ground_arm_left_elevator{};
-    std::function<bool()> ground_all_to_ground_arm_right_elevator{};
+//    std::function<bool()> ground_all_to_ground_arm_right_elevator{};
     std::function<bool()> ground_all_to_angle{};
     std::function<bool()> ground_all_to_low_prime{};
 
-    std::function<bool()> ground_arm_both_to_ground_arm_right{};
+//    std::function<bool()> ground_arm_both_to_ground_arm_right{};
     std::function<bool()> ground_arm_both_to_ground_arm_left{};
     std::function<bool()> ground_arm_both_to_angle{};
     std::function<bool()> ground_arm_both_to_low_prime{};
 
-    std::function<bool()> ground_arm_left_elevator_to_ground_arm_right{};
     std::function<bool()> ground_arm_left_elevator_to_ground_arm_left{};
     std::function<bool()> ground_arm_left_elevator_to_ground_elevator{};
     std::function<bool()> ground_arm_left_elevator_to_angle{};
     std::function<bool()> ground_arm_left_elevator_to_low_prime{};
 
-    std::function<bool()> ground_arm_right_elevator_to_ground_arm_right{};
-    std::function<bool()> ground_arm_right_elevator_to_ground_arm_left{};
-    std::function<bool()> ground_arm_right_elevator_to_ground_elevator{};
-    std::function<bool()> ground_arm_right_elevator_to_angle{};
-    std::function<bool()> ground_arm_right_elevator_to_low_prime{};
+//    std::function<bool()> ground_arm_right_elevator_to_ground_arm_right{};
+//    std::function<bool()> ground_arm_right_elevator_to_ground_elevator{};
+//    std::function<bool()> ground_arm_right_elevator_to_angle{};
+//    std::function<bool()> ground_arm_right_elevator_to_low_prime{};
 
     std::function<bool()> ground_arm_left_to_ground{};
     std::function<bool()> ground_arm_left_to_angle{};
     std::function<bool()> ground_arm_left_to_low_prime{};
 
-    std::function<bool()> ground_arm_right_to_ground{};
-    std::function<bool()> ground_arm_right_to_angle{};
-    std::function<bool()> ground_arm_right_to_low_prime{};
+//    std::function<bool()> ground_arm_right_to_ground{};
+//    std::function<bool()> ground_arm_right_to_angle{};
+//    std::function<bool()> ground_arm_right_to_low_prime{};
 
     std::function<bool()> ground_elevator_to_ground{};
     std::function<bool()> ground_elevator_to_angle{};
@@ -135,9 +140,9 @@ namespace AFR::VexU::Robot::Cap {
     std::vector<transition> ground_all_transitions{};
     std::vector<transition> ground_arm_both_transitions{};
     std::vector<transition> ground_arm_left_elevator_transitions{};
-    std::vector<transition> ground_arm_right_elevator_transitions{};
+//    std::vector<transition> ground_arm_right_elevator_transitions{};
     std::vector<transition> ground_arm_left_transitions{};
-    std::vector<transition> ground_arm_right_transitions{};
+//    std::vector<transition> ground_arm_right_transitions{};
     std::vector<transition> ground_elevator_transitions{};
     std::vector<transition> ground_transitions{};
     std::vector<transition> flip_transitions{};
@@ -153,9 +158,9 @@ namespace AFR::VexU::Robot::Cap {
     std::function<void(state*)> on_ground_all_entry{};
     std::function<void(state*)> on_ground_arm_both_entry{};
     std::function<void(state*)> on_ground_arm_left_elevator_entry{};
-    std::function<void(state*)> on_ground_arm_right_elevator_entry{};
+//    std::function<void(state*)> on_ground_arm_right_elevator_entry{};
     std::function<void(state*)> on_ground_arm_left_entry{};
-    std::function<void(state*)> on_ground_arm_right_entry{};
+//    std::function<void(state*)> on_ground_arm_right_entry{};
     std::function<void(state*)> on_ground_elevator_entry{};
     std::function<void(state*)> on_ground_entry{};
     std::function<void(state*)> on_flip_entry{};
@@ -171,9 +176,9 @@ namespace AFR::VexU::Robot::Cap {
     state* ground_all = nullptr;
     state* ground_arm_both = nullptr;
     state* ground_arm_left_elevator = nullptr;
-    state* ground_arm_right_elevator = nullptr;
+//    state* ground_arm_right_elevator = nullptr;
     state* ground_arm_left = nullptr;
-    state* ground_arm_right = nullptr;
+//    state* ground_arm_right = nullptr;
     state* ground_elevator = nullptr;
     state* ground = nullptr;
     state* flip = nullptr;
@@ -240,7 +245,7 @@ namespace AFR::VexU::Robot::Cap {
 
         //Readables
 
-        arm_limit_switch_left = new adi_digital_readable{ARM_LIMIT_SWITCH_LEFT_PORT, "arm_limit_switch_left"};
+//        arm_limit_switch_left = new adi_digital_readable{ARM_LIMIT_SWITCH_LEFT_PORT, "arm_limit_switch_left"};
         arm_limit_switch_right = new adi_digital_readable{ARM_LIMIT_SWITCH_RIGHT_PORT, "arm_limit_switch_right"};
         elevator_limit_switch = new adi_digital_readable{ELEVATOR_LIMIT_SWITCH_PORT, "elevator_limit_switch"};
 
@@ -277,7 +282,9 @@ namespace AFR::VexU::Robot::Cap {
 
         arm_pid_action = new pid_action<double, int16_t>{ARM_PID_UPDATE_PERIOD, arm_motors, 100, 0, 0, -1200, 12000,
                                                          -1200, 6000, 0, arm_encoder, 0, "arm_pid_action"};
-        elevator_pid_action = new pid_action<double, int16_t>{ELEVATOR_PID_UPDATE_PERIOD, elevator_motor,};
+        elevator_pid_action = new pid_action<double, int16_t>{ELEVATOR_PID_UPDATE_PERIOD, elevator_motor, 100, 0, 0,
+                                                              -1200, 12000, -1200, 6000, 0, elevator_encoder, 0,
+                                                              "elevator_pid_action"};
 
         //Action maps
         //Ground all
@@ -355,112 +362,249 @@ namespace AFR::VexU::Robot::Cap {
         //Transition functions
         ground_all_to_ground_arm_both = []() -> bool{ return elevator_limit_switch->is_pressed(); };
         ground_all_to_ground_arm_left_elevator = []() -> bool{ return arm_limit_switch_right->is_pressed(); };
-        ground_all_to_ground_arm_right_elevator = []() -> bool{ return arm_limit_switch_left->is_pressed(); };
+//        ground_all_to_ground_arm_right_elevator = []() -> bool{ return arm_limit_switch_left->is_pressed(); };
         ground_all_to_angle = []() -> bool { return angle_button->is_pressed(); };
         ground_all_to_low_prime = []() -> bool { return high_button->is_pressed(); };
 
-        ground_arm_both_to_ground_arm_right = []() -> bool{ return arm_limit_switch_left->is_pressed(); };
+//        ground_arm_both_to_ground_arm_right = []() -> bool{ return arm_limit_switch_left->is_pressed(); };
         ground_arm_both_to_ground_arm_left = []() -> bool{ return arm_limit_switch_right->is_pressed(); };
         ground_arm_both_to_angle = []() -> bool{ return angle_button->is_pressed(); };
-        ground_arm_both_to_low_prime = []() -> bool{ return high_button->is_pressed() };
+        ground_arm_both_to_low_prime = []() -> bool{ return high_button->is_pressed(); };
+
+        ground_arm_left_elevator_to_ground_arm_left = []() -> bool{ return elevator_limit_switch->is_pressed(); };
+        ground_arm_left_elevator_to_ground_elevator = []() -> bool{
+//            return arm_limit_switch_left->is_pressed();
+            return limit_timer <= pros::millis();
+        };
+        ground_arm_left_elevator_to_angle = []() -> bool{ return angle_button->is_pressed(); };
+        ground_arm_left_elevator_to_low_prime = []() -> bool{ return high_button->is_pressed(); };
+
+//        ground_arm_right_elevator_to_ground_arm_right = []() -> bool{ return elevator_limit_switch->is_pressed(); };
+//        ground_arm_right_elevator_to_ground_elevator = []() -> bool{ return arm_limit_switch_right->is_pressed(); };
+//        ground_arm_right_elevator_to_angle = []() -> bool{ return angle_button->is_pressed(); };
+//        ground_arm_right_elevator_to_low_prime = []() -> bool{ return high_button->is_pressed(); };
+
+        ground_arm_left_to_ground = []() -> bool{
+//            return arm_limit_switch_left->is_pressed();
+            return limit_timer <= pros::millis();
+        };
+        ground_arm_left_to_angle = []() -> bool{ return angle_button->is_pressed(); };
+        ground_arm_left_to_low_prime = []() -> bool{ return high_button->is_pressed(); };
+
+//        ground_arm_right_to_ground = []() -> bool{ return arm_limit_switch_right->is_pressed(); };
+//        ground_arm_right_to_angle = []() -> bool{ return angle_button->is_pressed(); };
+//        ground_arm_right_to_low_prime = []() -> bool{ return high_button->is_pressed(); };
 
         ground_elevator_to_ground = []() -> bool { return elevator_limit_switch->is_pressed(); };
         ground_elevator_to_angle = []() -> bool { return angle_button->is_pressed(); };
         ground_elevator_to_low_prime = []() -> bool { return low_button->is_pressed() || high_button->is_pressed(); };
-        ground_arm_to_ground = []() -> bool { return arm_limit_switch->is_pressed(); };
-        ground_arm_to_angle = []() -> bool { return angle_button->is_pressed(); };
-        ground_arm_to_low_prime = []() -> bool { return low_button->is_pressed() || high_button->is_pressed(); };
+
         ground_to_flip = []() -> bool { return flip_button->is_pressed(); };
         ground_to_angle = []() -> bool { return angle_button->is_pressed(); };
+        ground_to_low_prime = []() -> bool{ return high_button->is_pressed(); };
+
         flip_to_ground_all = []() -> bool { return !(flip_button->is_pressed()); };
         flip_to_angle = []() -> bool { return angle_button->is_pressed(); };
         flip_to_low_prime = []() -> bool { return low_button->is_pressed() || high_button->is_pressed(); };
+
         angle_to_low_prime = []() -> bool { return low_button->is_pressed() || high_button->is_pressed(); };
+        angle_to_ground_all = []() -> bool{
+            if(angle_mem){
+                return angle_button->is_pressed();
+            }
+            angle_mem = !angle_button->is_pressed();
+            return false;
+        };
+
         low_prime_to_high_prime = []() -> bool { return high_button->is_pressed(); };
         low_prime_to_angle = []() -> bool { return angle_button->is_pressed(); };
         low_prime_to_ground_all = []() -> bool { return low_button->is_pressed(); };
         low_prime_to_low_move = []() -> bool { return score_button->is_pressed(); };
+
         low_move_to_low_prime = []() -> bool { return false; /*check for error*/ };
-        low_move_to_low_score = []() -> bool { return (arm_encoder->get_position() >= ARM_ENCODER_LOW_SCORE_THRESHOLD) &&
-                                                      (elevator_encoder->get_position() >= ELEVATOR_ENCODER_LOW_SCORE_THRESHOLD);};
+        low_move_to_low_score = []() -> bool{
+            return in_range(ARM_LOW_SCORE_LOWER, arm_encoder->get_position(), ARM_LOW_SCORE_UPPER) &&
+                   in_range(ELEVATOR_LOW_SCORE_LOWER, elevator_encoder->get_position(), ELEVATOR_LOW_SCORE_UPPER);
+        };
+
         low_score_to_ground_all = []() -> bool { return score_timer <= pros::millis(); };
+
         high_prime_to_low_prime = []() -> bool { return low_button->is_pressed(); };
         high_prime_to_angle = []() -> bool { return angle_button->is_pressed(); };
-        high_prime_to_high_move = []() -> bool { return score_button->is_pressed(); };
+        high_prime_to_high_move = []() -> bool{ return score_button->is_pressed(); };
         high_move_to_high_prime = []() -> bool { return false; /*check for error*/ };
-        high_move_to_high_score = []() -> bool { return (arm_encoder->get_position() >= ARM_ENCODER_HIGH_SCORE_THRESHOLD) &&
-                                                        (elevator_encoder->get_position() >= ELEVATOR_ENCODER_HIGH_SCORE_THRESHOLD);};
+        high_move_to_high_score = []() -> bool{
+            return in_range(ARM_HIGH_SCORE_LOWER, arm_encoder->get_position(), ARM_HIGH_SCORE_UPPER) &&
+                   in_range(ELEVATOR_HIGH_SCORE_LOWER, elevator_encoder->get_position(), ELEVATOR_HIGH_SCORE_UPPER);
+        };
+
         high_score_to_ground_all = []() -> bool { return score_timer <= pros::millis(); };
 
         //Transition vectors
-        ground_all_transitions.emplace_back(ground_all_to_ground_elevator, ground_elevator, "ground_all_to_elevatgr");
-        ground_all_transitions.emplace_back(ground_all_to_ground_arm, ground_arm, "ground_all_to_ground_arm");
-        ground_all_transitions.emplace_back(ground_all_to_angle, angle, "ground_all_to_angle");
+        ground_all_transitions.emplace_back(ground_all_to_ground_arm_both, ground_arm_both,
+                                            "ground_all_to_ground_arm_both");
+        ground_all_transitions.emplace_back(ground_all_to_ground_arm_left_elevator, ground_arm_left_elevator,
+                                            "ground_all_to_ground_arm_left_elevator");
+//        ground_all_transitions.emplace_back(ground_all_to_ground_arm_right_elevator, ground_arm_right_elevator, "ground_all_to_ground_arm_right_elevator");
+        ground_all_transitions.emplace_back(ground_all_to_angle, low_prime, "ground_all_to_low_prime");
         ground_all_transitions.emplace_back(ground_all_to_low_prime, low_prime, "ground_all_to_low_prime");
+
+        ground_arm_both_transitions.emplace_back(ground_arm_both_to_ground_arm_left, ground_arm_left,
+                                                 "ground_arm_both_to_ground_arm_right");
+//        ground_arm_both_transitions.emplace_back(ground_arm_both_to_ground_arm_right, ground_arm_right, "ground_arm_both_to_ground_arm_right");
+        ground_arm_both_transitions.emplace_back(ground_arm_both_to_angle, angle, "ground_arm_both_to_angle");
+        ground_arm_both_transitions.emplace_back(ground_arm_both_to_low_prime, low_prime,
+                                                 "ground_arm_both_to_low_prime");
+
+        ground_arm_left_elevator_transitions.emplace_back(ground_arm_left_elevator_to_ground_arm_left, ground_arm_left,
+                                                          "ground_arm_left_elevator_to_ground_arm_left");
+        ground_arm_left_elevator_transitions.emplace_back(ground_arm_left_elevator_to_ground_elevator, ground_elevator,
+                                                          "ground_arm_left_elevator_to_ground_elevator");
+        ground_arm_left_elevator_transitions.emplace_back(ground_arm_left_elevator_to_angle, angle,
+                                                          "ground_arm_left_elevator_to_angle");
+        ground_arm_left_elevator_transitions.emplace_back(ground_arm_left_elevator_to_low_prime, low_prime,
+                                                          "ground_arm_left_elevator_to_low_prime");
+
+//        ground_arm_right_elevator_transitions.emplace_back(ground_arm_right_elevator_to_ground_arm_right, ground_arm_right, "ground_arm_right_elevator_to_ground_arm_right");
+//        ground_arm_right_elevator_transitions.emplace_back(ground_arm_right_elevator_to_ground_elevator, ground_elevator, "ground_arm_right_elevator_to_ground_elevator");
+//        ground_arm_right_elevator_transitions.emplace_back(ground_arm_right_elevator_to_angle, angle, "ground_arm_right_elevator_to_angle");
+//        ground_arm_right_elevator_transitions.emplace_back(ground_arm_right_elevator_to_low_prime, low_prime, "ground_arm_right_elevator_to_low_prime");
+
+        ground_arm_left_transitions.emplace_back(ground_arm_left_to_ground, ground, "ground_arm_left_to_ground");
+        ground_arm_left_transitions.emplace_back(ground_arm_left_to_angle, angle, "ground_arm_left_to_angle");
+        ground_arm_left_transitions.emplace_back(ground_arm_left_to_low_prime, low_prime,
+                                                 "ground_arm_left_to_low_prime");
+
+//        ground_arm_right_transitions.emplace_back(ground_arm_right_to_ground, ground, "ground_arm_right_to_ground");
+//        ground_arm_right_transitions.emplace_back(ground_arm_right_to_angle, angle, "ground_arm_right_to_angle");
+//        ground_arm_right_transitions.emplace_back(ground_arm_right_to_low_prime, low_prime, "ground_arm_right_to_low_prime");
+
         ground_elevator_transitions.emplace_back(ground_elevator_to_ground, ground, "ground_elevator_to_ground");
         ground_elevator_transitions.emplace_back(ground_elevator_to_angle, angle, "ground_elevator_to_angle");
         ground_elevator_transitions.emplace_back(ground_elevator_to_low_prime, low_prime, "ground_elevator_to_low_prime");
-        ground_arm_transitions.emplace_back(ground_arm_to_ground, ground, "ground_arm_to_ground");
-        ground_arm_transitions.emplace_back(ground_arm_to_angle, angle, "ground_arm_to_angle");
-        ground_arm_transitions.emplace_back(ground_arm_to_low_prime, low_prime, "ground_arm_to_low_prime");
+
         ground_transitions.emplace_back(ground_to_flip, flip, "ground_to_flip");
         ground_transitions.emplace_back(ground_to_angle, angle, "ground_to_angle");
+        ground_transitions.emplace_back(ground_to_low_prime, low_prime, "ground_to_low_prime");
+
         flip_transitions.emplace_back(flip_to_ground_all, ground_all, "flip_to_ground_all");
         flip_transitions.emplace_back(flip_to_angle, angle, "flip_to_angle");
         flip_transitions.emplace_back(flip_to_low_prime, low_prime, "flip_to_low_prime");
+
         angle_transitions.emplace_back(angle_to_low_prime, low_prime, "angle_to_low_prime");
+        angle_transitions.emplace_back(angle_to_ground_all, ground_all, "angle_to_ground_all");
+
         low_prime_transitions.emplace_back(low_prime_to_high_prime, high_prime, "low_prime_to_high_prime");
         low_prime_transitions.emplace_back(low_prime_to_angle, angle, "low_prime_to_angle");
         low_prime_transitions.emplace_back(low_prime_to_ground_all, ground_all, "low_prime_to_ground_all");
         low_prime_transitions.emplace_back(low_prime_to_low_move, low_move, "low_prime_to_low_move");
+
         low_move_transitions.emplace_back(low_move_to_low_prime, low_prime, "low_move_to_low_prime");
         low_move_transitions.emplace_back(low_move_to_low_score, low_score, "low_move_to_low_score");
+
         low_score_transitions.emplace_back(low_score_to_ground_all, ground_all, "low_score_to_ground_all");
+
         high_prime_transitions.emplace_back(high_prime_to_low_prime, low_prime, "high_prime_to_low_prime");
         high_prime_transitions.emplace_back(high_prime_to_angle, angle, "high_prime_to_angle");
         high_prime_transitions.emplace_back(high_prime_to_high_move, high_move, "high_prime_to_high_move");
+
         high_move_transitions.emplace_back(high_move_to_high_prime, high_prime, "high_move_to_high_prime");
         high_move_transitions.emplace_back(high_move_to_high_score, high_score, "high_move_to_high_score");
+
         high_score_transitions.emplace_back(high_score_to_ground_all, ground_all, "high_score_to_ground_all");
 
         //On-state entry functions
         on_ground_all_entry = [](state* last_state) -> void{};
 
+        on_ground_arm_both_entry = [](state* last_state) -> void{
+            elevator_encoder->tare_position();
+            elevator_pid_action->set_target(0);
+        };
+
+        on_ground_arm_left_elevator_entry = [](state* last_state) -> void{
+            limit_timer = pros::millis() + LEFT_DOWN_TIME;
+        };
+
+//        on_ground_arm_right_elevator_entry = [](state* last_state) -> void{};
+
+        on_ground_arm_left_entry = [](state* last_state) -> void{
+            limit_timer = pros::millis() + LEFT_DOWN_TIME;
+            elevator_encoder->tare_position();
+            elevator_pid_action->set_target(0);
+        };
+
+//        on_ground_arm_right_entry = [](state* last_state) -> void{
+//            elevator_encoder->tare_position();
+//            elevator_pid_action->set_target(0);
+//        };
+
         on_ground_elevator_entry = [](state* last_state) -> void{
             arm_encoder->tare_position();
+            arm_pid_action->set_target(0);
         };
 
-        on_ground_arm_entry = [](state* last_state) -> void{
-            elevator_encoder->tare_position();
+        on_ground_entry = [](state* last_state) -> void{
+            if(last_state == ground_elevator){
+                elevator_encoder->tare_position();
+                elevator_pid_action->set_target(0);
+            }
+            else{
+                arm_encoder->tare_position();
+                arm_pid_action->set_target(0);
+            }
         };
 
-        on_ground_entry = [](state* last_state) -> void{};
+        on_flip_entry = [](state* last_state) -> void{
+            arm_pid_action->set_target(ARM_FLIP_TARGET);
+        };
 
-        on_flip_entry = [](state* last_state) -> void{};
+        on_angle_entry = [](state* last_state) -> void{
+            angle_mem = !angle_button->is_pressed();
+            arm_pid_action->set_target(ARM_ANGLE_TARGET);
+        };
 
-        on_angle_entry = [](state* last_state) -> void{};
+        on_low_prime_entry = [](state* last_state) -> void{
+            elevator_pid_action->set_target(ELEVATOR_LOW_PRIME_TARGET);
+            arm_pid_action->set_target(ARM_LOW_PRIME_TARGET);
+        };
 
-        on_low_prime_entry = [](state* last_state) -> void{};
-
-        on_low_move_entry = [](state* last_state) -> void{};
+        on_low_move_entry = [](state* last_state) -> void{
+            elevator_pid_action->set_target(ELEVATOR_LOW_MOVE_TARGET);
+            arm_pid_action->set_target(ARM_LOW_MOVE_TARGET);
+        };
 
         on_low_score_entry = [](state* last_state) -> void{
             score_timer = pros::millis() + SCORE_TIME;
+            elevator_pid_action->set_target(ELEVATOR_LOW_SCORE_TARGET);
+            arm_pid_action->set_target(ARM_LOW_SCORE_TARGET);
         };
 
-        on_high_prime_entry = [](state* last_state) -> void{};
+        on_high_prime_entry = [](state* last_state) -> void{
+            elevator_pid_action->set_target(ELEVATOR_HIGH_PRIME_TARGET);
+            arm_pid_action->set_target(ARM_HIGH_PRIME_TARGET);
+        };
 
-        on_high_move_entry = [](state* last_state) -> void{};
+        on_high_move_entry = [](state* last_state) -> void{
+            elevator_pid_action->set_target(ELEVATOR_HIGH_MOVE_TARGET);
+            arm_pid_action->set_target(ARM_HIGH_MOVE_TARGET);
+        };
 
         on_high_score_entry = [](state* last_state) -> void{
             score_timer = pros::millis() + SCORE_TIME;
+            elevator_pid_action->set_target(ELEVATOR_HIGH_SCORE_TARGET);
+            arm_pid_action->set_target(ARM_HIGH_SCORE_TARGET);
         };
 
         //States
         ground_all = new state{ground_all_action_map, ground_all_transitions, on_ground_all_entry, "ground_all"};
+        ground_arm_both = new state{ground_arm_both_action_map, ground_arm_both_transitions, on_ground_arm_both_entry,
+                                    "ground_arm_both"};
+        ground_arm_left_elevator = new state{ground_arm_left_elevator_action_map, ground_arm_left_elevator_transitions,
+                                             on_ground_arm_left_elevator_entry, "ground_arm_left_elevator"};
+        ground_arm_left = new state{ground_arm_left_action_map, ground_arm_left_transitions, on_ground_arm_left_entry,
+                                    "ground_arm_left"};
         ground_elevator = new state{ground_elevator_action_map, ground_elevator_transitions, on_ground_elevator_entry,
                                     "ground_elevator"};
-        ground_arm = new state{ground_arm_action_map, ground_arm_transitions, on_ground_arm_entry, "ground_arm"};
         ground = new state{ground_action_map, ground_transitions, on_ground_entry, "ground"};
         flip = new state{flip_action_map, flip_transitions, on_flip_entry, "flip"};
 
@@ -474,8 +618,11 @@ namespace AFR::VexU::Robot::Cap {
 
         //State map
         states.push_back(ground_all);
+        states.push_back(ground_arm_both);
+        states.push_back(ground_arm_left_elevator);
+        states.push_back(ground_arm_left);
         states.push_back(ground_elevator);
-        states.push_back(ground_arm);
+//        states.push_back(ground_arm);
         states.push_back(ground);
         states.push_back(flip);
         states.push_back(angle);
@@ -488,9 +635,10 @@ namespace AFR::VexU::Robot::Cap {
 
         //Commandable map
         commandables.push_back(intake_motor);
-        commandables.push_back(arm_a_motor);
-        commandables.push_back(arm_b_motor);
+        commandables.push_back(arm_left_motor);
+        commandables.push_back(arm_right_motor);
         commandables.push_back(elevator_motor);
+        commandables.push_back(arm_motors);
 
         cap_state_machine = new state_controller{CAP_SYSTEM_UPDATE_PERIOD, states, commandables, ground_all,
                                                  "ground_all"};
@@ -501,7 +649,7 @@ namespace AFR::VexU::Robot::Cap {
          arm_encoder_order = new ordered_input{ARM_ENCODER_ORDER, arm_encoder};
          elevator_encoder_order = new ordered_input{ELEVATOR_ENCODER_ORDER, elevator_encoder};*/
 
-        inputs.push_back(arm_limit_switch);
+        inputs.push_back(arm_limit_switch_right);
         inputs.push_back(elevator_limit_switch);
         inputs.push_back(arm_encoder);
         inputs.push_back(elevator_encoder);
@@ -513,49 +661,25 @@ namespace AFR::VexU::Robot::Cap {
 
     void destroy() {
         delete (elevator_motor);
-        delete (arm_a_motor);
-        delete (arm_b_motor);
+        delete (arm_left_motor);
+        delete (arm_right_motor);
         delete (intake_motor);
+        delete (arm_motors);
 
-        delete (arm_limit_switch);
+        delete (arm_limit_switch_right);
         delete (elevator_limit_switch);
         delete (arm_encoder);
         delete (elevator_encoder);
-        delete (intake_button);
-        delete (outtake_button);
-        delete (flip_button);
-        delete (angle_button);
-        delete (low_button);
-        delete (high_button);
-        delete (score_button);
 
         delete (intake_action);
         delete (intake_hold_action);
         delete (outtake_action);
         delete (intake_outtake_action);
         delete (elevator_down_action);
-        delete (elevator_zero_action);
-        delete (elevator_high_pos_action);
-        delete (arm_a_down_action);
-        delete (arm_b_down_action);
-        delete (arm_a_zero_action);
-        delete (arm_b_zero_action);
-        delete (arm_a_flip_pos_action);
-        delete (arm_b_flip_pos_action);
-        delete (arm_a_angle_pos_action);
-        delete (arm_b_angle_pos_action);
-        delete (arm_a_low_prime_pos_action);
-        delete (arm_b_low_prime_pos_action);
-        delete (arm_a_low_score_pos_action);
-        delete (arm_b_low_score_pos_action);
-        delete (arm_a_high_prime_pos_action);
-        delete (arm_b_high_prime_pos_action);
-        delete (arm_a_high_score_pos_action);
-        delete (arm_b_high_score_pos_action);
 
         delete (ground_all);
         delete (ground_elevator);
-        delete (ground_arm);
+//        delete (ground_arm);
         delete (ground);
         delete (flip);
         delete (angle);

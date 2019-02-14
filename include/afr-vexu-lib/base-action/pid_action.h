@@ -26,6 +26,7 @@ namespace AFR::VexU::BaseAction{
 
         void update_private(const double& delta_seconds) override;
 
+    public:
         /**
          * Sets PID constants
          * @param p_value P constant
@@ -65,7 +66,6 @@ namespace AFR::VexU::BaseAction{
          */
         void set_target(Read_T set_point);
 
-    public:
         /**
          * Creates a PID action
          * @param update_period passed to scheduled

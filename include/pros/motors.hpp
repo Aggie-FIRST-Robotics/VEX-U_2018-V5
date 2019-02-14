@@ -233,16 +233,16 @@ class Motor {
 	/**    These functions allow programmers to collect telemetry from motors  **/
 	/****************************************************************************/
 
-	/**
-	 * Gets the actual velocity of the motor.
-	 *
-	 * This function uses the following values of errno when an error state is
-	 * reached:
-	 * EACCES - Another resource is currently trying to access the port.
-	 *
-	 * \return The motor's actual velocity in motor_encoder_units_e_t per second
-	 * or PROS_ERR_F if the operation failed, setting errno.
-	 */
+    /**
+     * Gets the actual velocity of the motor.
+     *
+     * This function uses the following values of errno when an error state is
+     * reached:
+     * EACCES - Another resource is currently trying to access the port.
+     *
+     * \return The motor's actual velocity in RPM or PROS_ERR_F if the operation
+     * failed, setting errno.
+     */
 	virtual double get_actual_velocity(void) const;
 
 	/**
@@ -722,18 +722,18 @@ class Motor {
 	 */
 	virtual motor_brake_mode_e_t get_brake_mode(void) const;
 
-	/**
-	 * Gets the current limit for the motor in mA.
-	 *
-	 * The default value is 2500 mA.
-	 *
-	 * This function uses the following values of errno when an error state is
-	 * reached:
-	 * EACCES - Another resource is currently trying to access the port.
-	 *
-	 * \return 1 if the operation was successful or PROS_ERR if the operation
-	 * failed, setting errno.
-	 */
+    /**
+     * Gets the current limit for the motor in mA.
+     *
+     * The default value is 2500 mA.
+     *
+     * This function uses the following values of errno when an error state is
+     * reached:
+     * EACCES - Another resource is currently trying to access the port.
+     *
+     * \return The motor's current limit in mA or PROS_ERR if the operation failed,
+     * setting errno.
+     */
 	virtual std::int32_t get_current_limit(void) const;
 
 	/**

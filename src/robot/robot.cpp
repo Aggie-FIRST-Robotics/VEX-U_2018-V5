@@ -1,3 +1,4 @@
+#include "display/lv_core/lv_style.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 #include "afr-vexu-lib/ports_list.h"
@@ -15,6 +16,7 @@
 namespace AFR::VexU::Robot{
     BaseReadable::motor_temperature_readable* nautilus_temp = nullptr;
     BaseReadable::motor_current_readable* nautilus_current = nullptr;
+
     void init_robot(){
         try{
             nautilus_temp = new BaseReadable::motor_temperature_readable{NAUTILUS_MOTOR_PORT, "nautilus_temp"};
@@ -35,9 +37,11 @@ namespace AFR::VexU::Robot{
             Cap::init();
             std::cout << "Cap Initialized" << std::endl;
 
-            if(!pros::lcd::initialize()){
-                throw std::runtime_error{"Cannot initialize lcd! " + std::to_string(pros::lcd::is_initialized())};
-            }
+            do_screen_stuff();
+
+//            if(!pros::lcd::initialize()){
+//                throw std::runtime_error{"Cannot initialize lcd! " + std::to_string(pros::lcd::is_initialized())};
+//            }
 //            std::cout << "Current Limit: " << pros::c::motor_get_current_limit(NAUTILUS_MOTOR_PORT) << std::endl;
 //            std::cout << "Voltage Limit: " << pros::c::motor_get_voltage_limit(NAUTILUS_MOTOR_PORT) << std::endl;
 //            std::cout << (pros::c::motor_get_faults(NAUTILUS_MOTOR_PORT) & pros::E_MOTOR_FAULT_MOTOR_OVER_TEMP) << std::endl;
@@ -63,26 +67,32 @@ namespace AFR::VexU::Robot{
         std::cout << "OPControl Begin" << std::endl;
         while(true){
             try{
+//                std::cout << 1;
                 Catapult::catapult_subsystem->updateInputs();
                 Drive::drive_subsystem->updateInputs();
+//                std::cout << 4;
                 Cap::cap_subsystem->updateInputs();
 
+//                std::cout << 2;
                 Catapult::catapult_subsystem->updateStates();
                 Drive::drive_subsystem->updateStates();
                 Cap::cap_subsystem->updateStates();
 
-                Catapult::catapult_subsystem->updateActions();
+//                std::cout << 3;
+//                Catapult::catapult_subsystem->updateActions();
                 Drive::drive_subsystem->updateActions();
                 Cap::cap_subsystem->updateActions();
 //                std::cout << "Current drive state: "
 //                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
 //                          << std::endl;
 
-                std::string temp = "Temperature: " + std::to_string(nautilus_temp->get_temperature());
-                std::string current = "Current:     " + std::to_string(nautilus_current->get_current());
-                pros::lcd::set_text(0, temp);
-                pros::lcd::set_text(1, current);
+//                std::string temp = "Temperature: " + std::to_string(nautilus_temp->get_temperature());
+//                std::string current = "Current:     " + std::to_string(nautilus_current->get_current());
+//                pros::lcd::set_text(0, temp);
+//                pros::lcd::set_text(1, current);
 //                std::cout << temp << ", " << current << std::endl;
+//                std::cout << Catapult::catapult_subsystem->get_state_machines().at(0)->get_current_state()->get_name() << std::endl;
+//                std::cout << std::endl;
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;
@@ -112,6 +122,17 @@ namespace AFR::VexU::Robot{
     void restart(){
         destroy();
         init_robot();
+    }
+
+    void do_screen_stuff(){
+//        lv_init();
+//        lv_obj_t* title = lv_label_create(lv_scr_act(), nullptr);
+//        lv_label_set_text(title, "Test");
+//        static lv_style_t text_style;
+//        lv_style_copy(&text_style, &lv_style_plain);
+//        text_style.text.color = LV_COLOR_WHITE;
+//        lv_obj_set_style(title, &text_style);
+//        lv_obj_align(title, nullptr, LV_ALIGN_IN_TOP_MID, 0, 50);
     }
 }
 #pragma clang diagnostic pop

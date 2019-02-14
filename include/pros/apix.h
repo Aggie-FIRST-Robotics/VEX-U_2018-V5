@@ -30,8 +30,8 @@
 #pragma GCC diagnostic pop
 
 #ifdef __cplusplus
+namespace pros::c{
 extern "C" {
-using namespace pros;
 #endif
 
 /******************************************************************************/
@@ -41,7 +41,7 @@ using namespace pros;
 /**See https://pros.cs.purdue.edu/v5/extended/multitasking.html to learn more**/
 /******************************************************************************/
 
-typedef void* queue_t;
+    typedef void* queue_t;
 typedef void* sem_t;
 
 /**
@@ -52,6 +52,28 @@ typedef void* sem_t;
  * details.
  */
 bool task_abort_delay(task_t task);
+
+/**
+ * Notify a task when a target task is being deleted.
+ *
+ * This function will configure the PROS kernel to call
+ * task_notify_ext(task_to_notify, value, action, NULL) when target_task is
+ * deleted.
+ *
+ * NOTE: This facility does not support the case when task_to_notify
+ *       dies before target_task
+ *
+ * \param target_task
+ *				The task being watched for deletion
+ * \param task_to_notify
+ *        The task to notify when target_task is deleted
+ * \param value
+ *				The value to supply to task_notify_ext
+ * \param notify_action
+ * 				The action to supply to task_notify_ext
+ */
+    void task_notify_when_deleting(task_t target_task, task_t task_to_notify, uint32_t value,
+                                   notify_action_e_t notify_action);
 
 /**
  * Creates a recursive mutex which can be locked recursively by the owner.
@@ -345,13 +367,13 @@ void queue_reset(queue_t queue);
  * api.
  */
 typedef enum v5_device_e {
-	E_DEVICE_NONE = 0,
-	E_DEVICE_MOTOR = 2,
-	E_DEVICE_RADIO = 8,
-	E_DEVICE_VISION = 11,
-	E_DEVICE_ADI = 12,
-	E_DEVICE_GENERIC = 129,
-	E_DEVICE_UNDEFINED = 255
+    E_DEVICE_NONE = 0,
+    E_DEVICE_MOTOR = 2,
+    E_DEVICE_RADIO = 8,
+    E_DEVICE_VISION = 11,
+    E_DEVICE_ADI = 12,
+    E_DEVICE_GENERIC = 129,
+    E_DEVICE_UNDEFINED = 255
 } v5_device_e_t;
 
 /*
@@ -519,6 +541,7 @@ int32_t fdctl(int file, const uint32_t action, void* const extra_arg);
 #define DEVCTL_SET_BAUDRATE 17
 
 #ifdef __cplusplus
+}
 }
 #endif
 

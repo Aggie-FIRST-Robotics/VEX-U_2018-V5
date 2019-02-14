@@ -5,8 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#ifndef _OKAPI_CHASSISCONTROLLERINTEGRATED_HPP_
-#define _OKAPI_CHASSISCONTROLLERINTEGRATED_HPP_
+#pragma once
 
 #include "okapi/api/chassis/controller/chassisController.hpp"
 #include "okapi/api/control/async/asyncPosIntegratedController.hpp"
@@ -27,12 +26,12 @@ class ChassisControllerIntegrated : public virtual ChassisController {
    * @param iscales see ChassisScales docs
    */
   ChassisControllerIntegrated(
-    const TimeUtil &itimeUtil,
-    std::shared_ptr<ChassisModel> imodel,
-    std::unique_ptr<AsyncPosIntegratedController> ileftController,
-    std::unique_ptr<AsyncPosIntegratedController> irightController,
-    AbstractMotor::GearsetRatioPair igearset = AbstractMotor::gearset::red,
-    const ChassisScales &iscales = ChassisScales({1, 1}));
+          const TimeUtil &itimeUtil,
+          const std::shared_ptr<ChassisModel>& imodel,
+          std::unique_ptr<AsyncPosIntegratedController> ileftController,
+          std::unique_ptr<AsyncPosIntegratedController> irightController,
+          AbstractMotor::GearsetRatioPair igearset = AbstractMotor::gearset::red,
+          const ChassisScales &iscales = ChassisScales({1, 1}));
 
   /**
    * Drives the robot straight for a distance (using closed-loop control).
@@ -127,5 +126,3 @@ class ChassisControllerIntegrated : public virtual ChassisController {
   AbstractMotor::GearsetRatioPair gearsetRatioPair;
 };
 } // namespace okapi
-
-#endif
