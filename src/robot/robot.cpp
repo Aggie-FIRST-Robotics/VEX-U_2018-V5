@@ -29,9 +29,9 @@ namespace AFR::VexU::Robot{
             init_ports_list();
             std::cout << "Ports List Initialized" << std::endl;
 
-            //  Catapult::init();
+            Catapult::init();
             std::cout << "Catapult Initialized" << std::endl;
-            //  Drive::init();
+            Drive::init();
             std::cout << "Drive Initialized" << std::endl;
             Shooter::init();
             pros::lcd::initialize();
@@ -57,15 +57,25 @@ namespace AFR::VexU::Robot{
         std::cout << "OPControl Begin" << std::endl;
         while(true){
             try{
-                Catapult::catapult_subsystem->updateInputs();
-                Drive::drive_subsystem->updateInputs();
 
-                Catapult::catapult_subsystem->updateStates();
-                Drive::drive_subsystem->updateStates();
+                Shooter::shooter_subsystem->updateInputs();
+                //Drive::drive_subsystem->updateInputs();
 
-                Catapult::catapult_subsystem->updateActions();
-                Drive::drive_subsystem->updateActions();
-//                std::cout << "Current drive state: "
+                Shooter::shooter_subsystem->updateStates();
+                //Drive::drive_subsystem->updateStates();
+
+                Shooter::shooter_subsystem->updateActions();
+                //Drive::drive_subsystem->updateActions();
+
+//                Catapult::catapult_subsystem->updateInputs();
+//                Drive::drive_subsystem->updateInputs();
+//
+//                Catapult::catapult_subsystem->updateStates();
+//                Drive::drive_subsystem->updateStates();
+//
+//                Catapult::catapult_subsystem->updateActions();
+//                Drive::drive_subsystem->updateActions();
+                std::cout << "Brett is  God";
 //                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
 //                          << std::endl;
 
