@@ -167,7 +167,11 @@ namespace AFR::VexU::BaseAction{
             : action(update_period, commandable, name), _p_value(p_value), _i_value(i_value), _d_value(d_value),
               _min_value(min_value), _max_value(max_value), _min_i_value(min_i_value), _max_i_value(max_i_value),
               _offset(offset), _value_pointer(value_pointer), _set_point(setpoint), last_error(0), last_value(0),
-              i_term(0), running(false){}
+              i_term(0), running(false){
+        if(_value_pointer == nullptr){
+            throw std::runtime_error{"Cannot have nullptr for value pointer!"};
+        }
+    }
 
 }
 
