@@ -9,6 +9,7 @@ namespace AFR::VexU::Robot::Cap {
     scheduled_update_t score_timer = 0;
     scheduled_update_t limit_timer = 0;
     bool angle_mem = false;
+    bool high_mem = false;
 
     template<typename T>
     bool in_range(const T& lower, const T& val, const T& upper){
@@ -444,7 +445,13 @@ namespace AFR::VexU::Robot::Cap {
             return false;
         };
 
-        low_prime_to_high_prime = []() -> bool { return high_button->is_pressed(); };
+        low_prime_to_high_prime = []() -> bool {
+            if(high_mem){
+                return high_button->is_pressed();
+            }
+            high_mem = !high_button->is_pressed();
+            return false;
+        };
         low_prime_to_angle = []() -> bool { return angle_button->is_pressed(); };
         low_prime_to_ground_all = []() -> bool { return low_button->is_pressed(); };
         low_prime_to_low_move = []() -> bool { return score_button->is_pressed(); };
@@ -600,6 +607,7 @@ namespace AFR::VexU::Robot::Cap {
         };
 
         on_low_prime_entry = [](state* last_state) -> void{
+            low_mem = !low_button->is_pressed();
             elevator_pid_action->set_target(ELEVATOR_LOW_PRIME_TARGET);
             arm_pid_action->set_target(ARM_LOW_PRIME_TARGET);
         };
