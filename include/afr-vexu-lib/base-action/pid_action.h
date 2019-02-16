@@ -126,7 +126,7 @@ namespace AFR::VexU::BaseAction{
         }
 
         last_value = std::any_cast<Read_T>(_value_pointer->get_value());
-        return commandable_->set_value(write_value);
+//        commandable_->set_value(write_value);
     }
 
     template<typename Read_T, typename Write_T>
@@ -170,6 +170,9 @@ namespace AFR::VexU::BaseAction{
               i_term(0), running(false){
         if(_value_pointer == nullptr){
             throw std::runtime_error{"Cannot have nullptr for value pointer!"};
+        }
+        if(commandable == nullptr){
+            throw std::runtime_error{"Cannot have nullptr for commandable!"};
         }
     }
 

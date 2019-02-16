@@ -243,6 +243,12 @@ namespace AFR::VexU::Robot::Cap {
                 "intake_motor"
         };
 
+        arm_motors = new multi_motor_commandable{
+                "arm_motors"
+        };
+        arm_motors->add_motor(arm_left_motor);
+        arm_motors->add_motor(arm_right_motor);
+
         //Readables
 
 //        arm_limit_switch_left = new adi_digital_readable{ARM_LIMIT_SWITCH_LEFT_PORT, "arm_limit_switch_left"};

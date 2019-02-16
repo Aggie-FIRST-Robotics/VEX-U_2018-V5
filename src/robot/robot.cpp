@@ -79,7 +79,7 @@ namespace AFR::VexU::Robot{
                 Cap::cap_subsystem->updateStates();
 
 //                std::cout << 3;
-//                Catapult::catapult_subsystem->updateActions();
+                Catapult::catapult_subsystem->updateActions();
                 Drive::drive_subsystem->updateActions();
                 Cap::cap_subsystem->updateActions();
 //                std::cout << "Current drive state: "
@@ -91,7 +91,8 @@ namespace AFR::VexU::Robot{
 //                pros::lcd::set_text(0, temp);
 //                pros::lcd::set_text(1, current);
 //                std::cout << temp << ", " << current << std::endl;
-//                std::cout << Catapult::catapult_subsystem->get_state_machines().at(0)->get_current_state()->get_name() << std::endl;
+                std::cout << Cap::cap_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
+                          << std::endl;
 //                std::cout << std::endl;
             }
             catch(std::exception& e){
