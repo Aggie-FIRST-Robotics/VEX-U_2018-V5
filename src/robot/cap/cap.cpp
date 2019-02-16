@@ -41,7 +41,6 @@ namespace AFR::VexU::Robot::Cap {
     BaseAction::set_value_action<int16_t>* intake_action = nullptr;
     BaseAction::set_value_action<int16_t>* intake_hold_action = nullptr;
     BaseAction::set_value_action<int16_t>* outtake_action = nullptr;
-    BaseAction::intake_control_action* intake_outtake_action = nullptr;
 
     BaseAction::set_value_action<int16_t>* elevator_down_action = nullptr;
     BaseAction::set_value_action<int16_t>* arm_left_down_action = nullptr;
@@ -62,6 +61,8 @@ namespace AFR::VexU::Robot::Cap {
     std::vector<action*> ground_arm_right_action_map{};
     std::vector<action*> ground_elevator_action_map{};
     std::vector<action*> ground_action_map{};
+    std::vector<action*> intake_action_map{};
+    std::vector<action*> outtake_action_map{};
 
     std::vector<action*> flip_action_map{};
     std::vector<action*> angle_action_map{};
@@ -109,6 +110,18 @@ namespace AFR::VexU::Robot::Cap {
     std::function<bool()> ground_to_flip{};
     std::function<bool()> ground_to_angle{};
     std::function<bool()> ground_to_low_prime{};
+    std::function<bool()> ground_to_intake{};
+    std::function<bool()> ground_to_outtake{};
+
+    std::function<bool()> intake_to_flip{};
+    std::function<bool()> intake_to_angle{};
+    std::function<bool()> intake_to_low_prime{};
+    std::function<bool()> intake_to_ground{};
+
+    std::function<bool()> outtake_to_flip{};
+    std::function<bool()> outtake_to_angle{};
+    std::function<bool()> outtake_to_low_prime{};
+    std::function<bool()> outtake_to_ground{};
 
     std::function<bool()> flip_to_ground_all{};
     std::function<bool()> flip_to_angle{};
@@ -145,6 +158,8 @@ namespace AFR::VexU::Robot::Cap {
 //    std::vector<transition> ground_arm_right_transitions{};
     std::vector<transition> ground_elevator_transitions{};
     std::vector<transition> ground_transitions{};
+    std::vector<transition> intake_transitions{};
+    std::vector<transition> outtake_transitions{};
     std::vector<transition> flip_transitions{};
     std::vector<transition> angle_transitions{};
     std::vector<transition> low_prime_transitions{};
@@ -163,6 +178,8 @@ namespace AFR::VexU::Robot::Cap {
 //    std::function<void(state*)> on_ground_arm_right_entry{};
     std::function<void(state*)> on_ground_elevator_entry{};
     std::function<void(state*)> on_ground_entry{};
+    std::function<void(state*)> on_intake_entry{};
+    std::function<void(state*)> on_outtake_entry{};
     std::function<void(state*)> on_flip_entry{};
     std::function<void(state*)> on_angle_entry{};
     std::function<void(state*)> on_low_prime_entry{};
@@ -181,6 +198,8 @@ namespace AFR::VexU::Robot::Cap {
 //    state* ground_arm_right = nullptr;
     state* ground_elevator = nullptr;
     state* ground = nullptr;
+    state* intake = nullptr;
+    state* outtake = nullptr;
     state* flip = nullptr;
     state* angle = nullptr;
     state* low_prime = nullptr;
@@ -265,8 +284,7 @@ namespace AFR::VexU::Robot::Cap {
         intake_hold_action = new set_value_action<int16_t>{INTAKE_HOLD_UPDATE_PERIOD, intake_motor, 1200,
                                                            "intake_hold_action"};
         outtake_action = new set_value_action<int16_t>{OUTTAKE_UPDATE_PERIOD, intake_motor, -12000, "outtake_action"};
-        intake_outtake_action = new intake_control_action{INTAKE_OUTTAKE_UPDATE_PERIOD, intake_motor, intake_button, outtake_button,
-                                                  "intake_outtake_action"};
+        //intake_outtake_action = new intake_control_action{INTAKE_OUTTAKE_UPDATE_PERIOD, intake_motor, intake_button, outtake_button, "intake_outtake_action"};
 
         elevator_down_action = new set_value_action<int16_t>{ELEVATOR_DOWN_UPDATE_PERIOD, elevator_motor, -1200,
                                                              "elevator_down"};
@@ -325,7 +343,11 @@ namespace AFR::VexU::Robot::Cap {
         //Ground
         ground_action_map.push_back(arm_pid_action);
         ground_action_map.push_back(elevator_pid_action);
-        ground_action_map.push_back(intake_outtake_action);
+        ground_action_map.push_back(intake_hold_action);
+        //Intake
+        intake_action_map.push_back(intake_action);
+        //Outtake
+        outtake_action_map.push_back(outtake_action);
         //Flip
         flip_action_map.push_back(arm_pid_action);
         flip_action_map.push_back(elevator_pid_action);
@@ -401,7 +423,13 @@ namespace AFR::VexU::Robot::Cap {
 
         ground_to_flip = []() -> bool { return flip_button->is_pressed(); };
         ground_to_angle = []() -> bool { return angle_button->is_pressed(); };
-        ground_to_low_prime = []() -> bool{ return high_button->is_pressed(); };
+        ground_to_low_prime = []() -> bool { return low_button->is_pressed() || high_button->is_pressed(); };
+        ground_to_intake = []() -> bool { return intake_button->is_pressed(); };
+        ground_to_outtake = []() -> bool { return outtake_button->is_pressed(); };
+
+        intake_to_ground = []() -> bool { return !(intake_button->is_pressed()); };
+
+        outtake_to_ground = []() -> bool { return !(outtake_button->is_pressed()); };
 
         flip_to_ground_all = []() -> bool { return !(flip_button->is_pressed()); };
         flip_to_angle = []() -> bool { return angle_button->is_pressed(); };
@@ -487,6 +515,10 @@ namespace AFR::VexU::Robot::Cap {
         ground_transitions.emplace_back(ground_to_angle, angle, "ground_to_angle");
         ground_transitions.emplace_back(ground_to_low_prime, low_prime, "ground_to_low_prime");
 
+        intake_transitions.emplace_back(intake_to_ground, intake, "intake_to_ground");
+
+        outtake_transitions.emplace_back(outtake_to_ground, outtake, "outtake_to_ground");
+
         flip_transitions.emplace_back(flip_to_ground_all, ground_all, "flip_to_ground_all");
         flip_transitions.emplace_back(flip_to_angle, angle, "flip_to_angle");
         flip_transitions.emplace_back(flip_to_low_prime, low_prime, "flip_to_low_prime");
@@ -554,6 +586,10 @@ namespace AFR::VexU::Robot::Cap {
             }
         };
 
+        on_intake_entry = [](state* last_state) -> void{};
+
+        on_outtake_entry = [](state* last_state) -> void{};
+
         on_flip_entry = [](state* last_state) -> void{
             arm_pid_action->set_target(ARM_FLIP_TARGET);
         };
@@ -606,8 +642,9 @@ namespace AFR::VexU::Robot::Cap {
         ground_elevator = new state{ground_elevator_action_map, ground_elevator_transitions, on_ground_elevator_entry,
                                     "ground_elevator"};
         ground = new state{ground_action_map, ground_transitions, on_ground_entry, "ground"};
+        intake = new state{intake_action_map, intake_transitions, on_intake_entry, "intake"};
+        outtake = new state{outtake_action_map, outtake_transitions, on_outtake_entry, "outtake"};
         flip = new state{flip_action_map, flip_transitions, on_flip_entry, "flip"};
-
         angle = new state{angle_action_map, angle_transitions, on_angle_entry, "angle"};
         low_prime = new state{low_prime_action_map, low_prime_transitions, on_low_prime_entry, "low_prime"};
         low_move = new state{low_move_action_map, low_move_transitions, on_low_move_entry, "low_move"};
@@ -624,6 +661,8 @@ namespace AFR::VexU::Robot::Cap {
         states.push_back(ground_elevator);
 //        states.push_back(ground_arm);
         states.push_back(ground);
+        states.push_back(intake);
+        states.push_back(outtake);
         states.push_back(flip);
         states.push_back(angle);
         states.push_back(low_prime);
@@ -674,13 +713,21 @@ namespace AFR::VexU::Robot::Cap {
         delete (intake_action);
         delete (intake_hold_action);
         delete (outtake_action);
-        delete (intake_outtake_action);
+//      delete (intake_outtake_action);
         delete (elevator_down_action);
+        delete (arm_left_down_action);
+        delete (arm_right_down_action);
+        delete (arm_left_stop_action);
+        delete (arm_right_stop_action);
+        delete (arm_pid_action);
+        delete (elevator_pid_action);
 
         delete (ground_all);
         delete (ground_elevator);
-//        delete (ground_arm);
+//      delete (ground_arm);
         delete (ground);
+        delete (intake);
+        delete (outtake);
         delete (flip);
         delete (angle);
         delete (low_prime);
@@ -692,7 +739,7 @@ namespace AFR::VexU::Robot::Cap {
 
         delete (cap_state_machine);
 
-        /*  delete (arm_limit_switch_order);
+        /*delete (arm_limit_switch_order);
           delete (elevator_limit_switch_order);
           delete (arm_encoder_order);*/
 
