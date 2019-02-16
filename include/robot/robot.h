@@ -14,6 +14,7 @@ namespace AFR::VexU::Robot{
     const port_t ELEVATOR_MOTOR_PORT = 18;          // 2/6/19
     const port_t INTAKE_MOTOR_PORT = 10; // 2/6/19
     const port_t AZIMUTH_PORT = 20; // 2/6/19
+    const port_t DUMMY_PORT = 11; //2/15/2019
 
     const port_t NAUTILUS_LIMIT_SWITCH_PORT = 7;    // 2/6/19
     const port_t ARM_LIMIT_SWITCH_PORT = 1;         // 2/8/19
