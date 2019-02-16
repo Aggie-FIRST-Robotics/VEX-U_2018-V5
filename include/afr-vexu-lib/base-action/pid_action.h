@@ -21,7 +21,7 @@ namespace AFR::VexU::BaseAction{
 
         double last_error;
         Read_T last_value;
-        Write_T i_term;
+        double i_term;
         bool running;
 
         void update_private(const double& delta_seconds) override;
@@ -65,6 +65,11 @@ namespace AFR::VexU::BaseAction{
          * @return error_t value if error encountered
          */
         void set_target(Read_T set_point);
+        
+        /**
+         * disables the PID controller
+         */
+         void disable();
 
         /**
          * Creates a PID action
@@ -90,14 +95,14 @@ namespace AFR::VexU::BaseAction{
 
     template<typename Read_T, typename Write_T>
     void pid_action<Read_T, Write_T>::update_private(const double& delta_seconds){
-        auto error = static_cast<double>(_set_point - std::any_cast<Read_T>(_value_pointer->get_value()));
-        auto p_term = static_cast<Write_T>(_p_value * error);
+        double error = static_cast<double>(_set_point - std::any_cast<Read_T>(_value_pointer->get_value()));
+        double p_term = static_cast<double>(_p_value * error);
 
-        Write_T d_term;
+        double d_term;
 
         //Only calculate i and d terms if reasonable time delta and enabled
         if(running && delta_seconds > 0.001){
-            i_term += static_cast<Write_T>(i_term * error * delta_seconds);
+            i_term += i_term * error * delta_seconds;
 
             //clamp i value
             if(i_term > _max_i_value){
@@ -107,15 +112,14 @@ namespace AFR::VexU::BaseAction{
                 i_term = _min_i_value;
             }
 
-            d_term = static_cast<Write_T>(
-                    static_cast<double>(last_value - std::any_cast<Read_T>(_value_pointer->get_value())) * _d_value /
-                    delta_seconds);
+            d_term = static_cast<double>(last_value) - 
+                static_cast<double>(std::any_cast<Read_T>(_value_pointer->get_value())) * _d_value / delta_seconds;
         }
         else{
             d_term = 0;
             running = true;
         }
-        Write_T write_value = p_term + i_term + d_term + _offset;
+        double write_value = p_term + i_term + d_term + _offset;
 
         //clamp write value
         if(write_value > _max_value){
@@ -126,7 +130,7 @@ namespace AFR::VexU::BaseAction{
         }
 
         last_value = std::any_cast<Read_T>(_value_pointer->get_value());
-        commandable_->set_value(write_value);
+        commandable_->set_value(static_cast<Write_T>(write_value));
     }
 
     template<typename Read_T, typename Write_T>
@@ -156,6 +160,11 @@ namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>
     void pid_action<Read_T, Write_T>::set_target(Read_T set_point){
         _set_point = set_point;
+    }
+    
+    template<typename Read_T, typename Write_T>
+    void pid_action<Read_T, Write_T>::disable(){
+        running = false;
     }
 
     template<typename Read_T, typename Write_T>
