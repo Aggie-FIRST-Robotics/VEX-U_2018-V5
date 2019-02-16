@@ -14,7 +14,7 @@ namespace AFR::VexU::Robot{
     const port_t ELEVATOR_MOTOR_PORT = 18;          // 2/6/19
     const port_t INTAKE_MOTOR_PORT = 10; // 2/6/19
     const port_t AZIMUTH_PORT = 20; // 2/6/19
-    const port_t DUMMY_PORT = 11; //2/15/2019
+    const port_t FLYWHEEL_PORT = 11; //2/15/2019
 
     const port_t NAUTILUS_LIMIT_SWITCH_PORT = 7;    // 2/6/19
     const port_t ARM_LIMIT_SWITCH_PORT = 1;         // 2/8/19
@@ -38,7 +38,7 @@ namespace AFR::VexU::Robot{
     const pros::motor_brake_mode_e_t LEFT_RAIL_MOTOR_B_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
     const pros::motor_brake_mode_e_t NAUTILUS_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
     const pros::motor_brake_mode_e_t AZIMUTH_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
-
+    // const pros::controller_digital_e_t SHOOT_BUTTON = pros::E_CONTROLLER_DIGITAL_;
     const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
     const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
     const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;

@@ -24,14 +24,14 @@ set(
         only_test_src_files
         ${afr-vexu-lib-test-src}
         ${robot-test-src}
-        include/robot/cap/cap.h src/robot/cap/cap.cpp include/robot/shooter/deadbandinputcontroller.h)
+)
 
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(
         only_V5_src_files
         ${afr-vexu-lib-V5-src}
         ${robot-V5-src}
-        src/robot/shooter/deadbandinputcontroller.cpp)
+)
 
 set(
         pros_src_files
