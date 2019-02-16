@@ -613,7 +613,6 @@ namespace AFR::VexU::Robot::Cap {
         };
 
         on_low_prime_entry = [](state* last_state) -> void{
-            low_mem = !low_button->is_pressed();
             elevator_pid_action->set_target(ELEVATOR_LOW_PRIME_TARGET);
             arm_pid_action->set_target(ARM_LOW_PRIME_TARGET);
         };
