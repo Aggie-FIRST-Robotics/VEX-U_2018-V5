@@ -126,7 +126,7 @@ namespace AFR::VexU::BaseAction{
         }
 
         last_value = std::any_cast<Read_T>(_value_pointer->get_value());
-//        commandable_->set_value(write_value);
+        commandable_->set_value(write_value);
     }
 
     template<typename Read_T, typename Write_T>
