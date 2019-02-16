@@ -6,8 +6,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#ifndef _OKAPI_PIDTUNER_HPP_
-#define _OKAPI_PIDTUNER_HPP_
+#pragma once
 
 #include "okapi/api/control/controllerInput.hpp"
 #include "okapi/api/control/controllerOutput.hpp"
@@ -25,21 +24,21 @@ class PIDTuner {
     double kP, kI, kD;
   };
 
-  PIDTuner(std::shared_ptr<ControllerInput<double>> iinput,
-           std::shared_ptr<ControllerOutput<double>> ioutput,
-           const TimeUtil &itimeUtil,
-           QTime itimeout,
-           std::int32_t igoal,
-           double ikPMin,
-           double ikPMax,
-           double ikIMin,
-           double ikIMax,
-           double ikDMin,
-           double ikDMax,
-           std::size_t inumIterations = 5,
-           std::size_t inumParticles = 16,
-           double ikSettle = 1,
-           double ikITAE = 2);
+    PIDTuner(const std::shared_ptr<ControllerInput<double>>& iinput,
+             const std::shared_ptr<ControllerOutput<double>>& ioutput,
+             const TimeUtil &itimeUtil,
+             QTime itimeout,
+             std::int32_t igoal,
+             double ikPMin,
+             double ikPMax,
+             double ikIMin,
+             double ikIMax,
+             double ikDMin,
+             double ikDMax,
+             std::size_t inumIterations = 5,
+             std::size_t inumParticles = 16,
+             double ikSettle = 1,
+             double ikITAE = 2);
 
   virtual ~PIDTuner();
 
@@ -82,5 +81,3 @@ class PIDTuner {
   const double kITAE;
 };
 } // namespace okapi
-
-#endif

@@ -146,70 +146,111 @@ class Controller {
 	}
 #pragma GCC diagnostic pop
 
-	/**
-	 * Sets text to the controller LCD screen.
-	 *
-	 * \note Controller text setting is currently in beta, so continuous, fast
-	 * updates will not work well.
-	 *
-	 * \param line
-	 *        The line number at which the text will be displayed [0-2]
-	 * \param col
-	 *        The column number at which the text will be displayed [0-14]
-	 * \param fmt
-	 *        The format string to print to the controller
-	 * \param ...
-	 *        The argument list for the format string
-	 *
-	 * \return 1 if the operation was successful or PROS_ERR if the operation
-	 * failed, setting errno.
-	 */
+        /**
+         * Sets text to the controller LCD screen.
+         *
+         * \note Controller text setting is currently in beta, so continuous, fast
+         * updates will not work well.
+         *
+         * This function uses the following values of errno when an error state is
+         * reached:
+         * EACCES - Another resource is currently trying to access the controller
+         * port.
+         *
+         * \param line
+         *        The line number at which the text will be displayed [0-2]
+         * \param col
+         *        The column number at which the text will be displayed [0-14]
+         * \param fmt
+         *        The format string to print to the controller
+         * \param ...
+         *        The argument list for the format string
+         *
+         * \return 1 if the operation was successful or PROS_ERR if the operation
+         * failed, setting errno.
+         */
 	template <typename... Params>
 	std::int32_t print(std::uint8_t line, std::uint8_t col, const char* fmt, Params... args) {
 		return pros::c::controller_print(_id, line, col, fmt, convert_args(args)...);
 	}
 
-	/**
-	 * Sets text to the controller LCD screen.
-	 *
-	 * \note Controller text setting is currently in beta, so continuous, fast
-	 * updates will not work well.
-	 *
-	 * \param line
-	 *        The line number at which the text will be displayed [0-2]
-	 * \param col
-	 *        The column number at which the text will be displayed [0-14]
-	 * \param str
-	 *        The pre-formatted string to print to the controller
-	 *
-	 * \return 1 if the operation was successful or PROS_ERR if the operation
-	 * failed, setting errno.
-	 */
+        /**
+         * Sets text to the controller LCD screen.
+         *
+         * \note Controller text setting is currently in beta, so continuous, fast
+         * updates will not work well.
+         *
+         * This function uses the following values of errno when an error state is
+         * reached:
+         * EACCES - Another resource is currently trying to access the controller
+         * port.
+         *
+         * \param line
+         *        The line number at which the text will be displayed [0-2]
+         * \param col
+         *        The column number at which the text will be displayed [0-14]
+         * \param str
+         *        The pre-formatted string to print to the controller
+         *
+         * \return 1 if the operation was successful or PROS_ERR if the operation
+         * failed, setting errno.
+         */
 	std::int32_t set_text(std::uint8_t line, std::uint8_t col, const char* str);
 
-	/**
-	 * Clears an individual line of the controller screen.
-	 *
-	 * \note Controller text setting is currently in beta, so continuous, fast
-	 * updates will not work well.
-	 *
-	 * \param line
-	 *        The line number to clear [0-2]
-	 *
-	 * \return 1 if the operation was successful or PROS_ERR if the operation
-	 * failed, setting errno.
-	 */
+        /**
+         * Clears an individual line of the controller screen.
+         *
+         * \note Controller text setting is currently in beta, so continuous, fast
+         * updates will not work well.
+         *
+         * This function uses the following values of errno when an error state is
+         * reached:
+         * EACCES - Another resource is currently trying to access the controller
+         * port.
+         *
+         * \param line
+         *        The line number to clear [0-2]
+         *
+         * \return 1 if the operation was successful or PROS_ERR if the operation
+         * failed, setting errno.
+         */
 	std::int32_t clear_line(std::uint8_t line);
 
-	/**
-	 * Clears all of the lines on the controller screen.
-	 *
-	 * \note Controller text setting is currently in beta, so continuous, fast
-	 * updates will not work well.
-	 *
-	 * \return 1 if the operation was successful or PROS_ERR if the operation
-	 * failed, setting errno.
-	 */
+        /**
+         * Rumble the controller.
+         *
+         * \note Controller rumble activation is currently in beta, so continuous, fast
+         * updates will not work well.
+         *
+         * This function uses the following values of errno when an error state is
+         * reached:
+         * EACCES - Another resource is currently trying to access the controller
+         * port.
+         *
+         * \param rumble_pattern
+         *				A string consisting of the characters '.', '-', and ' ', where dots
+         *				are short rumbles, dashes are long rumbles, and spaces are pauses.
+         *				Maximum supported length is 8 characters.
+         *
+         * \return 1 if the operation was successful or PROS_ERR if the operation
+         * failed, setting errno.
+         */
+        std::int32_t rumble(const char* rumble_pattern);
+
+        /**
+         * Clears all of the lines on the controller screen.
+         *
+         * \note Controller text setting is currently in beta, so continuous, fast
+         * updates will not work well.
+         *
+         * This function uses the following values of errno when an error state is
+         * reached:
+         * EACCES - Another resource is currently trying to access the controller
+         * port.
+         *
+         * \return 1 if the operation was successful or PROS_ERR if the operation
+         * failed, setting errno.
+         */
 	std::int32_t clear(void);
 
 	private:

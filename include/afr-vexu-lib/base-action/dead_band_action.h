@@ -1,6 +1,7 @@
 #ifndef VEX_U_2018_V5_DEADBAND_H
 #define VEX_U_2018_V5_DEADBAND_H
 
+#include <cassert>
 #include "afr-vexu-lib/action.h"
 
 namespace AFR::VexU::BaseAction{
@@ -41,9 +42,11 @@ namespace AFR::VexU::BaseAction{
             return commandable_->set_value(_above_value);
         }
         else {
-            return commandable_->set_value(static_cast<Write_T>(result-_bottom_threshold)*
-                                            (_above_value-_below_value)/static_cast<Write_T>(_top_threshold-_bottom_threshold) +
-                                            _below_value);
+//            assert(typeid(static_cast<Write_T>(result-_bottom_threshold) * (_above_value-_below_value)/static_cast<Write_T>(_top_threshold-_bottom_threshold) + _below_value) !=
+//                           typeid(Write_T));
+            return commandable_->set_value(static_cast<Write_T>((
+                    static_cast<Write_T>(result - _bottom_threshold) * (_above_value - _below_value) /
+                    (static_cast<Write_T>(_top_threshold - _bottom_threshold)) + _below_value)));
         }
     }
 
