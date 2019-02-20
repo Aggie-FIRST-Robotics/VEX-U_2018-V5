@@ -91,9 +91,21 @@ namespace AFR::VexU::Robot{
 //                pros::lcd::set_text(0, temp);
 //                pros::lcd::set_text(1, current);
 //                std::cout << temp << ", " << current << std::endl;
-                std::cout << Cap::cap_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
-                          << std::endl;
+//                std::cout << Cap::cap_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
+//                          << std::endl;
 //                std::cout << std::endl;
+
+                std::string line_1_text = std::string("E: ") + std::to_string(Cap::elevator_encoder->get_position());
+                std::string line_2_text = std::string("A: ") + std::to_string(Cap::arm_encoder->get_position());
+                std::string line_3_text = Cap::cap_subsystem->get_state_machines().at(
+                        0)->get_current_state()->get_name();
+                while(line_3_text.size() < 15){
+                    line_3_text += " ";
+                }
+
+                pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line_1_text.c_str());
+                pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 1, 0, line_2_text.c_str());
+                pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 2, 0, line_3_text.c_str());
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;

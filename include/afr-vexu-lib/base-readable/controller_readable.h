@@ -36,6 +36,7 @@ namespace AFR::VexU::BaseReadable{
         controller_digital_readable(pros::controller_id_e_t controller, pros::controller_digital_e_t button);
 
         bool is_pressed();
+        bool is_rising_edge();
 
         std::any get_value() override;
     };

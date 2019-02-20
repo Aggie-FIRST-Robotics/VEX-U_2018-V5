@@ -36,6 +36,10 @@ namespace AFR::VexU::BaseReadable{
         return pros::c::controller_get_digital(controller_, button_) == 1;
     }
 
+    bool controller_digital_readable::is_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, button_) == 1;
+    }
+
     controller_analog_readable*
     get_controller_analog_readable(pros::controller_id_e_t controller, pros::controller_analog_e_t channel){
         std::unordered_map<pros::controller_analog_e_t, controller_analog_readable*>* map = nullptr;

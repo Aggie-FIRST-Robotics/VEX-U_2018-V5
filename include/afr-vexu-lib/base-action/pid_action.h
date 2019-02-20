@@ -96,7 +96,7 @@ namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>
     void pid_action<Read_T, Write_T>::update_private(const double& delta_seconds){
         double error = static_cast<double>(_set_point - std::any_cast<Read_T>(_value_pointer->get_value()));
-        double p_term = static_cast<double>(_p_value * error);
+        double p_term = _p_value * error;
 
         double d_term;
 
