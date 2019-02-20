@@ -1,5 +1,6 @@
 
 
+#include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
 #include "afr-vexu-lib/base-action/pid_action.h"
 #include "afr-vexu-lib/base-action/set_value_action.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
@@ -8,42 +9,43 @@
 #include "afr-vexu-lib/base-action/dead_band_action.h"
 #include "robot/robot.h"
 #include "afr-vexu-lib/base-readable/controller_readable.h"
+#include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
+
+
 #include "robot/shooter/shooter.h"
 #include "robot/shooter/joystick.h"
 
 namespace AFR::VexU::Robot::Shooter {
-    BaseCommandable::motor_commandable *azimuth = nullptr;
+    BaseCommandable::motor_commandable *elevation = nullptr;
     BaseCommandable::motor_commandable *flywheel = nullptr;
-    joystick *start_azimuth = nullptr;
+    BaseCommandable::motor_commandable *flywheel2 = nullptr;
+    BaseCommandable::multi_motor_commandable *flywheel_combined = nullptr;
+    BaseCommandable::motor_commandable *spinner = nullptr;
+    joystick *start_elevation = nullptr;
 
-    BaseAction::dead_band_action<double, int16_t> *dead_band_azimuth = nullptr;
-    BaseAction::pid_action<int16_t, int16_t> *flywheel_action = nullptr;
-    BaseReadable::controller_digital_readable *azimuth_button = nullptr;
+    BaseAction::dead_band_action<double, int16_t> *dead_band_elevation = nullptr;
+    BaseAction::dead_band_action<double, int16_t> *dead_band_spinner = nullptr;
+    BaseAction::pid_action<double, int16_t> *flywheel_action = nullptr;
+
     BaseReadable::controller_digital_readable *flywheel_button = nullptr;
     //Action Map
     std::vector<action *> start_actions{};
-    std::vector<action *> dummy_actions{};
-    std::vector<action *> flywheel_actions{};
-    std::function<bool()> dummy_to_start{};
-    std::function<bool()> start_to_dummy{};
 
-    std::function<bool()> flywheel_to_dummy{};
-    std::function<bool()> dummy_to_flywheel{};
     //Transition vectors
     std::vector<transition> start_transitions{};
-    std::vector<transition> dummy_transitions{};
-    std::vector<transition> flywheel_transitions{};
+
     //On-state entry functions
     std::function<void(state *)> on_start_entry{};
-    std::function<void(state *)> on_dummy_entry{};
-    std::function<void(state *)> on_flywheel_entry{};
+
     //Readables
-    BaseReadable::motor_encoder_readable *azimuth_encoder = nullptr;
-    BaseReadable::motor_encoder_readable *flywheel_encoder = nullptr;
+    BaseReadable::motor_encoder_velocity_readable *elevation_encoder = nullptr;
+    BaseReadable::motor_encoder_readable *spinner_encoder = nullptr;
+    BaseReadable::motor_encoder_velocity_readable *flywheel_encoder = nullptr;
+
     //States
-    state *dummy = nullptr;
+
     state *start = nullptr;
-    state *flywheel_state = nullptr;
+
     //state *joy = nullpr
     //State map
     std::vector<state *> states{};
@@ -69,49 +71,55 @@ namespace AFR::VexU::Robot::Shooter {
         using namespace BaseReadable;
         using namespace BaseAction;
 
-        azimuth_encoder = new motor_encoder_readable{AZIMUTH_PORT, 1.0, "azimuth_encoder"};
-        // flywheel_encoder = new motor_encoder_readable{FLYWHEEL_PORT, 1.0, "flywheel_encoder"};
+        elevation_encoder = new motor_encoder_velocity_readable{ELEVATION_PORT, 1.0, "elevation_encoder"};
+        spinner_encoder = new motor_encoder_readable{SPINNER_PORT, 1.0, "spinner_encoder"};
 
-        azimuth_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, FIRE_BUTTON);
-        //   flywheel_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, SCORE_BUTTON);
+        flywheel_encoder = new motor_encoder_velocity_readable{FLYWHEEL_1_PORT, 1.0, "flywheel_encoder"};
 
-        azimuth = new motor_commandable(AZIMUTH_PORT, AZIMUTH_MOTOR_GEARSET, true, AZIMUTH_MOTOR_BRAKE_MODE, "azimuth");
+
+        flywheel = new motor_commandable(FLYWHEEL_1_PORT, FLYWHEEL_MOTOR_GEARSET, false, FLYWHEEL_MOTOR_BRAKE_MODE,
+                                         "flywheel");
+        flywheel2 = new motor_commandable(FLYWHEEL_2_PORT, FLYWHEEL_MOTOR_GEARSET, true, FLYWHEEL_MOTOR_BRAKE_MODE,
+                                          "flywheel");
+        flywheel_combined = new multi_motor_commandable("flywheel_combined");
+        flywheel_combined->add_motor(flywheel);
+        flywheel_combined->add_motor(flywheel2);
+
+        spinner = new motor_commandable(SPINNER_PORT, SPINNER_MOTOR_GEARSET, true, SPINNER_MOTOR_BRAKE_MODE, "spinner");
+        elevation = new motor_commandable(ELEVATION_PORT, ELEVATION_MOTOR_GEARSET, true, ELEVATION_MOTOR_BRAKE_MODE,
+                                          "elevation");
         left_stick = get_controller_analog_readable(pros::E_CONTROLLER_MASTER, LEFT_DRIVE_STICK);
 
         on_start_entry = [](state *last_state) -> void {};
-        on_dummy_entry = [](state *last_state) -> void {};
-        start_azimuth = new joystick{AZIMUTH_UPDATE_PERIOD, azimuth,
-                                     left_stick, "start_azimuth", azimuth_encoder};
 
-        start_transitions.emplace_back(start_to_dummy, dummy, "start_to_dummy");
-        dummy_transitions.emplace_back(dummy_to_start, start, "dummy_to_start");
+        dead_band_elevation = new dead_band_action<double, int16_t>{ELEVATION_UPDATE_PERIOD, elevation, 0, 50,
+                                                                    elevation_encoder, 3000, -3000,
+                                                                    "dead_band_elevation"};
+        flywheel_action = new pid_action<double, int16_t>(FLYWHEEL_UPDATE_PERIOD, flywheel_combined, 100, 0, 0, -12000,
+                                                          12000, -1200, 6000, 0,
+                                                          flywheel_encoder, 0, "flywheel");
+        dead_band_spinner = new dead_band_action<double, int16_t>{SPINNER_UPDATE_PERIOD, spinner, 500, 550,
+                                                                  spinner_encoder, -6000, 6000, "dear_band_spinner"};
 
-        dead_band_azimuth = new dead_band_action<double, int16_t>{AZIMUTH_UPDATE_PERIOD, azimuth, -90, 90,
-                                                                  azimuth_encoder, -6000, 6000, "dead_band_azimuth"};
-        flywheel_action = new pid_action<int16_t, int16_t>(FLYWHEEL_UPDATE_PERIOD, flywheel, 1, 1, 1, 0, 100, 0, 100, 0,
-                                                           flywheel_encoder, 10, "flywheel");
-        dummy_to_start = []() -> bool {
-            return azimuth_button->is_pressed();
-        };
-        start_to_dummy = []() -> bool {
-            return azimuth_encoder->get_position() >= AZIMUTH_THRESHOLD;
-        };
-        dummy_to_flywheel = []() -> bool {
-            return flywheel_button->is_pressed();
-        };
-        flywheel_to_dummy = []() -> bool {
-            return flywheel_encoder->get_position() >= FLYWHEEL_THRESHOLD;
-        };
-        start_actions.push_back(start_azimuth);
-        flywheel_actions.push_back(flywheel_action);
+        start_elevation = new joystick(ELEVATION_UPDATE_PERIOD, elevation, left_stick, "start_elevation",
+                                       elevation_encoder);
+
+        start_actions.push_back(start_elevation);
+
         start = new state(start_actions, start_transitions, on_start_entry, "start");
-        dummy = new state(dummy_actions, dummy_transitions, on_dummy_entry, "dummy");
-        flywheel_state = new state(flywheel_actions, flywheel_transitions, on_flywheel_entry, "flywheel");
-        states.push_back(start);
-        states.push_back(dummy);
-        states.push_back(flywheel_state);
-        commandables.push_back(azimuth);
 
+
+        //dummy = new state(dummy_actions, dummy_transitions, on_dummy_entry, "dummy");
+
+        states.push_back(start);
+        // states.push_back(dummy);
+
+        commandables.push_back(elevation);
+        commandables.push_back(flywheel);
+        // std::cout<<"what is going on"<<std::endl;
+        inputs.push_back(elevation_encoder);
+        inputs.push_back(flywheel_encoder);
+        /* commandables.push_back(spinner);*/
         shooter_state_machine = new state_controller(START_UPDATE_PERIOD, states, commandables, start,
                                                      "shooter_state_machine");
 
@@ -122,10 +130,10 @@ namespace AFR::VexU::Robot::Shooter {
     }
 
     void destroy() {
-        delete (azimuth);
+        delete (elevation);
 
 
-        delete (left_stick);
+        //  delete (left_stick);
 
 
         delete (start);

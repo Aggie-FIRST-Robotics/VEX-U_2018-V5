@@ -31,7 +31,7 @@ set(
         only_V5_src_files
         ${afr-vexu-lib-V5-src}
         ${robot-V5-src}
-)
+        src/afr-vexu-lib/base-readable/motor_encoder_velocity_readable.cpp src/afr-vexu-lib/base-readable/motor_encoder_velocity_readable.cpp)
 
 set(
         pros_src_files

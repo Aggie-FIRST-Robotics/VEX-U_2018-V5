@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "VEX-U_2018-V5",
+        "project_name": "Brett is an Idiot",
         "target": "v5",
         "templates": {
             "kernel": {

@@ -12,7 +12,8 @@ namespace AFR::VexU::Robot::Shooter {
     const scheduled_update_t START_UPDATE_PERIOD = 10;
 
 //    const scheduled_update_t START_FRONT_LEFT_MOTOR_UPDATE_PERIOD = 10;
-    const scheduled_update_t AZIMUTH_UPDATE_PERIOD = 10;
+    const scheduled_update_t ELEVATION_UPDATE_PERIOD = 10;
+    const scheduled_update_t SPINNER_UPDATE_PERIOD = 10;
     const scheduled_update_t FLYWHEEL_UPDATE_PERIOD = 10;
     const double AZIMUTH_THRESHOLD = 360;
     const double FLYWHEEL_THRESHOLD = 360;

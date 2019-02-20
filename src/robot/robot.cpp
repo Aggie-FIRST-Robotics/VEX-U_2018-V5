@@ -1,3 +1,4 @@
+#include "robot/shooter/shooter.h"
 #include "display/lv_core/lv_style.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "afr-vexu-lib/base-readable/competition_readable.h"
@@ -23,21 +24,22 @@ namespace AFR::VexU::Robot{
             nautilus_current = new BaseReadable::motor_current_readable{NAUTILUS_MOTOR_PORT, "nautilus_current"};
 
             BaseReadable::init_battery();
-            std::cout << "Battery Initialized" << std::endl;
+            //std::cout << "Battery Initialized" << std::endl;
             BaseReadable::init_competition();
-            std::cout << "Competition Initialized" << std::endl;
+            // std::cout << "Competition Initialized" << std::endl;
 
             init_ports_list();
-            std::cout << "Ports List Initialized" << std::endl;
+            //std::cout << "Ports List Initialized" << std::endl;
 
-            Catapult::init();
-            std::cout << "Catapult Initialized" << std::endl;
+            Shooter::init();
+            // std::cout << "Shooter  Initialized" << std::endl;
+            //std::cout << "Catapult Initialized" << std::endl;
             Drive::init();
-            std::cout << "Drive Initialized" << std::endl;
+            //std::cout << "Drive Initialized" << std::endl;
             Cap::init();
-            std::cout << "Cap Initialized" << std::endl;
+            //std::cout << "Cap Initialized" << std::endl;
 
-            do_screen_stuff();
+            //  do_screen_stuff();
 
 //            if(!pros::lcd::initialize()){
 //                throw std::runtime_error{"Cannot initialize lcd! " + std::to_string(pros::lcd::is_initialized())};
@@ -53,6 +55,7 @@ namespace AFR::VexU::Robot{
             throw std::runtime_error{"Init error"};
         }
         std::cout << "Initialization Complete" << std::endl;
+        // opcontrol_robot();
     }
 
     void competition_init(){
@@ -68,20 +71,31 @@ namespace AFR::VexU::Robot{
         while(true){
             try{
 //                std::cout << 1;
-                Catapult::catapult_subsystem->updateInputs();
-                Drive::drive_subsystem->updateInputs();
+                // Catapult::catapult_subsystem->updateInputs();
+                // Drive::drive_subsystem->updateInputs();
+                // std::cout<<"1"<<std::endl;
+                Shooter::shooter_subsystem->updateInputs();
+                // std::cout << "Shooter  input" << std::endl;
 //                std::cout << 4;
-                Cap::cap_subsystem->updateInputs();
+                //Cap::cap_subsystem->updateInputs();
 
 //                std::cout << 2;
-                Catapult::catapult_subsystem->updateStates();
-                Drive::drive_subsystem->updateStates();
-                Cap::cap_subsystem->updateStates();
-
+                // Catapult::catapult_subsystem->updateStates();
+                //   Drive::drive_subsystem->updateStates();
+                //Cap::cap_subsystem->updateStates();
+                //    std::cout<<"2"<<std::endl;
+                Shooter::shooter_subsystem->updateStates();
+                //  std::cout<<"3"<<std::endl;
+                //  std::cout << "Shooter  state" << std::endl;
 //                std::cout << 3;
-                Catapult::catapult_subsystem->updateActions();
-                Drive::drive_subsystem->updateActions();
-                Cap::cap_subsystem->updateActions();
+                //Catapult::catapult_subsystem->updateActions();
+                //Drive::drive_subsystem->updateActions();
+                //Cap::cap_subsystem->updateActions();
+                //     std::cout<<"4"<<std::endl;
+                Shooter::shooter_subsystem->updateActions();
+                // std::cout<<"5"<<std::endl;
+                //  std::cout << "Shooter  Actions" << std::endl;
+
 //                std::cout << "Current drive state: "
 //                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
 //                          << std::endl;
@@ -91,8 +105,11 @@ namespace AFR::VexU::Robot{
 //                pros::lcd::set_text(0, temp);
 //                pros::lcd::set_text(1, current);
 //                std::cout << temp << ", " << current << std::endl;
-                std::cout << Cap::cap_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
-                          << std::endl;
+
+
+
+                /*   std::cout << Cap::cap_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
+                             << std::endl;*/
 //                std::cout << std::endl;
             }
             catch(std::exception& e){
@@ -115,9 +132,8 @@ namespace AFR::VexU::Robot{
         BaseReadable::destroy_controllers();
         destroy_ports_list();
 
-        Catapult::destroy();
-        Drive::destroy();
-        Cap::destroy();
+
+        Shooter::destroy();
     }
 
     void restart(){

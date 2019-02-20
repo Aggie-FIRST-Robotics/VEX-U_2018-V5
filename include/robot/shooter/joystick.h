@@ -15,14 +15,14 @@ namespace AFR::VexU::Robot::Shooter {
 
         BaseReadable::controller_analog_readable *stick;
         BaseReadable::controller_digital_readable *a_button_;
-        BaseReadable::motor_encoder_readable *encoder_;
+        BaseReadable::motor_encoder_velocity_readable *encoder_;
 
         void update_private(const double &delta_seconds) override;
 
     public:
         joystick(scheduled_update_t update_period, commandable *commandable,
                  BaseReadable::controller_analog_readable *stick_, const std::string &name,
-                 BaseReadable::motor_encoder_readable *encoder);
+                 BaseReadable::motor_encoder_velocity_readable *encoder);
 
 
     };
