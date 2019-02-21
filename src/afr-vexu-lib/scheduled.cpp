@@ -7,8 +7,8 @@ namespace AFR::VexU{
     void scheduled::update(){
         if(update_period_ != 0){
             if(pros::millis() >= next_update_){
-                next_update_ = pros::millis() + update_period_;
                 update_private((pros::millis() - next_update_ + update_period_) / 1000.0);
+                next_update_ = pros::millis() + update_period_;
             }
         }
     }
