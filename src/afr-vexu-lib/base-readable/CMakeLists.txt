@@ -17,4 +17,5 @@ set(
         src/afr-vexu-lib/base-readable/motor_current_readable.cpp
         src/afr-vexu-lib/base-readable/motor_encoder_readable.cpp
         src/afr-vexu-lib/base-readable/motor_temperature_readable.cpp
+        src/afr-vexu-lib/base-readable/motor_encoder_velocity_readable.cpp
 )
