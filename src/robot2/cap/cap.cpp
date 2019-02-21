@@ -36,9 +36,9 @@ namespace AFR::VexU::Robot2::Cap{
     BaseReadable::controller_digital_readable* outtake_button = nullptr;
 
     //Actions
-    BaseAction::zero_encoder_action<bool, int16_t>* arm_zero_action = nullptr;
-    BaseAction::zero_encoder_action<bool, int16_t>* elbow_zero_action = nullptr;
-    BaseAction::zero_encoder_action<bool, int16_t>* wrist_zero_action = nullptr;
+    BaseAction::zero_encoder_action<bool, double, int16_t>* arm_zero_action = nullptr;
+    BaseAction::zero_encoder_action<bool, double, int16_t>* elbow_zero_action = nullptr;
+    BaseAction::zero_encoder_action<bool, double, int16_t>* wrist_zero_action = nullptr;
 
     BaseAction::pid_action<double, int16_t>* arm_pid_action = nullptr;
     BaseAction::pid_action<double, int16_t>* elbow_pid_action = nullptr;
@@ -160,19 +160,25 @@ namespace AFR::VexU::Robot2::Cap{
         outtake_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, OUTTAKE_BUTTON);
 
         //Actions
-        arm_zero_action = new zero_encoder_action<bool, int16_t>{10, arm_motors, arm_limit_switch, arm_encoder, true,
-                                                                 -6000, 0, "arm_zero_action"};
-        elbow_zero_action = new zero_encoder_action<bool, int16_t>{10, elbow_motor, elbow_limit_switch, elbow_encoder,
-                                                                   true, -6000, 0, "elbow_zero_action"};
-        wrist_zero_action = new zero_encoder_action<bool, int16_t>{10, wrist_motor, wrist_limit_switch, wrist_encoder,
-                                                                   true, -6000, 0, "wrist_zero_action"};
 
-        arm_pid_action = new pid_action<double, int16_t>{10, arm_motors, 100, 0, 0, -12000, 12000, -6000, 6000, 0,
+        arm_pid_action = new pid_action<double, int16_t>{10, arm_motors, 100, 1, 0, -12000, 12000, -6000, 6000, 0,
                                                          arm_encoder, 0, "arm_pid_action"};
-        elbow_pid_action = new pid_action<double, int16_t>{10, elbow_motor, 100, 0, 0, -12000, 12000, -6000, 6000, 0,
+        elbow_pid_action = new pid_action<double, int16_t>{10, elbow_motor, 100, 1, 0, -12000, 12000, -6000, 6000, 0,
                                                            elbow_encoder, 0, "elbow_pid_action"};
-        wrist_pid_action = new pid_action<double, int16_t>{10, wrist_motor, 100, 0, 0, -12000, 12000, -6000, 6000, 0,
+        wrist_pid_action = new pid_action<double, int16_t>{10, wrist_motor, 100, 1, 0, -12000, 12000, -6000, 6000, 0,
                                                            wrist_encoder, 0, "wrist_pid_action"};
+
+        arm_zero_action = new zero_encoder_action<bool, double, int16_t>{10, arm_motors, arm_limit_switch, arm_encoder,
+                                                                         true,
+                                                                         -6000, arm_pid_action, "arm_zero_action"};
+        elbow_zero_action = new zero_encoder_action<bool, double, int16_t>{10, elbow_motor, elbow_limit_switch,
+                                                                           elbow_encoder,
+                                                                           true, -6000, elbow_pid_action,
+                                                                           "elbow_zero_action"};
+        wrist_zero_action = new zero_encoder_action<bool, double, int16_t>{10, wrist_motor, wrist_limit_switch,
+                                                                           wrist_encoder,
+                                                                           true, -3000, wrist_pid_action,
+                                                                           "wrist_zero_action"};
 
         //Action Vectors
         storage_actions.push_back(arm_zero_action);

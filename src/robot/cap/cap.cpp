@@ -288,7 +288,7 @@ namespace AFR::VexU::Robot::Cap {
                                                            "intake_hold_action"};
         outtake_action = new set_value_action<int16_t>{OUTTAKE_UPDATE_PERIOD, intake_motor, -12000, "outtake_action"};
         intake_outtake_action = new intake_control_action{INTAKE_OUTTAKE_UPDATE_PERIOD, intake_motor, outtake_button,
-                                                          intake_button, "intake_outtake_action"};
+                                                          intake_button, -12000, 12000, -3000, "intake_outtake_action"};
 
         elevator_down_action = new set_value_action<int16_t>{ELEVATOR_DOWN_UPDATE_PERIOD, elevator_motor, -12000,
                                                              "elevator_down"};

@@ -14,9 +14,9 @@ namespace AFR::VexU::Robot2{
     const pros::motor_gearset_e_t ELBOW_GEARSET = pros::E_MOTOR_GEARSET_18;
     const pros::motor_gearset_e_t WRIST_GEARSET = pros::E_MOTOR_GEARSET_18;
 
-    const port_t ARM_LIMIT_SWITCH_PORT = 1;
-    const port_t ELBOW_LIMIT_SWITCH_PORT = 2;
-    const port_t WRIST_LIMIT_SWITCH_PORT = 3;
+    const port_t ARM_LIMIT_SWITCH_PORT = 8;
+    const port_t ELBOW_LIMIT_SWITCH_PORT = 7;
+    const port_t WRIST_LIMIT_SWITCH_PORT = 6;
 
     const pros::controller_digital_e_t UP_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
     const pros::controller_digital_e_t DOWN_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
