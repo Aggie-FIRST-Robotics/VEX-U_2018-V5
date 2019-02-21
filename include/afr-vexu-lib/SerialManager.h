@@ -12,7 +12,7 @@
 namespace AFR::VexU {
 
 	//Device IDs
-	constexpr static uint8_t V5_ID 			= 1;
+	constexpr static uint8_t V5_ID 			= 0;
 	constexpr static uint8_t ODROID_ID 		= 2;
 	constexpr static uint8_t ARDUINO_ID 	= 3;
 
@@ -52,7 +52,7 @@ namespace AFR::VexU {
 			~SerialManager ();
 
 			//Puts data into the write queue
-			// '1' -> v5
+			// '0' -> v5
 			// '2' -> odroid
 			// '3' -> arduino
 			// addr [0-63]

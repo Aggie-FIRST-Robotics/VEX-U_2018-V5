@@ -124,12 +124,12 @@ namespace AFR::VexU::Robot{
     void destroy(){
         BaseReadable::destroy_battery();
         BaseReadable::destroy_competition();
-        BaseReadable::destroy_controllers();
+        //BaseReadable::destroy_controllers();
         destroy_ports_list();
 
         Catapult::destroy();
         Drive::destroy();
-        Cap::destroy();
+        //Cap::destroy();
     }
 
     void restart(){

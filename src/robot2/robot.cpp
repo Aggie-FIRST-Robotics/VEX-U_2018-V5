@@ -12,7 +12,7 @@
 namespace AFR::VexU::Robot2{
     void init_robot(){
         try{
-            init_serial_manager(100);
+            init_serial_manager(1);
             std::cout << "Serial Manager Initialized" << std::endl;
 
             BaseReadable::init_battery();
@@ -69,6 +69,13 @@ namespace AFR::VexU::Robot2{
 
             Cap::cap_subsystem->updateActions();
             Drive::drive_subsystem->updateActions();
+            serial_manager->enqueue_write (ODROID_ID, 0, serial_manager->odroid_table.read(0));
+            serial_manager->enqueue_write (ODROID_ID, 1, serial_manager->odroid_table.read(1));
+            serial_manager->enqueue_write (ODROID_ID, 2, serial_manager->odroid_table.read(2));
+            serial_manager->enqueue_write (ODROID_ID, 3, serial_manager->odroid_table.read(3));
+
+            serial_manager->update();
+            pros::delay(10);
 
 //            if(pros::c::controller_get_digital(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_DIGITAL_A)){
 //                Cap::arm_encoder->tare_position();

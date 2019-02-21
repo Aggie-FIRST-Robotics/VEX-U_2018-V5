@@ -7,8 +7,8 @@ namespace AFR::VexU {
 
 	SerialManager::SerialManager (const scheduled_update_t& update_period) : scheduled(update_period), nameable("Serial Manager"){
 
-		stream_in 		= fopen("/ser/sinp", "rb");
-		stream_out 		= fopen("/ser/sout", "wb");
+		stream_in 		= fopen("/ser/sinp", "r");
+		stream_out 		= fopen("/ser/sout", "w");
 
 		pros::c::serctl(SERCTL_DEACTIVATE, (void*)0x74756f73);
 		pros::c::serctl(SERCTL_DEACTIVATE, (void*)0x706e6973);
@@ -66,6 +66,7 @@ namespace AFR::VexU {
 		if ( dest == ODROID_ID ) {
 			while(!odroid_queue.empty()){
 				fputc((char)(odroid_queue.front().frame[0]), stream_out);
+				// fputc((char)0xd, stream_out);
 				fputc((char)(odroid_queue.front().frame[1]), stream_out);
 				fputc((char)(odroid_queue.front().frame[2]), stream_out);
 				fputc((char)(odroid_queue.front().frame[3]), stream_out);
@@ -96,6 +97,7 @@ namespace AFR::VexU {
 		while(read_buffer->size() > 0)
 		{	
 			read_buffer->pop(c);
+			//fputc(c, stream_out);
 			switch(read.read_state)
 			{
 				case W :
@@ -204,6 +206,7 @@ namespace AFR::VexU {
 		while(true){
 			c = fgetc(data->stream);
 			data->buffer->push(c);
+			//pros::c::task_delay(1);
 		}
 	}
 
