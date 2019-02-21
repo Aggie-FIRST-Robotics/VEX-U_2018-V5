@@ -1,13 +1,13 @@
 set(
-        robot-drive-src
+        robot2-drive-src
 )
 
 set(
-        robot-drive-test-src
+        robot2-drive-test-src
 )
 
 set(
-        robot-drive-V5-src
-        src/robot/drive/drive.cpp
-        src/robot/drive/arcade_drive_action.cpp
+        robot2-drive-V5-src
+        src/robot2/drive/drive.cpp
+        src/robot2/drive/arcade_drive_action.cpp
 )
