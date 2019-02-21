@@ -4,39 +4,26 @@
 namespace AFR::VexU::BaseReadable{
 
     void motor_encoder_velocity_readable::update_private(const double& delta_seconds){
-        //std::cout<< "Velocity: " << current_velocity<<std::endl;
-
-        //std::cout << " port " << (int)port_ <<std::endl;
         current_distance = pros::c::motor_get_position(port_);
-        //std::cout<<"new"<<current_distance<<"old"<<old_distance<<std::endl;
         temp_velocity = (current_distance - old_distance) / delta_seconds;
-//        std::cout << " new " << current_distance << " old "<<old_distance<<std::endl;
-//        std::cout << " time " << delta_seconds <<std::endl;
         old_distance = current_distance;
-        //std::cout << "Temp Velocity" << temp_velocity << std::endl;
 
         velocities.push_back(temp_velocity);
         if(!velocities.empty()){
-
             while(velocities.size() > max){
                 velocities.pop_front();
             }
             double tempsum = 0;
-            for(int velocitie : velocities){
+            for(double velocitie : velocities){
                 tempsum += velocitie;
-                //std::cout<<"haha"<<tempsum<<std::endl;
 
             }
             current_velocity = tempsum / velocities.size();
-
         }
-
     }
 
     std::any motor_encoder_velocity_readable::get_value(){
         return current_velocity;
-
-
     }
 
     double motor_encoder_velocity_readable::get_actual_velocity(){

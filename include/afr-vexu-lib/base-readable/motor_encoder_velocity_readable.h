@@ -22,7 +22,7 @@ namespace AFR::VexU::BaseReadable{
         double old_distance;
         double current_velocity;
         double temp_velocity;
-        std::deque<int> velocities;
+        std::deque<double> velocities;
         static constexpr int max = 30;
 
         void update_private(const double& delta_seconds) override;
