@@ -1,6 +1,8 @@
 #include "main.h"
 
+#include "robot2/robot.h"
 #include "robot/robot.h"
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -9,7 +11,8 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	AFR::VexU::Robot::init_robot();
+//	AFR::VexU::Robot::init_robot();
+	AFR::VexU::Robot2::init_robot();
 }
 
 /**
@@ -18,7 +21,7 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled(){
-	AFR::VexU::Robot::disabled_robot();
+//	AFR::VexU::Robot::disabled_robot();
 }
 
 /**
@@ -31,5 +34,5 @@ void disabled(){
  * starts.
  */
 void competition_initialize(){
-	AFR::VexU::Robot::competition_init();
+//	AFR::VexU::Robot::competition_init();
 }

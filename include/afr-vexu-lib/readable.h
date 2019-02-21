@@ -29,6 +29,10 @@ namespace AFR::VexU{
          * @return error_t value if error encountered
          */
         virtual std::any get_value();
+
+        virtual bool is_initialized(){
+            return true;
+        }
     };
 }
 

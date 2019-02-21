@@ -79,7 +79,7 @@ namespace AFR::VexU::Robot::Drive {
         start_actions.push_back(start_front_left_motor);
         start_actions.push_back(start_front_right_motor);
         start_actions.push_back(start_back_left_motor);
-//        start_actions.push_back(start_back_right_motor);
+        start_actions.push_back(start_back_right_motor);
 
         start = new state{start_actions, start_transitions, on_start_entry, "start"};
 
