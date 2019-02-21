@@ -1,15 +1,13 @@
 set(
-        robot-shooter-src
+        robot2-shooter-src
 )
 
 set(
-        robot-shooter-test-src
+        robot2-shooter-test-src
 )
 
 set(
-        robot-shooter-V5-src
-        src/robot/shooter/shooter.cpp
-        src/robot/shooter/joystick.cpp
-
-
+        robot2-shooter-V5-src
+        src/robot2/shooter/shooter.cpp
+        src/robot2/shooter/joystick.cpp
 )

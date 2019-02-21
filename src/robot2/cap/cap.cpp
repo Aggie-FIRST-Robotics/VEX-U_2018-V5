@@ -247,7 +247,7 @@ namespace AFR::VexU::Robot2::Cap{
                                                          arm_encoder, 0, "arm_pid_action"};
         elbow_pid_action = new pid_action<double, int16_t>{10, elbow_motor, 100, 1, 0, -12000, 12000, -6000, 6000, 0,
                                                            elbow_encoder, 0, "elbow_pid_action"};
-        wrist_pid_action = new pid_action<double, int16_t>{10, wrist_motor, 100, 0, 0, -12000, 12000, -6000, 6000, 0,
+        wrist_pid_action = new pid_action<double, int16_t>{10, wrist_motor, 50, 0, 0, -12000, 12000, -6000, 6000, 0,
                                                            wrist_encoder, 0, "wrist_pid_action"};
 
         arm_zero_action = new zero_encoder_action<bool, double, int16_t>{10, arm_motors, arm_limit_switch, arm_encoder,

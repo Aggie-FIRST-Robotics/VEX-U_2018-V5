@@ -28,6 +28,7 @@ namespace AFR::VexU::Robot2{
             std::cout << "Drive Initialized" << std::endl;
             Cap::init();
             std::cout << "Cap Initialized" << std::endl;
+            BallIntake::init();
 
         }
         catch(std::exception& e){
