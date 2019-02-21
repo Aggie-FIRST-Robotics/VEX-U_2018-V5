@@ -3,6 +3,8 @@
 
 namespace AFR::VexU {
 
+	SerialManager* serial_manager = nullptr;
+
 	SerialManager::SerialManager (const scheduled_update_t& update_period) : scheduled(update_period), nameable("Serial Manager"){
 
 		stream_in 		= fopen("/ser/sinp", "rb");
@@ -204,4 +206,12 @@ namespace AFR::VexU {
 			data->buffer->push(c);
 		}
 	}
+
+	void init_serial_manager(const scheduled_update_t& update_period){
+        serial_manager = new SerialManager{update_period};
+    }
+
+    void destroy_serial_manager(){
+        delete (serial_manager);
+    }
 }

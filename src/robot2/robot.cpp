@@ -1,23 +1,48 @@
 #include "afr-vexu-lib/ports_list.h"
+#include "afr-vexu-lib/SerialManager.h"
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "robot2/robot.h"
 
 #include "robot2/cap/cap.h"
+#include "robot2/drive/drive.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 namespace AFR::VexU::Robot2{
     void init_robot(){
-        BaseReadable::init_battery();
-        std::cout << "Battery Initialized" << std::endl;
-        BaseReadable::init_competition();
-        std::cout << "Competition Initialized" << std::endl;
+        try{
+            init_serial_manager(100);
+            std::cout << "Serial Manager Initialized" << std::endl;
 
-        init_ports_list();
-        std::cout << "Ports List Initialized" << std::endl;
+            BaseReadable::init_battery();
+            std::cout << "Battery Initialized" << std::endl;
+            BaseReadable::init_competition();
+            std::cout << "Competition Initialized" << std::endl;
 
-        Cap::init();
+            init_ports_list();
+            std::cout << "Ports List Initialized" << std::endl;
+
+            Drive::init();
+            std::cout << "Drive Initialized" << std::endl;
+            Cap::init();
+            std::cout << "Cap Initialized" << std::endl;
+
+        }
+        catch(std::exception& e){
+            std::cerr << "Init error" << std::endl;
+            std::cerr << e.what() << std::endl;
+
+            throw std::runtime_error{"Init error"};
+        }
+        std::cout << "Initialization Complete" << std::endl;
+    }
+
+    void competition_init() {
+
+    }
+    void auto_robot() {
+
     }
 
     void op_control(){
@@ -47,6 +72,26 @@ namespace AFR::VexU::Robot2{
 //                Cap::elbow_encoder->tare_position();
 //            }
         }
+    }
+
+    void disabled_robot() {
+
+    }
+
+    void destroy() {
+        destroy_serial_manager();
+        BaseReadable::destroy_battery();
+        BaseReadable::destroy_competition();
+        //BaseReadable::destroy_controllers();
+        destroy_ports_list();
+
+        Drive::destroy();
+        //Cap::destroy();
+
+    }
+    void restart() {
+        destroy();
+        init_robot();
     }
 }
 

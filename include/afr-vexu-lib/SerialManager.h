@@ -88,6 +88,12 @@ namespace AFR::VexU {
 
 	};
 
+	extern SerialManager* serial_manager;
+
+	void init_serial_manager(const scheduled_update_t& update_period);
+
+    void destroy_serial_manager();
+
 	//Task function that updates the data table at a rate of 100 Hz
 	void handle_serial_read (void* param);
 
