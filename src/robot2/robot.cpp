@@ -6,6 +6,7 @@
 
 #include "robot2/cap/cap.h"
 #include "robot2/drive/drive.h"
+#include "robot2/ball-intake/ball_intake.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
@@ -63,12 +64,16 @@ namespace AFR::VexU::Robot2{
 
             Cap::cap_subsystem->updateInputs();
             Drive::drive_subsystem->updateInputs();
+            BallIntake::ball_intake_subsystem->updateInputs();
 
             Cap::cap_subsystem->updateStates();
             Drive::drive_subsystem->updateStates();
+            BallIntake::ball_intake_subsystem->updateStates();
 
             Cap::cap_subsystem->updateActions();
             Drive::drive_subsystem->updateActions();
+            BallIntake::ball_intake_subsystem->updateActions();
+
             serial_manager->enqueue_write (ODROID_ID, 0, serial_manager->odroid_table.read(0));
             serial_manager->enqueue_write (ODROID_ID, 1, serial_manager->odroid_table.read(1));
             serial_manager->enqueue_write (ODROID_ID, 2, serial_manager->odroid_table.read(2));
