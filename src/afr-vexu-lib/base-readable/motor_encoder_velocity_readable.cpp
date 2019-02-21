@@ -1,5 +1,4 @@
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
-#include <queue>
 
 namespace AFR::VexU::BaseReadable{
 

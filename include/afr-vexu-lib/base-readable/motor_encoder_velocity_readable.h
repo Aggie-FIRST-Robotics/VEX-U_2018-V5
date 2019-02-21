@@ -1,12 +1,5 @@
-//
-// Created by aamhi on 2/20/2019.
-//
-
 #ifndef VEX_U_2018_V5_MOTOR_ENCODER_VELOCITY_READABLE_H
 #define VEX_U_2018_V5_MOTOR_ENCODER_VELOCITY_READABLE_H
-//
-// Created by aamhi on 2/20/2019.
-//
 
 #include "afr-vexu-lib/defines.h"
 #include "afr-vexu-lib/readable.h"
