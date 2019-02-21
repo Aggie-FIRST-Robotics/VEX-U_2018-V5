@@ -24,7 +24,7 @@ namespace AFR::VexU::Robot::Shooter {
         auto val = stick->get_position();
         pros::lcd::set_text(2, "Controller: " + std::to_string(val));
         //  pros::lcd::set_text(1, "Encoder: " + std::to_string(encoder_->get_position()));
-        std::cout << "Encoder: " << encoder_->get_actual_velocity() << std::endl;
+        //  std::cout << "Encoder: " << encoder_->get_actual_velocity() << std::endl;
 
         if (a_button_->is_pressed()) {
             //  encoder_->tare_position();

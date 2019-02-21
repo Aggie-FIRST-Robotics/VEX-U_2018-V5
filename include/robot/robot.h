@@ -22,7 +22,7 @@ namespace AFR::VexU::Robot{
     const port_t ARM_LIMIT_SWITCH_RIGHT_PORT = 1;   // 2/12/19
 //    const port_t VEE_LIMIT_SWITCH_PORT = 2;         // 2/6/19
     const port_t ELEVATOR_LIMIT_SWITCH_PORT = 6;    // 2/8/19
-
+    const port_t VEE_LIMIT_SWITCH_PORT = 3;
     const pros::motor_gearset_e_t RIGHT_RAIL_MOTOR_A_GEARSET = pros::E_MOTOR_GEARSET_06;
     const pros::motor_gearset_e_t RIGHT_RAIL_MOTOR_B_GEARSET = pros::E_MOTOR_GEARSET_06;
     const pros::motor_gearset_e_t LEFT_RAIL_MOTOR_A_GEARSET = pros::E_MOTOR_GEARSET_06;

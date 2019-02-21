@@ -3,6 +3,7 @@
 
 #include "afr-vexu-lib/readable.h"
 #include "afr-vexu-lib/action.h"
+#include <iostream>
 //min max -12000, +12000 imin imax -6000, 6000
 
 namespace AFR::VexU::BaseAction{
@@ -95,11 +96,12 @@ namespace AFR::VexU::BaseAction{
 
     template<typename Read_T, typename Write_T>
     void pid_action<Read_T, Write_T>::update_private(const double& delta_seconds){
+        //std::cout << "PID value: " << std::any_cast<Read_T>(_value_pointer->get_value()) << std::endl;
         double error = static_cast<double>(_set_point - std::any_cast<Read_T>(_value_pointer->get_value()));
         double p_term = _p_value * error;
 
         double d_term;
-
+        std::cout << "I val: " << i_term << std::endl;
         //Only calculate i and d terms if reasonable time delta and enabled
         if(running && delta_seconds > 0.001){
             i_term += i_term * error * delta_seconds;

@@ -22,11 +22,11 @@ namespace AFR::VexU::Robot2{
 
     void op_control(){
         while(true){
-            Cap::cap_subsystem->updateInputs();
+            //Cap::cap_subsystem->updateInputs();
 
-            Cap::cap_subsystem->updateStates();
+            //Cap::cap_subsystem->updateStates();
 
-            Cap::cap_subsystem->updateActions();
+            //Cap::cap_subsystem->updateActions();
         }
     }
 }

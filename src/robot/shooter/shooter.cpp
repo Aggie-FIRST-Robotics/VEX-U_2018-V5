@@ -74,12 +74,12 @@ namespace AFR::VexU::Robot::Shooter {
         elevation_encoder = new motor_encoder_velocity_readable{ELEVATION_PORT, 1.0, "elevation_encoder"};
         spinner_encoder = new motor_encoder_readable{SPINNER_PORT, 1.0, "spinner_encoder"};
 
-        flywheel_encoder = new motor_encoder_velocity_readable{FLYWHEEL_1_PORT, 1.0, "flywheel_encoder"};
+        flywheel_encoder = new motor_encoder_velocity_readable{FLYWHEEL_2_PORT, 1.0, "flywheel_encoder"};
 
 
-        flywheel = new motor_commandable(FLYWHEEL_1_PORT, FLYWHEEL_MOTOR_GEARSET, false, FLYWHEEL_MOTOR_BRAKE_MODE,
+        flywheel = new motor_commandable(FLYWHEEL_1_PORT, FLYWHEEL_MOTOR_GEARSET, true, FLYWHEEL_MOTOR_BRAKE_MODE,
                                          "flywheel");
-        flywheel2 = new motor_commandable(FLYWHEEL_2_PORT, FLYWHEEL_MOTOR_GEARSET, true, FLYWHEEL_MOTOR_BRAKE_MODE,
+        flywheel2 = new motor_commandable(FLYWHEEL_2_PORT, FLYWHEEL_MOTOR_GEARSET, false, FLYWHEEL_MOTOR_BRAKE_MODE,
                                           "flywheel");
         flywheel_combined = new multi_motor_commandable("flywheel_combined");
         flywheel_combined->add_motor(flywheel);
@@ -95,16 +95,16 @@ namespace AFR::VexU::Robot::Shooter {
         dead_band_elevation = new dead_band_action<double, int16_t>{ELEVATION_UPDATE_PERIOD, elevation, 0, 50,
                                                                     elevation_encoder, 3000, -3000,
                                                                     "dead_band_elevation"};
-        flywheel_action = new pid_action<double, int16_t>(FLYWHEEL_UPDATE_PERIOD, flywheel_combined, 100, 0, 0, -12000,
-                                                          12000, -1200, 6000, 0,
-                                                          flywheel_encoder, 0, "flywheel");
+        flywheel_action = new pid_action<double, int16_t>(FLYWHEEL_UPDATE_PERIOD, flywheel_combined, 50, 30, 0, -12000,
+                                                          12000, -12000, 12000, 0,
+                                                          flywheel_encoder, 1000, "flywheel");
         dead_band_spinner = new dead_band_action<double, int16_t>{SPINNER_UPDATE_PERIOD, spinner, 500, 550,
-                                                                  spinner_encoder, -6000, 6000, "dear_band_spinner"};
+                                                                  spinner_encoder, 6000, -6000, "dear_band_spinner"};
 
         start_elevation = new joystick(ELEVATION_UPDATE_PERIOD, elevation, left_stick, "start_elevation",
                                        elevation_encoder);
 
-        start_actions.push_back(start_elevation);
+        start_actions.push_back(flywheel_action);
 
         start = new state(start_actions, start_transitions, on_start_entry, "start");
 
@@ -117,7 +117,7 @@ namespace AFR::VexU::Robot::Shooter {
         commandables.push_back(elevation);
         commandables.push_back(flywheel);
         // std::cout<<"what is going on"<<std::endl;
-        inputs.push_back(elevation_encoder);
+        //  inputs.push_back(elevation_encoder);
         inputs.push_back(flywheel_encoder);
         /* commandables.push_back(spinner);*/
         shooter_state_machine = new state_controller(START_UPDATE_PERIOD, states, commandables, start,
