@@ -37,13 +37,13 @@ namespace AFR::VexU::Robot{
     const pros::motor_brake_mode_e_t NAUTILUS_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
 
-    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
-    const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
-    const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
-    const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
-    const pros::controller_digital_e_t ANGLE_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
-    const pros::controller_digital_e_t LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
-    const pros::controller_digital_e_t HIGH_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
+    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
+    const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
+    const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_UP;
+    const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
+    const pros::controller_digital_e_t ANGLE_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
+    const pros::controller_digital_e_t LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
+    const pros::controller_digital_e_t HIGH_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
     const pros::controller_digital_e_t SCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_Y;
     const pros::controller_analog_e_t LEFT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
     const pros::controller_analog_e_t RIGHT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_X;

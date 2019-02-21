@@ -20,7 +20,7 @@ namespace AFR::VexU::BaseAction {
             commandable_->set_value(static_cast<int16_t>(12000));
         }
         else{
-            commandable_->set_value(static_cast<int16_t>(6000));
+            commandable_->set_value(static_cast<int16_t>(3000));
         }
     }
 }

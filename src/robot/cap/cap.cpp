@@ -9,11 +9,6 @@ namespace AFR::VexU::Robot::Cap {
     scheduled_update_t score_timer = 0;
     scheduled_update_t limit_timer = 0;
 
-    template<typename T>
-    bool in_range(const T& lower, const T& val, const T& upper){
-        return val >= lower && val <= upper;
-    }
-
     //Commandables
     BaseCommandable::motor_commandable* elevator_motor = nullptr;
     BaseCommandable::motor_commandable* arm_left_motor = nullptr;
@@ -289,11 +284,11 @@ namespace AFR::VexU::Robot::Cap {
 
         //Action initializations
 //        intake_action = new set_value_action<int16_t>{INTAKE_UPDATE_PERIOD, intake_motor, 12000, "intake_action"};
-        intake_hold_action = new set_value_action<int16_t>{INTAKE_HOLD_UPDATE_PERIOD, intake_motor, 6000,
+        intake_hold_action = new set_value_action<int16_t>{INTAKE_HOLD_UPDATE_PERIOD, intake_motor, 3000,
                                                            "intake_hold_action"};
         outtake_action = new set_value_action<int16_t>{OUTTAKE_UPDATE_PERIOD, intake_motor, -12000, "outtake_action"};
-        intake_outtake_action = new intake_control_action{INTAKE_OUTTAKE_UPDATE_PERIOD, intake_motor, intake_button,
-                                                          outtake_button, "intake_outtake_action"};
+        intake_outtake_action = new intake_control_action{INTAKE_OUTTAKE_UPDATE_PERIOD, intake_motor, outtake_button,
+                                                          intake_button, "intake_outtake_action"};
 
         elevator_down_action = new set_value_action<int16_t>{ELEVATOR_DOWN_UPDATE_PERIOD, elevator_motor, -12000,
                                                              "elevator_down"};
@@ -446,7 +441,7 @@ namespace AFR::VexU::Robot::Cap {
 //
 //        outtake_to_ground = []() -> bool { return !(outtake_button->is_pressed()); };
 
-        flip_to_ground_all = []() -> bool{ return !(flip_button->is_rising_edge()); };
+        flip_to_ground_all = []() -> bool{ return !(flip_button->is_pressed()); };
         flip_to_angle = []() -> bool{
             return angle_button->is_rising_edge();
         };
@@ -569,7 +564,9 @@ namespace AFR::VexU::Robot::Cap {
         high_score_transitions.emplace_back(high_score_to_ground_all, ground_all, "high_score_to_ground_all");
 
         //On-state entry functions
-        on_ground_all_entry = [](state* last_state) -> void{};
+        on_ground_all_entry = [](state* last_state) -> void{
+            arm_pid_action->set_bounds(-12000, 12000);
+        };
 
         on_ground_arm_both_entry = [](state* last_state) -> void{
             elevator_encoder->tare_position();
@@ -615,15 +612,18 @@ namespace AFR::VexU::Robot::Cap {
 
         on_flip_entry = [](state* last_state) -> void{
             arm_pid_action->set_target(ARM_FLIP_TARGET);
+            arm_pid_action->set_bounds(-6000, 6000);
             elevator_pid_action->set_target(0);
         };
 
         on_angle_entry = [](state* last_state) -> void{
             arm_pid_action->set_target(ARM_ANGLE_TARGET);
+            arm_pid_action->set_bounds(-12000, 12000);
             elevator_pid_action->set_target(ELEVATOR_ANGLE_TARGET);
         };
 
         on_low_prime_entry = [](state* last_state) -> void{
+            arm_pid_action->set_bounds(-12000, 12000);
             elevator_pid_action->set_target(ELEVATOR_LOW_PRIME_TARGET);
             arm_pid_action->set_target(ARM_LOW_PRIME_TARGET);
         };

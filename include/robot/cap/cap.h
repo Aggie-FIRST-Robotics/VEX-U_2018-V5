@@ -23,7 +23,7 @@ namespace AFR::VexU::Robot::Cap {
 
     const scheduled_update_t LEFT_DOWN_TIME = 100;
 
-    const double ARM_FLIP_TARGET = 850;
+    const double ARM_FLIP_TARGET = 950;
 
     const double ARM_ANGLE_TARGET = 0;
     const double ELEVATOR_ANGLE_TARGET = 1750;
@@ -42,12 +42,12 @@ namespace AFR::VexU::Robot::Cap {
     const double ARM_LOW_SCORE_TARGET = ARM_LOW_MOVE_TARGET;
 
     const double ELEVATOR_HIGH_PRIME_TARGET = 3750;
-    const double ARM_HIGH_PRIME_TARGET = 3500;
+    const double ARM_HIGH_PRIME_TARGET = 3800;
 
     const double ELEVATOR_HIGH_MOVE_TARGET = ELEVATOR_HIGH_PRIME_TARGET;
     const double ELEVATOR_HIGH_SCORE_LOWER = ELEVATOR_HIGH_MOVE_TARGET - 50;
     const double ELEVATOR_HIGH_SCORE_UPPER = ELEVATOR_HIGH_MOVE_TARGET + 50;
-    const double ARM_HIGH_MOVE_TARGET = 3875;
+    const double ARM_HIGH_MOVE_TARGET = 4150;
     const double ARM_HIGH_SCORE_LOWER = ARM_HIGH_MOVE_TARGET - 50;
     const double ARM_HIGH_SCORE_UPPER = ARM_HIGH_MOVE_TARGET + 50;
 

@@ -8,4 +8,5 @@ set(
 
 set(
         robot2-cap-V5-src
+        src/robot2/cap/cap.cpp
 )
