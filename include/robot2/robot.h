@@ -41,9 +41,9 @@ namespace AFR::VexU::Robot2{
     const pros::motor_gearset_e_t FLYWHEEL_LEFT_GEARSET = pros::E_MOTOR_GEARSET_06;
     const pros::motor_gearset_e_t FLYWHEEL_RIGHT_GEARSET = pros::E_MOTOR_GEARSET_06;
 
-    const port_t ARM_LIMIT_SWITCH_PORT = 'H';
-    const port_t ELBOW_LIMIT_SWITCH_PORT = 'G';
-    const port_t WRIST_LIMIT_SWITCH_PORT = 'F';
+    const port_t ARM_LIMIT_SWITCH_PORT = 8;
+    const port_t ELBOW_LIMIT_SWITCH_PORT = 7;
+    const port_t WRIST_LIMIT_SWITCH_PORT = 6;
 
     const port_t BALL_INTAKE_MOTOR_PORT = 18;
 
@@ -59,7 +59,7 @@ namespace AFR::VexU::Robot2{
     const pros::controller_digital_e_t UP_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
     const pros::controller_digital_e_t DOWN_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
     const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
-    const pros::controller_digital_e_t FLIP_PARTNER_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
+    const pros::controller_digital_e_t FLIP_PARTNER_BUTTON = pros::E_CONTROLLER_DIGITAL_UP;
     const pros::controller_digital_e_t SCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
     const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_UP;
     const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_Y;
@@ -70,9 +70,11 @@ namespace AFR::VexU::Robot2{
     const pros::controller_analog_e_t LEFT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
     const pros::controller_analog_e_t RIGHT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_X;
 
-    const pros::controller_digital_e_t AUTO_AIM_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
-    const pros::controller_digital_e_t SPIN_UP_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
-    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
+
+
+    const pros::controller_digital_e_t AUTO_AIM_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
+    const pros::controller_digital_e_t SPIN_UP_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
+    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
 
     const pros::controller_analog_e_t VERTICAL_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
     const pros::controller_analog_e_t HORIZONTAL_STICK = pros::E_CONTROLLER_ANALOG_LEFT_X;

@@ -59,8 +59,8 @@ namespace AFR::VexU::Robot2{
 
     void op_control(){
         while(true){
-            std::string line1 = "A: " + std::to_string(
-                    Cap::arm_encoder->get_position());//std::to_string(Cap::wrist_pid_action->get_target());
+            std::string line1 = "Vel: " + std::to_string(
+                    Shooter::flywheel_velocity->get_actual_velocity());//std::to_string(Cap::wrist_pid_action->get_target());
             std::string line2 = "E: " + std::to_string(Cap::elbow_encoder->get_position());
             std::string line3 = Cap::cap_state_machine->get_current_state()->get_name();
             std::string other = "W: " + std::to_string(Cap::wrist_encoder->get_position());

@@ -11,6 +11,7 @@
 #include "robot2/robot.h"
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
+#include "afr-vexu-lib/base-action/bounded_value_action.h"
 
 
 #include "robot2/shooter/shooter.h"
@@ -163,7 +164,7 @@ namespace AFR::VexU::Robot2::Shooter{
         };
 
         //Commandables
-        loader_motor_1       = new motor_commandable{LOADER_MOTOR_PORT_1, LOADER_MOTOR_GEARSET, false, LOADER_MOTOR_BRAKE_MODE, "loader_motor"};
+        loader_motor_1       = new motor_commandable{LOADER_MOTOR_PORT_1, LOADER_MOTOR_GEARSET, true, LOADER_MOTOR_BRAKE_MODE, "loader_motor"};
         loader_motor_2       = new motor_commandable{LOADER_MOTOR_PORT_2, LOADER_MOTOR_GEARSET, false, LOADER_MOTOR_BRAKE_MODE, "loader_motor"};
         loader_motors     = new multi_motor_commandable{"loader_motors"};
         loader_motors->add_motor(loader_motor_1);
@@ -172,14 +173,14 @@ namespace AFR::VexU::Robot2::Shooter{
         hood_motor          = new motor_commandable{HOOD_MOTOR_PORT, HOOD_MOTOR_GEARSET, true, HOOD_MOTOR_BRAKE_MODE, "hood_motor"};
         turret_motor        = new motor_commandable{TURRET_MOTOR_PORT, TURRET_MOTOR_GEARSET, false, TURRET_MOTOR_BRAKE_MODE, "turret_motor"};
 
-        flywheel_left       = new motor_commandable{FLYWHEEL_LEFT_PORT, FLYWHEEL_LEFT_GEARSET, true, FLYWHEEL_LEFT_BRAKE_MODE, "flywheel_left_motor"};
+        flywheel_left       = new motor_commandable{FLYWHEEL_LEFT_PORT, FLYWHEEL_LEFT_GEARSET, false, FLYWHEEL_LEFT_BRAKE_MODE, "flywheel_left_motor"};
         flywheel_right      = new motor_commandable{FLYWHEEL_RIGHT_PORT, FLYWHEEL_RIGHT_GEARSET, true, FLYWHEEL_RIGHT_BRAKE_MODE, "flywheel_right_motor"};
         flywheel_motors     = new multi_motor_commandable{"flywheel_motors"};
         flywheel_motors->add_motor(flywheel_left);
         flywheel_motors->add_motor(flywheel_right);
 
 
-        //Readables
+        //Readabl
         hood_encoder            = new motor_encoder_readable{HOOD_MOTOR_PORT, HOOD_ENCODER_SCALING, "hood_motor_encoder"};
         turret_encoder          = new motor_encoder_readable{TURRET_MOTOR_PORT, TURRET_ENCODER_SCALING, "turret_motor_encoder"};
         flywheel_velocity       = new motor_encoder_velocity_readable{FLYWHEEL_LEFT_PORT, 1.0, "flywheel_velocity"};
@@ -198,7 +199,7 @@ namespace AFR::VexU::Robot2::Shooter{
         hood_lock_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, hood_motor, 0, "hood_lock_action"};
         turret_lock_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, turret_motor, 0, "turret_lock_action"};
         flywheel_left_rest_action = new set_value_action<int16_t>{SHOOTER_UPDATE_PERIOD, flywheel_left, 0, "flywheel_left_rest_action"};
-        flywheel_right_rest_action = new set_value_action<int16_t>{SHOOTER_UPDATE_PERIOD, flywheel_left, 0, "flywheel_right_rest_action"};
+        flywheel_right_rest_action = new set_value_action<int16_t>{SHOOTER_UPDATE_PERIOD, flywheel_right, 0, "flywheel_right_rest_action"};
         hood_dead_band_action = new dead_band_action<double, int16_t>{AUTO_AIM_UPDATE_PERIOD, hood_motor, hood_encoder->get_position()-HOOD_TOLERANCE, hood_encoder->get_position() + HOOD_TOLERANCE, hood_encoder, HOOD_VOLTAGE, -HOOD_VOLTAGE, "hood_dead_band_action"};
         turret_dead_band_action = new dead_band_action<double, int16_t>{AUTO_AIM_UPDATE_PERIOD, turret_motor, turret_encoder->get_position()-TURRET_TOLERANCE, turret_encoder->get_position() + TURRET_TOLERANCE, turret_encoder, TURRET_VOLTAGE, -TURRET_VOLTAGE, "turret_dead_band_action"};
         flywheel_pid_action = new pid_action<double, int16_t>{SHOOTER_UPDATE_PERIOD, flywheel_motors, P_TERM, I_TERM, D_TERM, -12000, 12000, MIN_I_TERM, MAX_I_TERM, 0, flywheel_velocity, FLYWHEEL_SPEED, "flywheel_pid_action"};
