@@ -3,6 +3,7 @@
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "robot2/robot.h"
+#include "robot2/auto.h"
 
 #include "robot2/cap/cap.h"
 #include "robot2/drive/drive.h"
@@ -31,6 +32,7 @@ namespace AFR::VexU::Robot2{
             Shooter::init();
             std::cout << "Shooter Initialized" << std::endl;
 
+            init_auto();
         }
         catch(std::exception& e){
             std::cerr << "Init error" << std::endl;
@@ -45,7 +47,11 @@ namespace AFR::VexU::Robot2{
 
     }
     void auto_robot() {
-
+        while(true){
+            robot2_auto_subsystem->updateInputs();
+            robot2_auto_subsystem->updateStates();
+            robot2_auto_subsystem->updateActions();
+        }
     }
 
     void op_control(){

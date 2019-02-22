@@ -17,6 +17,11 @@ namespace AFR::VexU::Robot2::Drive {
     const scheduled_update_t START_BACK_LEFT_MOTOR_UPDATE_PERIOD = 10;
     const scheduled_update_t START_BACK_RIGHT_MOTOR_UPDATE_PERIOD = 10;
 
+    extern BaseCommandable::motor_commandable* front_left_motor;
+    extern BaseCommandable::motor_commandable* front_right_motor;
+    extern BaseCommandable::motor_commandable* back_left_motor;
+    extern BaseCommandable::motor_commandable* back_right_motor;
+
     extern subsystem_controller *drive_subsystem;
 
     void init();
