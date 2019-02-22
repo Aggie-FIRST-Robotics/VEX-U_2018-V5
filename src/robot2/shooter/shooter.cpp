@@ -1,5 +1,6 @@
 
 
+
 #include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
 #include "afr-vexu-lib/base-action/pid_action.h"
 #include "afr-vexu-lib/base-action/set_value_action.h"
@@ -15,17 +16,19 @@
 #include "robot2/shooter/shooter.h"
 //#include "robot/shooter/joystick.h"
 
-namespace AFR::VexU::Robot::Shooter{
+namespace AFR::VexU::Robot2::Shooter{
     scheduled_update_t next_loader = 0;
     scheduled_update_t next_auto_aim = 0;
 
     //Commandables
-    BaseCommandable::motor_commandable*         loader_motor = nullptr;
+    BaseCommandable::motor_commandable*         loader_motor_1 = nullptr;
+    BaseCommandable::motor_commandable*         loader_motor_2 = nullptr;
     BaseCommandable::motor_commandable*         hood_motor = nullptr;
     BaseCommandable::motor_commandable*         turret_motor = nullptr;
     BaseCommandable::motor_commandable*         flywheel_left = nullptr;
     BaseCommandable::motor_commandable*         flywheel_right = nullptr;
     BaseCommandable::multi_motor_commandable*   flywheel_motors = nullptr;
+    BaseCommandable::multi_motor_commandable*   loader_motors = nullptr;
 
     //Readables
     BaseReadable::motor_encoder_readable*           hood_encoder = nullptr;
@@ -41,15 +44,18 @@ namespace AFR::VexU::Robot::Shooter{
     BaseAction::set_value_action<int16_t>*  loader_cock_action = nullptr;
     BaseAction::set_value_action<int16_t>*  loader_fire_action = nullptr;
     BaseAction::set_value_action<int16_t>*  loader_rest_action = nullptr;
-    BaseAction::set_value_action<int16_t>*  hood_set_value_action = nullptr;
-    BaseAction::set_value_action<int16_t>*  turret_set_value_action = nullptr;
+    BaseAction::set_value_action<int16_t>*  hood_lock_action = nullptr;
+    BaseAction::set_value_action<int16_t>*  turret_lock_action = nullptr;
     BaseAction::set_value_action<int16_t>*  flywheel_left_rest_action = nullptr;
     BaseAction::set_value_action<int16_t>*  flywheel_right_rest_action = nullptr;
 
     BaseAction::dead_band_action<double, int16_t>*  hood_dead_band_action = nullptr;
     BaseAction::dead_band_action<double, int16_t>*  turret_dead_band_action = nullptr;
 
-    BaseAction::pid_action<double, int16_t>*    flywheel_action = nullptr;
+    BaseAction::pid_action<double, int16_t>*    flywheel_pid_action = nullptr;
+
+    BaseAction::bounded_value_action<double,int32_t ,int16_t >* hood_value_bound_action = nullptr;
+    BaseAction::bounded_value_action<double,int32_t ,int16_t >* turret_value_bound_action = nullptr;
 
 
     //Firing Action Vectors
@@ -143,14 +149,25 @@ namespace AFR::VexU::Robot::Shooter{
     //Subsystem Controller
     subsystem_controller* shooter_subsystem{};
 
+    //Conversion Functions
+    std::function<int16_t(int32_t)> shooter_bounding{};
+
 
     void init(){
         using namespace BaseCommandable;
         using namespace BaseReadable;
         using namespace BaseAction;
 
+        shooter_bounding = [](int32_t input) -> int16_t{
+            return static_cast<int16_t>((12000 / 127) * input);
+        };
+
         //Commandables
-        loader_motor        = new motor_commandable{LOADER_MOTOR_PORT, LOADER_MOTOR_GEARSET, false, LOADER_MOTOR_BRAKE_MODE, "loader_motor"};
+        loader_motor_1       = new motor_commandable{LOADER_MOTOR_PORT_1, LOADER_MOTOR_GEARSET, false, LOADER_MOTOR_BRAKE_MODE, "loader_motor"};
+        loader_motor_2       = new motor_commandable{LOADER_MOTOR_PORT_2, LOADER_MOTOR_GEARSET, false, LOADER_MOTOR_BRAKE_MODE, "loader_motor"};
+        loader_motors     = new multi_motor_commandable{"loader_motors"};
+        loader_motors->add_motor(loader_motor_1);
+        loader_motors->add_motor(loader_motor_2);
 
         hood_motor          = new motor_commandable{HOOD_MOTOR_PORT, HOOD_MOTOR_GEARSET, true, HOOD_MOTOR_BRAKE_MODE, "hood_motor"};
         turret_motor        = new motor_commandable{TURRET_MOTOR_PORT, TURRET_MOTOR_GEARSET, false, TURRET_MOTOR_BRAKE_MODE, "turret_motor"};
@@ -158,13 +175,13 @@ namespace AFR::VexU::Robot::Shooter{
         flywheel_left       = new motor_commandable{FLYWHEEL_LEFT_PORT, FLYWHEEL_LEFT_GEARSET, true, FLYWHEEL_LEFT_BRAKE_MODE, "flywheel_left_motor"};
         flywheel_right      = new motor_commandable{FLYWHEEL_RIGHT_PORT, FLYWHEEL_RIGHT_GEARSET, true, FLYWHEEL_RIGHT_BRAKE_MODE, "flywheel_right_motor"};
         flywheel_motors     = new multi_motor_commandable{"flywheel_motors"};
-        arm_motors->add_motor(flywheel_left);
-        arm_motors->add_motor(flywheel_right);
+        flywheel_motors->add_motor(flywheel_left);
+        flywheel_motors->add_motor(flywheel_right);
 
 
         //Readables
-        hood_encoder            = new motor_encoder_readable{HOOD_MOTOR_PORT, 1.0, "hood_motor_encoder"};
-        turret_encoder          = new motor_encoder_readable{TURRET_MOTOR_PORT, 1.0, "turret_motor_encoder"};
+        hood_encoder            = new motor_encoder_readable{HOOD_MOTOR_PORT, HOOD_ENCODER_SCALING, "hood_motor_encoder"};
+        turret_encoder          = new motor_encoder_readable{TURRET_MOTOR_PORT, TURRET_ENCODER_SCALING, "turret_motor_encoder"};
         flywheel_velocity       = new motor_encoder_velocity_readable{FLYWHEEL_LEFT_PORT, 1.0, "flywheel_velocity"};
 
         auto_aim_button = get_controller_digital_readable(pros::E_CONTROLLER_PARTNER, AUTO_AIM_BUTTON);
@@ -175,20 +192,18 @@ namespace AFR::VexU::Robot::Shooter{
         horizontal_stick = get_controller_analog_readable(pros::E_CONTROLLER_PARTNER, HORIZONTAL_STICK);
 
         //Actions
-        loader_cock_action = new set_value_action<int16_t>{LOADER_UPDATE_PERIOD, , 12000, "loader_cock_action"};
-        loader_fire_action = new set_value_action<int16_t>{LOADER_UPDATE_PERIOD, , -12000, "loader_fire_action"};
-        loader_rest_action = new set_value_action<int16_t>{LOADER_UPDATE_PERIOD, , 0, "loader_rest_action"};
-        hood_set_value_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, , vertical_stick, "hood_set_value_action"};
-        turret_set_value_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, , horizontal_stick, "turret_set_value_action"};
-        hood_lock_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, , 0, "hood_lock_action"};
-        turret_lock_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, , 0, "turret_lock_action"};
-        flywheel_left_rest_action = new set_value_action<int16_t>{SHOOTER_UPDATE_PERIOD, , 0, "flywheel_left_rest_action"};
-        flywheel_right_rest_action = new set_value_action<int16_t>{SHOOTER_UPDATE_PERIOD, , 0, "flywheel_right_rest_action"};
-        hood_dead_band_action = new dead_band_action<double, int16_t>{AUTO_AIM_UPDATE_PERIOD, hood_motor, -HOOD_TOLERANCE, HOOD_TOLERANCE, hood_encoder, HOOD_VOLTAGE, -HOOD_VOLTAGE, "hood_dead_band_action"};
-        turret_dead_band_action = new dead_band_action<double, int16_t>{AUTO_AIM_UPDATE_PERIOD, turret_motor, -TURRET_TOLERANCE, TURRET_TOLERANCE, turret_encoder, TURRET_VOLTAGE, -TURRET_VOLTAGE, "turret_dead_band_action"};
+        loader_cock_action = new set_value_action<int16_t>{LOADER_UPDATE_PERIOD, loader_motors, 12000, "loader_cock_action"};
+        loader_fire_action = new set_value_action<int16_t>{LOADER_UPDATE_PERIOD, loader_motors, -12000, "loader_fire_action"};
+        loader_rest_action = new set_value_action<int16_t>{LOADER_UPDATE_PERIOD, loader_motors, 0, "loader_rest_action"};
+        hood_lock_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, hood_motor, 0, "hood_lock_action"};
+        turret_lock_action = new set_value_action<int16_t>{AUTO_AIM_UPDATE_PERIOD, turret_motor, 0, "turret_lock_action"};
+        flywheel_left_rest_action = new set_value_action<int16_t>{SHOOTER_UPDATE_PERIOD, flywheel_left, 0, "flywheel_left_rest_action"};
+        flywheel_right_rest_action = new set_value_action<int16_t>{SHOOTER_UPDATE_PERIOD, flywheel_left, 0, "flywheel_right_rest_action"};
+        hood_dead_band_action = new dead_band_action<double, int16_t>{AUTO_AIM_UPDATE_PERIOD, hood_motor, hood_encoder->get_position()-HOOD_TOLERANCE, hood_encoder->get_position() + HOOD_TOLERANCE, hood_encoder, HOOD_VOLTAGE, -HOOD_VOLTAGE, "hood_dead_band_action"};
+        turret_dead_band_action = new dead_band_action<double, int16_t>{AUTO_AIM_UPDATE_PERIOD, turret_motor, turret_encoder->get_position()-TURRET_TOLERANCE, turret_encoder->get_position() + TURRET_TOLERANCE, turret_encoder, TURRET_VOLTAGE, -TURRET_VOLTAGE, "turret_dead_band_action"};
         flywheel_pid_action = new pid_action<double, int16_t>{SHOOTER_UPDATE_PERIOD, flywheel_motors, P_TERM, I_TERM, D_TERM, -12000, 12000, MIN_I_TERM, MAX_I_TERM, 0, flywheel_velocity, FLYWHEEL_SPEED, "flywheel_pid_action"};
-
-
+        hood_value_bound_action = new bounded_value_action<double,int32_t ,int16_t >(AUTO_AIM_UPDATE_PERIOD, hood_motor, HOOD_ENCODER_LIMIT, 0, 0, 0, shooter_bounding, vertical_stick,  hood_encoder, "bounded_hood_action");
+        turret_value_bound_action = new bounded_value_action<double,int32_t ,int16_t >(AUTO_AIM_UPDATE_PERIOD, turret_motor, TURRET_ENCODER_LIMIT, 0, 0, 0, shooter_bounding, horizontal_stick,  turret_encoder, "bounded_turret_action");
         //Firing Vectors
         rest_actions.push_back(flywheel_left_rest_action);
         rest_actions.push_back(flywheel_right_rest_action);
@@ -205,8 +220,8 @@ namespace AFR::VexU::Robot::Shooter{
 
 
         //Autoaim Vectors
-        manual_control_actions.push_back(hood_set_value_action);
-        manual_control_actions.push_back(turret_set_value_action);
+        manual_control_actions.push_back(hood_value_bound_action);
+        manual_control_actions.push_back(turret_value_bound_action);
 
         auto_aim_actions.push_back(hood_dead_band_action);
         auto_aim_actions.push_back(turret_dead_band_action);
@@ -224,7 +239,7 @@ namespace AFR::VexU::Robot::Shooter{
             return !spin_up_button->is_pressed();
         };
         spin_up_to_cock = []() -> bool{
-            return fire_button->is_rising_edge() && arm_pid_action->is_in_range(FLYWHEEL_SPEED);
+            return fire_button->is_rising_edge() && flywheel_pid_action->is_in_range(FLYWHEEL_TOLERANCE);
         };
 
         cock_to_fire = []() -> bool{
@@ -246,7 +261,7 @@ namespace AFR::VexU::Robot::Shooter{
         };
 
         auto_to_ready = []() -> bool{
-            return hood_dead_band_action.is_in_range(HOOD_TOLERANCE) && turret_dead_band_action.is_in_range(TURRET_TOLERANCE);
+            return hood_dead_band_action->is_in_range(HOOD_TOLERANCE) && turret_dead_band_action->is_in_range(TURRET_TOLERANCE);
         };
 
         ready_to_auto = []() -> bool{
@@ -295,10 +310,10 @@ namespace AFR::VexU::Robot::Shooter{
         //Autoaim On State Entry Functions
         on_manual_entry = [](state* last_state) -> void{};
         on_auto_entry = [](state* last_state) -> void{
-            if(/*encoder target*/ > 0 && /*encoder target*/ < HOOD_ENCODER_LIMIT)
-                hood_dead_band_action.set_target(/*encoder target*/);
-            if(/*encoder target*/ > 0 && /*encoder target*/ < TURRET_ENCODER_LIMIT)
-                turret_dead_band_action.set_target(/*delta encoder counts*/);
+            //if(/*encoder target*/ > 0 && /*encoder target*/ < HOOD_ENCODER_LIMIT)
+                //hood_dead_band_action.set_target(/*encoder target*/);
+            //if(/*encoder target*/ > 0 && /*encoder target*/ < TURRET_ENCODER_LIMIT)
+                //turret_dead_band_action.set_target(/*delta encoder counts*/);
         };
         on_ready_entry = [](state* last_state) -> void{
             next_auto_aim = pros::millis() + AUTO_AIM_DELAY;
@@ -311,8 +326,8 @@ namespace AFR::VexU::Robot::Shooter{
         fire = new state{fire_actions, fire_transitions, on_fire_entry, "fire"};
 
         //Autoaim States
-        manual = new state{manual_actions, manual_transitions, on_manual_entry, "manual"};
-        autoaim = new state{auto_actions, auto_transitions, on_auto_entry, "auto"};
+        manual = new state{manual_control_actions, manual_transitions, on_manual_entry, "manual"};
+        autoaim = new state{auto_aim_actions, auto_transitions, on_auto_entry, "auto"};
         ready = new state{ready_actions, ready_transitions, on_ready_entry, "ready"};
 
 
@@ -330,7 +345,7 @@ namespace AFR::VexU::Robot::Shooter{
 
 
         //Firing Commandable Vector
-        firing_commandables.push_back(loader_motor);
+        firing_commandables.push_back(loader_motors);
         firing_commandables.push_back(flywheel_left);
         firing_commandables.push_back(flywheel_right);
         firing_commandables.push_back(flywheel_motors);
@@ -364,7 +379,9 @@ namespace AFR::VexU::Robot::Shooter{
     }
 
     void destroy(){
-        delete loader_motor; 
+        delete loader_motor_1;
+        delete loader_motor_2;
+        delete loader_motors;
         delete hood_motor;
         delete turret_motor;
         delete flywheel_left;
@@ -376,13 +393,13 @@ namespace AFR::VexU::Robot::Shooter{
         delete loader_cock_action;
         delete loader_fire_action;
         delete loader_rest_action;
-        delete hood_set_value_action;
-        delete turret_set_value_action;
         delete flywheel_left_rest_action;
         delete flywheel_right_rest_action;
         delete hood_dead_band_action;
         delete turret_dead_band_action;
         delete flywheel_pid_action;
+        delete hood_value_bound_action;
+        delete turret_dead_band_action;
         delete rest;
         delete spin_up;
         delete cock;

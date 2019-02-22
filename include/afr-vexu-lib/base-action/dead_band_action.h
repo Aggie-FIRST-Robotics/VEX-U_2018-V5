@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include "afr-vexu-lib/action.h"
+#include "afr-vexu-lib/readable.h"
 #include "afr-vexu-lib/base-action/targetable.h"
 
 namespace AFR::VexU::BaseAction{

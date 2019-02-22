@@ -18,6 +18,11 @@ namespace AFR::VexU::Robot2{
     const pros::motor_brake_mode_e_t RIGHT_RAIL_MOTOR_B_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
     const pros::motor_brake_mode_e_t LEFT_RAIL_MOTOR_A_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
     const pros::motor_brake_mode_e_t LEFT_RAIL_MOTOR_B_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const pros::motor_brake_mode_e_t LOADER_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const pros::motor_brake_mode_e_t HOOD_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
+    const pros::motor_brake_mode_e_t TURRET_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
+    const pros::motor_brake_mode_e_t FLYWHEEL_LEFT_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const pros::motor_brake_mode_e_t FLYWHEEL_RIGHT_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     const port_t ARM_LEFT_MOTOR_PORT = 2;
     const port_t ARM_RIGHT_MOTOR_PORT = 13;
@@ -30,6 +35,11 @@ namespace AFR::VexU::Robot2{
     const pros::motor_gearset_e_t ELBOW_GEARSET = pros::E_MOTOR_GEARSET_18;
     const pros::motor_gearset_e_t WRIST_GEARSET = pros::E_MOTOR_GEARSET_18;
     const pros::motor_gearset_e_t INTAKE_GEARSET = pros::E_MOTOR_GEARSET_18;
+    const pros::motor_gearset_e_t LOADER_MOTOR_GEARSET = pros::E_MOTOR_GEARSET_06;
+    const pros::motor_gearset_e_t HOOD_MOTOR_GEARSET = pros::E_MOTOR_GEARSET_18;
+    const pros::motor_gearset_e_t TURRET_MOTOR_GEARSET = pros::E_MOTOR_GEARSET_36;
+    const pros::motor_gearset_e_t FLYWHEEL_LEFT_GEARSET = pros::E_MOTOR_GEARSET_06;
+    const pros::motor_gearset_e_t FLYWHEEL_RIGHT_GEARSET = pros::E_MOTOR_GEARSET_06;
 
     const port_t ARM_LIMIT_SWITCH_PORT = 'H';
     const port_t ELBOW_LIMIT_SWITCH_PORT = 'G';
@@ -57,9 +67,15 @@ namespace AFR::VexU::Robot2{
     const pros::controller_digital_e_t DESCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_RIGHT;
     const pros::controller_digital_e_t BALL_SPIT_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
     const pros::controller_digital_e_t BALL_SWALLOW_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
-
     const pros::controller_analog_e_t LEFT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
     const pros::controller_analog_e_t RIGHT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_X;
+
+    const pros::controller_digital_e_t AUTO_AIM_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
+    const pros::controller_digital_e_t SPIN_UP_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
+    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
+
+    const pros::controller_analog_e_t VERTICAL_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
+    const pros::controller_analog_e_t HORIZONTAL_STICK = pros::E_CONTROLLER_ANALOG_LEFT_X;
 
     void init_robot();
     void competition_init();

@@ -9,5 +9,4 @@ set(
 set(
         robot2-shooter-V5-src
         src/robot2/shooter/shooter.cpp
-        src/robot2/shooter/joystick.cpp
 )

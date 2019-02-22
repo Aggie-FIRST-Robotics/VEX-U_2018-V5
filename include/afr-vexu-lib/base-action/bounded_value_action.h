@@ -1,7 +1,9 @@
 #ifndef VEX_U_2018_V5_BOUNDED_SET_VALUE_ACTION_H
 #define VEX_U_2018_V5_BOUNDED_SET_VALUE_ACTION_H
 
+#include <functional>
 #include "afr-vexu-lib/action.h"
+#include "afr-vexu-lib/readable.h"
 
 namespace AFR::VexU::BaseAction{
     template<typename Sensor_Read_T, typename Input_Read_T, typename Write_t>

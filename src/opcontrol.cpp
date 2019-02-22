@@ -18,5 +18,5 @@
  */
 void opcontrol() {
 //    AFR::VexU::Robot::opcontrol_robot();
-    AFR::VexU::Robot2::opcontrol_robot();
+    AFR::VexU::Robot2::op_control();
 }
