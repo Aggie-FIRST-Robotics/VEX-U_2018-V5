@@ -81,8 +81,8 @@ namespace AFR::VexU::Robot::Catapult{
 
         fire_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, FIRE_BUTTON);
 
-        hold_nautilus_action = new dead_band_action<double, int16_t>{HOLD_NAUTILUS_UPDATE_PERIOD, nautilus_motor, -90,
-                                                                     90, nautilus_encoder, 6000, -6000,
+        hold_nautilus_action = new dead_band_action<double, int16_t>{HOLD_NAUTILUS_UPDATE_PERIOD, nautilus_motor, HOLD_NAUTILUS_TARGET-90,
+                                                                     HOLD_NAUTILUS_TARGET + 90, nautilus_encoder, 6000, -6000,
                                                                      "hold_nautilus_action"};
         cock_nautilus_action = new set_value_action<int16_t>{COCK_NAUTILUS_UPDATE_PERIOD, nautilus_motor, 12000,
                                                              "cock_nautilus_action"};
@@ -135,12 +135,12 @@ namespace AFR::VexU::Robot::Catapult{
 
         commandables.push_back(nautilus_motor);
 
-        catapult_state_machine = new state_controller{CATAPULT_UPDATE_PERIOD, states, commandables, cock,
+        catapult_state_machine = new state_controller{CATAPULT_UPDATE_PERIOD, states, commandables, hold,
                                                       "catapult_state_machine"};
 
         inputs.push_back(nautilus_limit_switch);
         inputs.push_back(nautilus_encoder);
-
+        //comment
         state_machines.push_back(catapult_state_machine);
 
         catapult_subsystem = new subsystem_controller{inputs, state_machines, "catapult_subsystem"};
