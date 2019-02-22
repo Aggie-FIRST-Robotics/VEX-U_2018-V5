@@ -8,12 +8,13 @@
 #include "state.h"
 #include "defines.h"
 #include "nameable.h"
+#include "readable.h"
 
 namespace AFR::VexU{
     /**
      * Represents a state machine within a subsystem
      */
-    class state_controller : public scheduled, public nameable{
+    class state_controller : public readable{
     protected:
         std::vector<state*> states_;
         std::vector<commandable*> commandables_;

@@ -7,9 +7,9 @@ namespace AFR::VexU{
 
     state_controller::state_controller(const scheduled_update_t& update_period, const std::vector<state*>& states,
                                        const std::vector<commandable*>& commandables, state* initial_state,
-                                       const std::string& name)
-            : scheduled(update_period), nameable(name), states_(states), commandables_(commandables),
-              current_state_(initial_state){
+                                       const std::string& name) :
+            readable(update_period, (initial_state != nullptr ? initial_state->get_name() : "null"), name),
+            states_(states), commandables_(commandables), current_state_(initial_state){
         if(current_state_ != nullptr){
             current_state_->on_state_entry(current_state_);
         }
@@ -24,6 +24,7 @@ namespace AFR::VexU{
                     current_state_->on_state_exit(next_state);
                     current_state_ = next_state;
                     current_state_->on_state_entry(last_state);
+                    value = current_state_->get_name();
                     break;
                 }
             }
