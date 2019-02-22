@@ -60,7 +60,18 @@ namespace AFR::VexU::Robot{
     }
 
     void auto_robot(){
+        std::cout << "Got to auto!" << std::endl;
+        while(true){
+            robot_auto_subsystem->updateInputs();
+            robot_auto_subsystem->updateStates();
+            robot_auto_subsystem->updateActions();
 
+            std::string line1 = robot_auto_subsystem->get_state_machines().at(0)->get_current_state()->get_name();
+            while(line1.length() < 15){
+                line1 += " ";
+            }
+            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line1.c_str());
+        }
     }
 
     void opcontrol_robot(){

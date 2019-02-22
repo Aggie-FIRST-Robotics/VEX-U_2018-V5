@@ -7,6 +7,7 @@
 
 #include "afr-vexu-lib/auto_state_controller.h"
 #include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
+#include "afr-vexu-lib/base-readable/sum_readable.h"
 #include "afr-vexu-lib/base-commandable/multi_commandable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 

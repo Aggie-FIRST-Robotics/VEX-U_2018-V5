@@ -7,6 +7,8 @@
 #include "afr-vexu-lib/base-readable/adi_digital_readable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 #include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
+#include "afr-vexu-lib/base-action/intake_control_action.h"
+#include "afr-vexu-lib/base-action/pid_action.h"
 
 namespace AFR::VexU::Robot::Cap {
 //    const scheduled_update_t INTAKE_UPDATE_PERIOD = 10;
@@ -69,6 +71,24 @@ namespace AFR::VexU::Robot::Cap {
     extern BaseReadable::motor_encoder_readable* arm_encoder;
     extern BaseReadable::motor_encoder_readable* elevator_encoder;
     extern BaseCommandable::multi_motor_commandable* arm_motors;
+    
+    extern BaseAction::set_value_action<int16_t>* intake_hold_action;
+    extern BaseAction::set_value_action<int16_t>* outtake_action;
+    extern BaseAction::intake_control_action* intake_outtake_action;
+
+    extern BaseAction::set_value_action<int16_t>* elevator_down_action;
+    extern BaseAction::set_value_action<int16_t>* arm_left_down_action;
+    extern BaseAction::set_value_action<int16_t>* arm_right_down_action;
+
+    extern BaseAction::set_value_action<int16_t>* arm_left_stop_action;
+    extern BaseAction::set_value_action<int16_t>* arm_right_stop_action;
+
+    extern BaseAction::pid_action<double, int16_t>* arm_pid_action;
+    extern BaseAction::pid_action<double, int16_t>* elevator_pid_action;
+    
+    extern BaseReadable::adi_digital_readable* arm_limit_switch_right;
+    extern BaseReadable::adi_digital_readable* elevator_limit_switch;
+    extern BaseReadable::adi_digital_readable* vee_limit_swith;
 
     void init();
 
