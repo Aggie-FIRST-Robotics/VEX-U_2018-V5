@@ -24,7 +24,7 @@ namespace AFR::VexU::Robot2::Cap{
 
     //Down
     const double DOWN_ARM_TARGET = 0;
-    const double DOWN_ELBOW_TARGET = 4500;
+    const double DOWN_ELBOW_TARGET = 4250;
 
     //Flip Low Prime
     const double FLIP_LOW_PRIME_ARM_TARGET = 500;
@@ -48,7 +48,7 @@ namespace AFR::VexU::Robot2::Cap{
 
     //Descore Prime
     const double DESCORE_PRIME_ARM_TARGET = 1750;
-    const double DESCORE_PRIME_ELBOW_TARGET = 0;
+    const double DESCORE_PRIME_ELBOW_TARGET = -100;
 
     //Descore Grab
     const double DESCORE_GRAB_ARM_TARGET = 2450;
@@ -56,7 +56,7 @@ namespace AFR::VexU::Robot2::Cap{
 
     //Score Prime
     const double SCORE_PRIME_ARM_TARGET = DESCORE_GRAB_ARM_TARGET;
-    const double SCORE_PRIME_ELBOW_TARGET = HOLD_ELBOW_TARGET;
+    const double SCORE_PRIME_ELBOW_TARGET = 900;
 
     //Score
     const double SCORE_ARM_TARGET = SCORE_PRIME_ARM_TARGET;

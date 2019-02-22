@@ -1,7 +1,7 @@
 include(src/robot/catapult/CMakeLists.txt)
 include(src/robot/cap/CMakeLists.txt)
 include(src/robot/drive/CMakeLists.txt)
-include(src/robot/shooter/CMakeLists.txt)
+
 set(
         robot-src
         ${robot-drive-src}

@@ -1,10 +1,6 @@
-//
-// Created by aamhi on 2/12/2019.
-//
-
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
-#include "robot/shooter/joystick.h"
+#include "robot2/shooter/joystick.h"
 
 namespace AFR::VexU::Robot::Shooter{
     joystick::joystick(scheduled_update_t update_period, commandable* commandable,
