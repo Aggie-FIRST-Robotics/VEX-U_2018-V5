@@ -1,5 +1,3 @@
-
-
 #include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
 #include "afr-vexu-lib/base-action/pid_action.h"
 #include "afr-vexu-lib/base-action/set_value_action.h"
@@ -12,8 +10,8 @@
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 
 
-#include "robot/shooter/shooter.h"
-#include "robot/shooter/joystick.h"
+#include "robot2/shooter/shooter.h"
+#include "robot2/shooter/joystick.h"
 
 namespace AFR::VexU::Robot::Shooter{
     BaseCommandable::motor_commandable* elevation = nullptr;
