@@ -45,11 +45,19 @@ namespace AFR::VexU::Robot2{
     void competition_init() {
 
     }
+
     void auto_robot() {
+        std::cout << "Got to auto!" << std::endl;
         while(true){
             robot2_auto_subsystem->updateInputs();
             robot2_auto_subsystem->updateStates();
             robot2_auto_subsystem->updateActions();
+
+            std::string line1 = robot2_auto_subsystem->get_state_machines().at(0)->get_current_state()->get_name();
+            while(line1.length() < 15){
+                line1 += " ";
+            }
+            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line1.c_str());
         }
     }
 
@@ -96,15 +104,15 @@ namespace AFR::VexU::Robot2{
 //                Cap::elbow_encoder->tare_position();
 //            }
 
-            if(pros::c::controller_get_digital(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_DIGITAL_LEFT)){
-                break;
-            }
+//            if(pros::c::controller_get_digital(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_DIGITAL_RIGHT)){
+//                break;
+//            }
 
             serial_manager->update();
         }
-        for(uint8_t x = 1; x < 21; x++){
-            pros::c::motor_move_voltage(x, 0);
-        }
+//        for(uint8_t x = 1; x < 21; x++){
+//            pros::c::motor_move_voltage(x, 0);
+//        }
     }
 
     void disabled_robot() {

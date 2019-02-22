@@ -6,7 +6,7 @@
 namespace AFR::VexU::Robot2{
     extern subsystem_controller* robot2_auto_subsystem;
 
-    const double DRIVE_FORWARD_TARGET = 10000;
+    const double DRIVE_FORWARD_TARGET = 3000;
 
     void init_auto();
 }

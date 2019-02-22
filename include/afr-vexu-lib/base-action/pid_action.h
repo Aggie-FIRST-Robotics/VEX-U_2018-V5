@@ -93,13 +93,13 @@ namespace AFR::VexU::BaseAction{
          * @param max_i_value maximum allowable I term
          * @param offset offset for calculated output
          * @param value_ptr the pointer to the value to be copied every update
-         * @param setpoint target value for controller
+         * @param set_point target value for controller
          * @param name error_t value if error encountered
          */
         pid_action(scheduled_update_t update_period, commandable* commandable, double p_value,
                    double i_value, double d_value, Write_T min_value, Write_T max_value,
                    Write_T min_i_value, Write_T max_i_value, Write_T offset, readable* value_pointer,
-                   Read_T setpoint, const std::string& name);
+                   Read_T set_point, const std::string& name);
     };
 
     template<typename Read_T, typename Write_T>
@@ -179,14 +179,12 @@ namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>
     pid_action<Read_T, Write_T>::pid_action(scheduled_update_t update_period, commandable* commandable, double p_value,
                                             double i_value, double d_value, Write_T min_value, Write_T max_value,
-                                            Write_T min_i_value,
-                                            Write_T max_i_value, Write_T offset, readable* value_pointer,
-                                            Read_T setpoint, const std::string& name)
-            : targetable<Read_T>(update_period, commandable, name), _p_value(p_value), _i_value(i_value),
-              _d_value(d_value),
-              _min_value(min_value), _max_value(max_value), _min_i_value(min_i_value), _max_i_value(max_i_value),
-              _offset(offset), _value_pointer(value_pointer), _set_point(setpoint), last_error(0), last_value(0),
-              i_term(0), running(false){
+                                            Write_T min_i_value, Write_T max_i_value, Write_T offset,
+                                            readable* value_pointer, Read_T set_point, const std::string& name) :
+            targetable<Read_T>(update_period, commandable, set_point, name), _p_value(p_value), _i_value(i_value),
+            _d_value(d_value), _min_value(min_value), _max_value(max_value), _min_i_value(min_i_value),
+            _max_i_value(max_i_value), _offset(offset), _value_pointer(value_pointer), _set_point(set_point),
+            last_error(0), last_value(0), i_term(0), running(false){
         if(_value_pointer == nullptr){
             throw std::runtime_error{"Cannot have nullptr for value pointer!"};
         }

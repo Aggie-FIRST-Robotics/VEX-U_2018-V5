@@ -68,7 +68,8 @@ namespace AFR::VexU::BaseAction{
                                                         Read_T bottom_threshold, Read_T top_threshold,
                                                         readable* value_pointer, Write_T below_value, 
                                                         Write_T above_value, const std::string& name)
-            : targetable<Read_T>(update_period, commandable, name), _bottom_threshold(bottom_threshold),
+            : targetable<Read_T>(update_period, commandable, (top_threshold - bottom_threshold) / 2 + bottom_threshold,
+                                 name), _bottom_threshold(bottom_threshold),
               _top_threshold(top_threshold), _value_pointer(value_pointer),
               _below_value(below_value), _above_value(above_value){}
 

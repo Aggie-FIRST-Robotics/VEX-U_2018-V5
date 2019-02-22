@@ -30,7 +30,10 @@ namespace AFR::VexU::Robot::Cap {
     BaseReadable::controller_digital_readable* angle_button = nullptr;
     BaseReadable::controller_digital_readable* low_button = nullptr;
     BaseReadable::controller_digital_readable* high_button = nullptr;
-    BaseReadable::controller_digital_readable* score_button = nullptr;
+    BaseReadable::controller_digital_readable* score_button_1 = nullptr;
+    BaseReadable::controller_digital_readable* score_button_2 = nullptr;
+    BaseReadable::controller_digital_readable* score_button_3 = nullptr;
+    BaseReadable::controller_digital_readable* score_button_4 = nullptr;
 
     //Actions
 //    BaseAction::set_value_action<int16_t>* intake_action = nullptr;
@@ -280,7 +283,10 @@ namespace AFR::VexU::Robot::Cap {
         angle_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, ANGLE_BUTTON);
         low_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, LOW_BUTTON);
         high_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, HIGH_BUTTON);
-        score_button = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, SCORE_BUTTON);
+        score_button_1 = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, SCORE_BUTTON_1);
+        score_button_2 = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, SCORE_BUTTON_2);
+        score_button_3 = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, SCORE_BUTTON_3);
+        score_button_4 = get_controller_digital_readable(pros::E_CONTROLLER_MASTER, SCORE_BUTTON_4);
 
         //Action initializations
 //        intake_action = new set_value_action<int16_t>{INTAKE_UPDATE_PERIOD, intake_motor, 12000, "intake_action"};
@@ -288,7 +294,7 @@ namespace AFR::VexU::Robot::Cap {
                                                            "intake_hold_action"};
         outtake_action = new set_value_action<int16_t>{OUTTAKE_UPDATE_PERIOD, intake_motor, -12000, "outtake_action"};
         intake_outtake_action = new intake_control_action{INTAKE_OUTTAKE_UPDATE_PERIOD, intake_motor, outtake_button,
-                                                          intake_button, -12000, 12000, -3000, "intake_outtake_action"};
+                                                          intake_button, -12000, 12000, 3000, "intake_outtake_action"};
 
         elevator_down_action = new set_value_action<int16_t>{ELEVATOR_DOWN_UPDATE_PERIOD, elevator_motor, -12000,
                                                              "elevator_down"};
@@ -302,7 +308,7 @@ namespace AFR::VexU::Robot::Cap {
         arm_right_stop_action = new set_value_action<int16_t>{ARM_STOP_UPDATE_PERIOD, arm_right_motor, 0,
                                                               "arm_right_stop_action"};
 
-        arm_pid_action = new pid_action<double, int16_t>{ARM_PID_UPDATE_PERIOD, arm_motors, 200, 50, 0, -12000, 12000,
+        arm_pid_action = new pid_action<double, int16_t>{ARM_PID_UPDATE_PERIOD, arm_motors, 150, 50, 0, -12000, 12000,
                                                          -6000, 6000, 0, arm_encoder, 0, "arm_pid_action"};
         elevator_pid_action = new pid_action<double, int16_t>{ELEVATOR_PID_UPDATE_PERIOD, elevator_motor, 200, 50, 0,
                                                               -12000, 12000, -6000, 6000, 0, elevator_encoder, 0,
@@ -460,7 +466,11 @@ namespace AFR::VexU::Robot::Cap {
         };
         low_prime_to_ground_all = []() -> bool{ return low_button->is_rising_edge(); };
         low_prime_to_low_move = []() -> bool{
-            return score_button->is_rising_edge() || vee_limit_switch->is_pressed();
+            bool one = score_button_1->is_rising_edge();
+            bool two = score_button_2->is_rising_edge();
+            bool thr = score_button_3->is_rising_edge();
+            bool fur = score_button_4->is_rising_edge();
+            return one || two || thr || fur || vee_limit_switch->is_pressed();
         };
 
         low_move_to_low_prime = []() -> bool { return false; /*check for error*/ };
@@ -476,7 +486,11 @@ namespace AFR::VexU::Robot::Cap {
             return angle_button->is_rising_edge();
         };
         high_prime_to_high_move = []() -> bool{
-            return score_button->is_rising_edge() || vee_limit_switch->is_pressed();
+            bool one = score_button_1->is_rising_edge();
+            bool two = score_button_2->is_rising_edge();
+            bool thr = score_button_3->is_rising_edge();
+            bool fur = score_button_4->is_rising_edge();
+            return one || two || thr || fur;
         };
         high_move_to_high_prime = []() -> bool { return false; /*check for error*/ };
         high_move_to_high_score = []() -> bool{

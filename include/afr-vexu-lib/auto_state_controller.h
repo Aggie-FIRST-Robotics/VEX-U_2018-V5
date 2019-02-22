@@ -21,6 +21,7 @@ namespace AFR::VexU{
             state* out = new state{actions, std::vector<transition>{}, on_state_entry, name};
             if(states_.empty()){
                 current_state_ = out;
+                current_state_->on_state_entry(current_state_);
             }
             states_.push_back(out);
             transitions.push_back(transition_function);
@@ -30,8 +31,11 @@ namespace AFR::VexU{
         void update_current_state() override{
             state* result = transitions.at(current_index_).operator()();
             if(result != nullptr){
+                current_state_->on_state_exit(result);
+                state* last = current_state_;
                 current_state_ = result;
                 current_index_ = find_state(result);
+                result->on_state_entry(last);
             }
         }
 
