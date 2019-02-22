@@ -20,7 +20,7 @@ namespace AFR::VexU::Robot2{
     const pros::motor_brake_mode_e_t LEFT_RAIL_MOTOR_B_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     const port_t ARM_LEFT_MOTOR_PORT = 2;
-    const port_t ARM_RIGHT_MOTOR_PORT = 18;
+    const port_t ARM_RIGHT_MOTOR_PORT = 13;
     const port_t ELBOW_MOTOR_PORT = 1;
     const port_t WRIST_MOTOR_PORT = 19;
     const port_t INTAKE_MOTOR_PORT = 20;
@@ -31,11 +31,18 @@ namespace AFR::VexU::Robot2{
     const pros::motor_gearset_e_t WRIST_GEARSET = pros::E_MOTOR_GEARSET_18;
     const pros::motor_gearset_e_t INTAKE_GEARSET = pros::E_MOTOR_GEARSET_18;
 
-    const port_t ARM_LIMIT_SWITCH_PORT = 8;
-    const port_t ELBOW_LIMIT_SWITCH_PORT = 7;
-    const port_t WRIST_LIMIT_SWITCH_PORT = 6;
+    const port_t ARM_LIMIT_SWITCH_PORT = 'H';
+    const port_t ELBOW_LIMIT_SWITCH_PORT = 'G';
+    const port_t WRIST_LIMIT_SWITCH_PORT = 'F';
 
-    const port_t BALL_INTAKE_MOTOR_PORT = 15;
+    const port_t BALL_INTAKE_MOTOR_PORT = 18;
+
+    const port_t LOADER_MOTOR_PORT_1 = 8;
+    const port_t LOADER_MOTOR_PORT_2 = 9;
+    const port_t HOOD_MOTOR_PORT = 16;
+    const port_t TURRET_MOTOR_PORT = 15;
+    const port_t FLYWHEEL_LEFT_PORT = 12;
+    const port_t FLYWHEEL_RIGHT_PORT = 11;
 
     const pros::motor_gearset_e_t BALL_INTAKE_GEARSET = pros::E_MOTOR_GEARSET_06;
 
