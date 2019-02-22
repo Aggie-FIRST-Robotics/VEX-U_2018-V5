@@ -1,4 +1,3 @@
-#ifndef VEX_U_2018_V5_PID_H
 #define VEX_U_2018_V5_PID_H
 
 #include "afr-vexu-lib/readable.h"

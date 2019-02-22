@@ -6,15 +6,15 @@
 
 #include "robot2/cap/cap.h"
 #include "robot2/drive/drive.h"
-#include "robot2/ball-intake/ball_intake.h"
+//#include "robot2/ball-intake/ball_intake.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 namespace AFR::VexU::Robot2{
     void init_robot(){
         try{
-            init_serial_manager(1);
-            std::cout << "Serial Manager Initialized" << std::endl;
+            // init_serial_manager(1);
+            // std::cout << "Serial Manager Initialized" << std::endl;
 
             BaseReadable::init_battery();
             std::cout << "Battery Initialized" << std::endl;
@@ -28,6 +28,8 @@ namespace AFR::VexU::Robot2{
             std::cout << "Drive Initialized" << std::endl;
             Cap::init();
             std::cout << "Cap Initialized" << std::endl;
+            Shooter::init();
+            std::cout << "Shooter Initialized" << std::endl;
 
         }
         catch(std::exception& e){
@@ -64,23 +66,26 @@ namespace AFR::VexU::Robot2{
 
             Cap::cap_subsystem->updateInputs();
             Drive::drive_subsystem->updateInputs();
-            BallIntake::ball_intake_subsystem->updateInputs();
+            //BallIntake::ball_intake_subsystem->updateInputs();
+            Shooter::shooter_subsystem->updateInputs();
 
             Cap::cap_subsystem->updateStates();
             Drive::drive_subsystem->updateStates();
-            BallIntake::ball_intake_subsystem->updateStates();
+            //BallIntake::ball_intake_subsystem->updateStates();
+            Shooter::shooter_subsystem->updateStates();
 
             Cap::cap_subsystem->updateActions();
             Drive::drive_subsystem->updateActions();
-            BallIntake::ball_intake_subsystem->updateActions();
+            //BallIntake::ball_intake_subsystem->updateActions();
+            Shooter::shooter_subsystem->updateActions();
 
-            serial_manager->enqueue_write (ODROID_ID, 0, serial_manager->odroid_table.read(0));
-            serial_manager->enqueue_write (ODROID_ID, 1, serial_manager->odroid_table.read(1));
-            serial_manager->enqueue_write (ODROID_ID, 2, serial_manager->odroid_table.read(2));
-            serial_manager->enqueue_write (ODROID_ID, 3, serial_manager->odroid_table.read(3));
+            // serial_manager->enqueue_write (ODROID_ID, 0, serial_manager->odroid_table.read(0));
+            // serial_manager->enqueue_write (ODROID_ID, 1, serial_manager->odroid_table.read(1));
+            // serial_manager->enqueue_write (ODROID_ID, 2, serial_manager->odroid_table.read(2));
+            // serial_manager->enqueue_write (ODROID_ID, 3, serial_manager->odroid_table.read(3));
 
-            serial_manager->update();
-            pros::delay(10);
+            // serial_manager->update();
+            // pros::delay(10);
 
 //            if(pros::c::controller_get_digital(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_DIGITAL_A)){
 //                Cap::arm_encoder->tare_position();
@@ -93,7 +98,7 @@ namespace AFR::VexU::Robot2{
                 break;
             }
 
-            serial_manager->update();
+            //serial_manager->update();
         }
         for(uint8_t x = 1; x < 21; x++){
             pros::c::motor_move_voltage(x, 0);
@@ -113,6 +118,7 @@ namespace AFR::VexU::Robot2{
 
         Drive::destroy();
         //Cap::destroy();
+        Shooter::destroy();
 
     }
     void restart() {
