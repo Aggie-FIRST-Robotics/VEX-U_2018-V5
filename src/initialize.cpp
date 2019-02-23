@@ -1,6 +1,6 @@
 #include "main.h"
 
-#include "robot/robot.h"
+#include "robot2/robot.h"
 //#include "robot/robot.h"
 
 
@@ -12,7 +12,7 @@
  */
 void initialize() {
 //	AFR::VexU::Robot::init_robot();
-	AFR::VexU::Robot::init_robot();
+	AFR::VexU::Robot2::init_robot();
 }
 
 /**

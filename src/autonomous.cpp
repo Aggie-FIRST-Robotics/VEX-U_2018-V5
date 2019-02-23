@@ -15,5 +15,5 @@
  * from where it left off.
  */
 void autonomous(){
-    AFR::VexU::Robot::auto_robot();
+//    AFR::VexU::Robot::auto_robot();
 }

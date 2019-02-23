@@ -116,7 +116,12 @@ namespace AFR::VexU::Robot::Catapult{
 
         on_cock_entry = [](state* last_state) -> void{};
         on_hold_entry = [](state* last_state) -> void{
-            nautilus_encoder->tare_position();
+            if(last_state == hold){
+                nautilus_encoder->tare_position(50);
+            }
+            else{
+                nautilus_encoder->tare_position();
+            }
         };
         on_fire_entry = [](state* last_state) -> void{};
         on_stop_entry = [](state* last_state) -> void{

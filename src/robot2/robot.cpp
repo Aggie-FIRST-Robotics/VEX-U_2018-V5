@@ -32,8 +32,8 @@ namespace AFR::VexU::Robot2{
             std::cout << "Ball Intake Initialized" << std::endl;
             Cap::init();
             std::cout << "Cap Initialized" << std::endl;
-            Shooter::init();
-            std::cout << "Shooter Initialized" << std::endl;
+//            Shooter::init();
+//            std::cout << "Shooter Initialized" << std::endl;
 
             init_auto();
         }
@@ -67,8 +67,8 @@ namespace AFR::VexU::Robot2{
 
     void op_control(){
         while(true){
-            std::string line1 = "Vel: " + std::to_string(
-                    Shooter::flywheel_velocity->get_actual_velocity());//std::to_string(Cap::wrist_pid_action->get_target());
+            std::string line1 = "A: " + std::to_string(Cap::arm_encoder->get_position());
+            //std::to_string(Cap::wrist_pid_action->get_target());
             std::string line2 = "E: " + std::to_string(Cap::elbow_encoder->get_position());
             std::string line3 = Cap::cap_state_machine->get_current_state()->get_name();
             std::string other = "W: " + std::to_string(Cap::wrist_encoder->get_position());
@@ -84,17 +84,17 @@ namespace AFR::VexU::Robot2{
             Cap::cap_subsystem->updateInputs();
             Drive::drive_subsystem->updateInputs();
             BallIntake::ball_intake_subsystem->updateInputs();
-            Shooter::shooter_subsystem->updateInputs();
+//            Shooter::shooter_subsystem->updateInputs();
 
             Cap::cap_subsystem->updateStates();
             Drive::drive_subsystem->updateStates();
             BallIntake::ball_intake_subsystem->updateStates();
-            Shooter::shooter_subsystem->updateStates();
+//            Shooter::shooter_subsystem->updateStates();
 
             Cap::cap_subsystem->updateActions();
             Drive::drive_subsystem->updateActions();
             BallIntake::ball_intake_subsystem->updateActions();
-            Shooter::shooter_subsystem->updateActions();
+//            Shooter::shooter_subsystem->updateActions();
 
             // serial_manager->enqueue_write (ODROID_ID, 0, serial_manager->odroid_table.read(0));
             // serial_manager->enqueue_write (ODROID_ID, 1, serial_manager->odroid_table.read(1));

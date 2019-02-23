@@ -186,7 +186,7 @@ namespace AFR::VexU::BaseAction{
             _max_i_value(max_i_value), _offset(offset), _value_pointer(value_pointer), _set_point(set_point),
             last_error(0), last_value(0), i_term(0), running(false){
         if(_value_pointer == nullptr){
-            throw std::runtime_error{"Cannot have nullptr for value pointer!"};
+            throw std::runtime_error{"Cannot have nullptr for value pointer! " + name};
         }
         if(commandable == nullptr){
             throw std::runtime_error{"Cannot have nullptr for commandable!"};

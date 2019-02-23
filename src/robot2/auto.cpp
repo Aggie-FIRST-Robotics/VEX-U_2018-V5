@@ -7,7 +7,7 @@
 
 #include "afr-vexu-lib/auto_state_controller.h"
 #include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
-#include "afr-vexu-lib/base-readable/sum_readable.h"
+//#include "afr-vexu-lib/base-readable/sum_readable.h"
 #include "afr-vexu-lib/base-commandable/multi_commandable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 
@@ -53,6 +53,9 @@ namespace AFR::VexU::Robot2{
 
         drive_right_encoder = new motor_encoder_readable{RIGHT_RAIL_MOTOR_A_PORT, 1.0, "drive_right_encoder"};
         drive_left_encoder = new motor_encoder_readable{LEFT_RAIL_MOTOR_A_PORT, 1.0, "drive_left_encoder"};
+        drive_right_velocity = new motor_encoder_velocity_readable{RIGHT_RAIL_MOTOR_A_PORT, 1.0,
+                                                                   "drive_right_velocity"};
+        drive_left_velocity = new motor_encoder_velocity_readable{LEFT_RAIL_MOTOR_A_PORT, 1.0, "drive_left_velocity"};
 
         drive_right = new multi_motor_commandable{"drive_right"};
         drive_right->add_motor(Drive::front_right_motor);
