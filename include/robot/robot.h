@@ -2,7 +2,6 @@
 #define VEX_U_2018_V5_ROBOT_H
 
 #include "afr-vexu-lib/defines.h"
-//#include "robot/auto.h"
 
 namespace AFR::VexU::Robot{
     const port_t RIGHT_RAIL_MOTOR_A_PORT = 16;      // 2/6/19

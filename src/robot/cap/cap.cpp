@@ -361,7 +361,7 @@ namespace AFR::VexU::Robot::Cap {
         //Flip
         flip_action_map.push_back(arm_pid_action);
         flip_action_map.push_back(elevator_pid_action);
-        flip_action_map.push_back(intake_hold_action);
+        flip_action_map.push_back(intake_outtake_action);
         //Angle
         angle_action_map.push_back(arm_pid_action);
         angle_action_map.push_back(elevator_pid_action);

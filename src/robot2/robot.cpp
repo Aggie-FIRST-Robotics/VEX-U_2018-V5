@@ -3,7 +3,6 @@
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "robot2/robot.h"
-#include "robot2/auto.h"
 
 #include "robot2/cap/cap.h"
 #include "robot2/drive/drive.h"
@@ -35,7 +34,7 @@ namespace AFR::VexU::Robot2{
 //            Shooter::init();
 //            std::cout << "Shooter Initialized" << std::endl;
 
-            init_auto();
+            //init_auto();
         }
         catch(std::exception& e){
             std::cerr << "Init error" << std::endl;
@@ -50,20 +49,20 @@ namespace AFR::VexU::Robot2{
 
     }
 
-    void auto_robot() {
-        std::cout << "Got to auto!" << std::endl;
-        while(true){
-            robot2_auto_subsystem->updateInputs();
-            robot2_auto_subsystem->updateStates();
-            robot2_auto_subsystem->updateActions();
-
-            std::string line1 = robot2_auto_subsystem->get_state_machines().at(0)->get_current_state()->get_name();
-            while(line1.length() < 15){
-                line1 += " ";
-            }
-            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line1.c_str());
-        }
-    }
+//    void auto_robot() {
+//        std::cout << "Got to auto!" << std::endl;
+//        while(true){
+//            //robot2_auto_subsystem->updateInputs();
+//            //robot2_auto_subsystem->updateStates();
+//            //robot2_auto_subsystem->updateActions();
+//
+//            std::string line1 = robot2_auto_subsystem->get_state_machines().at(0)->get_current_state()->get_name();
+//            while(line1.length() < 15){
+//                line1 += " ";
+//            }
+//            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line1.c_str());
+//        }
+//    }
 
     void op_control(){
         while(true){

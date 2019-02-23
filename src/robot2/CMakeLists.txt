@@ -27,5 +27,4 @@ set(
         ${robot2-shooter-V5-src}
 
         src/robot2/robot.cpp
-        src/robot2/auto.cpp
 )
