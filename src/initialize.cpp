@@ -1,7 +1,7 @@
 #include "main.h"
 
-#include "robot2/robot.h"
-//#include "robot/robot.h"
+//#include "robot2/robot.h"
+#include "robot/robot.h"
 
 
 /**
@@ -11,8 +11,8 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-//	AFR::VexU::Robot::init_robot();
-	AFR::VexU::Robot2::init_robot();
+    AFR::VexU::Robot::init_robot();
+    //AFR::VexU::Robot2::init_robot();
 }
 
 /**

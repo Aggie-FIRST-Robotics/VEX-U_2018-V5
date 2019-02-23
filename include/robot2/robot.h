@@ -4,6 +4,8 @@
 #include "afr-vexu-lib/defines.h"
 
 namespace AFR::VexU::Robot2{
+#define ROBOT_2
+
     const port_t RIGHT_RAIL_MOTOR_A_PORT = 17;
     const port_t RIGHT_RAIL_MOTOR_B_PORT = 5;
     const port_t LEFT_RAIL_MOTOR_A_PORT = 4;

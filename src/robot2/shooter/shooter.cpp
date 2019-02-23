@@ -182,12 +182,12 @@ namespace AFR::VexU::Robot2::Shooter{
         turret_encoder          = new motor_encoder_readable{TURRET_MOTOR_PORT, TURRET_ENCODER_SCALING, "turret_motor_encoder"};
         flywheel_velocity       = new motor_encoder_velocity_readable{FLYWHEEL_LEFT_PORT, 1.0, "flywheel_velocity"};
 
-        auto_aim_button = get_controller_digital_readable(pros::E_CONTROLLER_PARTNER, AUTO_AIM_BUTTON);
-        spin_up_button = get_controller_digital_readable(pros::E_CONTROLLER_PARTNER, SPIN_UP_BUTTON);
-        fire_button = get_controller_digital_readable(pros::E_CONTROLLER_PARTNER, FIRE_BUTTON);
-
-        vertical_stick = get_controller_analog_readable(pros::E_CONTROLLER_PARTNER, VERTICAL_STICK);
-        horizontal_stick = get_controller_analog_readable(pros::E_CONTROLLER_PARTNER, HORIZONTAL_STICK);
+//        auto_aim_button = get_controller_digital_readable(pros::E_CONTROLLER_PARTNER, AUTO_AIM_BUTTON);
+//        spin_up_button = get_controller_digital_readable(pros::E_CONTROLLER_PARTNER, SPIN_UP_BUTTON);
+//        fire_button = get_controller_digital_readable(pros::E_CONTROLLER_PARTNER, FIRE_BUTTON);
+//
+//        vertical_stick = get_controller_analog_readable(pros::E_CONTROLLER_PARTNER, VERTICAL_STICK);
+//        horizontal_stick = get_controller_analog_readable(pros::E_CONTROLLER_PARTNER, HORIZONTAL_STICK);
 
         //Actions
         loader_cock_action = new set_value_action<int16_t>{LOADER_UPDATE_PERIOD, loader_motors, 12000, "loader_cock_action"};
