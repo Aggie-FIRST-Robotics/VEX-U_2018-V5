@@ -1,7 +1,13 @@
 #include "main.h"
+#include "afr-vexu-lib/defines.h"
 
-//include "robot2/robot.h"
+#ifdef ROBOT_2
+
+#include "robot2/robot.h"
+
+#else
 #include "robot/robot.h"
+#endif
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -17,6 +23,9 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+#ifndef ROBOT_2
     AFR::VexU::Robot::opcontrol_robot();
-//    AFR::VexU::Robot2::op_control();
+#else
+    AFR::VexU::Robot2::op_control();
+#endif
 }

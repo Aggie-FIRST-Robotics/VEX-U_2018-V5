@@ -1,8 +1,13 @@
 #include "robot/cap/cap.h"
 #include "main.h"
 
+#ifndef ROBOT_2
 #include "robot/robot.h"
-//#include "robot2/robot.h"
+#else
+
+#include "robot2/robot.h"
+
+#endif
 
 /**
  * Runs the user autonomous code. This function will be started in its own task

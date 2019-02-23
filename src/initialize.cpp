@@ -1,7 +1,13 @@
 #include "main.h"
+#include "afr-vexu-lib/defines.h"
 
-//#include "robot2/robot.h"
+#ifdef ROBOT_2
+
+#include "robot2/robot.h"
+
+#else
 #include "robot/robot.h"
+#endif
 
 
 /**
@@ -11,8 +17,11 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+#ifndef ROBOT_2
     AFR::VexU::Robot::init_robot();
-    //AFR::VexU::Robot2::init_robot();
+#else
+    AFR::VexU::Robot2::init_robot();
+#endif
 }
 
 /**
