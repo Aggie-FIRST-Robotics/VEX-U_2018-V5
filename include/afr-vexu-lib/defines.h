@@ -5,7 +5,7 @@
 #include <cstring>
 #include <sstream>
 
-#define ROBOT_2
+//#define ROBOT_2
 
 #include "main.h"
 
