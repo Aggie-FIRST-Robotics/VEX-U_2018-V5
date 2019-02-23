@@ -7,6 +7,7 @@
 #include "afr-vexu-lib/base-action/pid_action.h"
 #include "afr-vexu-lib/base-action/zero_encoder_action.h"
 #include "afr-vexu-lib/base-action/set_value_action.h"
+#include "wrist_flip_action.h"
 
 namespace AFR::VexU::Robot2::Cap{
     const pros::motor_brake_mode_e_t ARM_LEFT_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
@@ -30,6 +31,8 @@ namespace AFR::VexU::Robot2::Cap{
     extern BaseAction::set_value_action<int16_t>* intake_suck_action;
     extern BaseAction::set_value_action<int16_t>* intake_hold_action;
     extern BaseAction::set_value_action<int16_t>* intake_spit_action;
+
+    extern wrist_flip_action* wrist_flip;
 
     extern state_controller* cap_state_machine;
     extern subsystem_controller* cap_subsystem;
@@ -89,6 +92,9 @@ namespace AFR::VexU::Robot2::Cap{
 
     //Flip
     const double FLIP_TARGET = 750;
+
+    const double ANGLE_ARM_TARGET = 850;
+    const double ANGLE_ELBOW_TARGET = 5850;
 
     void init();
 }

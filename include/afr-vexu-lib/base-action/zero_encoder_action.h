@@ -41,6 +41,10 @@ namespace AFR::VexU::BaseAction{
         void on_state_entry(state* previous_state) override{
             is_zeroed_ = false;
         }
+
+        bool is_zeroed(){
+            return is_zeroed_;
+        }
     };
 }
 

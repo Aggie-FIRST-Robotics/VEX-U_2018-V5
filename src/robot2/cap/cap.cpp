@@ -378,12 +378,12 @@ namespace AFR::VexU::Robot2::Cap{
             return down_button->is_rising_edge();
         };
         descore_prime_to_descore_grab = []() -> bool{
-            return !descore_button->is_pressed() && arm_pid_action->is_in_range(50) &&
+            return !descore_button->is_pressed() && arm_pid_action->is_in_range(100) &&
                    elbow_pid_action->is_in_range(50);
         };
 
         descore_grab_to_score_prime = []() -> bool{
-            return arm_pid_action->is_in_range(50) && wrist_pid_action->is_in_range(50);
+            return arm_pid_action->is_in_range(100) && wrist_pid_action->is_in_range(50);
         };
 
         score_prime_to_hold = []() -> bool{
@@ -391,13 +391,13 @@ namespace AFR::VexU::Robot2::Cap{
         };
         score_prime_to_score = []() -> bool{
             return !score_button->is_pressed()
-                   && arm_pid_action->is_in_range(50)
+                   && arm_pid_action->is_in_range(100)
                    && elbow_pid_action->is_in_range(50)
                    && wrist_pid_action->is_in_range(50);
         };
 
         score_to_pull_back = []() -> bool{
-            return arm_pid_action->is_in_range(50) && elbow_pid_action->is_in_range(50);
+            return arm_pid_action->is_in_range(100) && elbow_pid_action->is_in_range(50);
         };
 
         pull_back_to_hold = []() -> bool{
