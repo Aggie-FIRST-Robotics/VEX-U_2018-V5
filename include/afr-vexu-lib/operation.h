@@ -1,5 +1,5 @@
-#ifndef VEX_U_2018_V5_VALUE_H
-#define VEX_U_2018_V5_VALUE_H
+#ifndef VEX_U_2018_V5_OPERATION_H
+#define VEX_U_2018_V5_OPERATION_H
 
 #include "nameable.h"
 
@@ -8,14 +8,14 @@ namespace AFR::VexU{
      * Represents a value that is calculated through algorithmic logic
      */
     template <class T>
-    class value : public nameable{
+    class operation : public nameable{
     public:
         /**
          * Creates a value
          * @param initial_value the initial value of the value
          * @param result error_t value if error encountered
          */
-        value(const T& initial_value, const std::string& name);
+        operation(const std::string& name);
 
         /**
          * Used to get the value of the value
@@ -25,4 +25,4 @@ namespace AFR::VexU{
     };
 }
 
-#endif //VEX_U_2018_V5_VALUE_H
+#endif //VEX_U_2018_V5_OPERATION_H
