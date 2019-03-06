@@ -6,7 +6,7 @@
 #include "defines.h"
 
 namespace AFR::VexU{
-    typedef uint32_t scheduled_update_t;    ///The type for the count of time for scheduled
+    typedef int64_t scheduled_update_t;    ///The type for the count of time for scheduled
 //    typedef std::milli scheduled_res_t;         ///The type for the unit of time for scheduled
 
     /**
@@ -15,6 +15,7 @@ namespace AFR::VexU{
     class scheduled{
         uint32_t next_update_;
         uint32_t update_period_;
+        bool enabled_;
 
         /**
          * Overridden to  be whatever happens when update is called following the wait period
@@ -36,7 +37,13 @@ namespace AFR::VexU{
          * @return error_t value if error encountered
          */
         void update();
-        void force_update();
+  
+        /**
+         * Sets if the scheduled should update
+         * @param enabled if the scheduled should continue updating
+         */  
+        void set_enabled(bool enabled);
+        bool is_enabled();
 
         /**
          * Sets the update period

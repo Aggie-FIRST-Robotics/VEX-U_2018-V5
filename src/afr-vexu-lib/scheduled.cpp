@@ -2,15 +2,23 @@
 
 namespace AFR::VexU{
     scheduled::scheduled(const scheduled_update_t& update_period)
-            : update_period_(update_period), next_update_(0){}
+            : update_period_(update_period), next_update_(0), enabled_(true){}
 
     void scheduled::update(){
         if(update_period_ != 0){
-            if(pros::millis() >= next_update_){
+            if(pros::millis() >= next_update_ && enabled_){
                 update_private((pros::millis() - next_update_ + update_period_) / 1000.0);
                 next_update_ = pros::millis() + update_period_;
             }
         }
+    }
+    
+    void scheduled::set_enabled(bool enabled) {
+        enabled_ = enabled;
+    }
+    
+    bool is_enabled() {
+        return enabled_;
     }
 
     void scheduled::set_update_period(scheduled_update_t update_period){
@@ -20,8 +28,6 @@ namespace AFR::VexU{
     scheduled_update_t scheduled::get_update_period() const{
         return update_period_;
     }
-
-    void scheduled::force_update(){
-        update_private(-1);
-    }
+    
+    
 }
