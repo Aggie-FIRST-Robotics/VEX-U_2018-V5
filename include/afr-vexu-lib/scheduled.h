@@ -1,8 +1,7 @@
 #ifndef VEX_U_2018_V5_SCHEDULED_H
 #define VEX_U_2018_V5_SCHEDULED_H
 
-#include <chrono>
-
+#include <unordered_map>
 #include "defines.h"
 
 namespace AFR::VexU{
@@ -12,7 +11,8 @@ namespace AFR::VexU{
     /**
      * Used to schedule things so that they cna be called constantly without slowing down the processor
      */
-    class scheduled{
+    class scheduled: public nameable{
+        static std::unordered_map<std::string,scheduled*> scheduled_list;
         uint32_t next_update_;
         uint32_t update_period_;
         bool enabled_;
@@ -30,13 +30,11 @@ namespace AFR::VexU{
          * @param update_period the time period in scheduled_res_t to wait, if 0 will not update
          * @param result error_t value if error encountered
          */
-        explicit scheduled(const scheduled_update_t& update_period);
+        explicit scheduled(const scheduled_update_t& update_period, const std::string& name);
 
-        /**
-         * The function that is called to update the scheduled, calls update_private if the time period has passed
-         * @return error_t value if error encountered
-         */
-        void update();
+        ~scheduled();
+
+        static void update_all();
   
         /**
          * Sets if the scheduled should update
