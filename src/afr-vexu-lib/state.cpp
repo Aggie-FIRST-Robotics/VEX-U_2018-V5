@@ -1,56 +1,49 @@
 #include "afr-vexu-lib/state.h"
 
 namespace AFR::VexU{
-    state::state(const std::vector<action*>& action_map, const std::vector<transition>& transitions,
-                 const std::function<void(state*)>& on_state_entry, const std::string& name)
-            : nameable(name), actions_(action_map), transitions_(transitions), on_state_entry_(on_state_entry){}
+    state::state(const std::vector<transition>& transitions,
+                    const std::function<void(state*)>& on_state_entry,
+                    const std::function<void(state*)>& on_state_exit,
+                    const std::string& name)
+            : nameable(name), transitions_(transitions), on_state_entry_(on_state_entry), on_state_exit_(on_state_exit) {}
 
-    void state::update_actions(){
-        for(auto action : actions_){
-            action->update();
-        }
+    void state::on_state_entry() {
+        on_state_entry_();
     }
 
-    void AFR::VexU::state::on_state_entry(state* previous){
-        for(auto action : actions_){
-            action->on_state_entry(previous);
-        }
-        on_state_entry_(previous);
+    void state::on_state_exit() {
+        on_state_exit_();
     }
 
-    action* AFR::VexU::state::get_action(const std::string& name){
-        for(auto action : actions_){
-            if(action->get_name() == name){
-                return action;
-            }
-        }
-        return nullptr;
+    void state::set_on_state_entry(const std::function<void>& on_state_entry) {
+        on_state_entry_ = on_state_entry;
     }
 
-    std::vector<transition>& AFR::VexU::state::get_transitions(){
+    void state::set_on_state_exit(const std::function<void>& on_state_exit) {
+        n_state_exit_ = on_state_exit;
+    }
+
+    std::vector<std::pair <std::function<bool()>, state*>>& state::get_transitions(){
         return transitions_;
     }
 
-    void AFR::VexU::state::on_state_exit(state* next){
-        for(auto action : actions_){
-            action->on_state_exit(next);
+    void state::add_transition(std::function<bool()> transition_function, state* next_state) {
+        transitions_.emplace_back(transition_function,next_state);
+    }
+
+    void state::set_transitions(const std::vector<std::pair <std::function<bool()>, state*>>& transitions) {
+        transitions_ = transitions;
+    }
+
+    void clear_transitions() {
+        transitions_.clear();
+    }
+
+    state* state::get_next_state() const{
+        for(auto transition : transitions_) {
+            if(transition.first)
+                return transition.second;
         }
-    }
-
-    std::vector<action*>& state::get_actions(){
-        return actions_;
-    }
-
-    transition::transition(const std::function<bool()>& condition_function, state*& next_state,
-                           const std::string& name)
-            : nameable(name), condition_function_(condition_function), next_state_(next_state){
-    }
-
-    bool transition::should_change_state() const{
-        return condition_function_();
-    }
-
-    state* transition::get_next_state() const{
-        return next_state_;
+        return this;
     }
 }
