@@ -21,13 +21,19 @@ namespace AFR::VexU{
          * @param name the name of the operation
          * @param result error_t value if error encountered
          */
-        cached_operation(scheduled_update_t update_period, const T& initial_value, const std::string& name);
+        cached_operation(scheduled_update_t update_period, const T& initial_value, const std::string& name)
+                        : scheduled(update_period), nameable(name), cached_value(initial_value) {}
 
         /**
          * Used to get the value of the operation
          * @return error_t value if error encountered
          */
-        T get_value();
+        T get_value() {
+            if(get_update_period() == 0){
+                force_update();
+            }
+            return cached_value;
+        }
     };
 }
 

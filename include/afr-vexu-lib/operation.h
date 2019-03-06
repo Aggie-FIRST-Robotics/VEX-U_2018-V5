@@ -15,7 +15,7 @@ namespace AFR::VexU{
          * @param name the name of the operation
          * @param result error_t value if error encountered
          */
-        operation(const std::string& name);
+        operation(const std::string& name) : nameable(name) {}
 
         /**
          * Used to get the value of the operation
