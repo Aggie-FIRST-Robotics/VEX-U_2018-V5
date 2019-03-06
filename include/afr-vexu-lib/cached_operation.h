@@ -22,7 +22,7 @@ namespace AFR::VexU{
          * @param result error_t value if error encountered
          */
         cached_operation(scheduled_update_t update_period, const T& initial_value, const std::string& name)
-                        : scheduled(update_period), nameable(name), cached_value(initial_value) {}
+                        : scheduled(update_period, name), cached_value(initial_value) {}
 
         /**
          * Used to get the value of the operation
