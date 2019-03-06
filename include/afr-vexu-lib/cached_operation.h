@@ -1,39 +1,34 @@
-#ifndef VEX_U_2018_V5_READABLE_H
-#define VEX_U_2018_V5_READABLE_H
+#ifndef VEX_U_2018_V5_CACHED_OPERATION_H
+#define VEX_U_2018_V5_CACHED_OPERATION_H
 
-#include <any>
-
+#include "operation.h"
 #include "scheduled.h"
-#include "nameable.h"
 
 namespace AFR::VexU{
     /**
-     * Represents a sensor or other readable value, should be extended
+     * Represents an operation that is calculated through algorithmic logic on a schedule
      */
-    class readable : public scheduled, public nameable{
+    template <class T>
+    class cached_operation : public scheduled, public operation <T>{
     protected:
-        std::any value; ///The last read value of the readable
+        T cached_value; //The last read value of the operation
 
     public:
         /**
-         * Creates a readable
+         * Creates a cached operation
          * @param update_period passed to scheduled
-         * @param initial_value the initial value of the readable
+         * @param initial_value the initial value of the operation
+         * @param name the name of the operation
          * @param result error_t value if error encountered
          */
-        readable(scheduled_update_t update_period, const std::any& initial_value, const std::string& name);
+        cached_operation(scheduled_update_t update_period, const T& initial_value, const std::string& name);
 
         /**
-         * Used to get the value of the readable
-         * @param result Returns the value of the sensor
+         * Used to get the value of the operation
          * @return error_t value if error encountered
          */
-        virtual std::any get_value();
-
-        virtual bool is_initialized(){
-            return true;
-        }
+        T get_value();
     };
 }
 
-#endif //VEX_U_2018_V5_READABLE_H
+#endif //VEX_U_2018_V5_CACHED_OPERATION_H
