@@ -2,6 +2,7 @@
 #ifndef VEX_U_2018_V5_PID_H
 #define VEX_U_2018_V5_PID_H
 #include "targetable.h"
+#include "commandable.h"
 //min max -12000, +12000 imin imax -6000, 6000
 
 namespace AFR::VexU::BaseAction{
@@ -24,7 +25,7 @@ namespace AFR::VexU::BaseAction{
         Write_T disabled_value_;
 
         void set_value_private(Read_T value, const double& delta_seconds) override {
-            double error = static_cast<double>(get_target() - value);
+            double error = static_cast<double>(targetable<Read_T>::get_target() - value);
             double p_term = _p_value * error;
 
             double d_term;
@@ -65,7 +66,7 @@ namespace AFR::VexU::BaseAction{
     public:
 
         bool is_in_range(Read_T tolerance) override {
-            return abs(read_value_ - get_target()) <= abs(tolerance) && running;
+            return abs(commandable<Read_T>::get_current_value() - targetable<Read_T>::get_target()) <= abs(tolerance) && running;
         }
 
         void set_pid_constants(double p_value, double i_value, double d_value){

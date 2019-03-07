@@ -3,6 +3,7 @@
 
 #include <functional>
 #include "afr-lib/nameable.h"
+#include "commandable.h"
 
 namespace AFR::VexU::BaseAction{
 
