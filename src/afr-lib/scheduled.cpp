@@ -9,7 +9,7 @@ namespace AFR::VexU{
     double scheduled::scaling_factor_to_seconds_{1.0};
 
     scheduled::scheduled(const scheduled_update_t& update_period, const std::string& name) :
-            nameable(name), update_period_(update_period), next_update_(HUGE_VAL), enabled_(true){
+            nameable(name), update_period_(update_period), next_update_(INT64_MAX), enabled_(true){
         if(!scheduled_list_.emplace(get_name(), this).second){
             throw std::runtime_error{"Cannot insert second scheduled for name: " + get_name()};
         }
@@ -22,7 +22,7 @@ namespace AFR::VexU{
     void scheduled::update_all() {
         for(auto& itr : scheduled_list_){
             auto scheduled = itr.second;
-            if(scheduled->next_update_ == HUGE_VAL){
+            if(scheduled->next_update_ == INT64_MAX){
                 scheduled->update_private(-1);
                 scheduled->next_update_ = time_function_() + scheduled->update_period_;
             }

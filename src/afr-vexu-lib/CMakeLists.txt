@@ -25,5 +25,4 @@ set(
         ${base-readable-V5-src}
         ${base-action-V5-src}
         ${comms-V5-src}
-        src/afr-vexu-lib/serial_manager.cpp
 )
