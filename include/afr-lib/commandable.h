@@ -26,7 +26,7 @@ namespace AFR::VexU{
          * @param value checked value to be set
          * @return error_t value if error encountered
          */
-        virtual void set_value_private(T value, const double& delta_seconds) = 0;
+        virtual void set_value_private(T value, double delta_seconds) = 0;
 
         void update_private(double delta_seconds) override{
             if(operation_defined) {
