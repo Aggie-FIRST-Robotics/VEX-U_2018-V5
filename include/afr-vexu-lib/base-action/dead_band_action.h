@@ -14,15 +14,15 @@ namespace AFR::VexU::BaseAction{
 
         void set_value_private(Read_T value, const double& delta_seconds) override {
             
-            if(value < get_target()-width_/2){
+            if(value < targetable<Read_T>::get_target()-width_/2){
                 deadband_value_ = _below_value;
             }
-            else if(value > get_target()+width_/2){
+            else if(value > targetable<Read_T>::get_target()+width_/2){
                 deadband_value_ = _above_value;
             }
             else {
                 deadband_value_ = static_cast<Write_T>((
-                        static_cast<Write_T>(value - get_target()+width_/2) * (_above_value - _below_value) /
+                        static_cast<Write_T>(value - targetable<Read_T>::get_target()+width_/2) * (_above_value - _below_value) /
                         (static_cast<Write_T>(width_)) + _below_value));
             }
         }
@@ -34,7 +34,7 @@ namespace AFR::VexU::BaseAction{
         }
 
         bool is_in_range(Read_T tolerance){
-            return abs((get_current_value() - width_ / 2) <= tolerance;
+            return abs(commandable<Read_T>::get_current_value() - width_ / 2) <= tolerance;
         }
         
         Write_T get_deadband_value() {
@@ -54,8 +54,8 @@ namespace AFR::VexU::BaseAction{
         dead_band_action(scheduled_update_t update_period, Read_T target, 
         Read_T deadband_width, Write_T below_value, 
         Write_T above_value, const std::string& name)
-            : targetable<Read_T>(update_period, (top_threshold - bottom_threshold) / 2 + bottom_threshold, target, name), 
-              width_(top_threshold), 
+            : targetable<Read_T>(update_period, (above_value-below_value)/2 + below_value, target, name), 
+              width_(deadband_width), 
               _below_value(below_value),
               _above_value(above_value),
               deadband_value_((above_value-below_value)/2+below_value)
