@@ -11,6 +11,14 @@ namespace AFR::VexU{
         return val >= lower && val <= upper;
     }
 
+    template<typename T>
+    T abs(const T& value){
+        if(value < 0){
+            return -value;
+        }
+        return value;
+    }
+
     typedef uint8_t port_t;
 }
 
