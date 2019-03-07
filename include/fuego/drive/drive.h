@@ -9,7 +9,7 @@
 #include "afr-vexu-lib/base-readable/adi_digital_readable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 
-namespace AFR::VexU::Robot2::Drive {
+namespace AFR::VexU::Fuego::Drive{
     const scheduled_update_t START_UPDATE_PERIOD = 1000;
 
     const scheduled_update_t START_FRONT_LEFT_MOTOR_UPDATE_PERIOD = 10;

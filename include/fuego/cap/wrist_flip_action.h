@@ -5,7 +5,7 @@
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "afr-vexu-lib/readable.h"
 
-namespace AFR::VexU::Robot2::Cap{
+namespace AFR::VexU::Fuego::Cap{
     class wrist_flip_action : public action{
         BaseAction::targetable<double>* wrist_pid_action_;
         BaseReadable::controller_digital_readable* flip_button_;

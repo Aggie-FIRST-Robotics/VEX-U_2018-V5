@@ -88,7 +88,7 @@ void autonomous(){
         Cap::arm_pid_action->update();
     }
 #else
-    using namespace AFR::VexU::Robot2;
+    using namespace AFR::VexU::Fuego;
 
     const bool is_red = true;
 

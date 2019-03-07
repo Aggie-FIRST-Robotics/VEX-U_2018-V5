@@ -1,30 +1,22 @@
 #include "afr-vexu-lib/ports_list.h"
-#include "afr-vexu-lib/serial_manager.h"
 #include "afr-vexu-lib/base-readable/competition_readable.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
-#include "robot2/robot.h"
-#include "robot2/auto.h"
+#include "afr-lib/afr-lib.h"
+#include "afr-vexu-lib/afr-vexu-lib.h"
 
-#include "robot2/cap/cap.h"
-#include "robot2/drive/drive.h"
-#include "robot2/shooter/shooter.h"
-#include "robot2/ball-intake/ball_intake.h"
+#include "fuego/fuego.h"
+#include "fuego/auto.h"
+#include "fuego/cap/cap.h"
+#include "fuego/drive/drive.h"
+#include "fuego/shooter/shooter.h"
+#include "fuego/ball-intake/ball_intake.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
-namespace AFR::VexU::Robot2{
+namespace AFR::VexU::Fuego{
     void init_robot(){
         try{
-            // init_serial_manager(1);
-            // std::cout << "Serial Manager Initialized" << std::endl;
-
-            BaseReadable::init_battery();
-            std::cout << "Battery Initialized" << std::endl;
-            BaseReadable::init_competition();
-            std::cout << "Competition Initialized" << std::endl;
-
-            init_ports_list();
-            std::cout << "Ports List Initialized" << std::endl;
+            init_afr_vexu_lib();
 
             Drive::init();
             std::cout << "Drive Initialized" << std::endl;
@@ -46,29 +38,17 @@ namespace AFR::VexU::Robot2{
         std::cout << "Initialization Complete" << std::endl;
     }
 
-    void competition_init() {
+    void competition_init(){
 
     }
 
-    void auto_robot() {
-        std::cout << "Got to auto!" << std::endl;
-        while(true){
-            robot2_auto_subsystem->updateInputs();
-            robot2_auto_subsystem->updateStates();
-            robot2_auto_subsystem->updateActions();
+    void auto_robot(){
 
-            std::string line1 = robot2_auto_subsystem->get_state_machines().at(0)->get_current_state()->get_name();
-            while(line1.length() < 15){
-                line1 += " ";
-            }
-            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line1.c_str());
-        }
     }
 
     void op_control(){
         while(true){
             std::string line1 = "A: " + std::to_string(Cap::arm_encoder->get_position());
-            //std::to_string(Cap::wrist_pid_action->get_target());
             std::string line2 = "E: " + std::to_string(Cap::elbow_encoder->get_position());
             std::string line3 = Cap::cap_state_machine->get_current_state()->get_name();
             std::string other = "W: " + std::to_string(Cap::wrist_encoder->get_position());
@@ -95,39 +75,14 @@ namespace AFR::VexU::Robot2{
             Drive::drive_subsystem->updateActions();
             BallIntake::ball_intake_subsystem->updateActions();
 //            Shooter::shooter_subsystem->updateActions();
-
-            // serial_manager->enqueue_write (ODROID_ID, 0, serial_manager->odroid_table.read(0));
-            // serial_manager->enqueue_write (ODROID_ID, 1, serial_manager->odroid_table.read(1));
-            // serial_manager->enqueue_write (ODROID_ID, 2, serial_manager->odroid_table.read(2));
-            // serial_manager->enqueue_write (ODROID_ID, 3, serial_manager->odroid_table.read(3));
-
-            // serial_manager->update();
-            // pros::delay(10);
-
-//            if(pros::c::controller_get_digital(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_DIGITAL_A)){
-//                Cap::arm_encoder->tare_position();
-//            }
-//            if(pros::c::controller_get_digital(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_DIGITAL_B)){
-//                Cap::elbow_encoder->tare_position();
-//            }
-
-//            if(pros::c::controller_get_digital(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_DIGITAL_RIGHT)){
-//                break;
-//            }
-
-            //serial_manager->update();
         }
-//        for(uint8_t x = 1; x < 21; x++){
-//            pros::c::motor_move_voltage(x, 0);
-//        }
     }
 
-    void disabled_robot() {
+    void disabled_robot(){
 
     }
 
-    void destroy() {
-        destroy_serial_manager();
+    void destroy(){
         BaseReadable::destroy_battery();
         BaseReadable::destroy_competition();
         //BaseReadable::destroy_controllers();
@@ -139,7 +94,8 @@ namespace AFR::VexU::Robot2{
         Shooter::destroy();
 
     }
-    void restart() {
+
+    void restart(){
         destroy();
         init_robot();
     }

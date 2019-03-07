@@ -9,7 +9,7 @@
 #include "afr-vexu-lib/base-action/set_value_action.h"
 #include "wrist_flip_action.h"
 
-namespace AFR::VexU::Robot2::Cap{
+namespace AFR::VexU::Fuego::Cap{
     const pros::motor_brake_mode_e_t ARM_LEFT_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
     const pros::motor_brake_mode_e_t ARM_RIGHT_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
     const pros::motor_brake_mode_e_t ELBOW_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;

@@ -3,7 +3,7 @@
 
 #include "afr-vexu-lib/subsystem_controller.h"
 
-namespace AFR::VexU::Robot2{
+namespace AFR::VexU::Fuego{
     extern subsystem_controller* robot2_auto_subsystem;
 
     const double DRIVE_FORWARD_TARGET = 3000;

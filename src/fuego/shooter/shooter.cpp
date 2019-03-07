@@ -14,7 +14,7 @@
 #include "robot2/shooter/shooter.h"
 //#include "robot/shooter/joystick.h"
 
-namespace AFR::VexU::Robot2::Shooter{
+namespace AFR::VexU::Fuego::Shooter{
     scheduled_update_t next_loader = 0;
     scheduled_update_t next_auto_aim = 0;
 

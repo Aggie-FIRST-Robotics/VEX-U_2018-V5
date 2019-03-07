@@ -6,16 +6,13 @@
 #include "afr-lib/commandable.h"
 
 namespace AFR::VexU::BaseCommandable{
-    class adi_analog_commandable : public commandable{
+    class adi_analog_commandable : public commandable<int32_t>{
         port_t port_;
 
-        void set_value_private(const std::any& value) override;
-        void check_value_private(const std::any& value) override;
+        void set_value_private(int32_t value, double delta_seconds) override;
 
     public:
         explicit adi_analog_commandable(port_t port, const std::string& name);
-
-        std::type_index get_type() const override;
     };
 }
 

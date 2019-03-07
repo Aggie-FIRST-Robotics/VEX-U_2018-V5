@@ -11,7 +11,7 @@
 #include "afr-vexu-lib/base-commandable/multi_commandable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 
-namespace AFR::VexU::Robot2{
+namespace AFR::VexU::Fuego{
     template<typename T>
     void add_all(std::vector<T> first, std::vector<T> second){
         for(T& val : second){

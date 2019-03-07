@@ -26,6 +26,6 @@ void opcontrol() {
 #ifndef ROBOT_2
     AFR::VexU::Robot::opcontrol_robot();
 #else
-    AFR::VexU::Robot2::op_control();
+    AFR::VexU::Fuego::op_control();
 #endif
 }

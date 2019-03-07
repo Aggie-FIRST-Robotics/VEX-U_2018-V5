@@ -10,13 +10,13 @@
 
 #include "afr-vexu-lib/base-action/zero_encoder_action.h"
 #include "afr-vexu-lib/base-action/pid_action.h"
-#include "fuego/cap/intake_control_action.h"
+#include "afr-vexu-lib/base-action/bidirectional_control_action.h"
 #include "afr-vexu-lib/base-action/set_value_action.h"
 #include "afr-vexu-lib/base-action/dead_band_action.h"
 
 #include "robot2/cap/wrist_flip_action.h"
 
-namespace AFR::VexU::Robot2::Cap{
+namespace AFR::VexU::Fuego::Cap{
     //Commandables
     BaseCommandable::motor_commandable* left_arm_motor{};
     BaseCommandable::motor_commandable* right_arm_motor{};

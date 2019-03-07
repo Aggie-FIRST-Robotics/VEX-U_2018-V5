@@ -1,12 +1,11 @@
-#include "robot2/ball-intake/ball_intake.h"
-#include "robot2/robot.h"
+#include "fuego/ball-intake/ball_intake.h"
+#include "fuego/fuego.h"
 
-#include "afr-vexu-lib/subsystem_controller.h"
 #include "afr-vexu-lib/base-commandable/motor_commandable.h"
-#include "afr-vexu-lib/base-action/set_value_action.h"
+#include "afr-vexu-lib/base-action/bidirectional_control_action.h"
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 
-namespace AFR::VexU::Robot2::BallIntake{
+namespace AFR::VexU::Fuego::BallIntake{
     BaseCommandable::motor_commandable* ball_intake_motor{};
 
     BaseAction::set_value_action<int16_t>* intake_spit{}, * intake_swallow{}, * intake_choke{};

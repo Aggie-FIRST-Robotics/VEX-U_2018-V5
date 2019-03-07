@@ -3,7 +3,7 @@
 
 #include "afr-lib/defines.h"
 
-namespace AFR::VexU::Robot2{
+namespace AFR::VexU::Fuego{
 #define ROBOT_2
 
     const port_t RIGHT_RAIL_MOTOR_A_PORT = 17;

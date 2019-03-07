@@ -21,7 +21,7 @@ void initialize() {
 #ifndef ROBOT_2
     AFR::VexU::Robot::init_robot();
 #else
-    AFR::VexU::Robot2::init_robot();
+    AFR::VexU::Fuego::init_robot();
 #endif
 }
 

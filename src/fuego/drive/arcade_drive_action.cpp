@@ -2,7 +2,7 @@
 
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 
-namespace AFR::VexU::Robot2::Drive{
+namespace AFR::VexU::Fuego::Drive{
     arcade_drive_action::arcade_drive_action(scheduled_update_t update_period, commandable* commandable,
                                              BaseReadable::controller_analog_readable* left_stick,
                                              BaseReadable::controller_analog_readable* right_stick, bool is_right,

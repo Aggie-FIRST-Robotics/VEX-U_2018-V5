@@ -2,7 +2,7 @@
 #include "robot2/drive/arcade_drive_action.h"
 #include "robot2/drive/drive.h"
 
-namespace AFR::VexU::Robot2::Drive {
+namespace AFR::VexU::Fuego::Drive{
     //Commandables
     BaseCommandable::motor_commandable* front_left_motor = nullptr;
     BaseCommandable::motor_commandable* front_right_motor = nullptr;

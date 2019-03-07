@@ -9,7 +9,7 @@
 #include "afr-vexu-lib/subsystem_controller.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 
-namespace AFR::VexU::Robot2::Shooter{
+namespace AFR::VexU::Fuego::Shooter{
 
     const scheduled_update_t LOADER_UPDATE_PERIOD = 10;
     const scheduled_update_t SHOOTER_UPDATE_PERIOD = 10;
