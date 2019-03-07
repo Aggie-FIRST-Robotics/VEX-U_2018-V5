@@ -12,7 +12,7 @@ namespace AFR::VexU {
      * Represents a state within a state machine
      */
     class state : public nameable {
-        std::vector <std::pair <std::function<bool()>, state*>> transitions_;
+        std::vector<std::pair<std::function<bool()>, state*>> transitions_;
         std::function<void()> on_state_entry_;
         std::function<void()> on_state_exit_;
 
@@ -24,10 +24,7 @@ namespace AFR::VexU {
          * @param on_state_exit the function that is called when this state is exited
          * @param result error_t value if error encountered
          */
-        state(const std::vector<std::pair <std::function<bool()>, state*>>& transitions,
-              const std::function<void()>& on_state_entry,
-              const std::function<void()>& on_state_exit,
-              const std::string& name);
+        explicit state(const std::string& name);
 
         /**
          * Executes on state entry function
@@ -55,7 +52,7 @@ namespace AFR::VexU {
          * Returns transitions vector
          * @return error_t value if error encountered
          */
-        std::vector<std::pair <std::function<bool()>, state*>>& get_transitions() const;
+        std::vector<std::pair<std::function<bool()>, state*>>& get_transitions();
         /**
          * Adds transition to the transition vector
          * @param transition_function the function check of the new transition

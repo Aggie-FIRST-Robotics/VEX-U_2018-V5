@@ -1,4 +1,4 @@
-#include "afr-lib/ports_list.h"
+#include "afr-vexu-lib/ports_list.h"
 
 namespace AFR::VexU{
     std::vector<std::string>* ports_list = nullptr;
