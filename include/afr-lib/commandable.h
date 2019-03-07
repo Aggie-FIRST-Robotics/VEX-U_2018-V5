@@ -9,7 +9,6 @@
 #include "scheduled.h"
 
 namespace AFR::VexU{
-
     /**
      * Represents something that can be commanded on the robot, such as a motor or piston actuator.
      * Can be as low level as direct motor control or abstract as a drivebase, as long as it takes a singular value.
