@@ -9,14 +9,9 @@ set(
         ${base-readable-src}
         ${base-action-src}
         ${comms-src}
-        src/afr-vexu-lib/action.cpp
-        src/afr-vexu-lib/commandable.cpp
         src/afr-vexu-lib/ports_list.cpp
-        src/afr-vexu-lib/readable.cpp
         src/afr-vexu-lib/scheduled.cpp
         src/afr-vexu-lib/state.cpp
-        src/afr-vexu-lib/state_controller.cpp
-        src/afr-vexu-lib/subsystem_controller.cpp
 )
 
 set(
@@ -33,5 +28,5 @@ set(
         ${base-readable-V5-src}
         ${base-action-V5-src}
         ${comms-V5-src}
-        src/afr-vexu-lib/SerialManager.cpp
+        src/afr-vexu-lib/serial_manager.cpp
 )
