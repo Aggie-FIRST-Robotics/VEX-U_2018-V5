@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include "defines.h"
+#include "nameable.h"
 
 namespace AFR::VexU{
     typedef int64_t scheduled_update_t;    ///The type for the count of time for scheduled
