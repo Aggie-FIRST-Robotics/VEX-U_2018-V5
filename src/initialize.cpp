@@ -1,9 +1,10 @@
 #include "main.h"
+#include "afr-lib/afr-lib.h"
 #include "afr-lib/defines.h"
 
 #ifdef ROBOT_2
 
-#include "robot2/robot.h"
+#include "fuego/robot.h"
 
 #else
 #include "robot/robot.h"
