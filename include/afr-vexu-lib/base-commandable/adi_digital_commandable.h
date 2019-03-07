@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-#include "afr-vexu-lib/commandable.h"
+#include "afr-lib/commandable.h"
 
 namespace AFR::VexU::BaseCommandable {
     class adi_digital_commandable : public commandable {

@@ -1,7 +1,6 @@
 #ifndef VEX_U_2018_V5_COMMANDABLE_H
 #define VEX_U_2018_V5_COMMANDABLE_H
 
-#include <any>
 #include <stdexcept>
 #include <typeindex>
 

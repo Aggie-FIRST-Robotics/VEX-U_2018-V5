@@ -5,7 +5,7 @@
 #ifndef VEX_U_2018_V5_SHOOTER_H
 #define VEX_U_2018_V5_SHOOTER_H
 
-#include "afr-vexu-lib/scheduled.h"
+#include "afr-lib/scheduled.h"
 #include "afr-vexu-lib/subsystem_controller.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 

@@ -1,5 +1,5 @@
 #include "afr-vexu-lib/base-readable/adi_digital_readable.h"
-#include "afr-vexu-lib/ports_list.h"
+#include "afr-lib/ports_list.h"
 
 namespace AFR::VexU::BaseReadable{
     void adi_digital_readable::update_private(const double& delta_seconds){}

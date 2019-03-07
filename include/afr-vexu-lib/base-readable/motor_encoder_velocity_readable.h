@@ -1,7 +1,7 @@
 #ifndef VEX_U_2018_V5_MOTOR_ENCODER_VELOCITY_READABLE_H
 #define VEX_U_2018_V5_MOTOR_ENCODER_VELOCITY_READABLE_H
 
-#include "afr-vexu-lib/defines.h"
+#include "afr-lib/defines.h"
 #include "afr-vexu-lib/readable.h"
 #include <deque>
 

@@ -1,5 +1,5 @@
 #include "afr-vexu-lib/base-commandable/adi_analog_commandable.h"
-#include "afr-vexu-lib/ports_list.h"
+#include "afr-lib/ports_list.h"
 
 namespace AFR::VexU::BaseCommandable{
     void adi_analog_commandable::set_value_private(const std::any& value){

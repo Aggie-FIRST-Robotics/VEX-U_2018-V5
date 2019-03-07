@@ -1,7 +1,7 @@
 #ifndef VEX_U_2018_V5_MULTI_COMMANDABLE_H
 #define VEX_U_2018_V5_MULTI_COMMANDABLE_H
 
-#include "afr-vexu-lib/commandable.h"
+#include "afr-lib/commandable.h"
 
 namespace AFR::VexU::BaseCommandable{
     template<typename T>

@@ -1,5 +1,5 @@
 #include "main.h"
-#include "afr-vexu-lib/defines.h"
+#include "afr-lib/defines.h"
 
 #ifndef ROBOT_2
 #include "robot/cap/cap.h"

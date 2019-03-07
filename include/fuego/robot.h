@@ -1,7 +1,7 @@
 #ifndef VEX_U_2018_V5_ROBOT_2_H
 #define VEX_U_2018_V5_ROBOT_2_H
 
-#include "afr-vexu-lib/defines.h"
+#include "afr-lib/defines.h"
 
 namespace AFR::VexU::Robot2{
 #define ROBOT_2

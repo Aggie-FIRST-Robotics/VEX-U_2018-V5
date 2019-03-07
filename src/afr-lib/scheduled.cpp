@@ -1,4 +1,4 @@
-#include "afr-vexu-lib/scheduled.h"
+#include "afr-lib/scheduled.h"
 
 namespace AFR::VexU{
     scheduled::scheduled(const scheduled_update_t& update_period, const std::string& name)

@@ -9,9 +9,6 @@ set(
         ${base-readable-src}
         ${base-action-src}
         ${comms-src}
-        src/afr-vexu-lib/ports_list.cpp
-        src/afr-vexu-lib/scheduled.cpp
-        src/afr-vexu-lib/state.cpp
 )
 
 set(

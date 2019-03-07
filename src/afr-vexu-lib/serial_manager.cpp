@@ -1,11 +1,11 @@
 
-#include "afr-vexu-lib/SerialManager.h"
+#include "afr-vexu-lib/serial_manager.h"
 
 namespace AFR::VexU {
 
-	SerialManager* serial_manager = nullptr;
+	serial_manager* serial_manager = nullptr;
 
-	SerialManager::SerialManager (const scheduled_update_t& update_period) : scheduled(update_period), nameable("Serial Manager"){
+	serial_manager::serial_manager (const scheduled_update_t& update_period) : scheduled(update_period), nameable("Serial Manager"){
 
 		stream_in 		= fopen("/ser/sinp", "r");
 		stream_out 		= fopen("/ser/sout", "w");
@@ -26,14 +26,14 @@ namespace AFR::VexU {
 
 	}
 
-	SerialManager::~SerialManager () {
+	serial_manager::~serial_manager () {
 		pros::c::task_delete(serial_read_task);
 		fclose(stream_in);
 		fclose(stream_out);
 		delete read_buffer;
 	}
 
-	bool SerialManager::enqueue_write (uint8_t dest, uint8_t addr, short data) {
+	bool serial_manager::enqueue_write (uint8_t dest, uint8_t addr, short data) {
 
 		Packet::Frame curr( V5_ID, addr, data );
 		if( dest == ODROID_ID ){
@@ -48,7 +48,7 @@ namespace AFR::VexU {
 		return true;
 	}
 
-	void SerialManager::send_buffer (uint8_t dest) {
+	void serial_manager::send_buffer (uint8_t dest) {
 
 		if( dest == ODROID_ID ? odroid_queue.empty() : arduino_queue.empty() )
 			return;
@@ -87,12 +87,12 @@ namespace AFR::VexU {
 		fflush(stream_out);
 	}
 
-	void SerialManager::handle_read() {
+	void serial_manager::handle_read() {
 		receive_buffer();
 		sort_read_queue();
 	}
 
-	void SerialManager::receive_buffer () {
+	void serial_manager::receive_buffer () {
 	    char c;
 		while(read_buffer->size() > 0)
 		{	
@@ -177,7 +177,7 @@ namespace AFR::VexU {
 		}
 	}
 
-	void SerialManager::sort_read_queue () {
+	void serial_manager::sort_read_queue () {
 		while(!read_queue.empty()) {
 			switch (read_queue.front().source){
 				case ODROID_ID:
@@ -194,7 +194,7 @@ namespace AFR::VexU {
 		}
 	}
 
-	void SerialManager::update_private(const double& delta_seconds) {
+	void serial_manager::update_private(const double& delta_seconds) {
 		handle_read();
 		send_buffer(ODROID_ID);
 		send_buffer(ARDUINO_ID);
@@ -211,7 +211,7 @@ namespace AFR::VexU {
 	}
 
 	void init_serial_manager(const scheduled_update_t& update_period){
-        serial_manager = new SerialManager{update_period};
+        serial_manager = new serial_manager{update_period};
     }
 
     void destroy_serial_manager(){

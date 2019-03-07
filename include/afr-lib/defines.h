@@ -7,8 +7,6 @@
 
 #define ROBOT_2
 
-#include "main.h"
-
 #ifdef AFR_VEXU_NODEBUG
 /**
  * Should wrap any API calls external to the API

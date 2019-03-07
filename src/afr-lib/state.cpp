@@ -1,4 +1,4 @@
-#include "afr-vexu-lib/state.h"
+#include "afr-lib/state.h"
 
 namespace AFR::VexU{
     state::state(const std::vector<transition>& transitions,

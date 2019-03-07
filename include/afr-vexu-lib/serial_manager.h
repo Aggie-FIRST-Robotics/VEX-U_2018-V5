@@ -6,8 +6,8 @@
 #include "afr-vexu-lib/comms/Packet.h"
 #include "afr-vexu-lib/comms/RingBuffer.h"
 #include "afr-vexu-lib/comms/DataTable.h"
-#include "afr-vexu-lib/scheduled.h"
-#include "afr-vexu-lib/nameable.h"
+#include "afr-lib/scheduled.h"
+#include "afr-lib/nameable.h"
 
 namespace AFR::VexU {
 
@@ -37,7 +37,7 @@ namespace AFR::VexU {
 	};
 
 	//Manages buffers for serial communication
-	class SerialManager : public scheduled, public nameable{
+	class serial_manager : public scheduled, public nameable{
 			
 		public:
 
@@ -47,9 +47,9 @@ namespace AFR::VexU {
 
 			//Do not call constructor, serial manager is instanstiated
 			//as a global pointer
-			SerialManager (const scheduled_update_t& update_period);
+			serial_manager (const scheduled_update_t& update_period);
 
-			~SerialManager ();
+			~serial_manager ();
 
 			//Puts data into the write queue
 			// '0' -> v5
@@ -88,7 +88,7 @@ namespace AFR::VexU {
 
 	};
 
-	extern SerialManager* serial_manager;
+	extern serial_manager* serial_manager;
 
 	void init_serial_manager(const scheduled_update_t& update_period);
 

@@ -8,8 +8,8 @@
 
 #include "afr-vexu-lib/action.h"
 #include "afr-vexu-lib/ordered_input.h"
-#include "afr-vexu-lib/state.h"
-#include "afr-vexu-lib/state_controller.h"
+#include "afr-lib/state.h"
+#include "afr-lib/state_controller.h"
 #include "afr-vexu-lib/subsystem_controller.h"
 
 //actions
