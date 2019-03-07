@@ -8,7 +8,7 @@
 #include "afr-lib/defines.h"
 #include "afr-lib/nameable.h"
 #include "afr-lib/scheduled.h"
-#include "operation.h"
+#include "commandable.h"
 
 namespace AFR::VexU{
     /**
@@ -18,7 +18,7 @@ namespace AFR::VexU{
     class state_controller : public scheduled {
     private:
         std::vector<state*> states_;
-        std::vector<commandable*> commandables_;
+        std::vector<commandable<T>*> commandables_;
         state* current_state_;
         T metadata_;
         /**
@@ -53,7 +53,7 @@ namespace AFR::VexU{
             states_.push_back(new_state);
         }
         
-        void add_commandable(commandable* new_commandable) {
+        void add_commandable(commandable<T>* new_commandable) {
             commandables_.push_back(new_commandable);
         }
         
@@ -71,9 +71,9 @@ namespace AFR::VexU{
             current_state_->on_state_entry();      
         }
 
-        void state_controller::update_current_state(){
+        void update_current_state(){
             if(current_state_ != nullptr){
-                if(current_state_ != current_state->get_next_state()){
+                if(current_state_ != current_state_->get_next_state()){
                     set_state(current_state_->get_next_state());
                 }          
             }
@@ -91,7 +91,7 @@ namespace AFR::VexU{
             return nullptr;
         }
 
-        commandable* get_commandable(const std::string& name){
+        commandable<T>* get_commandable(const std::string& name){
             for(auto commandable : commandables_){
                 if(commandable->get_name() == name){
                     return commandable;
@@ -104,7 +104,7 @@ namespace AFR::VexU{
             return states_;
         }
 
-        std::vector<commandable*>& get_commandables(){
+        std::vector<commandable<T>*>& get_commandables(){
             return commandables_;
         }
 
