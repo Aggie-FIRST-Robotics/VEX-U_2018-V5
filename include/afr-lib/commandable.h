@@ -28,9 +28,8 @@ namespace AFR::VexU{
          * @return error_t value if error encountered
          */
         virtual void set_value_private(T value, const double& delta_seconds) = 0;
-              
-        
-        void update_private(const double& delta_seconds) override {
+
+        void update_private(double delta_seconds) override{
             if(operation_defined) {
                 current_value_ = operation_function_();
                 set_value_private(current_value_, delta_seconds);
@@ -72,7 +71,7 @@ namespace AFR::VexU{
         
         void set_value(const T& value) {
             set_value_ = value;
-            operation_function_ = value_function;
+            operation_function_ = this->value_function;
             operation_defined = true;
         }
 //        commandable& operator=(const std::any& value);
