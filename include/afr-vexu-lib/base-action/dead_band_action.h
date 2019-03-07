@@ -55,7 +55,7 @@ namespace AFR::VexU::BaseAction{
         Read_T deadband_width, Write_T below_value, 
         Write_T above_value, const std::string& name)
             : targetable<Read_T>(update_period, (above_value-below_value)/2 + below_value, target, name), 
-              width_(width), 
+              width_(deadband_width), 
               _below_value(below_value),
               _above_value(above_value),
               deadband_value_((above_value-below_value)/2+below_value)

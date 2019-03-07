@@ -1,8 +1,8 @@
 
 #ifndef VEX_U_2018_V5_PID_H
 #define VEX_U_2018_V5_PID_H
-#include "targetable.h"
-#include "commandable.h"
+#include "afr-vexu-lib/base-action/targetable.h"
+#include "afr-vexu-lib/base-action/targetable.h"
 //min max -12000, +12000 imin imax -6000, 6000
 
 namespace AFR::VexU::BaseAction{
