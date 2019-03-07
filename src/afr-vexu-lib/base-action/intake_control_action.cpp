@@ -1,4 +1,4 @@
-#include "afr-vexu-lib/base-action/intake_control_action.h"
+#include "fuego/cap/intake_control_action.h"
 
 namespace AFR::VexU::BaseAction {
     intake_control_action::intake_control_action(const AFR::VexU::scheduled_update_t& update_period,

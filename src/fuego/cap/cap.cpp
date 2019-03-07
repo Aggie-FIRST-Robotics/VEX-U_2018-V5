@@ -10,7 +10,7 @@
 
 #include "afr-vexu-lib/base-action/zero_encoder_action.h"
 #include "afr-vexu-lib/base-action/pid_action.h"
-#include "afr-vexu-lib/base-action/intake_control_action.h"
+#include "fuego/cap/intake_control_action.h"
 #include "afr-vexu-lib/base-action/set_value_action.h"
 #include "afr-vexu-lib/base-action/dead_band_action.h"
 

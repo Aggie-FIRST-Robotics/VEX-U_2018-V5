@@ -7,7 +7,7 @@
 #include "afr-vexu-lib/base-readable/adi_digital_readable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 #include "afr-vexu-lib/base-commandable/multi_motor_commandable.h"
-#include "afr-vexu-lib/base-action/intake_control_action.h"
+#include "fuego/cap/intake_control_action.h"
 #include "afr-vexu-lib/base-action/pid_action.h"
 
 namespace AFR::VexU::Robot::Cap {
