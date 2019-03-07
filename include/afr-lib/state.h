@@ -5,7 +5,7 @@
 #include <vector>
 #include <functional>
 
-#include "nameble.h"
+#include "nameable.h"
 
 namespace AFR::VexU {
     /**
