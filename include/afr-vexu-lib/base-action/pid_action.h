@@ -1,8 +1,6 @@
 
 #ifndef VEX_U_2018_V5_PID_H
 #define VEX_U_2018_V5_PID_H
-#include "afr-vexu-lib/readable.h"
-#include "afr-vexu-lib/action.h"
 #include "targetable.h"
 //min max -12000, +12000 imin imax -6000, 6000
 
@@ -18,7 +16,6 @@ namespace AFR::VexU::BaseAction{
         Write_T _max_i_value;
         Write_T _offset;
         readable* _value_pointer;
-        Read_T _set_point;
 
         double last_error;
         Read_T last_value;
@@ -28,9 +25,9 @@ namespace AFR::VexU::BaseAction{
         Write_T pid_value_;
         Write_T disabled_value_;
 
-        void set_value_private(Read_T value, const double& delta_seconds){
+        void set_value_private(Read_T value, const double& delta_seconds) override {
             read_value_ = value;
-            double error = static_cast<double>(_set_point - value);
+            double error = static_cast<double>(get_target() - value);
             double p_term = _p_value * error;
 
             double d_term;
@@ -71,11 +68,7 @@ namespace AFR::VexU::BaseAction{
     public:
 
         bool is_in_range(Read_T tolerance) override {
-            return abs(read_value_ - _set_point) <= abs(tolerance) && running;
-        }
-
-        Read_T get_target(){
-            return _set_point;
+            return abs(read_value_ - get_target()) <= abs(tolerance) && running;
         }
 
         void set_pid_constants(double p_value, double i_value, double d_value){
@@ -130,8 +123,8 @@ namespace AFR::VexU::BaseAction{
         pid_action(scheduled_update_t update_period, double p_value,
             double i_value, double d_value, Write_T min_value, Write_T max_value,
             Write_T min_i_value, Write_T max_i_value, Write_T offset, Write_T disabled_value,
-            Read_T set_point, const std::string& name) :
-                targetable<Read_T>(update_period, set_point, name), 
+            Read_T target, const std::string& name) :
+                targetable<Read_T>(update_period, set_point, target, name), 
                 _p_value(p_value), 
                 _i_value(i_value),
                 _d_value(d_value), 
@@ -140,7 +133,6 @@ namespace AFR::VexU::BaseAction{
                 _min_i_value(min_i_value),
                 _max_i_value(max_i_value), 
                 _offset(offset),  
-                _set_point(set_point),
                 last_error(0), 
                 last_value(0), 
                 i_term(0), 
@@ -150,10 +142,6 @@ namespace AFR::VexU::BaseAction{
                 disabled_value_(disabled_value)
                 {}
     };
-
-
-
-
 }
 
 #endif
