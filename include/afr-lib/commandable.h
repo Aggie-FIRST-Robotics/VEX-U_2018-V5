@@ -27,14 +27,13 @@ namespace AFR::VexU{
          * @param value checked value to be set
          * @return error_t value if error encountered
          */
-        virtual void set_value_private(T value) = 0;
-        
-        
+        virtual void set_value_private(T value, const double& delta_seconds) = 0;
+              
         
         void update_private(const double& delta_seconds) override {
             if(operation_defined) {
                 current_value_ = operation_function_();
-                set_value_private(current_value_);
+                set_value_private(current_value_, delta_seconds);
             }
         }
         
