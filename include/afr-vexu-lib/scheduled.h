@@ -11,7 +11,7 @@ namespace AFR::VexU{
     /**
      * Used to schedule things so that they cna be called constantly without slowing down the processor
      */
-    class scheduled: public nameable{
+    class scheduled: public virtual nameable{
         static std::unordered_map<std::string,scheduled*> scheduled_list;
         uint32_t next_update_;
         uint32_t update_period_;

@@ -8,7 +8,7 @@ namespace AFR::VexU{
      * Represents an operation that is calculated through algorithmic logic
      */
     template <class T>
-    class operation : public nameable{
+    class operation : public virtual nameable{
     public:
         /**
          * Creates an operation
