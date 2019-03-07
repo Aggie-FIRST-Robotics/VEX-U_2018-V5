@@ -122,7 +122,7 @@ namespace AFR::VexU::BaseAction{
             double i_value, double d_value, Write_T min_value, Write_T max_value,
             Write_T min_i_value, Write_T max_i_value, Write_T offset, Write_T disabled_value,
             Read_T target, const std::string& name) :
-                targetable<Read_T>(update_period, set_point, target, name), 
+                targetable<Read_T>(update_period, 0, target, name), 
                 _p_value(p_value), 
                 _i_value(i_value),
                 _d_value(d_value), 
