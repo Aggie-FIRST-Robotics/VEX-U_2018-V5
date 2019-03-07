@@ -38,7 +38,10 @@ namespace AFR::VexU{
         T value_function() {
             return set_value_;
         }
-
+    protected:
+        T get_current_value() {
+            return current_value_;
+        }
     public:
         /**
          * Creates commandable with initial value

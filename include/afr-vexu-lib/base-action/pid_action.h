@@ -15,18 +15,15 @@ namespace AFR::VexU::BaseAction{
         Write_T _min_i_value;
         Write_T _max_i_value;
         Write_T _offset;
-        readable* _value_pointer;
 
         double last_error;
         Read_T last_value;
         double i_term;
         bool running;
-        Read_T read_value_;
         Write_T pid_value_;
         Write_T disabled_value_;
 
         void set_value_private(Read_T value, const double& delta_seconds) override {
-            read_value_ = value;
             double error = static_cast<double>(get_target() - value);
             double p_term = _p_value * error;
 
@@ -137,7 +134,6 @@ namespace AFR::VexU::BaseAction{
                 last_value(0), 
                 i_term(0), 
                 running(false), 
-                read_value_(0), 
                 pid_value_(disabled_value),
                 disabled_value_(disabled_value)
                 {}

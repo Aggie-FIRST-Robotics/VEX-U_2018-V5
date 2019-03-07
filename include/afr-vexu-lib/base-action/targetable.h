@@ -8,7 +8,7 @@ namespace AFR::VexU::BaseAction{
 
 
     template<typename Read_T>
-    class targetable : public nameable {
+    class targetable : public commandable<Read_T> {
         
         std::function<Read_T()> target_function_;
         Read_T target_;

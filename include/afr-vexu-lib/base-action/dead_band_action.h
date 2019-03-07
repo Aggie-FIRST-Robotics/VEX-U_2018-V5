@@ -14,10 +14,10 @@ namespace AFR::VexU::BaseAction{
 
         void set_value_private(Read_T value, const double& delta_seconds) override {
             
-            if(value < _bottom_threshold){
+            if(value < get_target()-width_/2){
                 deadband_value_ = _below_value;
             }
-            else if(value > _top_threshold){
+            else if(value > get_target()+width_/2){
                 deadband_value_ = _above_value;
             }
             else {
@@ -34,8 +34,7 @@ namespace AFR::VexU::BaseAction{
         }
 
         bool is_in_range(Read_T tolerance){
-            return abs(std::any_cast<Read_T>(_value_pointer->get_value()) - (_top_threshold - _bottom_threshold) / 2) <=
-                   tolerance;
+            return abs((get_current_value() - width_ / 2) <= tolerance;
         }
         
         Write_T get_deadband_value() {
