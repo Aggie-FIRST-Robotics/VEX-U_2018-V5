@@ -2,18 +2,13 @@
 #define VEX_U_2018_V5_COMMANDABLE_H
 
 #include <stdexcept>
-#include <typeindex>
+#include <functional>
 
 #include "defines.h"
 #include "nameable.h"
-#include "operation.h"
 #include "scheduled.h"
 
 namespace AFR::VexU{
-//    class invalid_value_error : public std::runtime_error{
-//    public:
-//        invalid_value_error();
-//    };
 
     /**
      * Represents something that can be commanded on the robot, such as a motor or piston actuator.
@@ -22,6 +17,7 @@ namespace AFR::VexU{
     template <class T>
     class commandable : public scheduled {
     private:
+        T set_value_;
         T current_value_;
         std::function<T()> operation_function_;
         bool operation_defined;
@@ -33,11 +29,17 @@ namespace AFR::VexU{
          */
         virtual void set_value_private(T value) = 0;
         
+        
+        
         void update_private(const double& delta_seconds) override {
             if(operation_defined) {
                 current_value_ = operation_function_();
                 set_value_private(current_value_);
             }
+        }
+        
+        T value_function() {
+            return set_value_;
         }
 
     public:
@@ -63,13 +65,15 @@ namespace AFR::VexU{
          * @param value the value to set, must be of type get_type and pass value check
          * @return error_t value if error encountered
          */
-        void set_operation(const operation<T>& operation) {
-            operation_function_ = operation.get_value;
-            operation_defined = true;
-        }
         
         void set_operation(const std::function<T()>& operation_function){
             operation_function_ = operation_function;
+            operation_defined = true;
+        }
+        
+        void set_value(const T& value) {
+            set_value_ = value;
+            operation_function_ = value_function;
             operation_defined = true;
         }
 //        commandable& operator=(const std::any& value);
