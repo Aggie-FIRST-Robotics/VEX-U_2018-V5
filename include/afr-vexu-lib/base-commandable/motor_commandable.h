@@ -12,11 +12,10 @@ namespace AFR::VexU::BaseCommandable{
      * Value must be [-12000, 12000] and is in mV.
      * </p>
      */
-    class motor_commandable : public commandable{
+    class motor_commandable : public commandable<int16_t>{
         port_t port_;
 
-        void set_value_private(const std::any& value) override;
-        void check_value_private(const std::any& value) override;
+        void set_value_private(int16_t value, double delta_seconds) override;
 
     public:
         /**
@@ -29,13 +28,6 @@ namespace AFR::VexU::BaseCommandable{
          */
         motor_commandable(port_t port, pros::motor_gearset_e_t gearset, bool reverse,
                           pros::motor_brake_mode_e_t brake_mode, const std::string& name);
-
-        /**
-         * Type is int16_t
-         * @param result int16_t
-         * @return error_t value if error encountered
-         */
-        std::type_index get_type() const override;
     };
 }
 

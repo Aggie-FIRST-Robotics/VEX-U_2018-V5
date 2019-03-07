@@ -2,14 +2,13 @@
 #define VEX_U_2018_V5_TARGETABLE_H
 
 #include <functional>
-#include "cached_operation.h"
-#include "defines.h"
+#include "afr-lib/nameable.h"
 
 namespace AFR::VexU::BaseAction{
 
 
     template<typename Read_T>
-    class targetable : public commandable<Read_T> {
+    class targetable : public nameable {
         
         std::function<Read_T()> target_function_;
         Read_T target_;

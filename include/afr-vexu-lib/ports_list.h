@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "defines.h"
+#include "afr-lib/defines.h"
 
 namespace AFR::VexU{
     void init_ports_list();

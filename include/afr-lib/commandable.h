@@ -9,7 +9,6 @@
 #include "scheduled.h"
 
 namespace AFR::VexU{
-
     /**
      * Represents something that can be commanded on the robot, such as a motor or piston actuator.
      * Can be as low level as direct motor control or abstract as a drivebase, as long as it takes a singular value.
@@ -27,10 +26,9 @@ namespace AFR::VexU{
          * @param value checked value to be set
          * @return error_t value if error encountered
          */
-        virtual void set_value_private(T value, const double& delta_seconds) = 0;
-              
-        
-        void update_private(const double& delta_seconds) override {
+        virtual void set_value_private(T value, double delta_seconds) = 0;
+
+        void update_private(double delta_seconds) override{
             if(operation_defined) {
                 current_value_ = operation_function_();
                 set_value_private(current_value_, delta_seconds);
@@ -72,7 +70,7 @@ namespace AFR::VexU{
         
         void set_value(const T& value) {
             set_value_ = value;
-            operation_function_ = value_function;
+            operation_function_ = this->value_function;
             operation_defined = true;
         }
 //        commandable& operator=(const std::any& value);

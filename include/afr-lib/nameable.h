@@ -24,10 +24,6 @@ namespace AFR::VexU{
             name_ = name;
         }
 
-        static void init(){
-            nameables_ = std::unordered_map<std::string, nameable*>{};
-        }
-
         static nameable* find_nameable(const std::string& name){
             return nameables_.at(name);
         }
