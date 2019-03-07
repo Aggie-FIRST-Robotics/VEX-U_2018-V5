@@ -10,8 +10,8 @@ namespace AFR::VexU{
 
     scheduled::scheduled(const scheduled_update_t& update_period, const std::string& name) :
             nameable(name), update_period_(update_period), next_update_(INT64_MAX), enabled_(true){
-        if(!scheduled_list_.emplace(get_name(), this).second){
-            throw std::runtime_error{"Cannot insert second scheduled for name: " + get_name()};
+        if(!scheduled_list_.emplace(get_name(), this).second) {
+            throw std::runtime_error{"Cannot insert scheduled for name: " + get_name()};
         }
     }
 

@@ -6,27 +6,22 @@
 
 namespace AFR::VexU{
     class nameable{
+
         std::string name_;
         static std::unordered_map<std::string, nameable*> nameables_;
 
     public:
-        explicit nameable(const std::string& name) : name_(name){
-            if(!nameables_.emplace(name, this).second){
-                throw std::runtime_error{"Cannot have multiple nameables named " + name};
-            }
-        };
+        explicit nameable(const std::string& name);
+
+        ~nameable();
 
         std::string get_name(){
             return name_;
         }
 
-        void set_name(const std::string& name){
-            name_ = name;
-        }
+        void set_name(const std::string& name);
 
-        static nameable* find_nameable(const std::string& name){
-            return nameables_.at(name);
-        }
+        static nameable* find_nameable(const std::string& name);
     };
 }
 
