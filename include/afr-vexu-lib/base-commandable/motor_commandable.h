@@ -15,7 +15,7 @@ namespace AFR::VexU::BaseCommandable{
     class motor_commandable : public commandable<int16_t>{
         port_t port_;
 
-        void set_value_private(int16_t value, double delta_seconds) override;
+        void set_value_private(int16_t value, double delta_seconds);
 
     public:
         /**
