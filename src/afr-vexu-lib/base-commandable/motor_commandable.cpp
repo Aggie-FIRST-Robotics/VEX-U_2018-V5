@@ -22,4 +22,12 @@ namespace AFR::VexU::BaseCommandable{
         pros::c::motor_set_reversed(port, reverse);
         pros::c::motor_set_brake_mode(port, brake_mode);
     }
+    
+    int32_t motor_commandable::get_current() const{
+        return pros::c::motor_get_current_draw(port_);
+    }
+    
+    double motor_temperature_readable::get_temperature() const{
+        return pros::c::motor_get_temperature(port_);
+    }
 }

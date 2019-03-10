@@ -1,7 +1,6 @@
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 
 namespace AFR::VexU::BaseReadable{
-    void motor_encoder_readable::update_private(const double& delta_seconds){}
 
     void motor_encoder_readable::set_scale_factor(double scale_factor){
         this->scale_factor = scale_factor;
@@ -36,9 +35,6 @@ namespace AFR::VexU::BaseReadable{
     }
 
     motor_encoder_readable::motor_encoder_readable(port_t port, double scale_factor, const std::string& name)
-            : readable(0, nullptr, name), port_(port), scale_factor(scale_factor){}
+            : nameable(name), port_(port), scale_factor(scale_factor){}
 
-    std::any motor_encoder_readable::get_value(){
-        return get_position();
-    }
 }

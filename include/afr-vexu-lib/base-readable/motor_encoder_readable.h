@@ -3,15 +3,13 @@
 
 #include "main.h"
 
-#include "afr-vexu-lib/readable.h"
+#include "afr-lib/nameable.h"
+#include "afr-lib/scheduled.h"
 
 namespace AFR::VexU::BaseReadable{
-    class motor_encoder_readable : public readable{
+    class motor_encoder_readable : public virtual nameable {
         port_t port_;
         double scale_factor;
-
-        void update_private(const double& delta_seconds) override;
-
     public:
         motor_encoder_readable(port_t port, double scale_factor, const std::string& name);
 
@@ -23,8 +21,6 @@ namespace AFR::VexU::BaseReadable{
         void tare_position();
         void tare_position(double position);
         void tare_position_scaled(double position);
-
-        std::any get_value() override;
     };
 }
 
