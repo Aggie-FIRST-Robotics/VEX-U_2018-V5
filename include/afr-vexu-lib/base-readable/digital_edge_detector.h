@@ -21,7 +21,7 @@ namespace AFR::VexU::BaseReadable{
           * @param port v5 port to use
           * @param name error_t value if error encountered
           */
-        adi_digital_readable(std::function<bool()> bool_function, const std::string& name);
+        digital_edge_detector(std::function<bool()> bool_function, const std::string& name);
         
         void set_bool_function(std::function<bool> bool_function);
         bool is_rising_edge();
