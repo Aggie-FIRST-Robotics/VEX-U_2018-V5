@@ -2,6 +2,16 @@
 
 namespace AFR::VexU::BaseReadable {
 
+    battery_readable* battery = nullptr;
+
+    void init_battery() {
+        battery = new battery_readable();
+    }
+
+    void destroy_battery() {
+        delete battery;
+    }
+
     battery_readable::battery_readable()
             : nameable("battery"){}
 

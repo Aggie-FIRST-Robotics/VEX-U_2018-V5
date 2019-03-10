@@ -1,13 +1,9 @@
 #ifndef VEX_U_2018_V5_CAP_2_H
 #define VEX_U_2018_V5_CAP_2_H
 
-#include "main.h"
-#include "afr-vexu-lib/subsystem_controller.h"
-#include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
-#include "afr-vexu-lib/base-action/pid_action.h"
-#include "afr-vexu-lib/base-action/zero_encoder_action.h"
-#include "afr-vexu-lib/base-action/set_value_action.h"
+#include "fuego/fuego.h"
 #include "wrist_flip_action.h"
+#include "afr-lib/state_controller.h"
 
 namespace AFR::VexU::Fuego::Cap{
     const pros::motor_brake_mode_e_t ARM_LEFT_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
@@ -16,26 +12,26 @@ namespace AFR::VexU::Fuego::Cap{
     const pros::motor_brake_mode_e_t WRIST_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
     const pros::motor_brake_mode_e_t INTAKE_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
-    extern BaseReadable::motor_encoder_readable* arm_encoder;
-    extern BaseReadable::motor_encoder_readable* elbow_encoder;
-    extern BaseReadable::motor_encoder_readable* wrist_encoder;
-
-    extern BaseAction::zero_encoder_action<bool, double, int16_t>* arm_zero_action;
-    extern BaseAction::zero_encoder_action<bool, double, int16_t>* elbow_zero_action;
-    extern BaseAction::zero_encoder_action<bool, double, int16_t>* wrist_zero_action;
-
-    extern BaseAction::pid_action<double, int16_t>* arm_pid_action;
-    extern BaseAction::pid_action<double, int16_t>* elbow_pid_action;
-    extern BaseAction::pid_action<double, int16_t>* wrist_pid_action;
-
-    extern BaseAction::set_value_action<int16_t>* intake_suck_action;
-    extern BaseAction::set_value_action<int16_t>* intake_hold_action;
-    extern BaseAction::set_value_action<int16_t>* intake_spit_action;
+//    extern BaseReadable::motor_encoder_readable* arm_encoder;
+//    extern BaseReadable::motor_encoder_readable* elbow_encoder;
+//    extern BaseReadable::motor_encoder_readable* wrist_encoder;
+//
+//    extern BaseAction::zero_encoder_action<bool, double, int16_t>* arm_zero_action;
+//    extern BaseAction::zero_encoder_action<bool, double, int16_t>* elbow_zero_action;
+//    extern BaseAction::zero_encoder_action<bool, double, int16_t>* wrist_zero_action;
+//
+//    extern BaseAction::pid_action<double, int16_t>* arm_pid_action;
+//    extern BaseAction::pid_action<double, int16_t>* elbow_pid_action;
+//    extern BaseAction::pid_action<double, int16_t>* wrist_pid_action;
+//
+//    extern BaseAction::set_value_action<int16_t>* intake_suck_action;
+//    extern BaseAction::set_value_action<int16_t>* intake_hold_action;
+//    extern BaseAction::set_value_action<int16_t>* intake_spit_action;
 
     extern wrist_flip_action* wrist_flip;
 
-    extern state_controller* cap_state_machine;
-    extern subsystem_controller* cap_subsystem;
+//    extern state_controller* cap_state_machine;
+//    extern subsystem_controller* cap_subsystem;
 
     //Down
     const double DOWN_ARM_TARGET = 0;

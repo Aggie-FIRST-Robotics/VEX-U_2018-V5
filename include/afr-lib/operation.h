@@ -2,8 +2,8 @@
 #define VEX_U_2018_V5_OPERATION_H
 
 #include <functional>
+#include <main.h>
 
-#include "main.h"
 #include "afr-lib/nameable.h"
 
 namespace AFR::VexU{

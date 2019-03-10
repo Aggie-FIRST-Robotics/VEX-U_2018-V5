@@ -1,8 +1,6 @@
 #ifndef VEX_U_2018_V5_DIGITAL_EDGE_DETECTOR_H
 #define VEX_U_2018_V5_DIGITAL_EDGE_DETECTOR_H
 
-#include <functional>
-
 #include "main.h"
 #include "afr-lib/operation.h"
 

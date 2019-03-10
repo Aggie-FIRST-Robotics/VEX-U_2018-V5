@@ -2,7 +2,6 @@
 #define VEX_U_2018_V5_ZERO_ENCODER_ACTION_H
 
 #include "afr-vexu-lib/base-action/targetable.h"
-#include <functional>
 
 namespace AFR::VexU::BaseAction{
     template<typename ReadT, typename TargetReadT, typename WriteT>

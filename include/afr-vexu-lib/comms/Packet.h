@@ -30,7 +30,7 @@ namespace AFR::VexU {
 			
 			//Checks if the checksum in the frame is equal
 			//to a calculated checksum of the frame
-			bool is_valid (void);
+			bool is_valid ();
 
 		};
 

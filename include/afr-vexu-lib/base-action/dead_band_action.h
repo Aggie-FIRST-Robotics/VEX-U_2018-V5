@@ -1,5 +1,5 @@
-#ifndef VEX_U_2018_V5_DEADBAND_H
-#define VEX_U_2018_V5_DEADBAND_H
+#ifndef VEX_U_2018_V5_DEAD_BAND_H
+#define VEX_U_2018_V5_DEAD_BAND_H
 
 #include <cassert>
 #include "afr-vexu-lib/base-action/targetable.h"

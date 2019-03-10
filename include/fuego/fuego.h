@@ -1,9 +1,8 @@
 #ifndef VEX_U_2018_V5_FUEGO_H
 #define VEX_U_2018_V5_FUEGO_H
 
-#include "fuego/shooter/shooter.h"
-
 #include "afr-lib/defines.h"
+#include "afr-vexu-lib/base-readable/controller_readable.h"
 
 #include <main.h>
 
@@ -61,6 +60,9 @@ namespace AFR::VexU::Fuego{
     const port_t FLYWHEEL_RIGHT_PORT = 11;
 
     const pros::motor_gearset_e_t BALL_INTAKE_GEARSET = pros::E_MOTOR_GEARSET_06;
+
+    BaseReadable::controller_readable driver_controler(pros::E_CONTROLLER_MASTER);
+    BaseReadable::controller_readable operator_controler(pros::E_CONTROLLER_PARTNER);
 
     const pros::controller_digital_e_t UP_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
     const pros::controller_digital_e_t DOWN_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;

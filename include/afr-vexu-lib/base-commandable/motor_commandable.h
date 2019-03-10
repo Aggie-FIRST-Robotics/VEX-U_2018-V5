@@ -1,7 +1,7 @@
 #ifndef VEX_U_2018_V5_MOTOR_COMMANDABLE_H
 #define VEX_U_2018_V5_MOTOR_COMMANDABLE_H
 
-#include "main.h"
+#include <main.h>
 
 #include "afr-lib/commandable.h"
 

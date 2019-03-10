@@ -1,10 +1,6 @@
 #ifndef VEX_U_2018_V5_WRIST_FLIP_ACTION_H
 #define VEX_U_2018_V5_WRIST_FLIP_ACTION_H
 
-#include "afr-vexu-lib/base-action/targetable.h"
-#include "afr-vexu-lib/base-readable/controller_readable.h"
-#include "afr-vexu-lib/readable.h"
-
 namespace AFR::VexU::Fuego::Cap{
     class wrist_flip_action : public action{
         BaseAction::targetable<double>* wrist_pid_action_;

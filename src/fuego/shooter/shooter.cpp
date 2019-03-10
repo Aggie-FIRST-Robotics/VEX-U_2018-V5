@@ -7,7 +7,6 @@
 #include "afr-vexu-lib/base-action/dead_band_action.h"
 #include "fuego/shooter/shooter.h"
 #include "afr-vexu-lib/base-readable/controller_readable.h"
-#include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
 #include "afr-vexu-lib/base-action/bounded_value_action.h"
 
 
@@ -115,9 +114,7 @@ namespace AFR::VexU::Fuego::Shooter{
             rest = new state("flywheel: rest");
             spin_up = new state("flywheel: spin up");
 
-                rest_to_spin_up = []() -> bool{
-                    //Is spin up button pressed
-                };
+                rest_to_spin_up = []() -> bool{ return operator_controler.get_L1(); };
                 std::vector<std::pair<std::function<bool()>, state*>> rest_transitions;
                 rest_transitions.emplace_back(rest_to_spin_up,spin_up);
 
@@ -137,9 +134,7 @@ namespace AFR::VexU::Fuego::Shooter{
 
             //Shooter wheel is spinning up
 
-                spin_up_to_rest = []() -> bool{
-                    //Is spin up button pressed
-                };
+                spin_up_to_rest = []() -> bool{ return !operator_controler.get_L1(); };
                 std::vector<std::pair<std::function<bool()>, state*>> spin_up_transitions;
                 spin_up_transitions.emplace_back(spin_up_to_rest,spin_up);
 
@@ -220,12 +215,8 @@ namespace AFR::VexU::Fuego::Shooter{
 
             //Loader goes to low position, lifts robot
 
-                walk_to_cock = []() -> bool{
-                    //Fire button is not pressed and walk button is not pressed
-                };
-                walk_to_fire = []() -> bool{
-                    //Fire button is not pressed and walk button is pressed
-                };
+                walk_to_cock = []() -> bool{ return !driver_controler.get_R2(); };
+                walk_to_fire = []() -> bool{ return !driver_controler.get_R2(); };
                 std::vector<std::pair<std::function<bool()>, state*>> walk_transitions;
                 walk_transitions.emplace_back(walk_to_cock,cock);
                 walk_transitions.emplace_back(walk_to_fire,fire);

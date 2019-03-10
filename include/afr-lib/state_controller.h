@@ -8,7 +8,6 @@
 #include "afr-lib/defines.h"
 #include "afr-lib/nameable.h"
 #include "afr-lib/scheduled.h"
-#include "afr-lib/commandable.h"
 
 namespace AFR::VexU{
     template<class MetaType>

@@ -5,9 +5,9 @@
 #ifndef VEX_U_2018_V5_SHOOTER_H
 #define VEX_U_2018_V5_SHOOTER_H
 
-#include <afr-lib/state_controller.h>
-#include "afr-lib/afr-lib.h"
-#include "afr-vexu-lib/base-readable/motor_encoder_velocity_readable.h"
+#include "afr-lib/scheduled.h"
+#include "afr-lib/state_controller.h"
+#include "fuego/fuego.h"
 
 namespace AFR::VexU::Fuego::Shooter{
 
@@ -38,10 +38,6 @@ namespace AFR::VexU::Fuego::Shooter{
     const scheduled_update_t AUTO_AIM_DELAY = 250;
 //    const scheduled_update_t START_BACK_LEFT_MOTOR_UPDATE_PERIOD = 10;
 //    const scheduled_update_t START_BACK_RIGHT_MOTOR_UPDATE_PERIOD = 10;
-
-
-    extern state_controller* shooter_subsystem;
-    extern BaseReadable::motor_encoder_velocity_readable* flywheel_velocity;
 
     void init();
 

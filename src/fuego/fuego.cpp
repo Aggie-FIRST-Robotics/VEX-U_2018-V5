@@ -64,17 +64,17 @@ namespace AFR::VexU::Fuego{
 //            Cap::cap_subsystem->updateInputs();
 //            Drive::drive_subsystem->updateInputs();
 //            BallIntake::ball_intake_subsystem->updateInputs();
-            Shooter::shooter_subsystem->updateInputs();
+//            Shooter::shooter_subsystem->updateInputs();
 //
 //            Cap::cap_subsystem->updateStates();
 //            Drive::drive_subsystem->updateStates();
 //            BallIntake::ball_intake_subsystem->updateStates();
-            Shooter::shooter_subsystem->updateStates();
+//            Shooter::shooter_subsystem->updateStates();
 
 //            Cap::cap_subsystem->updateActions();
 //            Drive::drive_subsystem->updateActions();
 //            BallIntake::ball_intake_subsystem->updateActions();
-            Shooter::shooter_subsystem->updateActions();
+//            Shooter::shooter_subsystem->updateActions();
         }
     }
 
@@ -83,6 +83,7 @@ namespace AFR::VexU::Fuego{
     }
 
     void destroy(){
+        destroy_afr_vexu_lib();
 //        BaseReadable::destroy_battery();
 //        BaseReadable::destroy_competition();
         //BaseReadable::destroy_controllers();

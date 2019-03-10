@@ -1,8 +1,6 @@
 #ifndef VEX_U_2018_V5_TARGETABLE_H
 #define VEX_U_2018_V5_TARGETABLE_H
 
-#include <functional>
-#include "afr-lib/nameable.h"
 #include "afr-lib/commandable.h"
 #include "afr-lib/operation.h"
 

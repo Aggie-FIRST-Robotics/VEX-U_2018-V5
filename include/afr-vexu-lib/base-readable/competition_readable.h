@@ -13,5 +13,11 @@ namespace AFR::VexU::BaseReadable {
 
         uint8_t get_status();
     };
+
+    extern competition_readable* competition;
+
+    void init_competition();
+
+    void destroy_competition();
 }
 #endif //VEX_U_2018_V5_COMPETITION_READABLE_H

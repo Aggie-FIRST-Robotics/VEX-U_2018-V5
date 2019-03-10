@@ -1,7 +1,7 @@
 #ifndef VEX_U_2018_V51_ADI_ANALOG_READABLE_H
 #define VEX_U_2018_V51_ADI_ANALOG_READABLE_H
 
-#include "main.h"
+#include <main.h>
 
 #include "afr-lib/nameable.h"
 #include "afr-vexu-lib/ports_list.h"

@@ -3,13 +3,22 @@
 
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "afr-vexu-lib/base-readable/competition_readable.h"
+#include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "afr-vexu-lib/ports_list.h"
 
-namespace AFR::VexU{
+namespace AFR::VexU {
     void init_afr_vexu_lib(){
+        BaseReadable::init_controllers();
         BaseReadable::init_battery();
         BaseReadable::init_competition();
         init_ports_list();
+    }
+
+    void destroy_afr_vexu_lib(){
+        BaseReadable::destroy_controllers();
+        BaseReadable::destroy_battery();
+        BaseReadable::destroy_competition();
+        destroy_ports_list();
     }
 }
 

@@ -1,9 +1,10 @@
 #ifndef VEX_U_2018_V5_ADI_ENCODER_READABLE_H
 #define VEX_U_2018_V5_ADI_ENCODER_READABLE_H
 
-#include "main.h"
+#include <main.h>
 
 #include "afr-lib/nameable.h"
+#include "afr-vexu-lib/ports_list.h"
 
 namespace AFR::VexU::BaseReadable{
     class adi_encoder_readable : public virtual nameable{

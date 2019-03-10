@@ -15,5 +15,9 @@ namespace AFR::VexU::BaseReadable {
         double get_temperature();
         double get_voltage();
     };
+
+    extern battery_readable* battery;
+    void init_battery();
+    void destroy_battery();
 }
 #endif //VEX_U_2018_V51_BATTERY_READABLE_H
