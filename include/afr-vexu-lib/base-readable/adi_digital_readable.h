@@ -3,21 +3,14 @@
 
 #include "main.h"
 
-#include "afr-vexu-lib/readable.h"
+#include "afr-lib/nameable.h"
 
 namespace AFR::VexU::BaseReadable{
     /**
      * Represents any digital sensor or readable input
      */
-     class adi_digital_readable : public readable {
+     class adi_digital_readable : public virtual nameable {
          port_t port_;
-
-         /**
-          * Overrides scheduled, updates private period
-          * @param delta_seconds new update period
-          * @return error_t value if error encountered
-          */
-         void update_private(const double& delta_seconds) override;
 
      public:
          /**
@@ -29,7 +22,6 @@ namespace AFR::VexU::BaseReadable{
          adi_digital_readable(port_t port, const std::string& name);
 
          bool is_pressed();
-         std::any get_value() override;
      };
 }
 

@@ -5,48 +5,34 @@
 
 #include "main.h"
 
-#include "afr-vexu-lib/readable.h"
+#include "afr-lib/nameable.h"
 
 namespace AFR::VexU::BaseReadable{
-    class controller_readable : public readable{
-        void update_private(const double& delta_seconds) override;
-
-    protected:
+    class controller_readable : public virtual nameable {
         pros::controller_id_e_t controller_;
 
     public:
-        explicit controller_readable(pros::controller_id_e_t controller);
+        controller_readable(pros::controller_id_e_t controller, const std::string& name);
+        
+        bool get_a();
+        bool get_b();
+        bool get_x();
+        bool get_y();
+        bool get_up();
+        bool get_down();
+        bool get_left();
+        bool get_right();
+        bool get_l1();
+        bool get_l2();
+        bool get r1();
+        bool get_r2();
+        int32_t get_left_x();
+        int32_t get_left_y();
+        int32_t get_right_x();
+        int32_t get_right_y();
+        
     };
 
-    class controller_analog_readable : public controller_readable{
-        pros::controller_analog_e_t channel_;
-
-    public:
-        controller_analog_readable(pros::controller_id_e_t controller, pros::controller_analog_e_t channel);
-
-        int32_t get_position();
-
-        std::any get_value() override;
-    };
-
-    class controller_digital_readable : public controller_readable{
-        pros::controller_digital_e_t button_;
-
-    public:
-        controller_digital_readable(pros::controller_id_e_t controller, pros::controller_digital_e_t button);
-
-        bool is_pressed();
-        bool is_rising_edge();
-
-        std::any get_value() override;
-    };
-
-    controller_analog_readable*
-    get_controller_analog_readable(pros::controller_id_e_t controller, pros::controller_analog_e_t channel);
-    controller_digital_readable* get_controller_digital_readable(pros::controller_id_e_t controller,
-                                                                 pros::controller_digital_e_t button);
-
-    void destroy_controllers();
 }
 
 #endif //VEX_U_2018_V5_CONTROLLER_READABLE_H

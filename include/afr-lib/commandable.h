@@ -7,6 +7,7 @@
 #include "defines.h"
 #include "nameable.h"
 #include "scheduled.h"
+#include "state_controller.h"
 
 namespace AFR::VexU{
     /**
@@ -20,6 +21,7 @@ namespace AFR::VexU{
         T current_value_;
         std::function<T()> operation_function_;
         bool operation_defined;
+        state_controller* owner_;
 
         /**
          * Sets the value to the checked parameter, no more checking is required
@@ -46,7 +48,7 @@ namespace AFR::VexU{
          * @param result error_t value if error encountered
          */
         explicit commandable(const scheduled_update_t& update_period, const std::string& name)
-            : scheduled(update_period, name), operation_defined(false){};
+            : scheduled(update_period, name), operation_defined(false), owner(nullptr){};
 
         /**
          * Returns the current value of the commandable as set by get_current_value. The any returned will be of the same type as get_type
@@ -62,16 +64,25 @@ namespace AFR::VexU{
          * @param value the value to set, must be of type get_type and pass value check
          * @return error_t value if error encountered
          */
+        void set_owner(state_controller* owner) {
+            owner_ = owner;
+        }
         
-        void set_operation(const std::function<T()>& operation_function){
-            operation_function_ = operation_function;
-            operation_defined = true;
+        void set_operation(const std::function<T()>& operation_function, state_controller* owner){
+            if(owner_ == nullptr || owner_ == owner) {
+                owner_ = owner;
+                operation_function_ = operation_function;
+                operation_defined = true;
+            }
         }
         
         void set_value(const T& value) {
-            set_value_ = value;
-            operation_function_ = this->value_function;
-            operation_defined = true;
+            if(owner_ == nullptr || owner_ == owner) {
+                owner_ = owner;
+                set_value_ = value;
+                operation_function_ = this->value_function;
+                operation_defined = true;
+            }
         }
 //        commandable& operator=(const std::any& value);
     };

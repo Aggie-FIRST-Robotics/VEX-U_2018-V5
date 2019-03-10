@@ -3,51 +3,17 @@
 
 #include "main.h"
 
-#include "afr-vexu-lib/readable.h"
+#include "afr-lib/nameable.h"
 
 namespace AFR::VexU::BaseReadable {
-    class battery_readable : public readable{
-        void update_private(const double& delta_seconds) override;
+    class battery_readable : public virtual nameable {
 
     public:
         battery_readable();
-
-        std::any get_value() override;
+        double get_capacity();
+        double get_current();
+        double get_temperature();
+        double get_voltage();
     };
-
-    class battery_current_readable : public readable{
-        void update_private(const double& delta_seconds) override;
-
-    public:
-        battery_current_readable();
-
-        std::any get_value() override;
-    };
-
-    class battery_temperature_readable : public readable{
-        void update_private(const double& delta_seconds) override;
-
-    public:
-        battery_temperature_readable();
-
-        std::any get_value() override;
-    };
-
-    class battery_voltage_readable : public readable{
-        void update_private(const double& delta_seconds) override;
-
-    public:
-        battery_voltage_readable();
-
-        std::any get_value() override;
-    };
-
-    extern battery_readable* battery_capacity;
-    extern battery_current_readable* battery_current;
-    extern battery_temperature_readable* battery_temperature;
-    extern battery_voltage_readable* battery_voltage;
-
-    void init_battery();
-    void destroy_battery();
 }
 #endif //VEX_U_2018_V51_BATTERY_READABLE_H

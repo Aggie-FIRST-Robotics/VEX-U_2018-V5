@@ -3,27 +3,19 @@
 
 #include "main.h"
 
-#include "afr-vexu-lib/readable.h"
+#include "afr-lib/nameable.h"
 #include "afr-vexu-lib/ports_list.h"
 
 namespace AFR::VexU::BaseReadable {
     /**
     * Represents an AnalogInput object such as a gyroscope or another sensor
     */
-    class adi_analog_readable : public readable {
+    class adi_analog_readable : public virtual nameable {
     private:
         /**
         * Creates a pros ADIAnalogIn variable that will be wrapped
         */
         port_t port_;
-
-        /**
-        * Overridden to  be whatever happens when update is called following the wait period
-        * @param delta_seconds the amount of seconds that have actually passed, however this is not used in this class
-        * @return error_t value if error encountered
-        */
-
-        void update_private(const double& delta_seconds) override;
 
     public:
         /**
@@ -35,7 +27,7 @@ namespace AFR::VexU::BaseReadable {
          */
         adi_analog_readable(port_t port, const std::string& name);
 
-        std::any get_value() override;
+        int32_t get_analog_value();
     };
 
 }

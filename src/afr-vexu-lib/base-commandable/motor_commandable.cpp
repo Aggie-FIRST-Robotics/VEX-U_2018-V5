@@ -16,7 +16,7 @@ namespace AFR::VexU::BaseCommandable{
                                                                      bool reverse,
                                                                      pros::motor_brake_mode_e_t brake_mode,
                                                                      const std::string& name)
-            : nameable(name), commandable(static_cast<int16_t>(0), name), port_(port){
+            : commandable(static_cast<int16_t>(0), name), port_(port){
         claim_smart(port, name);
         pros::c::motor_set_gearing(port, gearset);
         pros::c::motor_set_reversed(port, reverse);
