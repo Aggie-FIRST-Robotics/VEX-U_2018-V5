@@ -4,14 +4,14 @@
 #include <functional>
 #include "afr-lib/nameable.h"
 #include "afr-lib/commandable.h"
+#include "afr-lib/operation.h"
 
 namespace AFR::VexU::BaseAction{
 
 
     template<typename Read_T>
-    class targetable : public commandable<Read_T> {
+    class targetable : public commandable<Read_T>, public operation<Read_T> {
         
-        std::function<Read_T()> target_function_;
         Read_T target_;
         Read_T initial_value_;
         
@@ -22,24 +22,25 @@ namespace AFR::VexU::BaseAction{
     public:
         targetable(scheduled_update_t update_period, Read_T initial_value,
                    Read_T initial_target, const std::string& name)
-                : commandable<Read_T>(update_period, name), 
+                : nameable(name),
+                commandable<Read_T>(update_period, name), 
                 initial_value_(initial_value),
                 target_(initial_target),
-                target_function_(this->value_function){}
+                operation<Read_T>(this->value_function, name){}
 
         virtual bool is_in_range(Read_T tolerance) = 0;
         
         void set_target(const std::function<Read_T()>& target_function){
-            target_function_ = target_function;
+            operation<Read_T>::set_function(target_function);
         }
         
         void set_target(const Read_T& target) {
             target_ = target;
-            target_function_ = this->value_function;
+            operation<Read_T>::set_function(this->value_function);
         }
         
         Read_T get_target() {
-            return target_function_();
+            return operation<Read_T>::get_function()();
         }
         
     };
