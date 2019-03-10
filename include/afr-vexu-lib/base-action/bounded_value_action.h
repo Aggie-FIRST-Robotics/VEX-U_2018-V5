@@ -33,14 +33,19 @@ namespace AFR::VexU::BaseAction{
         }
 
     public:
-        bounded_value_action(const scheduled_update_t& update_period, Sensor_Read_T top_val,
-                             Sensor_Read_T bottom_val, Write_T above_max, Write_T below_min,
-                             const std::function<Write_T(Input_Read_T)>& conversion_func,
-                             const std::function<Input_Read_T>& input,
-                             const std::function<Sensor_Read_T>& sensor, const std::string& name) :
-                commandable<Write_T>(update_period, name), top_val_(top_val), bottom_val_(bottom_val),
-                above_max_(above_max), below_min_(below_min), conversion_func_(conversion_func), input_(input),
-                sensor_(sensor) {}
+        bounded_value_action(const scheduled_update_t& update_period,
+                                Sensor_Read_T top_val, Sensor_Read_T bottom_val,
+                                Write_T above_max, Write_T below_min,
+                                const std::function<Write_T(Input_Read_T)>& conversion_func,
+                                const std::function<Input_Read_T>& input,
+                                const std::function<Sensor_Read_T>& sensor,
+                                const std::string& name) :
+                            commandable<Write_T>(update_period, name),
+                                top_val_(top_val), bottom_val_(bottom_val),
+                                above_max_(above_max), below_min_(below_min),
+                                conversion_func_(conversion_func),
+                                input_(input),
+                                sensor_(sensor) {}
     };
 }
 

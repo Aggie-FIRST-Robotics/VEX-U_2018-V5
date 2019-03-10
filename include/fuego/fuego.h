@@ -1,10 +1,14 @@
-#ifndef VEX_U_2018_V5_ROBOT_2_H
-#define VEX_U_2018_V5_ROBOT_2_H
+#ifndef VEX_U_2018_V5_FUEGO_H
+#define VEX_U_2018_V5_FUEGO_H
+
+#include "fuego/shooter/shooter.h"
 
 #include "afr-lib/defines.h"
 
+#include <main.h>
+
 namespace AFR::VexU::Fuego{
-#define ROBOT_2
+#define FUEGO
 
     const port_t RIGHT_RAIL_MOTOR_A_PORT = 17;
     const port_t RIGHT_RAIL_MOTOR_B_PORT = 5;
@@ -82,4 +86,4 @@ namespace AFR::VexU::Fuego{
     void restart();
 }
 
-#endif //VEX_U_2018_V5_ROBOT_H
+#endif //VEX_U_2018_V5_FUEGO_H

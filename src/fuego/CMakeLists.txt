@@ -26,6 +26,6 @@ set(
         ${fuego-drive-V5-src}
         ${fuego-shooter-V5-src}
 
-        src/fuego/robot.cpp
+        src/fuego/fuego.cpp
         src/fuego/auto.cpp
 )

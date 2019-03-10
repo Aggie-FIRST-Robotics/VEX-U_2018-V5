@@ -1,12 +1,12 @@
 #include "main.h"
 #include "afr-lib/defines.h"
 
-#ifdef ROBOT_2
+#ifndef FUEGO
 
-#include "robot2/robot.h"
+#include "fuego/fuego.h"
 
 #else
-#include "robot/robot.h"
+#include "fuego/fuego.h"
 #endif
 
 /**
@@ -23,8 +23,8 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-#ifndef ROBOT_2
-    AFR::VexU::Robot::opcontrol_robot();
+#ifndef FUEGO
+    AFR::VexU::Fuego::opcontrol_robot();
 #else
     AFR::VexU::Fuego::op_control();
 #endif

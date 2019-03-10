@@ -36,8 +36,7 @@ namespace AFR::VexU{
          * @param initial_state the initial state by string within state_map
          * @param result error_t value if error encountered
          */
-        state_controller(const scheduled_update_t& update_period, const MetaType& initial_metadata,
-                         const std::string& name) :
+        state_controller(const scheduled_update_t& update_period, const MetaType& initial_metadata, const std::string& name) :
                 scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata){}
 
         void add_state(state* new_state) {
