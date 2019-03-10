@@ -7,52 +7,52 @@ namespace AFR::VexU::BaseReadable{
               controller_(controller){}
 
 
-    bool controller_readable::get_a(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_A);
+    bool controller_readable::get_A(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_A) == 1;
     }
     
-    bool controller_readable::get_b(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_B);
+    bool controller_readable::get_B(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_B) == 1;
     }
     
-    bool controller_readable::get_x(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_X);
+    bool controller_readable::get_X(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_X) == 1;
     }
     
-    bool controller_readable::get_y(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_Y);
+    bool controller_readable::get_Y(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_Y) == 1;
     }
     
-    bool controller_readable::get_up(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_UP);
+    bool controller_readable::get_UP(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_UP) == 1;
     }
     
-    bool controller_readable::get_down(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_DOWN);
+    bool controller_readable::get_DOWN(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_DOWN) == 1;
     }
     
-    bool controller_readable::get_left(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_LEFT);
+    bool controller_readable::get_LEFT(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_LEFT) == 1;
     }
     
-    bool controller_readable::get_right(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_RIGHT);
+    bool controller_readable::get_RIGHT(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_RIGHT) == 1;
     }
     
-    bool controller_readable::get_l1(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_L1);
+    bool controller_readable::get_L1(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_L1) == 1;
     }
     
-    bool controller_readable::get_l2(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_L2);
+    bool controller_readable::get_L2(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_L2) == 1;
     }
     
-    bool controller_readable::get_r1(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_R1);
+    bool controller_readable::get_R1(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_R1) == 1;
     }
     
-    bool controller_readable::get_r2(){
-        return pros::c::controller_get_digital(controller_, DIGITAL_R2);
+    bool controller_readable::get_R2(){
+        return pros::c::controller_get_digital(controller_, DIGITAL_R2) == 1;
     }
     
     int32_t controller_readable::get_left_x(){

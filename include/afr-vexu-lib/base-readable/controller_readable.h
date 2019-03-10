@@ -12,20 +12,20 @@ namespace AFR::VexU::BaseReadable{
         pros::controller_id_e_t controller_;
 
     public:
-        controller_readable(pros::controller_id_e_t controller, const std::string& name);
+        controller_readable(pros::controller_id_e_t controller);
         
-        bool get_a();
-        bool get_b();
-        bool get_x();
-        bool get_y();
-        bool get_up();
-        bool get_down();
-        bool get_left();
-        bool get_right();
-        bool get_l1();
-        bool get_l2();
-        bool get r1();
-        bool get_r2();
+        bool get_A();
+        bool get_B();
+        bool get_X();
+        bool get_Y();
+        bool get_UP();
+        bool get_DOWN();
+        bool get_LEFT();
+        bool get_RIGHT();
+        bool get_L1();
+        bool get_L2();
+        bool get_R1();
+        bool get_R2();
         int32_t get_left_x();
         int32_t get_left_y();
         int32_t get_right_x();
