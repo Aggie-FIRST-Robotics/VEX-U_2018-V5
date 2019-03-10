@@ -4,16 +4,16 @@
 #include <functional>
 
 #include "main.h"
-#include "afr-lib/nameable.h"
+#include "afr-lib/operation.h"
 
 namespace AFR::VexU::BaseReadable{
     /**
      * Represents an edge detector for any boolean sensor. A new instance must
      * be created for each separate concurrent checker.
      */
-     class digital_edge_detector : public virtual nameable {
+     class digital_edge_detector : public operation<bool> {
         bool last_read_;
-        std::function<bool()> bool_function_;
+
      public:
          /**
           * Creates a basic digital readable
@@ -23,7 +23,6 @@ namespace AFR::VexU::BaseReadable{
           */
         adi_digital_readable(std::function<bool()> bool_function, const std::string& name);
         
-        void set_bool_function(std::function<bool> bool_function);
         bool is_rising_edge();
         bool is_falling_edge();
      };
