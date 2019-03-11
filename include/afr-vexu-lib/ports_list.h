@@ -6,6 +6,9 @@
 #include "afr-lib/defines.h"
 
 namespace AFR::VexU{
+
+    typedef uint8_t port_t;
+
     void init_ports_list();
     void destroy_ports_list();
 

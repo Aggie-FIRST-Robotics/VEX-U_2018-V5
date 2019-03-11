@@ -18,8 +18,6 @@ namespace AFR::VexU{
         }
         return value;
     }
-
-    typedef uint8_t port_t;
 }
 
 #define AFR_TRY(x, y){                                                                                                 \

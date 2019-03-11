@@ -1,5 +1,5 @@
 #include "fuego/cap/cap.h"
-
+#include "fuego/fuego.h"
 namespace AFR::VexU::Fuego::Cap{
 //    //Commandables
 //    BaseCommandable::motor_commandable* left_arm_motor{};

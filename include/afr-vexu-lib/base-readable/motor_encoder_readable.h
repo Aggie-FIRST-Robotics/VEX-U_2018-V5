@@ -5,6 +5,7 @@
 
 #include "afr-lib/nameable.h"
 #include "afr-lib/scheduled.h"
+#include "afr-vexu-lib/ports_list.h"
 
 namespace AFR::VexU::BaseReadable{
     class motor_encoder_readable : public virtual nameable {
