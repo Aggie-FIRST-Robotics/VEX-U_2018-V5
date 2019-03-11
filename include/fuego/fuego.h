@@ -7,7 +7,7 @@
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "afr-vexu-lib/ports_list.h"
 
-#include <main.h>
+#include "main.h"
 
 namespace AFR::VexU::Fuego{
 #define FUEGO

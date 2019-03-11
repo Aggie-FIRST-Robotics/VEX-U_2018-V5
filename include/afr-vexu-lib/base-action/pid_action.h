@@ -23,7 +23,7 @@ namespace AFR::VexU::BaseAction{
         Write_T pid_value_;
         Write_T disabled_value_;
 
-        void set_value_private(Read_T value, const double& delta_seconds) override {
+        void set_value_private(Read_T value, double delta_seconds) override {
             double error = static_cast<double>(targetable<Read_T>::get_target() - value);
             double p_term = _p_value * error;
 
@@ -117,10 +117,11 @@ namespace AFR::VexU::BaseAction{
          * @param set_point target value for controller
          * @param name error_t value if error encountered
          */
-        pid_action(scheduled_update_t update_period, double p_value,
+        pid_action(const scheduled_update_t update_period, double p_value,
             double i_value, double d_value, Write_T min_value, Write_T max_value,
             Write_T min_i_value, Write_T max_i_value, Write_T offset, Write_T disabled_value,
             Read_T target, const std::string& name) :
+                nameable(name),
                 targetable<Read_T>(update_period, 0, target, name), 
                 _p_value(p_value), 
                 _i_value(i_value),

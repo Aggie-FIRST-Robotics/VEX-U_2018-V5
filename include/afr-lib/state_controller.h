@@ -3,11 +3,13 @@
 
 #include <unordered_map>
 #include <string>
+#include <iostream>
 
 #include "afr-lib/state.h"
 #include "afr-lib/defines.h"
 #include "afr-lib/nameable.h"
 #include "afr-lib/scheduled.h"
+
 
 namespace AFR::VexU{
     template<class MetaType>
@@ -36,7 +38,7 @@ namespace AFR::VexU{
          * @param result error_t value if error encountered
          */
         state_controller(const scheduled_update_t& update_period, const MetaType& initial_metadata, const std::string& name) :
-                scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata){}
+                nameable(name), scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata){}
 
         void add_state(state* new_state) {
             states_.push_back(new_state);

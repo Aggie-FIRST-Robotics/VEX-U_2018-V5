@@ -11,4 +11,5 @@ set(
         src/afr-vexu-lib/comms/DataTable.cpp
         src/afr-vexu-lib/comms/Packet.cpp
         src/afr-vexu-lib/comms/RingBuffer.cpp
+        src/afr-vexu-lib/comms/serial_manager.cpp
 )

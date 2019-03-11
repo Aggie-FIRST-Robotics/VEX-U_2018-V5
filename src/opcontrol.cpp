@@ -23,9 +23,5 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-#ifndef FUEGO
-    AFR::VexU::Fuego::opcontrol_robot();
-#else
     AFR::VexU::Fuego::op_control();
-#endif
 }

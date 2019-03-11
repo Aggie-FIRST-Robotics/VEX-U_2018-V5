@@ -12,8 +12,8 @@ namespace AFR::VexU::BaseAction{
         const Write_T _below_value;
         const Write_T _above_value;
 
-        void set_value_private(Read_T value, const double& delta_seconds) override {
-            
+        void set_value_private(Read_T value, double delta_seconds) override {
+
             if(value < targetable<Read_T>::get_target()-width_/2){
                 deadband_value_ = _below_value;
             }
@@ -51,10 +51,11 @@ namespace AFR::VexU::BaseAction{
          * @param above_value output value while above deadband
          * @param name error_t value if error encountered
          */
-        dead_band_action(scheduled_update_t update_period, Read_T target, 
+        dead_band_action(const scheduled_update_t update_period, Read_T target,
         Read_T deadband_width, Write_T below_value, 
         Write_T above_value, const std::string& name)
-            : targetable<Read_T>(update_period, (above_value-below_value)/2 + below_value, target, name), 
+            : nameable(name),
+              targetable<Read_T>(update_period, (above_value-below_value)/2 + below_value, target, name),
               width_(deadband_width), 
               _below_value(below_value),
               _above_value(above_value),

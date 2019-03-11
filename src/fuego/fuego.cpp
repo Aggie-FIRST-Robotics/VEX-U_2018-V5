@@ -16,6 +16,7 @@
 namespace AFR::VexU::Fuego{
     void init_robot(){
         try{
+            init_lib();
             init_afr_vexu_lib();
 
 //            Drive::init();
@@ -27,7 +28,8 @@ namespace AFR::VexU::Fuego{
             Shooter::init();
             std::cout << "Shooter Initialized" << std::endl;
 
-            init_auto();
+
+            //init_auto();
         }
         catch(std::exception& e){
             std::cerr << "Init error" << std::endl;
@@ -48,6 +50,8 @@ namespace AFR::VexU::Fuego{
 
     void op_control(){
         while(true){
+            //std::cout << "Main" << std::endl;
+            scheduled::update_all();
 //            std::string line1 = "A: " + std::to_string(Cap::arm_encoder->get_position());
 //            std::string line2 = "E: " + std::to_string(Cap::elbow_encoder->get_position());
 //            std::string line3 = Cap::cap_state_machine->get_current_state()->get_name();
@@ -75,6 +79,7 @@ namespace AFR::VexU::Fuego{
 //            Drive::drive_subsystem->updateActions();
 //            BallIntake::ball_intake_subsystem->updateActions();
 //            Shooter::shooter_subsystem->updateActions();
+            pros::delay(1);
         }
     }
 

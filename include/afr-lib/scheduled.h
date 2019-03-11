@@ -4,6 +4,7 @@
 #include <functional>
 #include <unordered_map>
 
+#include "main.h"
 #include "defines.h"
 #include "nameable.h"
 
@@ -15,7 +16,6 @@ namespace AFR::VexU{
      */
     class scheduled: public virtual nameable{
         static std::unordered_map<std::string, scheduled*> scheduled_list_;
-        static std::function<scheduled_update_t()> time_function_;
         static double scaling_factor_to_seconds_;
 
         scheduled_update_t next_update_;
@@ -39,14 +39,11 @@ namespace AFR::VexU{
          * @param update_period the time period in scheduled_res_t to wait, if 0 will not update
          * @param result error_t value if error encountered
          */
-        explicit scheduled(const scheduled_update_t& update_period, const std::string& name);
+        explicit scheduled(const scheduled_update_t update_period, const std::string& name);
 
         ~scheduled();
 
-        static void set_scaling_factor(double scaling_factor_to_seconds);
-        static void set_time_function(const std::function<scheduled_update_t()>& time_function);
         static void update_all();
-        static void init();
   
         /**
          * Sets if the scheduled should update

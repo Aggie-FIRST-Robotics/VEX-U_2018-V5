@@ -1,14 +1,8 @@
 #include "main.h"
-#include "afr-lib/afr-lib.h"
 #include "afr-lib/defines.h"
 
-#ifdef FUEGO
 
-#include "fuego/robot.h"
-
-#else
 #include "fuego/fuego.h"
-#endif
 
 
 /**
@@ -18,11 +12,8 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-#ifndef FUEGO
     AFR::VexU::Fuego::init_robot();
-#else
-    AFR::VexU::Fuego::init_robot();
-#endif
+
 }
 
 /**

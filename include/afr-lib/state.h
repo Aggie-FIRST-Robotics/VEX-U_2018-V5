@@ -8,11 +8,17 @@
 #include "nameable.h"
 
 namespace AFR::VexU {
+    class state;
+    struct transition {
+        std::function<bool()> transition_function;
+        state* next_state;
+        transition(std::function<bool()>& trans_func, state* state) : transition_function(trans_func), next_state(state) {}
+    };
     /**
      * Represents a state within a state machine
      */
     class state : public nameable {
-        std::vector<std::pair<std::function<bool()>, state*>> transitions_;
+        std::vector<transition> transitions_;
         std::function<void()> on_state_entry_;
         std::function<void()> on_state_exit_;
 
@@ -52,7 +58,7 @@ namespace AFR::VexU {
          * Returns transitions vector
          * @return error_t value if error encountered
          */
-        std::vector<std::pair<std::function<bool()>, state*>>& get_transitions();
+        std::vector<transition>& get_transitions();
         /**
          * Adds transition to the transition vector
          * @param transition_function the function check of the new transition
@@ -65,7 +71,7 @@ namespace AFR::VexU {
          * @param transitions the vector of transitions to be checked in order
          * @return error_t value if error encountered
          */
-        void set_transitions(const std::vector<std::pair <std::function<bool()>, state*>>& transitions);
+        void set_transitions(const std::vector<transition>& transitions);
         /**
          * Clears the transition vector
          * @return error_t value if error encountered

@@ -16,15 +16,16 @@ namespace AFR::VexU::BaseAction{
         Read_T value_function() {
             return target_;
         }
+
         
     public:
-        targetable(scheduled_update_t update_period, Read_T initial_value,
+        targetable(const scheduled_update_t update_period, Read_T initial_value,
                    Read_T initial_target, const std::string& name)
                 : nameable(name),
                 commandable<Read_T>(update_period, name), 
                 initial_value_(initial_value),
                 target_(initial_target),
-                operation<Read_T>(this->value_function, name){}
+                operation<Read_T>(std::function<Read_T()>([this](){ return this->value_function(); }), name){}
 
         virtual bool is_in_range(Read_T tolerance) = 0;
         
@@ -34,7 +35,7 @@ namespace AFR::VexU::BaseAction{
         
         void set_target(const Read_T& target) {
             target_ = target;
-            operation<Read_T>::set_function(this->value_function);
+            operation<Read_T>::set_function(std::function<Read_T()>([this] () { return this->value_function(); }));
         }
         
         Read_T get_target() {

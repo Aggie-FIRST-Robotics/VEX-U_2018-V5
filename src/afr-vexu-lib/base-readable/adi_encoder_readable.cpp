@@ -1,9 +1,6 @@
 #include "afr-vexu-lib/base-readable/adi_encoder_readable.h"
-#include "afr-lib/ports_list.h"
 
 namespace AFR::VexU::BaseReadable{
-    void adi_encoder_readable::update_private(const double& delta_seconds){}
-
     adi_encoder_readable::adi_encoder_readable(port_t port_top, port_t port_bottom, bool reversed,
                                                double scaling_factor, const std::string& name)
             : nameable(name), encoder_(pros::c::adi_encoder_init(port_top, port_bottom, reversed)),
@@ -23,7 +20,7 @@ namespace AFR::VexU::BaseReadable{
     }
 
     double adi_encoder_readable::get_scaled_position(){
-        return get_value() * scaling_factor_;
+        return get_position() * scaling_factor_;
     }
 
     int32_t adi_encoder_readable::get_position(){

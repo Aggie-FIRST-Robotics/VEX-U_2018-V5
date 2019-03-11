@@ -1,7 +1,7 @@
 #ifndef VEX_U_2018_V5_MOTOR_COMMANDABLE_H
 #define VEX_U_2018_V5_MOTOR_COMMANDABLE_H
 
-#include <main.h>
+#include "main.h"
 
 #include "afr-lib/commandable.h"
 #include "afr-vexu-lib/ports_list.h"
@@ -27,12 +27,12 @@ namespace AFR::VexU::BaseCommandable{
          * @param brake_mode what to do when power is 0
          * @param name error_t value if error encountered
          */
-        motor_commandable(scheduled_update_t& update_period, port_t port, pros::motor_gearset_e_t gearset, bool reverse,
+        motor_commandable(const scheduled_update_t update_period, port_t port, pros::motor_gearset_e_t gearset, bool reverse,
                           pros::motor_brake_mode_e_t brake_mode, const std::string& name);
 
-        int32_t get_current() const;
+        int32_t get_current();
 
-        double get_temperature() const;
+        double get_temperature();
     };
 }
 

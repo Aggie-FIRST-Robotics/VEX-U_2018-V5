@@ -16,5 +16,4 @@ set(
         src/afr-vexu-lib/base-readable/controller_readable.cpp
         src/afr-vexu-lib/base-readable/digital_edge_detector.cpp
         src/afr-vexu-lib/base-readable/motor_encoder_readable.cpp
-        src/afr-vexu-lib/base-readable/motor_encoder_velocity_readable.cpp
 )

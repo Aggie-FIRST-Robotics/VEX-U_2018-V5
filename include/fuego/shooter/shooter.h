@@ -30,8 +30,8 @@ namespace AFR::VexU::Fuego::Shooter{
     /////LOADER
     const bool LOADER_DIRECTION             = false;
     const double LOADER_ENCODER_SCALING     = 1;
-    const double LOADER_FIRE_TARGET         = 0;
-    const double LOADER_WALK_TARGET         = 0;
+    const double LOADER_FIRE_TARGET         = 500;
+    const double LOADER_WALK_TARGET         = -500;
     const double LOADER_TOLERANCE           = 100;
     const int16_t LOADER_MAX_VOLTAGE        = 12000;
 

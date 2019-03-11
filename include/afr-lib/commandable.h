@@ -46,8 +46,8 @@ namespace AFR::VexU{
          * @param initial_value initial value to be set, not sent to child objects so should be read and set by children
          * @param result error_t value if error encountered
          */
-        explicit commandable(const scheduled_update_t& update_period, const std::string& name)
-            : scheduled(update_period, name), operation_defined(false), owner(""){};
+        explicit commandable(const scheduled_update_t update_period, const std::string& name)
+            : nameable(name), scheduled(update_period, name), operation_defined(false), owner_(""){};
 
         /**
          * Returns the current value of the commandable as set by get_current_value. The any returned will be of the same type as get_type
@@ -76,10 +76,11 @@ namespace AFR::VexU{
         }
         
         void set_value(const T& value, std::string caller) {
-            if(owner_ == "" || owner_ == owner) {
+            if(owner_ == "" || owner_ == caller) {
                 owner_ = caller;
                 set_value_ = value;
-                operation_function_ = this->value_function;
+
+                operation_function_ = std::function<T()> ([this](){ return this->value_function(); });
                 operation_defined = true;
             }
         }

@@ -4,8 +4,9 @@
 #include "scheduled.h"
 
 namespace AFR::VexU{
+    void init_lib();
+
     void init_lib(){
-        scheduled::init();
     }
 }
 

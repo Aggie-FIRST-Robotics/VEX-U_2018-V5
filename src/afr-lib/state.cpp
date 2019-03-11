@@ -20,7 +20,7 @@ namespace AFR::VexU{
         on_state_exit_ = on_state_exit;
     }
 
-    std::vector<std::pair <std::function<bool()>, state*>>& state::get_transitions(){
+    std::vector<transition>& state::get_transitions(){
         return transitions_;
     }
 
@@ -28,7 +28,7 @@ namespace AFR::VexU{
         transitions_.emplace_back(transition_function,next_state);
     }
 
-    void state::set_transitions(const std::vector<std::pair <std::function<bool()>, state*>>& transitions) {
+    void state::set_transitions(const std::vector<transition>& transitions) {
         transitions_ = transitions;
     }
 
@@ -38,8 +38,8 @@ namespace AFR::VexU{
 
     state* state::get_next_state() const{
         for(const auto& transition : transitions_){
-            if(transition.first){
-                return transition.second;
+            if(transition.transition_function()){
+                return transition.next_state;
             }
         }
         return nullptr;

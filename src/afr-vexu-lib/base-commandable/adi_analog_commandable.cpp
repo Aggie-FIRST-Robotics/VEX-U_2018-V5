@@ -6,8 +6,8 @@ namespace AFR::VexU::BaseCommandable{
         pros::c::adi_port_set_value(port_, value);
     }
 
-    adi_analog_commandable::adi_analog_commandable(port_t port, const std::string& name)
-            : commandable(0, name), port_(port){
+    adi_analog_commandable::adi_analog_commandable(const scheduled_update_t period, port_t port, const std::string& name)
+            : nameable(name), commandable(period, name), port_(port){
         claim_adi(port, name);
         pros::c::adi_port_set_config(port, pros::E_ADI_ANALOG_OUT);
     }

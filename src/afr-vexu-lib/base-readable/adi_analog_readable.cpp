@@ -7,8 +7,6 @@ namespace AFR::VexU::BaseReadable{
         pros::c::adi_port_set_config(port_, pros::E_ADI_DIGITAL_IN);
     }
 
-    void adi_analog_readable::update_private(const double& delta_seconds){}
-
     int32_t adi_analog_readable::get_analog_value(){
         return pros::c::adi_analog_read(port_);
     }

@@ -2,7 +2,6 @@
 #define VEX_U_2018_V5_OPERATION_H
 
 #include <functional>
-#include <main.h>
 
 #include "afr-lib/nameable.h"
 
@@ -13,7 +12,7 @@ namespace AFR::VexU{
         std::function<T()> function_;
         
     public:
-        operation(std::function<T()>& operation_function, const std::string& name)
+        operation(const std::function<T()>& operation_function, const std::string& name)
             : nameable(name), function_(operation_function) {}
             
         void set_function(std::function<T()>& operation_function) {

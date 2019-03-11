@@ -2,7 +2,7 @@
 #define DATA_TABLE_H
 
 #include "afr-vexu-lib/comms/Packet.h"
-#include <main.h>
+#include "main.h"
 
 namespace AFR::VexU {
 
