@@ -16,7 +16,7 @@ namespace AFR::VexU{
      */
     class scheduled: public virtual nameable{
         static std::unordered_map<std::string, scheduled*> scheduled_list_;
-        static double scaling_factor_to_seconds_;
+        static double constexpr scaling_factor_to_seconds_ = 0.001;
 
         scheduled_update_t next_update_;
         scheduled_update_t update_period_;

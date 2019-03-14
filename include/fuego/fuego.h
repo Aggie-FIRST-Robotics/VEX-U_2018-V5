@@ -21,7 +21,7 @@ namespace AFR::VexU::Fuego{
     const pros::motor_brake_mode_e_t DRIVETRAIN_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     /////LOADER
-    const port_t LOADER_MOTOR_PORT = 8; ////UNKNOWN
+    const port_t LOADER_MOTOR_PORT = 8;
     const pros::motor_gearset_e_t LOADER_GEARSET = pros::E_MOTOR_GEARSET_06;
     const pros::motor_brake_mode_e_t LOADER_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 

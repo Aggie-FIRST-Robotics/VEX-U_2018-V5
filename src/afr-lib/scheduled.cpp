@@ -5,7 +5,6 @@
 
 namespace AFR::VexU{
     std::unordered_map<std::string, scheduled*> scheduled::scheduled_list_{};
-    double scheduled::scaling_factor_to_seconds_{1.0};
 
     scheduled::scheduled(const scheduled_update_t update_period, const std::string& name) :
             nameable(name), update_period_(update_period), next_update_(INT64_MAX), enabled_(true){

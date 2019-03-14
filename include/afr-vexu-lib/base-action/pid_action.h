@@ -25,13 +25,15 @@ namespace AFR::VexU::BaseAction{
 
         void set_value_private(Read_T value, double delta_seconds) override {
             double error = static_cast<double>(targetable<Read_T>::get_target() - value);
+
+
             double p_term = _p_value * error;
 
             double d_term;
 
             //Only calculate i and d terms if reasonable time delta and enabled
             if(running && delta_seconds > 0.001){
-                i_term += i_term * error * delta_seconds;
+                i_term += _i_value * error * delta_seconds;
 
                 //clamp i value
                 if(i_term > _max_i_value){
@@ -41,8 +43,8 @@ namespace AFR::VexU::BaseAction{
                     i_term = _min_i_value;
                 }
 
-                d_term = static_cast<double>(last_value) - 
-                    static_cast<double>(value) * _d_value / delta_seconds;
+                d_term =  _d_value* (static_cast<double>(last_value) -
+                    static_cast<double>(value)) / delta_seconds;
             }
             else{
                 d_term = 0;

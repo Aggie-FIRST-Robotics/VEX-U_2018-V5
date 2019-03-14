@@ -18,12 +18,12 @@ namespace AFR::VexU::Fuego::Shooter{
 
     //////////////////////////////////////Controls////////////////////////////////////////////////
 
-    std::function<int32_t()> TURRET_OPERATOR = []() -> int32_t{ return BaseReadable::operator_controller->get_left_x(); };
-    std::function<int32_t()> HOOD_OPERATOR = []() -> int32_t{ return BaseReadable::operator_controller->get_left_y(); };
-    std::function<bool()> FLYWHEEL_OPERATOR = []() -> bool{ return BaseReadable::operator_controller->get_R2(); };
-    std::function<bool()> LOADER_OPERATOR = []() -> bool{ return BaseReadable::operator_controller->get_R1(); };
-    std::function<bool()> AUTO_AIM_OPERATOR = []() -> bool{ return BaseReadable::operator_controller->get_L1(); };
-    std::function<bool()> WALKER_DRIVER = []() -> bool{ return BaseReadable::driver_controller->get_R2(); };
+    std::function<int32_t()> TURRET_OPERATOR = []() -> int32_t{ return BaseReadable::driver_controller->get_left_x(); };
+    std::function<int32_t()> HOOD_OPERATOR = []() -> int32_t{ return BaseReadable::driver_controller->get_left_y(); };
+    std::function<bool()> FLYWHEEL_OPERATOR = []() -> bool{ return BaseReadable::driver_controller->get_R2(); };
+    std::function<bool()> LOADER_OPERATOR = []() -> bool{ return BaseReadable::driver_controller->get_R1(); };
+    std::function<bool()> AUTO_AIM_OPERATOR = []() -> bool{ return BaseReadable::driver_controller->get_L1(); };
+    std::function<bool()> WALKER_DRIVER = []() -> bool{ return BaseReadable::driver_controller->get_X(); };
 
     //////////////////////////////Commandables and Readables///////////////////////////////////////
 
@@ -37,9 +37,7 @@ namespace AFR::VexU::Fuego::Shooter{
     //Loader
     BaseCommandable::motor_commandable* loader_motor = nullptr;
     BaseReadable::motor_encoder_readable* loader_encoder = nullptr;
-    BaseAction::dead_band_action<double, int16_t>* loader_cock_dead_band = nullptr;
-    BaseAction::dead_band_action<double, int16_t>* loader_fire_dead_band = nullptr;
-    BaseAction::dead_band_action<double, int16_t>* loader_walk_dead_band = nullptr;
+    BaseAction::dead_band_action<double, int16_t>* loader_dead_band = nullptr;
 
     //Auto Aim
     BaseCommandable::motor_commandable* hood_motor = nullptr;
@@ -140,12 +138,10 @@ namespace AFR::VexU::Fuego::Shooter{
         std::function<void()> ready_entry;
         std::function<void()> ready_exit;
 
-    /////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
 
     void init(){
-
-        std::cout << "Started init" << std::endl;
 
         /////Flywheel
         left_flywheel_motor = new BaseCommandable::motor_commandable(SHOOTER_UPDATE_PERIOD, FLYWHEEL_LEFT_PORT, FLYWHEEL_GEARSET,
@@ -161,9 +157,11 @@ namespace AFR::VexU::Fuego::Shooter{
 
 
         flywheel_pid = new BaseAction::pid_action< double, int16_t >(SHOOTER_UPDATE_PERIOD, P_TERM,
-                I_TERM, D_TERM, FLYWHEEL_SPEED - FLYWHEEL_TOLERANCE, FLYWHEEL_SPEED + FLYWHEEL_TOLERANCE,
+                I_TERM, D_TERM, MIN_I_TERM, MAX_I_TERM,
                 MIN_I_TERM, MAX_I_TERM, 0, 0,
                 FLYWHEEL_SPEED, "flywheel PID controller");
+
+
 
         /////Loader
         loader_motor = new BaseCommandable::motor_commandable(LOADER_UPDATE_PERIOD, LOADER_MOTOR_PORT, LOADER_GEARSET,
@@ -171,47 +169,31 @@ namespace AFR::VexU::Fuego::Shooter{
 
         loader_encoder = new BaseReadable::motor_encoder_readable(LOADER_MOTOR_PORT, LOADER_ENCODER_SCALING, "loader encoder");
 
-        loader_cock_dead_band = new BaseAction::dead_band_action<double, int16_t>(LOADER_UPDATE_PERIOD, 0,
+        loader_dead_band = new BaseAction::dead_band_action<double, int16_t>(LOADER_UPDATE_PERIOD, 0,
                                                                                       LOADER_TOLERANCE, LOADER_MAX_VOLTAGE,
-                                                                                      -LOADER_MAX_VOLTAGE, "set to cock dead band");
-        loader_fire_dead_band = new BaseAction::dead_band_action<double, int16_t>(LOADER_UPDATE_PERIOD, LOADER_FIRE_TARGET,
-                                                                                      LOADER_TOLERANCE, LOADER_MAX_VOLTAGE,
-                                                                                      -LOADER_MAX_VOLTAGE, "set to fire dead band");
-        loader_walk_dead_band = new BaseAction::dead_band_action<double, int16_t>(LOADER_UPDATE_PERIOD, LOADER_WALK_TARGET,
-                                                                                      LOADER_TOLERANCE, LOADER_MAX_VOLTAGE,
-                                                                                      -LOADER_MAX_VOLTAGE, "set to walk dead band");
-        std::cout << "Loader" << std::endl;
+                                                                                      -LOADER_MAX_VOLTAGE, "Loader dead band action");
 
 
         /////HOOD
         hood_motor = new BaseCommandable::motor_commandable
                 (SHOOTER_UPDATE_PERIOD, HOOD_MOTOR_PORT, HOOD_GEARSET, HOOD_DIRECTION,HOOD_BRAKE_MODE, "hood motor");
 
-        std::cout << "Probe 1" << std::endl;
-
         hood_encoder = new BaseReadable::motor_encoder_readable
                 (HOOD_MOTOR_PORT, HOOD_ENCODER_SCALING, "hood encoder");
-
-        std::cout << "Probe 2" << std::endl;
 
         std::function<int16_t(int32_t)> hood_bounded_action_conversion_function = [](int32_t) -> int16_t {
             return static_cast<int16_t >((12000/127)*TURRET_OPERATOR());
         };
-        std::cout << "Probe 3" << std::endl;
 
         std::function<int16_t()> hood_encoder_function = [] { return hood_encoder->get_scaled_position(); };
-        std::cout << "Probe 4" << std::endl;
 
         follow_stick_hood = new BaseAction::bounded_value_action< double, int32_t ,int16_t >
-                (SHOOTER_UPDATE_PERIOD, HOOD_ENCODER_LIMIT,0, 0, 0, hood_bounded_action_conversion_function,
+                (SHOOTER_UPDATE_PERIOD, HOOD_ENCODER_LIMIT,0, 0, 0, std::function<int16_t(int32_t)>([](int32_t){ return static_cast<int16_t >((12000/127)*HOOD_OPERATOR());}),
                     HOOD_OPERATOR, hood_encoder_function, "hood bounded value action");
-        std::cout << "Probe 5" << std::endl;
 
         hood_dead_band = new BaseAction::dead_band_action<double, double>(AUTO_AIM_UPDATE_PERIOD, 0,
                                                                                   AUTO_AIM_HOOD_TOLERANCE, HOOD_MAX_VOLTAGE,
                                                                                   -HOOD_MAX_VOLTAGE, "hood auto aim action");
-
-        std::cout << "Hood" << std::endl;
 
         /////TURRET
         turret_motor = new BaseCommandable::motor_commandable
@@ -223,7 +205,7 @@ namespace AFR::VexU::Fuego::Shooter{
         std::function<double()> turret_encoder_function = []{ return turret_encoder->get_scaled_position(); };
 
         follow_stick_turret = new BaseAction::bounded_value_action< double, int32_t ,int16_t >
-                (SHOOTER_UPDATE_PERIOD, TURRET_ENCODER_LIMIT,0, 0, 0, hood_bounded_action_conversion_function,
+                (SHOOTER_UPDATE_PERIOD, TURRET_ENCODER_LIMIT,0, 0, 0, std::function<int16_t(int32_t)>([](int32_t){ return static_cast<int16_t >((12000/127)*TURRET_OPERATOR());}),
                  TURRET_OPERATOR, turret_encoder_function, "turret bounded value action");
 
         turret_dead_band = new BaseAction::dead_band_action<double, double>(AUTO_AIM_UPDATE_PERIOD, 0,
@@ -232,12 +214,12 @@ namespace AFR::VexU::Fuego::Shooter{
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        std::cout << "Created all the readables and commandables." << std::endl;
-
         shooter_state_controller = new state_controller<bool>{SHOOTER_UPDATE_PERIOD,false,"shooter state machine"};
 
         //Readables
         flywheel_spin_up_toggle = new BaseReadable::digital_edge_detector(FLYWHEEL_OPERATOR,"flywheel spin up toggle");
+
+        flywheel_pid->set_operation(std::function<double()>([](){ return avg_flywheel_speed->get_average_value();}), shooter_state_controller->get_name());
 
             //Shooter wheel is inactive
             rest = new state("flywheel: rest");
@@ -250,8 +232,8 @@ namespace AFR::VexU::Fuego::Shooter{
                     right_flywheel_motor->set_value(0,shooter_state_controller->get_name());
                 };
                 rest_exit = []() -> void{
-                    left_flywheel_motor->set_value(flywheel_pid->get_pid_value(),shooter_state_controller->get_name());
-                    right_flywheel_motor->set_value(flywheel_pid->get_pid_value(),shooter_state_controller->get_name());
+                    left_flywheel_motor->set_operation(std::function<int16_t()>([](){return flywheel_pid->get_pid_value();}),shooter_state_controller->get_name());
+                    right_flywheel_motor->set_operation(std::function<int16_t()>([](){return flywheel_pid->get_pid_value();}),shooter_state_controller->get_name());
                 };
 
             rest->set_on_state_entry(rest_entry);
@@ -278,16 +260,16 @@ namespace AFR::VexU::Fuego::Shooter{
 
         shooter_state_controller->set_state(rest);
 
-        std::cout << "Created flywheel" << std::endl;
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
 
         //Readables
         loader_operator_toggle = new BaseReadable::digital_edge_detector(LOADER_OPERATOR,"loader toggle");
 
         loader_state_controller = new state_controller<bool>{LOADER_UPDATE_PERIOD,false,"loader state machine"};
 
-            //Loader is holding position at ready
+        loader_dead_band->set_operation(std::function<double()>([](){ return loader_encoder->get_scaled_position();}), loader_state_controller->get_name());
+
+        //Loader is holding position at ready
             state* cock = new state("loader: cock");
             state* fire = new state("loader: fire");
             state* walk = new state("loader: walk");
@@ -296,7 +278,10 @@ namespace AFR::VexU::Fuego::Shooter{
                 cock->add_transition(std::function<bool()>([]() { return WALKER_DRIVER(); }),walk);
 
                 cock_entry = []() -> void{
-                    loader_motor->set_operation(std::function<int16_t()>([](){return loader_cock_dead_band->get_deadband_value();}),loader_state_controller->get_name());
+                    loader_dead_band->set_target(0);
+                    loader_motor->set_operation(std::function<int16_t()>([](){
+                        std::cout << "Cock dead band value: " << loader_dead_band->get_deadband_value() << std::endl;
+                        return loader_dead_band->get_deadband_value();}),loader_state_controller->get_name());
                 };
                 cock_exit = []() -> void{
                     loader_motor->set_value(0,loader_state_controller->get_name());
@@ -308,10 +293,13 @@ namespace AFR::VexU::Fuego::Shooter{
         loader_state_controller->add_state(cock);
 
             //Loader goes to the high position, fires ball
-            fire->add_transition(std::function<bool()>([](){return loader_fire_dead_band->is_in_range(LOADER_TOLERANCE);}),cock);
+            fire->add_transition(std::function<bool()>([](){return loader_dead_band->is_in_range(LOADER_TOLERANCE);}),cock);
 
                 fire_entry = []() -> void{
-                    loader_motor->set_operation(std::function<int16_t()>([](){return loader_fire_dead_band->get_deadband_value();}),loader_state_controller->get_name());
+                    loader_dead_band->set_target(LOADER_FIRE_TARGET);
+                    loader_motor->set_operation(std::function<int16_t()>([](){
+                        std::cout << "Fire dead band value: " << loader_dead_band->get_deadband_value() << std::endl;
+                        return loader_dead_band->get_deadband_value();}),loader_state_controller->get_name());
                 };
                 fire_exit = []() -> void{
                     loader_motor->set_value(0,loader_state_controller->get_name());
@@ -328,7 +316,10 @@ namespace AFR::VexU::Fuego::Shooter{
                 walk->add_transition(std::function<bool()>([](){return !WALKER_DRIVER() && LOADER_OPERATOR();}),fire);
 
                 walk_entry = []() -> void{
-                    loader_motor->set_operation(std::function<int16_t()>([](){return loader_walk_dead_band->get_deadband_value();}),loader_state_controller->get_name());
+                    loader_dead_band->set_target(LOADER_WALK_TARGET);
+                    loader_motor->set_operation(std::function<int16_t()>([](){
+                        std::cout << "Walk dead band value: " << loader_dead_band->get_deadband_value() << std::endl;
+                        return loader_dead_band->get_deadband_value();}),loader_state_controller->get_name());
                 };
                 walk_exit = []() -> void{
                     loader_motor->set_value(0,loader_state_controller->get_name());
@@ -340,8 +331,6 @@ namespace AFR::VexU::Fuego::Shooter{
         loader_state_controller->add_state(walk);
 
         loader_state_controller->set_state(cock);
-
-        std::cout << "Created loader" << std::endl;
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -355,9 +344,7 @@ namespace AFR::VexU::Fuego::Shooter{
             manual->add_transition(manual_to_auto,auto_aim);
 
                 manual_entry = []() -> void{
-                    hood_motor->set_operation(std::function<int16_t()>([](){
-                        std::cout << follow_stick_hood->get_name() << " has been called with value " << follow_stick_hood->get_bounded_value() << std:: endl;
-                        return follow_stick_hood->get_bounded_value();}), auto_aim_state_controller->get_name());
+                    hood_motor->set_operation(std::function<int16_t()>([](){return follow_stick_hood->get_bounded_value();}), auto_aim_state_controller->get_name());
                     turret_motor->set_operation(std::function<int16_t()>([](){return follow_stick_turret->get_bounded_value();}),auto_aim_state_controller->get_name());
                 };
                 manual_exit = []() -> void{

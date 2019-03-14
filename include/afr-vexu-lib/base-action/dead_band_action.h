@@ -34,7 +34,7 @@ namespace AFR::VexU::BaseAction{
         }
 
         bool is_in_range(Read_T tolerance){
-            return abs(commandable<Read_T>::get_current_value() - width_ / 2) <= tolerance;
+            return abs(commandable<Read_T>::get_current_value() - targetable<Read_T>::get_target()) <= tolerance;
         }
         
         Write_T get_deadband_value() {

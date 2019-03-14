@@ -15,7 +15,7 @@ namespace AFR::VexU{
         operation(const std::function<T()>& operation_function, const std::string& name)
             : nameable(name), function_(operation_function) {}
             
-        void set_function(std::function<T()>& operation_function) {
+        void set_function(const std::function<T()>& operation_function) {
             function_ = operation_function;
         }
         

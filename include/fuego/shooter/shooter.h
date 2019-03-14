@@ -16,12 +16,12 @@ namespace AFR::VexU::Fuego::Shooter{
     const scheduled_update_t AUTO_AIM_UPDATE_PERIOD = 10;
 
     /////FLYWHEEL
-    const bool FLYWHEEL_DIRECTION          = false;
+    const bool FLYWHEEL_DIRECTION          = true;
     const double FLYWHEEL_ENCODER_SCALING  = 1;
     const size_t FLYWHEEL_AVERAGING_WIDTH  = 10;
-    const unsigned int FLYWHEEL_SPEED 		= 2000;
-    const double P_TERM 					= 100;
-    const double I_TERM 					= 50;
+    const unsigned int FLYWHEEL_SPEED 		= 560;
+    const double P_TERM 					= 200;
+    const double I_TERM 					= 30;
     const double D_TERM 					= 0;
     const short MIN_I_TERM 				    = -12000;
     const short MAX_I_TERM 				    = 12000;
@@ -30,13 +30,13 @@ namespace AFR::VexU::Fuego::Shooter{
     /////LOADER
     const bool LOADER_DIRECTION             = false;
     const double LOADER_ENCODER_SCALING     = 1;
-    const double LOADER_FIRE_TARGET         = 500;
-    const double LOADER_WALK_TARGET         = -500;
-    const double LOADER_TOLERANCE           = 100;
+    const double LOADER_FIRE_TARGET         = -1000;
+    const double LOADER_WALK_TARGET         = 0;
+    const double LOADER_TOLERANCE           = 300;
     const int16_t LOADER_MAX_VOLTAGE        = 12000;
 
     /////HOOD
-    const bool HOOD_DIRECTION = false;
+    const bool HOOD_DIRECTION = true;
     const int AUTO_AIM_HOOD_TOLERANCE = 10;
     const int HOOD_MAX_VOLTAGE = 6000;
     const double HOOD_ENCODER_SCALING = 1.0;
@@ -47,7 +47,7 @@ namespace AFR::VexU::Fuego::Shooter{
     const int AUTO_AIM_TURRET_TOLERANCE = 10;
     const int TURRET_MAX_VOLTAGE = 6000;
     const double TURRET_ENCODER_SCALING = 1.0;
-    const int TURRET_ENCODER_LIMIT = 3200;
+    const int TURRET_ENCODER_LIMIT = 3000;
 
     void init();
 
