@@ -1,5 +1,3 @@
-
-
 #include "afr-vexu-lib/base-action/pid_action.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 #include "afr-vexu-lib/base-readable/digital_edge_detector.h"
@@ -7,12 +5,8 @@
 #include "afr-vexu-lib/base-readable/adi_analog_readable.h"
 #include "afr-vexu-lib/base-action/dead_band_action.h"
 #include "fuego/shooter/shooter.h"
-#include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "afr-vexu-lib/base-action/bounded_value_action.h"
 #include "afr-vexu-lib/base-readable/averager.h"
-#include "afr-vexu-lib/ports_list.h"
-
-
 
 namespace AFR::VexU::Fuego::Shooter{
 
