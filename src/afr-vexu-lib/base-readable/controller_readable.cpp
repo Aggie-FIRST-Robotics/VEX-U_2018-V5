@@ -1,4 +1,5 @@
-#include "afr-vexu-lib/base-readable/controller_readable.h"
+
+#include <afr-vexu-lib/base-readable/controller_readable.h>
 
 namespace AFR::VexU::BaseReadable{
 
@@ -84,4 +85,63 @@ namespace AFR::VexU::BaseReadable{
         return pros::c::controller_get_analog(controller_, ANALOG_RIGHT_Y);
     }
 
+    bool controller_readable::get_A_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_A) == 1;
+    }
+
+    bool controller_readable::get_B_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_B) == 1;
+    }
+
+    bool controller_readable::get_X_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_X) == 1;
+    }
+
+    bool controller_readable::get_Y_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_Y) == 1;
+    }
+
+    bool controller_readable::get_UP_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_UP) == 1;
+    }
+
+    bool controller_readable::get_DOWN_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_DOWN) == 1;
+    }
+
+    bool controller_readable::get_LEFT_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_LEFT) == 1;
+    }
+
+    bool controller_readable::get_RIGHT_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_RIGHT) == 1;
+    }
+
+    bool controller_readable::get_L1_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_L1) == 1;
+    }
+
+    bool controller_readable::get_L2_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_L2) == 1;
+    }
+
+    bool controller_readable::get_R1_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_R1) == 1;
+    }
+
+    bool controller_readable::get_R2_rising_edge(){
+        return pros::c::controller_get_digital_new_press(controller_, DIGITAL_R2) == 1;
+    }
+
+    bool controller_readable::is_digital_pressed(pros::controller_digital_e_t button){
+        return pros::c::controller_get_digital(controller_, button) == 1;
+    }
+
+    bool controller_readable::is_digital_rising_edge(pros::controller_digital_e_t button){
+        return pros::c::controller_get_digital_new_press(controller_, button) == 1;
+    }
+
+    int32_t controller_readable::get_analog(pros::controller_analog_e_t stick){
+        return pros::c::controller_get_analog(controller_, stick);
+    }
 }
