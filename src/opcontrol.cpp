@@ -1,13 +1,8 @@
 #include "main.h"
 #include "afr-lib/defines.h"
 
-#ifndef FUEGO
 
 #include "fuego/fuego.h"
-
-#else
-#include "fuego/fuego.h"
-#endif
 
 /**
  * Runs the operator control code. This function will be started in its own task

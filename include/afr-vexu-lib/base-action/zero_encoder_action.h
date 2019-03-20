@@ -2,10 +2,11 @@
 #define VEX_U_2018_V5_ZERO_ENCODER_ACTION_H
 
 #include "afr-vexu-lib/base-action/targetable.h"
+#include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 
 namespace AFR::VexU::BaseAction{
     template<typename ReadT, typename TargetReadT, typename WriteT>
-    class zero_encoder_action : nameable {
+    class zero_encoder_action : targetable<TargetReadT> {
         BaseReadable::motor_encoder_readable* encoder_;
         std::function<ReadT()>* readable_;
         bool is_zeroed_;

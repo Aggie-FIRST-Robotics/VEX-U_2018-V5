@@ -10,7 +10,8 @@
 #include "main.h"
 
 namespace AFR::VexU::Fuego{
-#define FUEGO
+
+    bool before_op_control = true;
 
     /////DRIVETRAIN
     const port_t RIGHT_RAIL_MOTOR_A_PORT = 17;
@@ -41,11 +42,11 @@ namespace AFR::VexU::Fuego{
     const pros::motor_gearset_e_t FLYWHEEL_GEARSET = pros::E_MOTOR_GEARSET_06;
     const pros::motor_brake_mode_e_t FLYWHEEL_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
-    /////ARM
-    const port_t ARM_LEFT_MOTOR_PORT = 2;
-    const port_t ARM_RIGHT_MOTOR_PORT = 13;
-    const pros::motor_gearset_e_t ARM_GEARSET = pros::E_MOTOR_GEARSET_18;
-    const pros::motor_brake_mode_e_t ARM_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
+    /////SHOULDER
+    const port_t SHOULDER_LEFT_MOTOR_PORT = 2;
+    const port_t SHOULDER_RIGHT_MOTOR_PORT = 13;
+    const pros::motor_gearset_e_t SHOULDER_GEARSET = pros::E_MOTOR_GEARSET_18;
+    const pros::motor_brake_mode_e_t SHOULDER_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
     /////ELBOW
     const port_t ELBOW_MOTOR_PORT = 1;
@@ -68,7 +69,7 @@ namespace AFR::VexU::Fuego{
     const pros::motor_brake_mode_e_t BALL_INTAKE_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     /////LIMIT SWITCHES
-    const port_t ARM_LIMIT_SWITCH_PORT = 8;
+    const port_t SHOULDER_LIMIT_SWITCH_PORT = 8;
     const port_t ELBOW_LIMIT_SWITCH_PORT = 7;
     const port_t WRIST_LIMIT_SWITCH_PORT = 6;
 
