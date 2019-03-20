@@ -30,7 +30,23 @@ namespace AFR::VexU::BaseReadable{
         int32_t get_left_y();
         int32_t get_right_x();
         int32_t get_right_y();
-        
+
+        bool get_A_rising_edge();
+        bool get_B_rising_edge();
+        bool get_X_rising_edge();
+        bool get_Y_rising_edge();
+        bool get_UP_rising_edge();
+        bool get_DOWN_rising_edge();
+        bool get_LEFT_rising_edge();
+        bool get_RIGHT_rising_edge();
+        bool get_L1_rising_edge();
+        bool get_L2_rising_edge();
+        bool get_R1_rising_edge();
+        bool get_R2_rising_edge();
+
+        bool is_digital_pressed(pros::controller_digital_e_t button);
+        int32_t get_analog(pros::controller_analog_e_t stick);
+        bool is_digital_rising_edge(pros::controller_digital_e_t button);
     };
 
     extern controller_readable* driver_controller;
