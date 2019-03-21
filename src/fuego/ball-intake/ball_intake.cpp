@@ -5,7 +5,7 @@ namespace AFR::VexU::Fuego::BallIntake{
     BaseCommandable::motor_commandable* ball_intake_motor{};
 
     /////State Controller
-    state_controller<void>* ball_intake_controller{};
+    state_controller<bool> *ball_intake_controller = nullptr;
 
     /////States
     state* spit{};
@@ -26,7 +26,7 @@ namespace AFR::VexU::Fuego::BallIntake{
                                                                    BALL_INTAKE_GEARSET, false,
                                                                    BALL_INTAKE_BRAKE_MODE, "ball_intake_motor"};
 
-        ball_intake_controller = new state_controller<void>{BALL_INTAKE_UPDATE_PERIOD, "ball_intake_controller"};
+        ball_intake_controller = new state_controller<bool>{BALL_INTAKE_UPDATE_PERIOD, false, "ball_intake_controller"};
 
         spit = new state{"spit"};
         swallow = new state{"swallow"};

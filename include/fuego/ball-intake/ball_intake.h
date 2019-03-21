@@ -14,7 +14,7 @@ namespace AFR::VexU::Fuego::BallIntake{
 
     void init();
 
-    extern state_controller<void>* ball_intake_controller;
+    extern state_controller<bool> *ball_intake_controller;
 }
 
 #endif //VEX_U_2018_V5_BALL_INTAKE_H
