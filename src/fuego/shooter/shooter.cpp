@@ -12,12 +12,24 @@ namespace AFR::VexU::Fuego::Shooter{
 
     //////////////////////////////////////Controls////////////////////////////////////////////////
 
-    std::function<int32_t()> TURRET_OPERATOR = []() -> int32_t{ return BaseReadable::driver_controller->get_left_x(); };
-    std::function<int32_t()> HOOD_OPERATOR = []() -> int32_t{ return BaseReadable::driver_controller->get_left_y(); };
-    std::function<bool()> FLYWHEEL_OPERATOR = []() -> bool{ return BaseReadable::driver_controller->get_R2(); };
-    std::function<bool()> LOADER_OPERATOR = []() -> bool{ return BaseReadable::driver_controller->get_R1(); };
-    std::function<bool()> AUTO_AIM_OPERATOR = []() -> bool{ return BaseReadable::driver_controller->get_L1(); };
-    std::function<bool()> WALKER_DRIVER = []() -> bool{ return BaseReadable::driver_controller->get_X(); };
+    std::function<int32_t()> TURRET_OPERATOR = []() -> int32_t{
+        return BaseReadable::driver_controller->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+    };
+    std::function<int32_t()> HOOD_OPERATOR = []() -> int32_t{
+        return BaseReadable::driver_controller->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    };
+    std::function<bool()> FLYWHEEL_OPERATOR = []() -> bool{
+        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_R2);
+    };
+    std::function<bool()> LOADER_OPERATOR = []() -> bool{
+        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_R1);
+    };
+    std::function<bool()> AUTO_AIM_OPERATOR = []() -> bool{
+        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_L1);
+    };
+    std::function<bool()> WALKER_DRIVER = []() -> bool{
+        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_X);
+    };
 
     //////////////////////////////Commandables and Readables///////////////////////////////////////
 

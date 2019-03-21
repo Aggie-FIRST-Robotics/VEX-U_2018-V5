@@ -14,6 +14,10 @@ namespace AFR::VexU::BaseAction{
         ReadT target_val_;
         BaseAction::targetable<TargetReadT>* target_action_;
 
+        void set_value_private(ReadT value, double delta_seconds){
+            target_val_ = value;
+        }
+
         WriteT zero_value() {
             if(!is_zeroed_){
                 if(readable_ == target_val_){
@@ -26,7 +30,7 @@ namespace AFR::VexU::BaseAction{
                 }
             }
             else{
-                target_action_->update();
+                target_action_->enable();
             }
         }
 
@@ -35,10 +39,16 @@ namespace AFR::VexU::BaseAction{
                             ReadT target_value, WriteT down_val, BaseAction::targetable<TargetReadT>* target_action,
                             const std::string& name) :
                 nameable(name), encoder_(encoder), readable_(readable), is_zeroed_(false),
-                down_val_(down_val), target_val_(target_value), target_action_(target_action){}
+                down_val_(down_val), target_val_(target_value), target_action_(target_action){
+            target_action->disable();
+        }
 
         bool is_zeroed(){
             return is_zeroed_;
+        }
+
+        bool is_in_range(ReadT tolerance) override{
+            return is_zeroed();
         }
     };
 }

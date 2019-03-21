@@ -50,6 +50,8 @@ namespace AFR::VexU{
          * @param enabled if the scheduled should continue updating
          */  
         void set_enabled(bool enabled);
+        void enable();
+        void disable();
         bool is_enabled();
 
         /**

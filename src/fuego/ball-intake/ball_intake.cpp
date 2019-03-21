@@ -70,5 +70,7 @@ namespace AFR::VexU::Fuego::BallIntake{
         ball_intake_controller->add_state(spit);
         ball_intake_controller->add_state(swallow);
         ball_intake_controller->add_state(choke);
+
+        ball_intake_controller->set_state(choke);
     }
 }
