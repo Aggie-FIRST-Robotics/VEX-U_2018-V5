@@ -1,7 +1,3 @@
-//
-// Created by aamhi on 2/20/2019.
-//
-
 #ifndef VEX_U_2018_V5_DRIVE_H
 #define VEX_U_2018_V5_DRIVE_H
 
@@ -21,10 +17,15 @@ namespace AFR::VexU::Robot2::Drive {
     const scheduled_update_t START_BACK_LEFT_MOTOR_UPDATE_PERIOD = 10;
     const scheduled_update_t START_BACK_RIGHT_MOTOR_UPDATE_PERIOD = 10;
 
+    extern BaseCommandable::motor_commandable* front_left_motor;
+    extern BaseCommandable::motor_commandable* front_right_motor;
+    extern BaseCommandable::motor_commandable* back_left_motor;
+    extern BaseCommandable::motor_commandable* back_right_motor;
+
     extern subsystem_controller *drive_subsystem;
 
     void init();
-
     void destroy();
 }
+
 #endif //VEX_U_2018_V5_DRIVE_H

@@ -15,6 +15,8 @@ namespace AFR::VexU::Robot::Catapult{
 
     const scheduled_update_t CATAPULT_UPDATE_PERIOD = 10;
 
+    const double HOLD_NAUTILUS_TARGET = 200;
+
     const double NAUTILUS_FIRE_THRESHOLD = 360;
     const scheduled_update_t NAUTILUS_STOP_TIME = 250;
 

@@ -1,4 +1,3 @@
-#include "robot/shooter/shooter.h"
 #include "display/lv_core/lv_style.h"
 #include "afr-vexu-lib/base-readable/battery_readable.h"
 #include "afr-vexu-lib/base-readable/competition_readable.h"
@@ -24,22 +23,21 @@ namespace AFR::VexU::Robot{
             nautilus_current = new BaseReadable::motor_current_readable{NAUTILUS_MOTOR_PORT, "nautilus_current"};
 
             BaseReadable::init_battery();
-            //std::cout << "Battery Initialized" << std::endl;
+            std::cout << "Battery Initialized" << std::endl;
             BaseReadable::init_competition();
-            // std::cout << "Competition Initialized" << std::endl;
+            std::cout << "Competition Initialized" << std::endl;
 
             init_ports_list();
-            //std::cout << "Ports List Initialized" << std::endl;
+            std::cout << "Ports List Initialized" << std::endl;
 
-            Shooter::init();
-            // std::cout << "Shooter  Initialized" << std::endl;
-            //std::cout << "Catapult Initialized" << std::endl;
+            Catapult::init();
+            std::cout << "Catapult Initialized" << std::endl;
             Drive::init();
-            //std::cout << "Drive Initialized" << std::endl;
+            std::cout << "Drive Initialized" << std::endl;
             Cap::init();
-            //std::cout << "Cap Initialized" << std::endl;
+            std::cout << "Cap Initialized" << std::endl;
 
-            //  do_screen_stuff();
+            do_screen_stuff();
 
 //            if(!pros::lcd::initialize()){
 //                throw std::runtime_error{"Cannot initialize lcd! " + std::to_string(pros::lcd::is_initialized())};
@@ -55,7 +53,6 @@ namespace AFR::VexU::Robot{
             throw std::runtime_error{"Init error"};
         }
         std::cout << "Initialization Complete" << std::endl;
-        // opcontrol_robot();
     }
 
     void competition_init(){
@@ -63,7 +60,18 @@ namespace AFR::VexU::Robot{
     }
 
     void auto_robot(){
+        std::cout << "Got to auto!" << std::endl;
+        while(true){
+//            robot_auto_subsystem->updateInputs();
+//            robot_auto_subsystem->updateStates();
+//            robot_auto_subsystem->updateActions();
 
+//            std::string line1 = robot_auto_subsystem->get_state_machines().at(0)->get_current_state()->get_name();
+//            while(line1.length() < 15){
+//                line1 += " ";
+//            }
+//            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line1.c_str());
+        }
     }
 
     void opcontrol_robot(){
@@ -71,31 +79,20 @@ namespace AFR::VexU::Robot{
         while(true){
             try{
 //                std::cout << 1;
-                // Catapult::catapult_subsystem->updateInputs();
-                // Drive::drive_subsystem->updateInputs();
-                // std::cout<<"1"<<std::endl;
-                Shooter::shooter_subsystem->updateInputs();
-                // std::cout << "Shooter  input" << std::endl;
+                Catapult::catapult_subsystem->updateInputs();
+                Drive::drive_subsystem->updateInputs();
 //                std::cout << 4;
-                //Cap::cap_subsystem->updateInputs();
+                Cap::cap_subsystem->updateInputs();
 
 //                std::cout << 2;
-                // Catapult::catapult_subsystem->updateStates();
-                //   Drive::drive_subsystem->updateStates();
-                //Cap::cap_subsystem->updateStates();
-                //    std::cout<<"2"<<std::endl;
-                Shooter::shooter_subsystem->updateStates();
-                //  std::cout<<"3"<<std::endl;
-                //  std::cout << "Shooter  state" << std::endl;
-//                std::cout << 3;
-                //Catapult::catapult_subsystem->updateActions();
-                //Drive::drive_subsystem->updateActions();
-                //Cap::cap_subsystem->updateActions();
-                //     std::cout<<"4"<<std::endl;
-                Shooter::shooter_subsystem->updateActions();
-                // std::cout<<"5"<<std::endl;
-                //  std::cout << "Shooter  Actions" << std::endl;
+                Catapult::catapult_subsystem->updateStates();
+                Drive::drive_subsystem->updateStates();
+                Cap::cap_subsystem->updateStates();
 
+//                std::cout << 3;
+                Catapult::catapult_subsystem->updateActions();
+                Drive::drive_subsystem->updateActions();
+                Cap::cap_subsystem->updateActions();
 //                std::cout << "Current drive state: "
 //                          << Drive::drive_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
 //                          << std::endl;
@@ -105,12 +102,21 @@ namespace AFR::VexU::Robot{
 //                pros::lcd::set_text(0, temp);
 //                pros::lcd::set_text(1, current);
 //                std::cout << temp << ", " << current << std::endl;
-
-
-
-                /*   std::cout << Cap::cap_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
-                             << std::endl;*/
+//                std::cout << Cap::cap_subsystem->get_state_machines().at(0)->get_current_state()->get_name()
+//                          << std::endl;
 //                std::cout << std::endl;
+
+                std::string line_1_text = std::string("E: ") + std::to_string(Cap::elevator_encoder->get_position());
+                std::string line_2_text = std::string("A: ") + std::to_string(Cap::arm_encoder->get_position());
+                std::string line_3_text = Cap::cap_subsystem->get_state_machines().at(
+                        0)->get_current_state()->get_name();
+                while(line_3_text.size() < 15){
+                    line_3_text += " ";
+                }
+
+                pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, line_1_text.c_str());
+                pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 1, 0, line_2_text.c_str());
+                pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 2, 0, line_3_text.c_str());
             }
             catch(std::exception& e){
                 std::cerr << "OpControl error" << std::endl;
@@ -129,11 +135,12 @@ namespace AFR::VexU::Robot{
     void destroy(){
         BaseReadable::destroy_battery();
         BaseReadable::destroy_competition();
-        BaseReadable::destroy_controllers();
+        //BaseReadable::destroy_controllers();
         destroy_ports_list();
 
-
-        Shooter::destroy();
+        Catapult::destroy();
+        Drive::destroy();
+        //Cap::destroy();
     }
 
     void restart(){

@@ -3,12 +3,14 @@
 
 #include <cassert>
 #include "afr-vexu-lib/action.h"
+#include "afr-vexu-lib/readable.h"
+#include "afr-vexu-lib/base-action/targetable.h"
 
 namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>
-    class dead_band_action : public action{
-        const Read_T _bottom_threshold;
-        const Read_T _top_threshold;
+    class dead_band_action : public targetable<Read_T>{
+        Read_T _bottom_threshold;
+        Read_T _top_threshold;
         readable* const _value_pointer;
         const Write_T _below_value;
         const Write_T _above_value;
@@ -17,6 +19,16 @@ namespace AFR::VexU::BaseAction{
 
         public:
 
+        void set_target(Read_T target){
+            Read_T diff = target - ((_top_threshold - _bottom_threshold) / 2 + _bottom_threshold);
+            _bottom_threshold += diff;
+            _top_threshold += diff;
+        }
+
+        bool is_in_range(Read_T tolerance){
+            return abs(std::any_cast<Read_T>(_value_pointer->get_value()) - (_top_threshold - _bottom_threshold) / 2) <=
+                   tolerance;
+        }
         /**
          * Creates a deadband action
          * @param update_period passed to scheduled
@@ -36,15 +48,15 @@ namespace AFR::VexU::BaseAction{
     void dead_band_action<Read_T, Write_T>::update_private(const double& delta_seconds){
         auto result = std::any_cast<Read_T>(_value_pointer->get_value());
         if(result < _bottom_threshold){
-            return commandable_->set_value(_below_value);
+            return action::commandable_->set_value(_below_value);
         }
         else if(result > _top_threshold){
-            return commandable_->set_value(_above_value);
+            return action::commandable_->set_value(_above_value);
         }
         else {
 //            assert(typeid(static_cast<Write_T>(result-_bottom_threshold) * (_above_value-_below_value)/static_cast<Write_T>(_top_threshold-_bottom_threshold) + _below_value) !=
 //                           typeid(Write_T));
-            return commandable_->set_value(static_cast<Write_T>((
+            return action::commandable_->set_value(static_cast<Write_T>((
                     static_cast<Write_T>(result - _bottom_threshold) * (_above_value - _below_value) /
                     (static_cast<Write_T>(_top_threshold - _bottom_threshold)) + _below_value)));
         }
@@ -57,7 +69,8 @@ namespace AFR::VexU::BaseAction{
                                                         Read_T bottom_threshold, Read_T top_threshold,
                                                         readable* value_pointer, Write_T below_value, 
                                                         Write_T above_value, const std::string& name)
-            : action(update_period, commandable, name), _bottom_threshold(bottom_threshold),
+            : targetable<Read_T>(update_period, commandable, (top_threshold - bottom_threshold) / 2 + bottom_threshold,
+                                 name), _bottom_threshold(bottom_threshold),
               _top_threshold(top_threshold), _value_pointer(value_pointer),
               _below_value(below_value), _above_value(above_value){}
 

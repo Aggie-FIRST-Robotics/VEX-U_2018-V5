@@ -2,12 +2,13 @@
 #define VEX_U_2018_V5_ROBOT_H
 
 #include "afr-vexu-lib/defines.h"
+//#include "robot/auto.h"
 
 namespace AFR::VexU::Robot{
     const port_t RIGHT_RAIL_MOTOR_A_PORT = 16;      // 2/6/19
-    const port_t RIGHT_RAIL_MOTOR_B_PORT = 1;      // 2/6/19
+    const port_t RIGHT_RAIL_MOTOR_B_PORT = 19;      // 2/6/19
     const port_t LEFT_RAIL_MOTOR_A_PORT = 14;       // 2/6/19
-    const port_t LEFT_RAIL_MOTOR_B_PORT = 20;       // 2/6/19
+    const port_t LEFT_RAIL_MOTOR_B_PORT = 15;       // 2/6/19
     const port_t NAUTILUS_MOTOR_PORT = 12;          // 2/6/19
     const port_t ARM_MOTOR_RIGHT_PORT = 17;         // 2/6/19
     const port_t ARM_MOTOR_LEFT_PORT = 13;          // 2/6/19
@@ -45,14 +46,17 @@ namespace AFR::VexU::Robot{
     const pros::motor_brake_mode_e_t SPINNER_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
     const pros::motor_brake_mode_e_t FLYWHEEL_MOTOR_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
     // const pros::controller_digital_e_t SHOOT_BUTTON = pros::E_CONTROLLER_DIGITAL_;
-    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
-    const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
-    const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
-    const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
-    const pros::controller_digital_e_t ANGLE_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
-    const pros::controller_digital_e_t LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
-    const pros::controller_digital_e_t HIGH_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
-    const pros::controller_digital_e_t SCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_Y;
+    const pros::controller_digital_e_t FIRE_BUTTON = pros::E_CONTROLLER_DIGITAL_UP;
+    const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
+    const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_DOWN;
+    const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
+    const pros::controller_digital_e_t ANGLE_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
+    const pros::controller_digital_e_t LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
+    const pros::controller_digital_e_t HIGH_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
+    const pros::controller_digital_e_t SCORE_BUTTON_1 = pros::E_CONTROLLER_DIGITAL_A;
+    const pros::controller_digital_e_t SCORE_BUTTON_2 = pros::E_CONTROLLER_DIGITAL_B;
+    const pros::controller_digital_e_t SCORE_BUTTON_3 = pros::E_CONTROLLER_DIGITAL_X;
+    const pros::controller_digital_e_t SCORE_BUTTON_4 = pros::E_CONTROLLER_DIGITAL_Y;
     const pros::controller_analog_e_t LEFT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
     const pros::controller_analog_e_t RIGHT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_X;
     void init_robot();

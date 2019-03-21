@@ -8,8 +8,7 @@
 
 namespace AFR::VexU::BaseAction {
     class intake_control_action : public action {
-
-
+        int16_t outtake_val_, intake_val_, hold_val_;
         AFR::VexU::BaseReadable::controller_digital_readable* intake_button_;
         AFR::VexU::BaseReadable::controller_digital_readable* outtake_button_;
 
@@ -24,10 +23,10 @@ namespace AFR::VexU::BaseAction {
          * @param second readable to be used
          * @param name error_t value if error encountered
          */
-        intake_control_action(const scheduled_update_t &update_period, commandable *commandable,
-                              BaseReadable::controller_digital_readable* outtake_button,
-                              BaseReadable::controller_digital_readable* intake_button,
-                              const std::string &name);
+        intake_control_action(const AFR::VexU::scheduled_update_t& update_period, AFR::VexU::commandable* commandable,
+                              AFR::VexU::BaseReadable::controller_digital_readable* outtake_button,
+                              AFR::VexU::BaseReadable::controller_digital_readable* intake_button, int16_t outtake_val,
+                              int16_t intake_val, int16_t hold_val, const std::string& name);
 
 
     };

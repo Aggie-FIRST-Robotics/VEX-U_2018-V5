@@ -5,6 +5,8 @@
 #include <cstring>
 #include <sstream>
 
+#define ROBOT_2
+
 #include "main.h"
 
 #ifdef AFR_VEXU_NODEBUG
