@@ -7,6 +7,7 @@ namespace AFR::VexU{
     void init_lib();
 
     void init_lib(){
+
     }
 }
 

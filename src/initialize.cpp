@@ -13,7 +13,6 @@
  */
 void initialize() {
     AFR::VexU::Fuego::init_robot();
-
 }
 
 /**
