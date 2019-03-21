@@ -1,5 +1,7 @@
 #include <cmath>
 #include <chrono>
+#include <afr-lib/scheduled.h>
+
 
 #include "afr-lib/scheduled.h"
 
@@ -63,5 +65,11 @@ namespace AFR::VexU{
         return update_period_;
     }
 
+    void scheduled::enable(){
+        set_enabled(true);
+    }
 
+    void scheduled::disable(){
+        set_enabled(false);
+    }
 }

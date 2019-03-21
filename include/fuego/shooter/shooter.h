@@ -16,9 +16,9 @@ namespace AFR::VexU::Fuego::Shooter{
     const scheduled_update_t AUTO_AIM_UPDATE_PERIOD = 10;
 
     /////FLYWHEEL
-    const bool FLYWHEEL_DIRECTION          = true;
-    const double FLYWHEEL_ENCODER_SCALING  = 1;
-    const size_t FLYWHEEL_AVERAGING_WIDTH  = 10;
+    const bool FLYWHEEL_DIRECTION = true;
+    const double FLYWHEEL_ENCODER_SCALING = 1;
+    const size_t FLYWHEEL_AVERAGING_WIDTH = 10;
     const unsigned int FLYWHEEL_SPEED 		= 560;
     const double P_TERM 					= 200;
     const double I_TERM 					= 30;

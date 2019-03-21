@@ -27,5 +27,4 @@ set(
         ${fuego-shooter-V5-src}
 
         src/fuego/fuego.cpp
-        src/fuego/auto.cpp
 )
