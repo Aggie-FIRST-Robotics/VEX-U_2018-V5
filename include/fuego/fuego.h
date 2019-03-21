@@ -11,8 +11,6 @@
 
 namespace AFR::VexU::Fuego{
 
-    bool before_op_control = true;
-
     /////DRIVETRAIN
     const port_t RIGHT_RAIL_MOTOR_A_PORT = 17;
     const port_t RIGHT_RAIL_MOTOR_B_PORT = 5;

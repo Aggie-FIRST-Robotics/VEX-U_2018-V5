@@ -5,11 +5,11 @@
 #include "afr-vexu-lib/afr-vexu-lib.h"
 
 #include "fuego/fuego.h"
-#include "fuego/auto.h"
-#include "fuego/cap/cap.h"
-#include "fuego/drive/drive.h"
-#include "fuego/shooter/shooter.h"
-#include "fuego/ball-intake/ball_intake.h"
+//#include "fuego/auto.h"
+//#include "fuego/cap/cap.h"
+//#include "fuego/drive/drive.h"
+//#include "fuego/shooter/shooter.h"
+//#include "fuego/ball-intake/ball_intake.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
@@ -25,8 +25,8 @@ namespace AFR::VexU::Fuego{
 //            std::cout << "Ball Intake Initialized" << std::endl;
 //            Cap::init();
 //            std::cout << "Cap Initialized" << std::endl;
-            Shooter::init();
-            std::cout << "Shooter Initialized" << std::endl;
+//            Shooter::init();
+//            std::cout << "Shooter Initialized" << std::endl;
 
 
             //init_auto();
@@ -51,6 +51,7 @@ namespace AFR::VexU::Fuego{
     void op_control(){
         while(true){
             //std::cout << "Main" << std::endl;
+            serial->enqueue_write(ODROID_ID,1,10);
             scheduled::update_all();
 //            std::string line1 = "A: " + std::to_string(Cap::arm_encoder->get_position());
 //            std::string line2 = "E: " + std::to_string(Cap::elbow_encoder->get_position());
@@ -88,6 +89,7 @@ namespace AFR::VexU::Fuego{
     }
 
     void destroy(){
+        destroy_lib();
         destroy_afr_vexu_lib();
 //        BaseReadable::destroy_battery();
 //        BaseReadable::destroy_competition();

@@ -21,13 +21,6 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled(){
-    if(AFR::VexU::Fuego::before_op_control){ /////Run autonomous exit routine
-        AFR::VexU::Fuego::before_op_control = false;
-
-    }
-    else{ /////Run op control exit routine
-
-    }
 }
 
 /**

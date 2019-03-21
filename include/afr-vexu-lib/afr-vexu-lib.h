@@ -9,7 +9,7 @@
 
 namespace AFR::VexU {
     void init_afr_vexu_lib(){
-        init_serial_manager(10);
+        init_serial_manager(5);
         BaseReadable::init_controllers();
         BaseReadable::init_battery();
         BaseReadable::init_competition();

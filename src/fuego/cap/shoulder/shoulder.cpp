@@ -32,9 +32,9 @@ namespace AFR::VexU::Fuego::Cap::Shoulder{
                 (UPDATE_PERIOD, P_TERM, I_TERM, D_TERM, MIN_VALUE, MAX_VALUE,
                 MIN_I_TERM, MAX_I_TERM, 0, 0, 0, "shoulder PID controller");
 
-        zero_action = new BaseAction::zero_encoder_action< bool, double, int16_t >
-                (std::function<bool()>([](){ return limit_switch->is_pressed();}),
-                encoder, true, -12000, pid_controller, "shoulder zero encoder action");
+//        zero_action = new BaseAction::zero_encoder_action< bool, double, int16_t >
+//                (std::function<bool()>([](){ return limit_switch->is_pressed();}),
+//                encoder, true, -12000, pid_controller, "shoulder zero encoder action");
 
     }
 
