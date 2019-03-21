@@ -13,7 +13,7 @@ namespace AFR::VexU {
 
 	//Device IDs
 	constexpr static uint8_t V5_ID 			= 0;
-	constexpr static uint8_t ODROID_ID 		= 2;
+	constexpr static uint8_t ODROID_ID 	= 2;
 	constexpr static uint8_t ARDUINO_ID 	= 3;
 
 	//V5 writes to the serial stream at this rate
@@ -37,7 +37,7 @@ namespace AFR::VexU {
 	};
 
 	//Manages buffers for serial communication
-	class serial_manager : public scheduled, public nameable{
+	class serial_manager : public scheduled{
 			
 		public:
 
@@ -55,7 +55,7 @@ namespace AFR::VexU {
 			// '0' -> v5
 			// '2' -> odroid
 			// '3' -> arduino
-			// addr [0-63]
+			// addr [0-63] *DO NOT SEND 13*
 			// returns false if destination is not 1 or 2
 			bool enqueue_write (uint8_t dest, uint8_t addr, short data);
 
@@ -84,11 +84,11 @@ namespace AFR::VexU {
 			void receive_buffer ();
 			void sort_read_queue ();
 
-			void update_private(const double& delta_seconds);
+			void update_private(double delta_seconds);
 
 	};
 
-	extern serial_manager* serial_manager;
+	extern serial_manager* serial;
 
 	void init_serial_manager(const scheduled_update_t& update_period);
 
