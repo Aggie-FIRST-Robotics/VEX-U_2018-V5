@@ -4,6 +4,9 @@
 #include "afr-lib/state_controller.h"
 #include "fuego/fuego.h"
 
+#include "afr-vexu-lib/base-commandable/motor_commandable.h"
+#include "afr-vexu-lib/base-action/pid_action.h"
+
 namespace AFR::VexU::Fuego::BallIntake{
     const scheduled_update_t BALL_INTAKE_UPDATE_PERIOD = 10;
 
