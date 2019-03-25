@@ -45,11 +45,11 @@ namespace AFR::VexU::Fuego::Cap{
     std::function<void()> spit_exit{};
 
     /////Button Lambda
-    std::function<bool()> ELEVATE_BUTTON = []() -> bool{ return BaseReadable::driver_controller->get_L1(); };
-    std::function<bool()> GROUND_BUTTON = []() -> bool{ return BaseReadable::driver_controller->get_L2(); };
-    std::function<bool()> STEAL_BUTTON = []() -> bool{ return BaseReadable::driver_controller->get_R1(); };
-    std::function<bool()> FLIP_BUTTON = []() -> bool{ return BaseReadable::driver_controller->get_X(); };
-    std::function<bool()> ZERO_BUTTON = []() -> bool{ return BaseReadable::driver_controller->get_Y(); };
+    std::function<bool()> ELEVATE_BUTTON = []() -> bool{ return true; };
+    std::function<bool()> GROUND_BUTTON = []() -> bool{ return true; };
+    std::function<bool()> STEAL_BUTTON = []() -> bool{ return true; };
+    std::function<bool()> FLIP_BUTTON = []() -> bool{ return true; };
+    std::function<bool()> ZERO_BUTTON = []() -> bool{ return true; };
 
     /////Edge detection for button lambdas
     BaseReadable::digital_edge_detector* elevate_button = nullptr;
@@ -114,7 +114,7 @@ namespace AFR::VexU::Fuego::Cap{
 
         /////Zero Shoulder
             //////Transitions
-            zero_shoulder->add_transition(std::function<bool()>([](){ return Shoulder::zero_action->is_zeroed();}),zero_elbow);
+            //zero_shoulder->add_transition(std::function<bool()>([](){ return Shoulder::zero_action->is_zeroed();}),zero_elbow);
 
             /////Entry?Exit Functions
                 zero_shoulder_entry = []() -> void{
@@ -132,7 +132,7 @@ namespace AFR::VexU::Fuego::Cap{
 
         /////Zero Elbow
             /////Transitions
-            zero_elbow->add_transition(std::function<bool()>([](){ return Elbow::zero_action->is_zeroed();}),store);
+            //zero_elbow->add_transition(std::function<bool()>([](){ return Elbow::zero_action->is_zeroed();}),store);
 
             /////Entry/Exit Functions
                 zero_elbow_entry = []() -> void{

@@ -71,8 +71,7 @@ namespace AFR::VexU::Fuego{
     const port_t ELBOW_LIMIT_SWITCH_PORT = 7;
     const port_t WRIST_LIMIT_SWITCH_PORT = 6;
 
-
-
+    /////DRIVER CONTROLS
     const pros::controller_digital_e_t UP_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
     const pros::controller_digital_e_t DOWN_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
     const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
@@ -84,9 +83,23 @@ namespace AFR::VexU::Fuego{
     const pros::controller_digital_e_t DESCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
     const pros::controller_digital_e_t BALL_SPIT_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
     const pros::controller_digital_e_t BALL_SWALLOW_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
-
     const pros::controller_analog_e_t LEFT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
     const pros::controller_analog_e_t RIGHT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_X;
+    const pros::controller_digital_e_t WALK = pros::E_CONTROLLER_DIGITAL_DOWN;
+
+    /////OPERATOR CONTROLS
+    const pros::controller_analog_e_t HOOD_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
+    const pros::controller_analog_e_t TURRET_STICK = pros::E_CONTROLLER_ANALOG_LEFT_X;
+    const pros::controller_digital_e_t FLYWHEEL_TOGGLE = pros::E_CONTROLLER_DIGITAL_R1;
+    const pros::controller_digital_e_t FIRE = pros::E_CONTROLLER_DIGITAL_R2;
+    const pros::controller_digital_e_t AUTO = pros::E_CONTROLLER_DIGITAL_L1;
+    const pros::controller_digital_e_t TURRET_LEFT = pros::E_CONTROLLER_DIGITAL_LEFT;
+    const pros::controller_digital_e_t TURRET_MID = pros::E_CONTROLLER_DIGITAL_UP;
+    const pros::controller_digital_e_t TURRET_RIGHT = pros::E_CONTROLLER_DIGITAL_RIGHT;
+    const pros::controller_digital_e_t HOOD_HIGH = pros::E_CONTROLLER_DIGITAL_X;
+    const pros::controller_digital_e_t HOOD_MID = pros::E_CONTROLLER_DIGITAL_A;
+    const pros::controller_digital_e_t HOOD_LOW = pros::E_CONTROLLER_DIGITAL_B;
+    const pros::controller_digital_e_t STOW = pros::E_CONTROLLER_DIGITAL_L2;
 
     void init_robot();
     void competition_init();

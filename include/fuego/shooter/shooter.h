@@ -5,52 +5,50 @@
 #ifndef VEX_U_2018_V5_SHOOTER_H
 #define VEX_U_2018_V5_SHOOTER_H
 
-#include "afr-lib/scheduled.h"
 #include "afr-lib/state_controller.h"
-#include "fuego/fuego.h"
+#include "afr-vexu-lib/base-readable/digital_edge_detector.h"
+#include "afr-vexu-lib/base-commandable/controller_commandable.h"
+
+#include "fuego/shooter/flywheel/flywheel.h"
+#include "fuego/shooter/turret/turret.h"
+#include "fuego/shooter/hood/hood.h"
+#include "fuego/shooter/loader/loader.h"
 
 namespace AFR::VexU::Fuego::Shooter{
 
-    const scheduled_update_t LOADER_UPDATE_PERIOD = 10;
-    const scheduled_update_t SHOOTER_UPDATE_PERIOD = 10;
-    const scheduled_update_t AUTO_AIM_UPDATE_PERIOD = 10;
+    const scheduled_update_t UPDATE_PERIOD = 10;
+
+    const double HOOD_TOLERANCE = 100;
+    const double TURRET_TOLERANCE = 100;
+
+    const int32_t STICK_CANCEL_VALUE = 64;
 
     /////FLYWHEEL
-    const bool FLYWHEEL_DIRECTION = true;
-    const double FLYWHEEL_ENCODER_SCALING = 1;
-    const size_t FLYWHEEL_AVERAGING_WIDTH = 10;
-    const unsigned int FLYWHEEL_SPEED 		= 560;
-    const double P_TERM 					= 200;
-    const double I_TERM 					= 30;
-    const double D_TERM 					= 0;
-    const short MIN_I_TERM 				    = -12000;
-    const short MAX_I_TERM 				    = 12000;
-    const unsigned int FLYWHEEL_TOLERANCE 	= 800;
+    const unsigned int FLYWHEEL_SPEED 		 = 560;
+    const unsigned int FLYWHEEL_TOLERANCE   = 800;
 
     /////LOADER
-    const bool LOADER_DIRECTION             = false;
-    const double LOADER_ENCODER_SCALING     = 1;
-    const double LOADER_FIRE_TARGET         = -1000;
-    const double LOADER_WALK_TARGET         = 0;
-    const double LOADER_TOLERANCE           = 300;
-    const int16_t LOADER_MAX_VOLTAGE        = 12000;
+    const double IDLE_TARGET         = 700;
+    const double FIRE_TARGET         = 0;
+    const double WALK_TARGET         = 1600;
+    const double LOADER_TOLERANCE    = 50;
 
-    /////HOOD
-    const bool HOOD_DIRECTION = true;
-    const int AUTO_AIM_HOOD_TOLERANCE = 10;
-    const int HOOD_MAX_VOLTAGE = 6000;
-    const double HOOD_ENCODER_SCALING = 1.0;
-    const int HOOD_ENCODER_LIMIT = 1300;
+    /////SET POINTS
+    const double TURRET_LEFT_TARGET     = 500;
+    const double TURRET_MID_TARGET      = 1500;
+    const double TURRET_RIGHT_TARGET    = 2500;
+    const double HOOD_HIGH_TARGET       = 200;
+    const double HOOD_MID_TARGET        = 600;
+    const double HOOD_LOW_TARGET        = 1200;
 
-    /////TURRET
-    const bool TURRET_DIRECTION = false;
-    const int AUTO_AIM_TURRET_TOLERANCE = 10;
-    const int TURRET_MAX_VOLTAGE = 6000;
-    const double TURRET_ENCODER_SCALING = 1.0;
-    const int TURRET_ENCODER_LIMIT = 3000;
+    /////AUTO AIM
+    const double ENCODER_UNITS_PER_PIXEL = 1;
+    const int16_t TARGET_X = 360;
+    const int16_t TARGET_Y = 270;
+    const int16_t X_TOLERANCE = 10;
+    const int16_t Y_TOLERANCE = 10;
 
     void init();
-
     void destroy();
 }
 

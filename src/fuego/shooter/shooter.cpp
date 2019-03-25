@@ -1,383 +1,325 @@
-#include "afr-vexu-lib/base-action/pid_action.h"
-#include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
-#include "afr-vexu-lib/base-readable/digital_edge_detector.h"
-#include "afr-vexu-lib/base-commandable/motor_commandable.h"
-#include "afr-vexu-lib/base-readable/adi_analog_readable.h"
-#include "afr-vexu-lib/base-action/dead_band_action.h"
+
 #include "fuego/shooter/shooter.h"
-#include "afr-vexu-lib/base-action/bounded_value_action.h"
-#include "afr-vexu-lib/base-readable/averager.h"
 
 namespace AFR::VexU::Fuego::Shooter{
 
-    //////////////////////////////////////Controls////////////////////////////////////////////////
-
-    std::function<int32_t()> TURRET_OPERATOR = []() -> int32_t{
-        return BaseReadable::driver_controller->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
-    };
-    std::function<int32_t()> HOOD_OPERATOR = []() -> int32_t{
-        return BaseReadable::driver_controller->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    };
-    std::function<bool()> FLYWHEEL_OPERATOR = []() -> bool{
-        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_R2);
-    };
-    std::function<bool()> LOADER_OPERATOR = []() -> bool{
-        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_R1);
-    };
-    std::function<bool()> AUTO_AIM_OPERATOR = []() -> bool{
-        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_L1);
-    };
-    std::function<bool()> WALKER_DRIVER = []() -> bool{
-        return BaseReadable::driver_controller->is_digital_pressed(pros::E_CONTROLLER_DIGITAL_X);
-    };
-
-    //////////////////////////////Commandables and Readables///////////////////////////////////////
-
-    //Flywheel
-    BaseCommandable::motor_commandable* left_flywheel_motor = nullptr;
-    BaseCommandable::motor_commandable* right_flywheel_motor = nullptr;
-    BaseReadable::motor_encoder_readable* flywheel_encoder = nullptr;
-    BaseReadable::averager<double>* avg_flywheel_speed = nullptr;
-    BaseAction::pid_action<double, int16_t >* flywheel_pid = nullptr;
-
-    //Loader
-    BaseCommandable::motor_commandable* loader_motor = nullptr;
-    BaseReadable::motor_encoder_readable* loader_encoder = nullptr;
-    BaseAction::dead_band_action<double, int16_t>* loader_dead_band = nullptr;
-
-    //Auto Aim
-    BaseCommandable::motor_commandable* hood_motor = nullptr;
-    BaseCommandable::motor_commandable* turret_motor = nullptr;
-    BaseReadable::motor_encoder_readable* hood_encoder = nullptr;
-    BaseReadable::motor_encoder_readable* turret_encoder = nullptr;
-    BaseAction::dead_band_action<double,double>* hood_dead_band = nullptr;
-    BaseAction::dead_band_action<double,double>* turret_dead_band = nullptr;
-    BaseAction::bounded_value_action< double, int32_t ,int16_t >* follow_stick_hood = nullptr;
-    BaseAction::bounded_value_action< double, int32_t ,int16_t >* follow_stick_turret = nullptr;
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
+    BaseCommandable::controller_commandable* operator_rumble = nullptr;
 
     //Readables
-    BaseReadable::digital_edge_detector* flywheel_spin_up_toggle = nullptr;
-
+    BaseReadable::digital_edge_detector* flywheel_toggle = nullptr;
+    BaseReadable::digital_edge_detector* loader_trigger = nullptr;
 
     state_controller<bool>* shooter_state_controller = nullptr;
 
-        //Shooter wheel is inactive
-        state* rest = nullptr;
+    state* rest = nullptr;
+    state* spin_up = nullptr;
+    state* fire = nullptr;
+    state* walk = nullptr;
 
-            std::function<void()> rest_entry{};
-            std::function<void()> rest_exit{};
-
-        //Shooter wheel is spinning up
-        state* spin_up = nullptr;
-
-            std::function<void()> spin_up_entry{};
-            std::function<void()> spin_up_exit{};
-
-        //Flywheel commandables
-        BaseCommandable::motor_commandable* left_flywheel = nullptr;
-        BaseCommandable::motor_commandable* right_flywheel = nullptr;
-        BaseAction::pid_action< double, int16_t >* target_speed = nullptr;
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
-    //Readables
-    BaseReadable::digital_edge_detector* loader_operator_toggle = nullptr;
-
-    state_controller<bool>* loader_state_controller = nullptr;
-
-        //Loader is holding position at ready
-        state* cock = nullptr;
-
-            std::function<bool()> cock_to_fire{};
-            std::function<bool()> cock_to_walk{};
-            std::function<void()> cock_entry{};
-            std::function<void()> cock_exit{};
-
-        //Loader goes to the high position, fires ball
-        state* fire = nullptr;
-
-            std::function<bool()> fire_to_cock{};
-            std::function<bool()> fire_to_walk{};
-            std::function<void()> fire_entry{};
-            std::function<void()> fire_exit{};
-
-
-        //Loader goes to low position, lifts robot
-        state* walk = nullptr;
-
-            std::function<bool()> walk_to_cock{};
-            std::function<bool()> walk_to_fire{};
-            std::function<void()> walk_entry{};
-            std::function<void()> walk_exit{};
+    std::function<void()> rest_entry{};
+    std::function<void()> spin_up_entry{};
+    std::function<void()> fire_entry{};
+    std::function<void()> fire_exit{};
+    std::function<void()> walk_entry{};
+    std::function<void()> walk_exit{};
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     //Readables
+    BaseReadable::digital_edge_detector* set_turret_left = nullptr;
+    BaseReadable::digital_edge_detector* set_turret_mid = nullptr;
+    BaseReadable::digital_edge_detector* set_turret_right = nullptr;
+    BaseReadable::digital_edge_detector* set_hood_high = nullptr;
+    BaseReadable::digital_edge_detector* set_hood_mid = nullptr;
+    BaseReadable::digital_edge_detector* set_hood_low = nullptr;
+    BaseReadable::digital_edge_detector* stow = nullptr;
 
+    struct turret_meta {
+        double turret_set_point;
+        double hood_set_point;
+    };
+    state_controller<turret_meta>* turret_state_controller = nullptr;
 
-    state_controller<bool>* auto_aim_state_controller = nullptr;
+    state* manual = nullptr;
+    state* set_point = nullptr;
+    state* auto_aim = nullptr;
+    state* ready = nullptr;
 
-        //Operate shooter in manual mode via control sticks
-        state* manual = nullptr;
-            std::function<bool()> manual_to_auto{};
+    std::function<bool()> manual_to_set_point{};
+    std::function<bool()> auto_to_ready{};
+    std::function<bool()> ready_to_auto{};
 
-        std::function<void()> manual_entry{};
-        std::function<void()> manual_exit{};
+    std::function<void()> manual_entry{};
+    std::function<void()> manual_exit{};
+    std::function<void()> set_point_entry{};
+    std::function<void()> auto_entry{};
+    std::function<void()> ready_entry{};
+    std::function<void()> ready_exit{};
 
-        //-------------------------------------------------//
+    std::function<double()> hood_set_point{};
+    std::function<double()> turret_set_point{};
 
+    std::function<double()> hood_auto_target{};
+    std::function<double()> turret_auto_target{};
 
-        //-------------------------------------------------//
-
-        //Shooter searches for target
-        state* auto_aim = nullptr;
-        std::vector<std::pair<std::function<bool()>, state*>> auto_aim_transitions;
-        std::function<void()> auto_aim_entry;
-        std::function<void()> auto_aim_exit;
-
-        //Shooter is locked onto a target
-        state* ready = nullptr;
-        std::vector<std::pair<std::function<bool()>, state*>> ready_transitions;
-        std::function<void()> ready_entry;
-        std::function<void()> ready_exit;
+//    //Shooter searches for target
+//    state* auto_aim = nullptr;
+//    std::vector<std::pair<std::function<bool()>, state*>> auto_aim_transitions;
+//    std::function<void()> auto_aim_entry;
+//    std::function<void()> auto_aim_exit;
+//
+//    //Shooter is locked onto a target
+//    state* ready = nullptr;
+//    std::vector<std::pair<std::function<bool()>, state*>> ready_transitions;
+//    std::function<void()> ready_entry;
+//    std::function<void()> ready_exit;
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
+    void init() {
 
-    void init(){
+        Flywheel::init();
+        Turret::init();
+        Hood::init();
+        Loader::init();
 
-        /////Flywheel
-        left_flywheel_motor = new BaseCommandable::motor_commandable(SHOOTER_UPDATE_PERIOD, FLYWHEEL_LEFT_PORT, FLYWHEEL_GEARSET,
-                FLYWHEEL_DIRECTION,FLYWHEEL_BRAKE_MODE, "left flywheel motor");
+        operator_rumble = new BaseCommandable::controller_commandable(UPDATE_PERIOD,"",pros::E_CONTROLLER_PARTNER,"operator rumble");
 
-        right_flywheel_motor = new BaseCommandable::motor_commandable(SHOOTER_UPDATE_PERIOD, FLYWHEEL_RIGHT_PORT, FLYWHEEL_GEARSET,
-                !FLYWHEEL_DIRECTION,FLYWHEEL_BRAKE_MODE, "right flywheel motor");
+        flywheel_toggle = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(FLYWHEEL_TOGGLE);}),"flywheel toggle");
+        loader_trigger = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(FIRE);}),"loader trigger");
 
-        flywheel_encoder = new BaseReadable::motor_encoder_readable(FLYWHEEL_LEFT_PORT, FLYWHEEL_ENCODER_SCALING, "flywheel encoder");
+        shooter_state_controller = new state_controller<bool>{UPDATE_PERIOD,false,"shooter state machine"};
 
-        avg_flywheel_speed = new BaseReadable::averager<double>([](){return flywheel_encoder->get_scaled_velocity();},
-                FLYWHEEL_AVERAGING_WIDTH, "flywheel encoder averager");
+        rest = new state("shooter: rest");
+        spin_up = new state("shooter: spin up");
+        fire = new state("shooter: fire");
+        walk = new state("shooter: walk");
 
+        Flywheel::pid_controller->set_operation(std::function<double()>([](){ return Flywheel::avg_speed->get_average_value();}), shooter_state_controller->get_name());
+        Loader::dead_band->set_operation(std::function<double()>([](){ return Loader::encoder->get_scaled_position();}), shooter_state_controller->get_name());
+        Flywheel::left_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
+        Flywheel::right_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
+        Loader::motor->set_operation(std::function<int16_t()>([](){ return Loader::dead_band->get_deadband_value();}), shooter_state_controller->get_name());
 
-        flywheel_pid = new BaseAction::pid_action< double, int16_t >(SHOOTER_UPDATE_PERIOD, P_TERM,
-                I_TERM, D_TERM, MIN_I_TERM, MAX_I_TERM,
-                MIN_I_TERM, MAX_I_TERM, 0, 0,
-                FLYWHEEL_SPEED, "flywheel PID controller");
+        /////REST
+        rest->add_transition(std::function<bool()>([](){ return flywheel_toggle->is_rising_edge();}),spin_up);
+        rest->add_transition(std::function<bool()>([](){ return BaseReadable::driver_controller->is_digital_pressed(WALK);}),walk);
 
-
-
-        /////Loader
-        loader_motor = new BaseCommandable::motor_commandable(LOADER_UPDATE_PERIOD, LOADER_MOTOR_PORT, LOADER_GEARSET,
-                                                               LOADER_DIRECTION,LOADER_BRAKE_MODE, "loader motor");
-
-        loader_encoder = new BaseReadable::motor_encoder_readable(LOADER_MOTOR_PORT, LOADER_ENCODER_SCALING, "loader encoder");
-
-        loader_dead_band = new BaseAction::dead_band_action<double, int16_t>(LOADER_UPDATE_PERIOD, 0,
-                                                                                      LOADER_TOLERANCE, LOADER_MAX_VOLTAGE,
-                                                                                      -LOADER_MAX_VOLTAGE, "Loader dead band action");
-
-
-        /////HOOD
-        hood_motor = new BaseCommandable::motor_commandable
-                (SHOOTER_UPDATE_PERIOD, HOOD_MOTOR_PORT, HOOD_GEARSET, HOOD_DIRECTION,HOOD_BRAKE_MODE, "hood motor");
-
-        hood_encoder = new BaseReadable::motor_encoder_readable
-                (HOOD_MOTOR_PORT, HOOD_ENCODER_SCALING, "hood encoder");
-
-        std::function<int16_t(int32_t)> hood_bounded_action_conversion_function = [](int32_t) -> int16_t {
-            return static_cast<int16_t >((12000/127)*TURRET_OPERATOR());
+        rest_entry = []() -> void{
+            Flywheel::left_motor->set_value(0,shooter_state_controller->get_name());
+            Flywheel::right_motor->set_value(0,shooter_state_controller->get_name());
+            Loader::dead_band->set_target(IDLE_TARGET);
         };
-
-        std::function<int16_t()> hood_encoder_function = [] { return hood_encoder->get_scaled_position(); };
-
-        follow_stick_hood = new BaseAction::bounded_value_action< double, int32_t ,int16_t >
-                (SHOOTER_UPDATE_PERIOD, HOOD_ENCODER_LIMIT,0, 0, 0, std::function<int16_t(int32_t)>([](int32_t){ return static_cast<int16_t >((12000/127)*HOOD_OPERATOR());}),
-                    HOOD_OPERATOR, hood_encoder_function, "hood bounded value action");
-
-        hood_dead_band = new BaseAction::dead_band_action<double, double>(AUTO_AIM_UPDATE_PERIOD, 0,
-                                                                                  AUTO_AIM_HOOD_TOLERANCE, HOOD_MAX_VOLTAGE,
-                                                                                  -HOOD_MAX_VOLTAGE, "hood auto aim action");
-
-        /////TURRET
-        turret_motor = new BaseCommandable::motor_commandable
-                (SHOOTER_UPDATE_PERIOD, TURRET_MOTOR_PORT, TURRET_GEARSET, TURRET_DIRECTION,TURRET_BRAKE_MODE, "turret motor");
-
-        turret_encoder = new BaseReadable::motor_encoder_readable
-                (TURRET_MOTOR_PORT, TURRET_ENCODER_SCALING, "turret encoder");
-
-        std::function<double()> turret_encoder_function = []{ return turret_encoder->get_scaled_position(); };
-
-        follow_stick_turret = new BaseAction::bounded_value_action< double, int32_t ,int16_t >
-                (SHOOTER_UPDATE_PERIOD, TURRET_ENCODER_LIMIT,0, 0, 0, std::function<int16_t(int32_t)>([](int32_t){ return static_cast<int16_t >((12000/127)*TURRET_OPERATOR());}),
-                 TURRET_OPERATOR, turret_encoder_function, "turret bounded value action");
-
-        turret_dead_band = new BaseAction::dead_band_action<double, double>(AUTO_AIM_UPDATE_PERIOD, 0,
-                                                                          AUTO_AIM_TURRET_TOLERANCE, TURRET_MAX_VOLTAGE,
-                                                                          -TURRET_MAX_VOLTAGE, "turret auto aim action");
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-
-        shooter_state_controller = new state_controller<bool>{SHOOTER_UPDATE_PERIOD,false,"shooter state machine"};
-
-        //Readables
-        flywheel_spin_up_toggle = new BaseReadable::digital_edge_detector(FLYWHEEL_OPERATOR,"flywheel spin up toggle");
-
-        flywheel_pid->set_operation(std::function<double()>([](){ return avg_flywheel_speed->get_average_value();}), shooter_state_controller->get_name());
-
-            //Shooter wheel is inactive
-            rest = new state("flywheel: rest");
-            spin_up = new state("flywheel: spin up");
-
-                rest->add_transition(std::function<bool()>([](){ return flywheel_spin_up_toggle->is_rising_edge();}),spin_up);
-
-                rest_entry = []() -> void{
-                    left_flywheel_motor->set_value(0,shooter_state_controller->get_name());
-                    right_flywheel_motor->set_value(0,shooter_state_controller->get_name());
-                };
-                rest_exit = []() -> void{
-                    left_flywheel_motor->set_operation(std::function<int16_t()>([](){return flywheel_pid->get_pid_value();}),shooter_state_controller->get_name());
-                    right_flywheel_motor->set_operation(std::function<int16_t()>([](){return flywheel_pid->get_pid_value();}),shooter_state_controller->get_name());
-                };
-
-            rest->set_on_state_entry(rest_entry);
-            rest->set_on_state_exit(rest_exit);
+        rest->set_on_state_entry(rest_entry);
+        rest->set_on_state_exit(std::function<void()>([](){}));
 
         shooter_state_controller->add_state(rest);
 
-            //Shooter wheel is spinning up
-            spin_up->add_transition(std::function<bool()>([]() { return flywheel_spin_up_toggle->is_rising_edge(); }),rest);
+        /////SPIN UP
+        spin_up->add_transition(std::function<bool()>([](){ return Flywheel::avg_speed->get_average_value() > Flywheel::SPEED/2 && loader_trigger->is_rising_edge();}), fire);
+        spin_up->add_transition(std::function<bool()>([](){ return flywheel_toggle->is_rising_edge();}),rest);
 
-                spin_up_entry = []() -> void{
-                    left_flywheel_motor->set_operation(std::function<int16_t()>([](){return flywheel_pid->get_pid_value();}),shooter_state_controller->get_name());
-                    right_flywheel_motor->set_operation(std::function<int16_t()>([](){return flywheel_pid->get_pid_value();}),shooter_state_controller->get_name());
-                };
-                spin_up_exit = []() -> void{
-                    left_flywheel_motor->set_value(0,shooter_state_controller->get_name());
-                    right_flywheel_motor->set_value(0,shooter_state_controller->get_name());
-                };
-
-            spin_up->set_on_state_entry(spin_up_entry);
-            spin_up->set_on_state_exit(spin_up_exit);
+        spin_up_entry = []() -> void{
+            Flywheel::left_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
+            Flywheel::right_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
+        };
+        spin_up->set_on_state_entry(spin_up_entry);
+        spin_up->set_on_state_exit(std::function<void()>([](){}));
 
         shooter_state_controller->add_state(spin_up);
+
+        /////FIRE
+        fire->add_transition(std::function<bool()>([](){ return Loader::dead_band->is_in_range(LOADER_TOLERANCE);}),spin_up);
+
+        fire_entry = []() -> void {
+            Loader::dead_band->set_target(FIRE_TARGET);
+        };
+
+        fire_exit = []() -> void {
+            Loader::dead_band->set_target(IDLE_TARGET);
+        };
+
+        fire->set_on_state_entry(fire_entry);
+        fire->set_on_state_exit(fire_exit);
+
+        shooter_state_controller->add_state(fire);
+
+        /////WALK
+        walk->add_transition(std::function<bool()>([](){return !BaseReadable::driver_controller->is_digital_pressed(WALK);}),rest);
+
+        walk_entry = []() -> void {
+            Loader::dead_band->set_target(WALK_TARGET);
+        };
+
+        walk_exit = []() -> void {
+            Loader::dead_band->set_target(IDLE_TARGET);
+        };
+
+        walk->set_on_state_entry(walk_entry);
+        walk->set_on_state_exit(walk_exit);
+
+        shooter_state_controller->add_state(walk);
 
         shooter_state_controller->set_state(rest);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Readables
-        loader_operator_toggle = new BaseReadable::digital_edge_detector(LOADER_OPERATOR,"loader toggle");
+        set_turret_left = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(TURRET_LEFT);}),"set turret left");
+        set_turret_mid = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(TURRET_MID);}),"set turret mid");
+        set_turret_right = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(TURRET_RIGHT);}),"set turret right");
+        set_hood_high = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(HOOD_HIGH);}),"set hood high");
+        set_hood_mid = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(HOOD_MID);}),"set hood mid");
+        set_hood_low = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(HOOD_LOW);}),"set hood low");
+        stow = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(STOW);}),"stow");
 
-        loader_state_controller = new state_controller<bool>{LOADER_UPDATE_PERIOD,false,"loader state machine"};
+        turret_state_controller = new state_controller<turret_meta>{UPDATE_PERIOD, {0,0},"turret state machine"};
 
-        loader_dead_band->set_operation(std::function<double()>([](){ return loader_encoder->get_scaled_position();}), loader_state_controller->get_name());
+        manual = new state("turret: manual");
+        set_point = new state("turret: set point");
+        auto_aim = new state("turret: auto aim");
+        ready = new state ("turret: ready");
 
-        //Loader is holding position at ready
-            state* cock = new state("loader: cock");
-            state* fire = new state("loader: fire");
-            state* walk = new state("loader: walk");
 
-                cock->add_transition(std::function<bool()>([]() { return loader_operator_toggle->is_rising_edge() && !WALKER_DRIVER(); }),fire);
-                cock->add_transition(std::function<bool()>([]() { return WALKER_DRIVER(); }),walk);
+        Hood::dead_band->set_operation(std::function<double()>([](){ return Hood::encoder->get_scaled_position();}),turret_state_controller->get_name());
+        Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
 
-                cock_entry = []() -> void{
-                    loader_dead_band->set_target(0);
-                    loader_motor->set_operation(std::function<int16_t()>([](){
-                        std::cout << "Cock dead band value: " << loader_dead_band->get_deadband_value() << std::endl;
-                        return loader_dead_band->get_deadband_value();}),loader_state_controller->get_name());
-                };
-                cock_exit = []() -> void{
-                    loader_motor->set_value(0,loader_state_controller->get_name());
-                };
+        Turret::dead_band->set_operation(std::function<double()>([](){ return Turret::encoder->get_scaled_position();}),turret_state_controller->get_name());
+        Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
 
-            cock->set_on_state_entry(cock_entry);
-            cock->set_on_state_exit(cock_exit);
+        manual->add_transition(std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(AUTO);}),auto_aim);
 
-        loader_state_controller->add_state(cock);
+        manual_to_set_point = []() -> bool { return set_hood_high->is_rising_edge() || set_hood_mid->is_rising_edge() || set_hood_low->is_rising_edge()
+                                      || set_turret_left->is_rising_edge() || set_turret_mid->is_rising_edge() || set_turret_right->is_rising_edge()
+                                      || stow->is_rising_edge();};
 
-            //Loader goes to the high position, fires ball
-            fire->add_transition(std::function<bool()>([](){return loader_dead_band->is_in_range(LOADER_TOLERANCE);}),cock);
+        manual->add_transition(manual_to_set_point,set_point);
 
-                fire_entry = []() -> void{
-                    loader_dead_band->set_target(LOADER_FIRE_TARGET);
-                    loader_motor->set_operation(std::function<int16_t()>([](){
-                        std::cout << "Fire dead band value: " << loader_dead_band->get_deadband_value() << std::endl;
-                        return loader_dead_band->get_deadband_value();}),loader_state_controller->get_name());
-                };
-                fire_exit = []() -> void{
-                    loader_motor->set_value(0,loader_state_controller->get_name());
-                };
+        manual_entry = []() -> void {
+            Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
+            Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
+        };
 
-            fire->set_on_state_entry(fire_entry);
-            fire->set_on_state_exit(fire_exit);
+        manual_exit = []() -> void {
+            Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::dead_band->get_deadband_value();}),turret_state_controller->get_name());
+            Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::dead_band->get_deadband_value();}),turret_state_controller->get_name());
+        };
 
-        loader_state_controller->add_state(fire);
+        manual->set_on_state_entry(manual_entry);
+        manual->set_on_state_exit(manual_exit);
 
-            //Loader goes to low position, lifts robot
+        turret_state_controller->add_state(manual);
 
-                walk->add_transition(std::function<bool()>([](){return !WALKER_DRIVER() && !LOADER_OPERATOR();}),cock);
-                walk->add_transition(std::function<bool()>([](){return !WALKER_DRIVER() && LOADER_OPERATOR();}),fire);
+        set_point->add_transition(std::function<bool()>([](){
+            return (Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE)) ||
+            abs(BaseReadable::operator_controller->get_analog(TURRET_STICK)) + abs(BaseReadable::operator_controller->get_analog(HOOD_STICK) > STICK_CANCEL_VALUE);}),manual);
 
-                walk_entry = []() -> void{
-                    loader_dead_band->set_target(LOADER_WALK_TARGET);
-                    loader_motor->set_operation(std::function<int16_t()>([](){
-                        std::cout << "Walk dead band value: " << loader_dead_band->get_deadband_value() << std::endl;
-                        return loader_dead_band->get_deadband_value();}),loader_state_controller->get_name());
-                };
-                walk_exit = []() -> void{
-                    loader_motor->set_value(0,loader_state_controller->get_name());
-                };
+        hood_set_point = []() -> double {
+            if(BaseReadable::operator_controller->is_digital_pressed(HOOD_HIGH)) {
+                turret_state_controller->metadata().hood_set_point = HOOD_HIGH_TARGET;
+            }
+            else if (BaseReadable::operator_controller->is_digital_pressed(HOOD_MID)) {
+                turret_state_controller->metadata().hood_set_point = HOOD_MID_TARGET;
+            }
+            else if (BaseReadable::operator_controller->is_digital_pressed(HOOD_LOW)) {
+                turret_state_controller->metadata().hood_set_point = HOOD_LOW_TARGET;
+            }
+            else if (BaseReadable::operator_controller->is_digital_pressed(STOW)) {
+                turret_state_controller->metadata().hood_set_point = 0;
+            }
+            return turret_state_controller->metadata().hood_set_point;
+        };
 
-            walk->set_on_state_entry(walk_entry);
-            walk->set_on_state_exit(walk_exit);
+        turret_set_point = []() -> double {
+            if (BaseReadable::operator_controller->is_digital_pressed(TURRET_LEFT)) {
+                turret_state_controller->metadata().turret_set_point = TURRET_LEFT_TARGET;
+            }
+            else if (BaseReadable::operator_controller->is_digital_pressed(TURRET_MID)) {
+                turret_state_controller->metadata().turret_set_point = TURRET_MID_TARGET;
+            }
+            else if (BaseReadable::operator_controller->is_digital_pressed(TURRET_RIGHT)) {
+                turret_state_controller->metadata().turret_set_point = TURRET_RIGHT_TARGET;
+            }
+            else if (BaseReadable::operator_controller->is_digital_pressed(STOW)) {
+                turret_state_controller->metadata().turret_set_point = 0;
+            }
+            return turret_state_controller->metadata().turret_set_point;
+        };
 
-        loader_state_controller->add_state(walk);
+        set_point_entry = []() -> void {
+            Hood::dead_band->set_target(hood_set_point);
+            Turret::dead_band->set_target(turret_set_point);
+        };
 
-        loader_state_controller->set_state(cock);
+        set_point->set_on_state_entry(set_point_entry);
+        set_point->set_on_state_exit(std::function<void()>([](){}));
 
-        /////////////////////////////////////////////////////////////////////////////////////////////
+        auto_to_ready = []() -> bool {
+            return (Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE) && Flywheel::avg_speed->get_average_value() >= 0.95 * Flywheel::SPEED);
+        };
 
-        auto_aim_state_controller = new state_controller<bool>{AUTO_AIM_UPDATE_PERIOD, false,"auto aim state machine"};
+        auto_aim->add_transition(std::function<bool()>([](){return !BaseReadable::operator_controller->is_digital_pressed(AUTO);}),manual);
+        auto_aim->add_transition(auto_to_ready,ready);
 
-            //Operate shooter in manual mode via control sticks
-            state* manual = new state("auto aim: manual");
+        hood_auto_target = []() -> double {
+            //change target by pixel difference from center
+            return 0;
+        };
 
-                manual_to_auto = []() -> bool{ return false; };
+        turret_auto_target = []() -> double {
+            //change target by pixel difference from center
+            return 0;
+        };
 
-            manual->add_transition(manual_to_auto,auto_aim);
+        auto_entry = []() -> void {
+            Hood::dead_band->set_target(hood_auto_target);
+            Turret::dead_band->set_target(turret_auto_target);
+        };
 
-                manual_entry = []() -> void{
-                    hood_motor->set_operation(std::function<int16_t()>([](){return follow_stick_hood->get_bounded_value();}), auto_aim_state_controller->get_name());
-                    turret_motor->set_operation(std::function<int16_t()>([](){return follow_stick_turret->get_bounded_value();}),auto_aim_state_controller->get_name());
-                };
-                manual_exit = []() -> void{
-                    hood_motor->set_value(0,auto_aim_state_controller->get_name());
-                    turret_motor->set_value(0,auto_aim_state_controller->get_name());
-                };
+        auto_aim->set_on_state_entry(auto_entry);
+        auto_aim->set_on_state_exit(std::function<void()>([](){}));
 
-            manual->set_on_state_entry(manual_entry);
-            manual->set_on_state_exit(manual_exit);
+        ready_to_auto = []() -> bool {
+            return !(Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE) && Flywheel::avg_speed->get_average_value() >= 0.95 * Flywheel::SPEED);
+        };
 
-        auto_aim_state_controller->set_state(manual);
+        ready->add_transition(ready_to_auto,auto_aim);
+        ready->add_transition(std::function<bool()>([](){return !BaseReadable::operator_controller->is_digital_pressed(AUTO);}),manual);
 
-        std::cout << "Created auto aim" << std::endl;
+        ready_entry = []() -> void {
+            operator_rumble->set_value(".        ",turret_state_controller->get_name());
+        };
+
+        ready_exit = []() -> void {
+            operator_rumble->set_value("",turret_state_controller->get_name());
+        };
+
+        ready->set_on_state_entry(ready_entry);
+        ready->set_on_state_exit(ready_exit);
+
+        turret_state_controller->add_state(ready);
+        turret_state_controller->add_state(auto_aim);
+        turret_state_controller->add_state(set_point);
+        turret_state_controller->set_state(manual);
     }
 
     void destroy(){
         delete shooter_state_controller;
         delete rest;
         delete spin_up;
-        delete loader_state_controller;
-        delete cock;
         delete fire;
         delete walk;
-        delete auto_aim_state_controller;
         delete manual;
         delete auto_aim;
-        delete ready;
     }
 
 

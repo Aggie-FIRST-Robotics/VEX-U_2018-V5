@@ -11,7 +11,7 @@ namespace AFR::VexU::Fuego::Cap::Shoulder{
     BaseReadable::motor_encoder_readable* encoder = nullptr;
 
     BaseAction::pid_action<double, int16_t>* pid_controller = nullptr;
-    BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action = nullptr;
+//    BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action = nullptr;
 
     void init(){
         left_motor = new BaseCommandable::motor_commandable
@@ -44,6 +44,6 @@ namespace AFR::VexU::Fuego::Cap::Shoulder{
         delete limit_switch;
         delete encoder;
         delete pid_controller;
-        delete zero_action;
+//        delete zero_action;
     }
 }

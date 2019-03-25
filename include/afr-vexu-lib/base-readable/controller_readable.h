@@ -1,8 +1,6 @@
 #ifndef VEX_U_2018_V5_CONTROLLER_READABLE_H
 #define VEX_U_2018_V5_CONTROLLER_READABLE_H
 
-#include <unordered_map>
-
 #include "main.h"
 
 #include "afr-lib/nameable.h"

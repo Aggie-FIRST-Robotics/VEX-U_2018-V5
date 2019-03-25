@@ -8,7 +8,7 @@
 //#include "fuego/auto.h"
 //#include "fuego/cap/cap.h"
 //#include "fuego/drive/drive.h"
-//#include "fuego/shooter/shooter.h"
+#include "fuego/shooter/shooter.h"
 //#include "fuego/ball-intake/ball_intake.h"
 
 #pragma clang diagnostic push
@@ -18,6 +18,7 @@ namespace AFR::VexU::Fuego{
         try{
             init_lib();
             init_afr_vexu_lib();
+            Shooter::init();
 
 //            Drive::init();
 //            std::cout << "Drive Initialized" << std::endl;
@@ -51,7 +52,7 @@ namespace AFR::VexU::Fuego{
     void op_control(){
         while(true){
             //std::cout << "Main" << std::endl;
-            serial->enqueue_write(ODROID_ID,1,10);
+            //serial->enqueue_write(ODROID_ID,1,10);
             scheduled::update_all();
 //            std::string line1 = "A: " + std::to_string(Cap::arm_encoder->get_position());
 //            std::string line2 = "E: " + std::to_string(Cap::elbow_encoder->get_position());

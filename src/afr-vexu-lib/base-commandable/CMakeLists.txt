@@ -11,4 +11,5 @@ set(
         src/afr-vexu-lib/base-commandable/adi_analog_commandable.cpp
         src/afr-vexu-lib/base-commandable/adi_digital_commandable.cpp
         src/afr-vexu-lib/base-commandable/motor_commandable.cpp
+	src/afr-vexu-lib/base-commandable/controller_commandable.cpp
 )
