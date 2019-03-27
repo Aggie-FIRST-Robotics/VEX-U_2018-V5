@@ -23,6 +23,7 @@ namespace AFR::VexU::Vision {
         int16_t y;
         int16_t width;
         int16_t height;
+        rectangle() : x(0), y(0), width(0), height(0) {}
     };
     
     class vision_targeting : public commandable<encoder_tuple>, public virtual nameable {
@@ -30,6 +31,8 @@ namespace AFR::VexU::Vision {
             rectangle rect;
             int validity;
             bool targeting;
+            
+            scored_rect() : rect(), validity(0), targeting(false) {}
         };
         
         static constexpr uint8_t FRAME_NUM_ADDR = 1;

@@ -5,7 +5,6 @@ namespace AFR::VexU::Vision {
     vision_targeting::vision_targeting(const std::string& name) :
         nameable(name), 
         commandable<encoder_tuple>(UPDATE_RATE, name),
-        last_enc_vals(0,0),
         has_target_rect_(false)
         {}
         
