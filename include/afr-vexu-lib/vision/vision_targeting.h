@@ -2,6 +2,7 @@
 #define VEX_U_2018_V5_VISION_TARGETING_H
 
 #include <list>
+#include <iostream>
 
 #include "afr-lib/commandable.h"
 #include "afr-lib/nameable.h"
