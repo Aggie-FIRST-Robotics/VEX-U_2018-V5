@@ -122,4 +122,8 @@ namespace AFR::VexU::Vision {
         retval.altitude = (target_y-(rect.y + rect.height/2))/Y_PIX_PER_TICK;
         return retval;
     }
+    
+    void vision_targeting::purge_target_list() {
+        target_rects.clear();
+    }
 }

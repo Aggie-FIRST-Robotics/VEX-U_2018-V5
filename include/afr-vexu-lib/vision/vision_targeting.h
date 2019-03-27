@@ -63,6 +63,7 @@ namespace AFR::VexU::Vision {
         rectangle get_target_rect();    
         bool has_target_rect();
         static encoder_tuple get_encoder_setpoints(const rectangle& rect);
+        void purge_target_list();
     };
 }
 
