@@ -268,7 +268,7 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         auto_aim->add_transition(std::function<bool()>([](){return !BaseReadable::operator_controller->is_digital_pressed(AUTO);}),manual);
-        auto_aim->add_transition(auto_to_ready,ready);
+//        auto_aim->add_transition(auto_to_ready,ready);
 
         hood_auto_target = []() -> double {
             if(vision->has_target_rect()) {
@@ -303,6 +303,7 @@ namespace AFR::VexU::Fuego::Shooter{
             }
         };
 
+        vision->disable();
         auto_entry = []() -> void {
             vision->enable();
             Hood::dead_band->set_target(hood_auto_target);
@@ -310,7 +311,11 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         auto_aim->set_on_state_entry(auto_entry);
-        auto_aim->set_on_state_exit(std::function<void()>([](){vision->purge_target_list();}));
+        auto_aim->set_on_state_exit(std::function<void()>([](){
+            std::cout << "Purging list" << std::endl;
+            vision->purge_target_list();
+            vision->disable();
+        }));
 
         ready_to_auto = []() -> bool {
             return !(Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE) && Flywheel::avg_speed->get_average_value() >= 0.95 * Flywheel::SPEED);

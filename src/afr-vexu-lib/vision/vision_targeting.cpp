@@ -15,10 +15,13 @@ namespace AFR::VexU::Vision {
             for(auto it = target_rects.begin(); it != target_rects.end(); ++it) {
                 it->rect.x += X_PIX_PER_TICK*(enc_vals.azimuth-last_enc_vals.azimuth);
                 it->rect.y += Y_PIX_PER_TICK*(enc_vals.altitude-last_enc_vals.altitude);
+
+                std::cout << "new rect coords: " << it->rect.x << " " << it->rect.y << std::endl;
                 
                 if(it->rect.x+it->rect.width < 0 || it->rect.x >= CAM_WIDTH || 
                    it->rect.y+it->rect.height < 0 || it->rect.x >= CAM_HEIGHT) {
-                    target_rects.erase(it);
+                    std::cout << "Rect out of range, erasing" << std::endl;
+                    target_rects.erase(it++);
                     continue;
                 }
                 
@@ -39,8 +42,9 @@ namespace AFR::VexU::Vision {
             }
             
             short rect_num = serial->odroid_table.read(FRAME_NUM_ADDR);
-            std::cout << "Num serial rects: " << rect_num << std::endl; 
-            if(rect_num > 0 && serial->odroid_table.card(FRAME_NUM_ADDR) <= UPDATE_RATE) {
+            std::cout << "Num serial rect: " << rect_num << std::endl;
+            std::cout << "Age of the rectangle: " << pros:: millis() - serial->odroid_table.card(FRAME_NUM_ADDR) << std::endl;
+            if(rect_num > 0 && pros::millis() - serial->odroid_table.card(FRAME_NUM_ADDR) <= UPDATE_RATE) {
                 for(uint8_t i = 0; i < rect_num; i++) {
                     rectangle serial_rect;
                     serial_rect.x = serial->odroid_table.read(2+4*i);
@@ -49,18 +53,21 @@ namespace AFR::VexU::Vision {
                     serial_rect.height = serial->odroid_table.read(5+4*i);
                     std::cout << "Serial rect: " << serial_rect.x << " "<< serial_rect.y << " " << serial_rect.width << " " << serial_rect.height << std::endl;
                     bool rect_found = false;
-                    for(auto rect : target_rects) {
-                        if(abs<int16_t>(rect.rect.x - serial_rect.x) < RECT_IN_RANGE_X &&
-                           abs<int16_t>(rect.rect.y - serial_rect.y) < RECT_IN_RANGE_Y &&
-                           abs<int16_t>(rect.rect.width - serial_rect.width) < RECT_IN_RANGE_WIDTH &&
-                           abs<int16_t>(rect.rect.height - serial_rect.height) < RECT_IN_RANGE_HEIGHT) {
-                            rect.rect.x = serial_rect.x;
-                            rect.rect.y = serial_rect.y;
-                            rect.rect.width = serial_rect.width;
-                            rect.rect.height = serial_rect.height;
-                            rect.validity += RECURRENCE_BONUS;
+                    for(auto it = target_rects.begin(); it != target_rects.end(); ++it) {
+                        if(abs<int16_t>(it->rect.x - serial_rect.x) < RECT_IN_RANGE_X &&
+                           abs<int16_t>(it->rect.y - serial_rect.y) < RECT_IN_RANGE_Y &&
+                           abs<int16_t>(it->rect.width - serial_rect.width) < RECT_IN_RANGE_WIDTH &&
+                           abs<int16_t>(it->rect.height - serial_rect.height) < RECT_IN_RANGE_HEIGHT) {
+                            it->rect.x = serial_rect.x;
+                            it->rect.y = serial_rect.y;
+                            it->rect.width = serial_rect.width;
+                            it->rect.height = serial_rect.height;
+                            it->validity += RECURRENCE_BONUS;
+                            if(it->validity > VALIDITY_MAX) {
+                                it->validity = VALIDITY_MAX;
+                            }
                             rect_found = true;
-                            std::cout << "Rect found in list, score: " << rect.validity << std::endl;
+                            std::cout << "Rect found in list, score: " << it->validity << std::endl;
                             break;
                         }
                     }
@@ -78,32 +85,41 @@ namespace AFR::VexU::Vision {
                 }
             }
             
-            auto max_score_it = target_rects.end();
+            scored_rect* max_score_ptr = nullptr;
             int max_score = 0;
             for(auto it = target_rects.begin(); it != target_rects.end(); ++it) {
+                std::cout << "Validity:  " << it->validity << "\t";
                 it->validity--;
-                
+
                 if(it->validity < 0) {
-                    target_rects.erase(it);
+                    std::cout << "erased" << std::endl;
+                    target_rects.erase(it++);
                     continue;
                 }
-                
+
+                std::cout << " passed \t";
+
                 if(it->validity > VALIDITY_THRESH) {
                     int score = X_CENTER_WEIGHT*(X_CENTER-abs<int16_t>(X_CENTER-it->rect.x)) +
                                 Y_CENTER_WEIGHT*(Y_CENTER-abs<int16_t>(Y_CENTER-it->rect.y)) +
                                 AREA_WEIGHT*it->rect.width*it->rect.height +
                                 it->targeting ? TARGETED_WEIGHT : 0;
+                    std::cout << " passed. Score: " << score << std::endl;
                     if(score > max_score) {
                         max_score = score;
-                        max_score_it = it;
+                        max_score_ptr = &(*it);
                     }
                     it->targeting = false;
                 }
+                else {
+                    std::cout << std::endl;
+
+                }
             }
-            if(max_score_it != target_rects.end()) {
+            if(max_score_ptr != nullptr) {
                 std::cout << "Target rect found" << std::endl;
-                current_target_rect = max_score_it->rect;
-                max_score_it->targeting = true;
+                current_target_rect = max_score_ptr->rect;
+                max_score_ptr->targeting = true;
                 has_target_rect_ = true;
             }
             else {
@@ -112,6 +128,7 @@ namespace AFR::VexU::Vision {
             }
             last_enc_vals = enc_vals;
         }
+        std::cout << "End update function" << std::endl;
     }
     
     rectangle vision_targeting::get_target_rect() {
@@ -126,8 +143,9 @@ namespace AFR::VexU::Vision {
         int16_t target_x = 360;
         int16_t target_y = 270;
         encoder_tuple retval;
-        retval.azimuth = (target_x-(rect.x + rect.width/2))/X_PIX_PER_TICK;
-        retval.altitude = (target_y-(rect.y + rect.height/2))/Y_PIX_PER_TICK;
+        retval.azimuth = -0.9*((target_x-(rect.x + rect.width/2))/X_PIX_PER_TICK);
+        retval.altitude = 0.9*((target_y-(rect.y + rect.height/2))/Y_PIX_PER_TICK);
+
         return retval;
     }
     
