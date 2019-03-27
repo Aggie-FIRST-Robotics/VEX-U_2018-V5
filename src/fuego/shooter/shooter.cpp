@@ -188,6 +188,13 @@ namespace AFR::VexU::Fuego::Shooter{
         Turret::dead_band->set_operation(std::function<double()>([](){ return Turret::encoder->get_scaled_position();}),turret_state_controller->get_name());
         Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
 
+        vision->set_operation(std::function<Vision::encoder_tuple()>([](){
+            Vision::encoder_tuple given;
+            given.altitude = Hood::encoder->get_scaled_position();
+            given.azimuth = Turret::encoder->get_scaled_position();
+            return given;
+        }),turret_state_controller->get_name());
+
         manual->add_transition(std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(AUTO);}),auto_aim);
 
         manual_to_set_point = []() -> bool { return set_hood_high->is_rising_edge() || set_hood_mid->is_rising_edge() || set_hood_low->is_rising_edge()
@@ -297,12 +304,13 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         auto_entry = []() -> void {
+            vision->enable();
             Hood::dead_band->set_target(hood_auto_target);
             Turret::dead_band->set_target(turret_auto_target);
         };
 
         auto_aim->set_on_state_entry(auto_entry);
-        auto_aim->set_on_state_exit(std::function<void()>([](){}));
+        auto_aim->set_on_state_exit(std::function<void()>([](){vision->purge_target_list();}));
 
         ready_to_auto = []() -> bool {
             return !(Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE) && Flywheel::avg_speed->get_average_value() >= 0.95 * Flywheel::SPEED);
