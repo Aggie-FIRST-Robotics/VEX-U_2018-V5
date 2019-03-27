@@ -8,6 +8,7 @@
 #include "afr-lib/state_controller.h"
 #include "afr-vexu-lib/base-readable/digital_edge_detector.h"
 #include "afr-vexu-lib/base-commandable/controller_commandable.h"
+#include "afr-vexu-lib/vision/vision_targeting.h"
 
 #include "fuego/shooter/flywheel/flywheel.h"
 #include "fuego/shooter/turret/turret.h"
@@ -42,11 +43,7 @@ namespace AFR::VexU::Fuego::Shooter{
     const double HOOD_LOW_TARGET        = 1200;
 
     /////AUTO AIM
-    const double ENCODER_UNITS_PER_PIXEL = 1;
-    const int16_t TARGET_X = 360;
-    const int16_t TARGET_Y = 270;
-    const int16_t X_TOLERANCE = 10;
-    const int16_t Y_TOLERANCE = 10;
+    const double AUTO_TOLERANCE = 50;
 
     void init();
     void destroy();

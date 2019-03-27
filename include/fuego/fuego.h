@@ -83,8 +83,8 @@ namespace AFR::VexU::Fuego{
     const pros::controller_digital_e_t DESCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
     const pros::controller_digital_e_t BALL_SPIT_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
     const pros::controller_digital_e_t BALL_SWALLOW_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
-    const pros::controller_analog_e_t LEFT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_LEFT_Y;
-    const pros::controller_analog_e_t RIGHT_DRIVE_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_X;
+    const pros::controller_analog_e_t DRIVETRAIN_THROTTLE = pros::E_CONTROLLER_ANALOG_LEFT_Y;
+    const pros::controller_analog_e_t DRIVETRAIN_TURN = pros::E_CONTROLLER_ANALOG_RIGHT_X;
     const pros::controller_digital_e_t WALK = pros::E_CONTROLLER_DIGITAL_DOWN;
 
     /////OPERATOR CONTROLS

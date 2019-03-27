@@ -5,16 +5,18 @@
 #include "fuego/fuego.h"
 
 #include "afr-vexu-lib/base-commandable/motor_commandable.h"
-#include "afr-vexu-lib/base-action/pid_action.h"
+#include "afr-vexu-lib/base-readable/digital_edge_detector.h"
+#include "afr-vexu-lib/base-readable/controller_readable.h"
 
 namespace AFR::VexU::Fuego::BallIntake{
-    const scheduled_update_t BALL_INTAKE_UPDATE_PERIOD = 10;
+    const scheduled_update_t UPDATE_PERIOD = 10;
 
-    const pros::motor_brake_mode_e_t BALL_INTAKE_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
+    const bool DIRECTION = false;
+    const int16_t SWALLOW_VOLTAGE = 12000;
+    const int16_t SPIT_VOLTAGE = -12000;
 
     void init();
-
-    extern state_controller<bool> *ball_intake_controller;
+    void destroy();
 }
 
 #endif //VEX_U_2018_V5_BALL_INTAKE_H

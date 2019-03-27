@@ -3,6 +3,8 @@
 
 namespace AFR::VexU::Fuego::Shooter{
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
     BaseCommandable::controller_commandable* operator_rumble = nullptr;
 
     //Readables
@@ -34,6 +36,7 @@ namespace AFR::VexU::Fuego::Shooter{
     BaseReadable::digital_edge_detector* set_hood_mid = nullptr;
     BaseReadable::digital_edge_detector* set_hood_low = nullptr;
     BaseReadable::digital_edge_detector* stow = nullptr;
+    Vision::vision_targeting* vision = nullptr;
 
     struct turret_meta {
         double turret_set_point;
@@ -62,18 +65,6 @@ namespace AFR::VexU::Fuego::Shooter{
 
     std::function<double()> hood_auto_target{};
     std::function<double()> turret_auto_target{};
-
-//    //Shooter searches for target
-//    state* auto_aim = nullptr;
-//    std::vector<std::pair<std::function<bool()>, state*>> auto_aim_transitions;
-//    std::function<void()> auto_aim_entry;
-//    std::function<void()> auto_aim_exit;
-//
-//    //Shooter is locked onto a target
-//    state* ready = nullptr;
-//    std::vector<std::pair<std::function<bool()>, state*>> ready_transitions;
-//    std::function<void()> ready_entry;
-//    std::function<void()> ready_exit;
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -181,6 +172,7 @@ namespace AFR::VexU::Fuego::Shooter{
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(HOOD_LOW);}),"set hood low");
         stow = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(STOW);}),"stow");
+        vision = new Vision::vision_targeting("vision");
 
         turret_state_controller = new state_controller<turret_meta>{UPDATE_PERIOD, {0,0},"turret state machine"};
 
@@ -264,20 +256,44 @@ namespace AFR::VexU::Fuego::Shooter{
         set_point->set_on_state_exit(std::function<void()>([](){}));
 
         auto_to_ready = []() -> bool {
-            return (Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE) && Flywheel::avg_speed->get_average_value() >= 0.95 * Flywheel::SPEED);
+            Vision::encoder_tuple auto_encoder_change = Vision::vision_targeting::get_encoder_setpoints(vision->get_target_rect());
+            return abs(auto_encoder_change.altitude) + abs(auto_encoder_change.azimuth) < AUTO_TOLERANCE;
         };
 
         auto_aim->add_transition(std::function<bool()>([](){return !BaseReadable::operator_controller->is_digital_pressed(AUTO);}),manual);
         auto_aim->add_transition(auto_to_ready,ready);
 
         hood_auto_target = []() -> double {
-            //change target by pixel difference from center
-            return 0;
+            if(vision->has_target_rect()) {
+                Vision::encoder_tuple auto_encoder_change = Vision::vision_targeting::get_encoder_setpoints(vision->get_target_rect());
+                if (Hood::encoder->get_scaled_position() + auto_encoder_change.altitude > Hood::ENCODER_LIMIT) {
+                    return Hood::ENCODER_LIMIT;
+                } else if (Hood::encoder->get_scaled_position() + auto_encoder_change.altitude < 0) {
+                    return 0;
+                } else {
+                    return Hood::encoder->get_scaled_position() + auto_encoder_change.altitude;
+                }
+            }
+            else {
+                return Hood::encoder->get_scaled_position();
+            }
         };
 
         turret_auto_target = []() -> double {
-            //change target by pixel difference from center
-            return 0;
+            if(vision->has_target_rect()) {
+                Vision::encoder_tuple auto_encoder_change = Vision::vision_targeting::get_encoder_setpoints(
+                        vision->get_target_rect());
+                if (Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth > Turret::ENCODER_LIMIT) {
+                    return Turret::ENCODER_LIMIT;
+                } else if (Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth < 0) {
+                    return 0;
+                } else {
+                    return Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth;
+                }
+            }
+            else {
+                return Turret::encoder->get_scaled_position();
+            }
         };
 
         auto_entry = []() -> void {
