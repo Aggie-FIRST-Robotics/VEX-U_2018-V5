@@ -5,12 +5,13 @@ namespace AFR::VexU::Vision {
     vision_targeting::vision_targeting(const std::string& name) :
         nameable(name), 
         commandable<encoder_tuple>(UPDATE_RATE, name),
-        last_enc_vals(0,0),
         has_target_rect_(false)
         {}
         
     void vision_targeting::set_value_private(encoder_tuple enc_vals, double delta_seconds) {
         if(scheduled::is_enabled()) {
+            std::cout << "Begin update function" << std::endl;
+            std::cout << "Encoder vals: " << enc_vals.azimuth << " " << enc_vals.altitude << std::endl;
             for(auto it = target_rects.begin(); it != target_rects.end(); ++it) {
                 it->rect.x += X_PIX_PER_TICK*(enc_vals.azimuth-last_enc_vals.azimuth);
                 it->rect.y += Y_PIX_PER_TICK*(enc_vals.altitude-last_enc_vals.altitude);
@@ -38,6 +39,7 @@ namespace AFR::VexU::Vision {
             }
             
             short rect_num = serial->odroid_table.read(FRAME_NUM_ADDR);
+            std::cout << "Num serial rects: " << rect_num << std::endl; 
             if(rect_num > 0 && serial->odroid_table.card(FRAME_NUM_ADDR) <= UPDATE_RATE) {
                 for(uint8_t i = 0; i < rect_num; i++) {
                     rectangle serial_rect;
@@ -45,7 +47,7 @@ namespace AFR::VexU::Vision {
                     serial_rect.y = serial->odroid_table.read(3+4*i);
                     serial_rect.width = serial->odroid_table.read(4+4*i);
                     serial_rect.height = serial->odroid_table.read(5+4*i);
-                    
+                    std::cout << "Serial rect: " << serial_rect.x << " "<< serial_rect.y << " " << serial_rect.width << " " << serial_rect.height << std::endl;
                     bool rect_found = false;
                     for(auto rect : target_rects) {
                         if(abs<int16_t>(rect.rect.x - serial_rect.x) < RECT_IN_RANGE_X &&
@@ -58,6 +60,7 @@ namespace AFR::VexU::Vision {
                             rect.rect.height = serial_rect.height;
                             rect.validity += RECURRENCE_BONUS;
                             rect_found = true;
+                            std::cout << "Rect found in list, score: " << rect.validity << std::endl;
                             break;
                         }
                     }
@@ -70,6 +73,7 @@ namespace AFR::VexU::Vision {
                         new_rect.validity = RECURRENCE_BONUS;
                         new_rect.targeting = false;
                         target_rects.push_back(new_rect);
+                        std::cout << "Rect not found in list" << std::endl;
                     }
                 }
             }
@@ -97,11 +101,13 @@ namespace AFR::VexU::Vision {
                 }
             }
             if(max_score_it != target_rects.end()) {
+                std::cout << "Target rect found" << std::endl;
                 current_target_rect = max_score_it->rect;
                 max_score_it->targeting = true;
                 has_target_rect_ = true;
             }
             else {
+                std::cout << "No target rect found" << std::endl;
                 has_target_rect_ = false;
             }
             last_enc_vals = enc_vals;
