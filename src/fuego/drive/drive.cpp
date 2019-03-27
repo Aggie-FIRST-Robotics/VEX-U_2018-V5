@@ -28,9 +28,9 @@ namespace AFR::VexU::Fuego::Drive{
         front_left_motor = new BaseCommandable::motor_commandable
                 {UPDATE_PERIOD, LEFT_RAIL_MOTOR_A_PORT, DRIVETRAIN_GEARSET, DIRECTION, DRIVETRAIN_BRAKE_MODE, "front_left_motor"};
         front_right_motor = new BaseCommandable::motor_commandable
-                {UPDATE_PERIOD, LEFT_RAIL_MOTOR_B_PORT, DRIVETRAIN_GEARSET, !DIRECTION, DRIVETRAIN_BRAKE_MODE, "front_right_motor"};
+                {UPDATE_PERIOD, LEFT_RAIL_MOTOR_B_PORT, DRIVETRAIN_GEARSET, DIRECTION, DRIVETRAIN_BRAKE_MODE, "front_right_motor"};
         back_left_motor = new BaseCommandable::motor_commandable
-                {UPDATE_PERIOD, RIGHT_RAIL_MOTOR_A_PORT, DRIVETRAIN_GEARSET, DIRECTION, DRIVETRAIN_BRAKE_MODE, "back_left_motor"};
+                {UPDATE_PERIOD, RIGHT_RAIL_MOTOR_A_PORT, DRIVETRAIN_GEARSET, !DIRECTION, DRIVETRAIN_BRAKE_MODE, "back_left_motor"};
         back_right_motor = new BaseCommandable::motor_commandable
                 {UPDATE_PERIOD, RIGHT_RAIL_MOTOR_B_PORT, DRIVETRAIN_GEARSET, !DIRECTION, DRIVETRAIN_BRAKE_MODE, "back_right_motor"};
 

@@ -16,9 +16,9 @@
 namespace AFR::VexU::Fuego{
     void init_robot(){
         try{
-            serial->enqueue_write(ODROID_ID,0,1);
             init_lib();
             init_afr_vexu_lib();
+            serial->enqueue_write(ODROID_ID,0,1);
             Shooter::init();
             Drive::init();
             BallIntake::init();
