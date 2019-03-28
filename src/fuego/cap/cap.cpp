@@ -37,36 +37,6 @@ namespace AFR::VexU::Fuego::Cap{
     BaseReadable::digital_edge_detector* flip_button = nullptr;
     BaseReadable::digital_edge_detector* reset_button = nullptr;
 
-    /////Transition Functions
-    std::function<bool()> store_to_zero_shoulder{};
-    std::function<bool()> store_to_ground{};
-    std::function<bool()> store_to_flip{};
-    std::function<bool()> store_to_steal{};
-    std::function<bool()> store_to_score{};
-
-    std::function<bool()> ground_to_store{};
-    std::function<bool()> ground_to_flip{};
-    std::function<bool()> ground_to_zero_shoulder{};
-    std::function<bool()> ground_to_intake{};
-    std::function<bool()> ground_to_spit{};
-
-    std::function<bool()> flip_low_to_ground{};
-
-    std::function<bool()> flip_high_to_store{};
-
-    std::function<bool()> zero_arm_to_zero_elbow{};
-
-    std::function<bool()> zero_elbow_to_store{};
-
-    std::function<bool()> score_prime_to_score{};
-    std::function<bool()> score_prime_to_store{};
-
-    std::function<bool()> score_to_steal{};
-    std::function<bool()> score_to_score_prime{};
-
-    std::function<bool()> steal_to_score{};
-    std::function<bool()> steal_to_store{};
-
     void init(){
         //Readables
         cap_arm = new state_controller<cap_arm_meta>(UPDATE_PERIOD, cap_arm_meta{false},"cap arm state controller");
@@ -91,108 +61,260 @@ namespace AFR::VexU::Fuego::Cap{
         flip_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, FLIP_BUTTON, "flip button edge");
         reset_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, RESET_BUTTON, "zero button edge");
 
-        Arm::arm_pid_controller->set_operation(std::function<double()>([](){ return Arm::arm_encoder->get_scaled_position();}),cap_arm->get_name());
-        Elbow::elbow_pid_controller->set_operation(std::function<double()>([](){return Elbow::elbow_encoder->get_scaled_position();}),cap_arm->get_name());
-        Wrist::wrist_pid_controller->set_operation(std::function<double()>([](){return Wrist::wrist_encoder->get_scaled_position();}),cap_arm->get_name());
+        Arm::pid_controller->set_operation(std::function<double()>([](){
+            return Arm::encoder->get_scaled_position();
+        }),cap_arm->get_name());
+        Arm::left_motor->set_operation(std::function<double()>([](){
+            return Arm::pid_controller->get_pid_value();
+        }),cap_arm->get_name());
+        Arm::right_motor->set_operation(std::function<double()>([](){
+            return Elbow::pid_controller->get_pid_value();
+        }),cap_arm->get_name());
+
+        Elbow::pid_controller->set_operation(std::function<double()>([](){
+            return Elbow::encoder->get_scaled_position();
+        }),cap_arm->get_name());
+        Elbow::motor->set_operation(std::function<double()>([](){
+            return Elbow::pid_controller->get_pid_value();
+        }),cap_arm->get_name());
+
+        Wrist::pid_controller->set_operation(std::function<double()>([](){
+            return Wrist::encoder->get_scaled_position();
+        }),cap_arm->get_name());
+        Wrist::flipping_motor->set_operation(std::function<double()>([](){
+            return Wrist::pid_controller->get_pid_value();
+        }),cap_arm->get_name());
 
         /////Zero Shoulder
             //////Transitions
-            zero_arm_to_zero_elbow = []() -> bool{ return Arm:};
+            zero_arm->add_transition(std::function<bool()>([](){
+                return Arm::zero_action->is_zeroed();
+            }),zero_elbow);
+
+            /////Entry/Exit Functions
+            zero_arm->set_on_state_entry(std::function<void()>([](){
+                Elbow::pid_controller->set_target(0);
+                /////Run arm zero action
+                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
+            }));
+            zero_arm->set_on_state_exit(std::function<void()>([](){
+                /////Stop arm zero action
+            }));
 
         cap_arm->add_state(zero_arm);
 
         /////Zero Elbow
             /////Transitions
-            //zero_elbow->add_transition(std::function<bool()>([](){ return Elbow::zero_action->is_zeroed();}),store);
+            zero_elbow->add_transition(std::function<bool()>([](){
+                return Elbow::zero_action->is_zeroed();
+            }),store);
 
             /////Entry/Exit Functions
-                zero_elbow_entry = []() -> void{
-                    /////Shoulder and arm go to zero
-                };
-
-                zero_elbow_exit = []() -> void{
-                    /////stop zero actions
-                };
-
-            zero_elbow->set_on_state_entry(zero_elbow_entry);
-            zero_elbow->set_on_state_exit(zero_elbow_exit);
+            zero_elbow->set_on_state_entry(std::function<void()>([](){
+                /////Run elbow zero action
+                Arm::pid_controller->set_target(0);
+            }));
+            zero_elbow->set_on_state_exit(std::function<void()>([](){
+                /////Stop arm zero action
+            }));
 
         cap_arm->add_state(zero_elbow);
 
         /////Store state
-                /////Transitions
-                store_to_zero_shoulder = []() -> bool{
-                    return reset_button->is_rising_edge();
-                };
+            /////Transitions
+            store->add_transition(std::function<bool()>([](){
+                return reset_button->is_rising_edge();
+            }),zero_arm);
+            store->add_transition(std::function<bool()>([](){
+                return down_button->is_rising_edge();
+            }),ground);
+            store->add_transition(std::function<bool()>([](){
+                return flip_button->is_rising_edge();
+            }),flip_high);
+            store->add_transition(std::function<bool()>([](){
+                cap_arm->metadata().is_stealing = descore_button->is_rising_edge();
+                return cap_arm->metadata().is_stealing;
+            }),descore_prime);
+            store->add_transition(std::function<bool()>([](){
+                return elevate_button->is_rising_edge();
+            }),score);
 
-                store_to_ground = []() -> bool{
-                    return down_button->is_rising_edge();
-                };
+            /////Entry and exit functions
+            store->set_on_state_entry(std::function<void()>([](){
+                Arm::pid_controller->set_target(0);
+                Elbow::pid_controller->set_target(ELBOW_STORE_POSITION);
+                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
+            }));
+            store->set_on_state_exit(std::function<void()>([](){
 
-                store_to_flip = []() -> bool{
-                    return flip_button->is_rising_edge();
-                };
-
-                store_to_steal = []() -> bool{
-                    cap_arm->metadata().is_stealing = descore_button->is_rising_edge();
-                    return cap_arm->metadata().is_stealing;
-                };
-
-                store_to_score = []() -> bool{
-                    return elevate_button->is_rising_edge();
-                };
-
-            store->add_transition(store_to_zero_shoulder, zero_arm);
-            store->add_transition(store_to_ground, ground);
-            store->add_transition(store_to_flip, flip_high);
-            store->add_transition(store_to_steal, descore_prime);
-            store->add_transition(store_to_score, score_prime);
-
-                /////Entry and exit functions
-                store_entry = []() -> void{
-                    Arm::arm_pid_controller->set_target(0);
-                    Elbow::elbow_pid_controller->set_target(ELBOW_STORE_POSITION);
-                    Arm::left_arm_motor->set_operation(std::function<int16_t()>([](){return Arm::arm_pid_controller->get_pid_value();}), cap_arm->get_name());
-                    Arm::right_arm_motor->set_operation(std::function<int16_t()>([](){return Arm::arm_pid_controller->get_pid_value();}), cap_arm->get_name());
-                    Elbow::elbow_motor->set_operation(std::function<int16_t()>([](){return Elbow::elbow_pid_controller->get_pid_value();}), cap_arm->get_name());
-                };
-
-                store_exit = []() -> void {
-                    Arm::left_arm_motor->set_value(0,cap_arm->get_name());
-                    Arm::right_arm_motor->set_value(0,cap_arm->get_name());
-                    Elbow::elbow_motor->set_value(0,cap_arm->get_name());
-                };
-
-            store->set_on_state_entry(store_entry);
-            store->set_on_state_exit(store_exit);
+            }));
 
         cap_arm->add_state(store);
 
         /////Ground state
-                /////Transitions
-                ground_to_store = []() -> bool{
-                    return elevate_button->is_rising_edge();
-                };
+            /////Transitions
+            ground->add_transition(std::function<bool()>([](){
+                return elevate_button->is_rising_edge();
+            }),store);
+            ground->add_transition(std::function<bool()>([](){
+                return flip_button->is_rising_edge();
+            }),flip_low);
+            ground->add_transition(std::function<bool()>([](){
+                return reset_button->is_rising_edge();
+            }),zero_arm);
+            ground->add_transition(std::function<bool()>([](){
+                return BaseReadable::driver_controller->is_digital_pressed(INTAKE_BUTTON);
+            }),intake);
+            ground->add_transition(std::function<bool()>([](){
+                return BaseReadable::driver_controller->is_digital_pressed(OUTTAKE_BUTTON);
+            }),spit);
 
-                ground_to_flip = []() -> bool{
-                    return flip_button->is_rising_edge();
-                };
+            /////Entry/Exit Functions
+            ground->set_on_state_entry(std::function<void()>([](){
+                Arm::pid_controller->set_target(ARM_GROUND_POSITION);
+                Elbow::pid_controller->set_target(ELBOW_GROUND_POSITION);
+            }));
+            ground->set_on_state_exit(std::function<void()>([](){
 
-                ground_to_zero_shoulder = []() -> bool{
-                    return reset_button->is_rising_edge();
-                };
+            }));
 
-                ground_to_intake = []() -> bool {
-                    return GROUND_BUTTON();
-                };
+        /////Intake State
+            /////Transtions
+            intake->add_transition(std::function<bool()>([](){
+                return !BaseReadable::driver_controller->is_digital_pressed(INTAKE_BUTTON);
+            }),ground);
 
-            ground->add_transition(ground_to_store,store);
-            ground->add_transition(ground_to_flip,flip_low);
-            ground->add_transition(ground_to_zero_shoulder,zero_arm);
-            ground->add_transition(ground_to_intake,intake);
+            /////Entry/Exit Function
+            intake->set_on_state_entry(std::function<void()>([](){
+                Wrist::intake_motor->set_value(INTAKE_VOLTAGE,cap_arm->get_name());
+            }));
+            intake->set_on_state_exit(std::function<void()>([](){
+                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
+            }));
 
+        /////Spit State
+            /////Transtions
+            spit->add_transition(std::function<bool()>([](){
+                return !BaseReadable::driver_controller->is_digital_pressed(OUTTAKE_BUTTON);
+            }),ground);
 
+            /////Entry/Exit Function
+            spit->set_on_state_entry(std::function<void()>([](){
+                Wrist::intake_motor->set_value(-INTAKE_VOLTAGE,cap_arm->get_name());
+            }));
+            spit->set_on_state_exit(std::function<void()>([](){
+                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
+            }));
 
+        /////Flip Low State
+            /////Transitions
+            flip_low->add_transition(std::function<bool()>([](){
+                /////Did the wrist flip
+                return true;
+            }),ground);
+
+            /////Entry/Exit Functions
+            flip_low->set_on_state_entry(std::function<void()>([](){
+                Elbow::pid_controller->set_target(ELBOW_FLIP_LOW_POSITION);
+            }));
+            flip_low->set_on_state_exit(std::function<void()>([](){
+
+            }));
+
+        /////Flip High State
+            /////Transitions
+            flip_high->add_transition(std::function<bool()>([](){
+                /////Did the wrist flip
+                return true;
+            }),store);
+
+            /////Entry/Exit Functions
+            flip_high->set_on_state_entry(std::function<void()>([](){
+                Elbow::pid_controller->set_target(ELBOW_FLIP_HIGH_POSITION);
+            }));
+            flip_high->set_on_state_exit(std::function<void()>([](){
+
+            }));
+
+        /////Score Prime State
+            /////Transitions
+            score_prime->add_transition(std::function<bool()>([](){
+                if(cap_arm->metadata().is_stealing){
+                    /////Did the wrist flip action occur
+                    cap_arm->metadata().is_stealing = false;
+                    return true;
+                }
+                else {
+                    return Arm::pid_controller->is_in_range(PID_TOLERANCE) && Elbow::pid_controller->is_in_range(PID_TOLERANCE) && BaseReadable::operator_controller->is_digital_pressed(ELEVATE_BUTTON);
+                }
+            }),score);
+            score_prime->add_transition(std::function<bool()>([](){
+                return down_button->is_rising_edge();
+            }),zero_arm);
+
+            /////Entry/Exit Functions
+            score_prime->set_on_state_entry(std::function<void()>([](){
+                Arm::pid_controller->set_target(ARM_SCORE_PRIME_POSITION);
+                Elbow::pid_controller->set_target(ELBOW_SCORE_PRIME_POSITION);
+                Wrist::intake_motor->set_value(IDLE_VOLTAGE, cap_arm->get_name());
+                if(cap_arm->metadata().is_stealing) {
+                    /////Run wrist flip action
+                }
+            }));
+            score_prime->set_on_state_exit(std::function<void()>([](){
+
+            }));
+
+        ////Score State
+            /////Transitions
+            score->add_transition(std::function<bool()>([](){
+                return Arm::pid_controller->is_in_range(PID_TOLERANCE) && Elbow::pid_controller->is_in_range(PID_TOLERANCE) && cap_arm->metadata().is_stealing;
+            }),score_prime);
+            score->add_transition(std::function<bool()>([](){
+                return Arm::pid_controller->is_in_range(PID_TOLERANCE) && Elbow::pid_controller->is_in_range(PID_TOLERANCE) && !cap_arm->metadata().is_stealing;
+            }),descore_prime);
+
+            /////Entry/Exit Functions
+            score->set_on_state_entry(std::function<void()>([](){
+                Arm::pid_controller->set_target(ARM_SCORE_POSITION);
+                Elbow::pid_controller->set_target(ELBOW_SCORE_POSITION);
+                if(cap_arm->metadata().is_stealing){
+                    Wrist::intake_motor->set_value(INTAKE_VOLTAGE,cap_arm->get_name());
+                }
+            }));
+            score->set_on_state_exit(std::function<void()>([](){
+
+            }));
+
+        ////Descore Prime State
+            /////Transitions
+            descore_prime->add_transition(std::function<bool()>([](){
+                return cap_arm->metadata().is_stealing && down_button->is_rising_edge();
+            }),store);
+            descore_prime->add_transition(std::function<bool()>([](){
+                return cap_arm->metadata().is_stealing && down_button->is_rising_edge();
+                if(cap_arm->metadata().is_stealing){
+
+                }
+                else{
+
+                }
+            }),zero_arm);
+            descore_prime->add_transition(std::function<bool()>([](){
+                return Arm::pid_controller->is_in_range(PID_TOLERANCE) && Elbow::pid_controller->is_in_range(PID_TOLERANCE) && cap_arm->metadata().is_stealing;
+            }),score);
+
+            /////Entry/Exit Functions
+            descore_prime->set_on_state_entry(std::function<void()>([](){
+                Arm::pid_controller->set_target(ARM_DESCORE_PRIME_POSITION);
+                Elbow::pid_controller->set_target(ELBOW_DESCORE_PRIME_POSITION);
+                if(!cap_arm->metadata().is_stealing){
+                    Wrist::intake_motor->set_value(-INTAKE_VOLTAGE,cap_arm->get_name());
+                }
+            }));
+            descore_prime->set_on_state_exit(std::function<void()>([](){
+
+            }));
 
 
     }

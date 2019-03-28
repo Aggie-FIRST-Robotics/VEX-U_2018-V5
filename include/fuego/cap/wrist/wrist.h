@@ -3,7 +3,6 @@
 
 #include "fuego/fuego.h"
 #include "afr-lib/scheduled.h"
-#include "afr-lib/state_controller.h"
 
 #include "afr-vexu-lib/base-commandable/motor_commandable.h"
 
@@ -22,7 +21,7 @@ namespace AFR::VexU::Fuego::Cap::Wrist{
 
     const double ENCODER_SCALING = 1;
 
-    const double WRIST_FLIP_TARGET         = 750;
+    const double INITIAL_TARGET            = 750;
     const double P_TERM 					= 50;
     const double I_TERM 					= 0;
     const double D_TERM 					= 0;
@@ -34,13 +33,13 @@ namespace AFR::VexU::Fuego::Cap::Wrist{
     void init();
     void destroy();
 
-    extern BaseCommandable::motor_commandable* wrist_motor;
-    extern BaseCommandable::motor_commandable* wrist_intake_motor;
+    extern BaseCommandable::motor_commandable* flipping_motor;
+    extern BaseCommandable::motor_commandable* intake_motor;
 
-    extern BaseReadable::adi_digital_readable* wrist_limit_switch;
-    extern BaseReadable::motor_encoder_readable* wrist_encoder;
+    extern BaseReadable::adi_digital_readable* limit_switch;
+    extern BaseReadable::motor_encoder_readable* encoder;
 
-    extern BaseAction::pid_action<double, int16_t>* wrist_pid_controller;
+    extern BaseAction::pid_action<double, int16_t>* pid_controller;
     extern BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action;
 
 }

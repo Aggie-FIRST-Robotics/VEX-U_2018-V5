@@ -3,7 +3,6 @@
 
 #include "fuego/fuego.h"
 #include "afr-lib/scheduled.h"
-#include "afr-lib/state_controller.h"
 
 #include "afr-vexu-lib/base-commandable/motor_commandable.h"
 
@@ -17,7 +16,7 @@ namespace AFR::VexU::Fuego::Cap::Elbow{
 
     const scheduled_update_t UPDATE_PERIOD = 10;
 
-    const bool ELBOW_DIRECTION = true;
+    const bool DIRECTION = true;
 
     const double ENCODER_SCALING = 1;
 
@@ -32,12 +31,12 @@ namespace AFR::VexU::Fuego::Cap::Elbow{
     void init();
     void destroy();
 
-    extern BaseCommandable::motor_commandable* elbow_motor;
+    extern BaseCommandable::motor_commandable* motor;
 
-    extern BaseReadable::adi_digital_readable* elbow_limit_switch;
-    extern BaseReadable::motor_encoder_readable* elbow_encoder;
+    extern BaseReadable::adi_digital_readable* limit_switch;
+    extern BaseReadable::motor_encoder_readable* encoder;
 
-    extern BaseAction::pid_action<double, int16_t>* elbow_pid_controller;
+    extern BaseAction::pid_action<double, int16_t>* pid_controller;
     extern BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action;
 }
 

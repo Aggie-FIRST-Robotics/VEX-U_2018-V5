@@ -17,7 +17,7 @@ namespace AFR::VexU::Fuego::Cap::Arm{
 
     const scheduled_update_t UPDATE_PERIOD = 10;
 
-    const bool SHOULDER_DIRECTION = true;
+    const bool DIRECTION = true;
 
     const double ENCODER_SCALING = 1;
 
@@ -32,13 +32,13 @@ namespace AFR::VexU::Fuego::Cap::Arm{
     void init();
     void destroy();
 
-    extern BaseCommandable::motor_commandable* left_arm_motor;
-    extern BaseCommandable::motor_commandable* right_arm_motor;
+    extern BaseCommandable::motor_commandable* left_motor;
+    extern BaseCommandable::motor_commandable* right_motor;
 
-    extern BaseReadable::adi_digital_readable* arm_limit_switch;
-    extern BaseReadable::motor_encoder_readable* arm_encoder;
+    extern BaseReadable::adi_digital_readable* limit_switch;
+    extern BaseReadable::motor_encoder_readable* encoder;
 
-    extern BaseAction::pid_action<double, int16_t>* arm_pid_controller;
+    extern BaseAction::pid_action<double, int16_t>* pid_controller;
     extern BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action;
 }
 
