@@ -6,7 +6,7 @@ namespace AFR::VexU::Fuego::Shooter::Hood{
 
     BaseCommandable::motor_commandable* motor = nullptr;
     BaseReadable::motor_encoder_readable* encoder = nullptr;
-    BaseAction::dead_band_action<double,double>* dead_band = nullptr;
+    BaseAction::pid_action<double,double>* pid = nullptr;
     BaseAction::bounded_value_action< double, int32_t ,int16_t >* follow_stick = nullptr;
 
     void init(){
@@ -16,8 +16,8 @@ namespace AFR::VexU::Fuego::Shooter::Hood{
         encoder = new BaseReadable::motor_encoder_readable
                 (HOOD_MOTOR_PORT, ENCODER_SCALING, "hood encoder");
 
-        dead_band = new BaseAction::dead_band_action<double, double>
-                (UPDATE_PERIOD, 0, AUTO_AIM_TOLERANCE, MAX_VOLTAGE, MIN_VOLTAGE, "hood auto aim action");
+        pid = new BaseAction::pid_action<double, double>
+                (UPDATE_PERIOD, 100, 0, 0, MIN_VOLTAGE, MAX_VOLTAGE, MIN_VOLTAGE, MAX_VOLTAGE, 0, 0, 0, "hood auto aim action");
 
         follow_stick = new BaseAction::bounded_value_action< double, int32_t ,int16_t >
                 (UPDATE_PERIOD, ENCODER_LIMIT,0, 0, 0,
@@ -31,7 +31,7 @@ namespace AFR::VexU::Fuego::Shooter::Hood{
     void destroy(){
         delete motor;
         delete encoder;
-        delete dead_band;
+        delete pid;
         delete follow_stick;
     }
 }

@@ -39,14 +39,14 @@ namespace AFR::VexU::Vision {
         static constexpr int64_t UPDATE_RATE = 10;
         static constexpr int CAM_WIDTH = 720;
         static constexpr int CAM_HEIGHT = 540;
-        static constexpr double X_PIX_PER_TICK = 3.77778;
-        static constexpr double Y_PIX_PER_TICK = -7.706;
+        static constexpr double X_PIX_PER_TICK = -2.5;
+        static constexpr double Y_PIX_PER_TICK = -1.5;
         static constexpr int RECT_IN_RANGE_X = 30;
         static constexpr int RECT_IN_RANGE_Y = 30;
         static constexpr int RECT_IN_RANGE_WIDTH = 10;
         static constexpr int RECT_IN_RANGE_HEIGHT = 10;
-        static constexpr int RECURRENCE_BONUS = 100;
-        static constexpr int VALIDITY_MAX = 300;
+        static constexpr int RECURRENCE_BONUS = 50;
+        static constexpr int VALIDITY_MAX = 200;
         static constexpr int VALIDITY_THRESH = 100;
         static constexpr int X_CENTER_WEIGHT = 10;
         static constexpr int Y_CENTER_WEIGHT = 1;
@@ -67,7 +67,7 @@ namespace AFR::VexU::Vision {
         
         rectangle get_target_rect();    
         bool has_target_rect();
-        static encoder_tuple get_encoder_setpoints(const rectangle& rect);
+        encoder_tuple get_encoder_setpoints();
         void purge_target_list();
     };
 }

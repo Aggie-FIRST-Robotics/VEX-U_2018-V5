@@ -19,7 +19,7 @@ namespace AFR::VexU::Vision {
                 std::cout << "new rect coords: " << it->rect.x << " " << it->rect.y << std::endl;
                 
                 if(it->rect.x+it->rect.width < 0 || it->rect.x >= CAM_WIDTH || 
-                   it->rect.y+it->rect.height < 0 || it->rect.x >= CAM_HEIGHT) {
+                   it->rect.y+it->rect.height < 0 || it->rect.y >= CAM_HEIGHT) {
                     std::cout << "Rect out of range, erasing" << std::endl;
                     target_rects.erase(it++);
                     continue;
@@ -139,13 +139,14 @@ namespace AFR::VexU::Vision {
         return has_target_rect_;
     }
     
-    encoder_tuple vision_targeting::get_encoder_setpoints(const rectangle& rect) {
+    encoder_tuple vision_targeting::get_encoder_setpoints() {
         int16_t target_x = 360;
         int16_t target_y = 270;
         encoder_tuple retval;
-        retval.azimuth = -0.9*((target_x-(rect.x + rect.width/2))/X_PIX_PER_TICK);
-        retval.altitude = 0.9*((target_y-(rect.y + rect.height/2))/Y_PIX_PER_TICK);
-
+        if(has_target_rect_) {
+            retval.azimuth = 0.9*((target_x-(current_target_rect.x + current_target_rect.width/2))/X_PIX_PER_TICK);
+            retval.altitude = 0.9*((target_y-(current_target_rect.y + current_target_rect.height/2))/Y_PIX_PER_TICK);
+        }
         return retval;
     }
     

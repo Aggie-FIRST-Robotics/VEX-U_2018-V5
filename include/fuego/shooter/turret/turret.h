@@ -9,7 +9,7 @@
 #include "afr-vexu-lib/base-readable/adi_digital_readable.h"
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
 
-#include "afr-vexu-lib/base-action/dead_band_action.h"
+#include "afr-vexu-lib/base-action/pid_action.h"
 #include "afr-vexu-lib/base-action/bounded_value_action.h"
 
 namespace AFR::VexU::Fuego::Shooter::Turret{
@@ -28,7 +28,7 @@ namespace AFR::VexU::Fuego::Shooter::Turret{
 
     extern BaseCommandable::motor_commandable* motor;
     extern BaseReadable::motor_encoder_readable* encoder;
-    extern BaseAction::dead_band_action<double,double>* dead_band;
+    extern BaseAction::pid_action<double,double>* pid;
     extern BaseAction::bounded_value_action< double, int32_t ,int16_t >* follow_stick;
 }
 
