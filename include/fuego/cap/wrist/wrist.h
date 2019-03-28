@@ -35,12 +35,12 @@ namespace AFR::VexU::Fuego::Cap::Wrist{
     void destroy();
 
     extern BaseCommandable::motor_commandable* wrist_motor;
-    extern BaseCommandable::motor_commandable* intake_motor;
+    extern BaseCommandable::motor_commandable* wrist_intake_motor;
 
-    extern BaseReadable::adi_digital_readable* limit_switch;
-    extern BaseReadable::motor_encoder_readable* encoder;
+    extern BaseReadable::adi_digital_readable* wrist_limit_switch;
+    extern BaseReadable::motor_encoder_readable* wrist_encoder;
 
-    extern BaseAction::pid_action<double, int16_t>* pid_controller;
+    extern BaseAction::pid_action<double, int16_t>* wrist_pid_controller;
     extern BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action;
 
 }

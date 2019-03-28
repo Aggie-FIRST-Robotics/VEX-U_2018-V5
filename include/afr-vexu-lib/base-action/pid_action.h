@@ -2,11 +2,12 @@
 #ifndef VEX_U_2018_V5_PID_H
 #define VEX_U_2018_V5_PID_H
 #include "afr-vexu-lib/base-action/targetable.h"
+#include "afr-lib/action.h"
 //min max -12000, +12000 imin imax -6000, 6000
 
 namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>
-    class pid_action : public targetable<Read_T>{
+    class pid_action : public targetable<Read_T>, public action<Write_T>{
         double _p_value;
         double _i_value;
         double _d_value;
@@ -101,6 +102,10 @@ namespace AFR::VexU::BaseAction{
         
         Write_T get_pid_value() {
             return pid_value_;
+        }
+
+        Write_T get_value_to_set() override{
+            return get_pid_value();
         }
 
         /**

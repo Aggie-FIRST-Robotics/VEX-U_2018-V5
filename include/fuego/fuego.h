@@ -72,7 +72,7 @@ namespace AFR::VexU::Fuego{
     const port_t WRIST_LIMIT_SWITCH_PORT = 6;
 
     /////DRIVER CONTROLS
-    const pros::controller_digital_e_t UP_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
+    const pros::controller_digital_e_t ELEVATE_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
     const pros::controller_digital_e_t DOWN_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
     const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
     const pros::controller_digital_e_t FLIP_PARTNER_BUTTON = pros::E_CONTROLLER_DIGITAL_B;

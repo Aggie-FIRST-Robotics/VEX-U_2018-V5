@@ -6,21 +6,22 @@
 
 namespace AFR::VexU::BaseAction{
     template<typename ReadT, typename TargetReadT, typename WriteT>
-    class zero_encoder_action : targetable<TargetReadT> {
+    class zero_encoder_action : public targetable<ReadT>, public action<WriteT> {
         BaseReadable::motor_encoder_readable* encoder_;
-        std::function<ReadT()>* readable_;
+        std::function<ReadT()> readable_;
         bool is_zeroed_;
         WriteT down_val_;
         ReadT target_val_;
         BaseAction::targetable<TargetReadT>* target_action_;
 
-        void set_value_private(ReadT value, double delta_seconds){
+        void set_value_private(ReadT value, double delta_seconds) override{
             target_val_ = value;
         }
 
+    public:
         WriteT zero_value() {
             if(!is_zeroed_){
-                if(readable_ == target_val_){
+                if(readable_() == target_val_){
                     is_zeroed_ = true;
                     encoder_->tare_position();
                     target_action_->set_target(0);
@@ -34,11 +35,10 @@ namespace AFR::VexU::BaseAction{
             }
         }
 
-    public:
-        zero_encoder_action(const std::function<ReadT()>& readable, BaseReadable::motor_encoder_readable* encoder,
+        zero_encoder_action(scheduled_update_t update_period, const std::function<ReadT()>& readable, BaseReadable::motor_encoder_readable* encoder,
                             ReadT target_value, WriteT down_val, BaseAction::targetable<TargetReadT>* target_action,
                             const std::string& name) :
-                nameable(name), encoder_(encoder), readable_(readable), is_zeroed_(false),
+                nameable(name), targetable<ReadT>(update_period, target_value, target_value, name), encoder_(encoder), readable_(readable), is_zeroed_(false),
                 down_val_(down_val), target_val_(target_value), target_action_(target_action){
             target_action->disable();
         }
@@ -49,6 +49,10 @@ namespace AFR::VexU::BaseAction{
 
         bool is_in_range(ReadT tolerance) override{
             return is_zeroed();
+        }
+
+        WriteT get_value_to_set() override{
+            return zero_value();
         }
     };
 }

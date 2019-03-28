@@ -5,7 +5,7 @@
 #include "wrist_flip_action.h"
 #include "afr-lib/state_controller.h"
 
-#include "fuego/cap/shoulder/shoulder.h"
+#include "fuego/cap/arm/arm.h"
 #include "fuego/cap/elbow/elbow.h"
 #include "fuego/cap/wrist/wrist.h"
 
@@ -41,10 +41,6 @@ namespace AFR::VexU::Fuego::Cap{
 
 //    extern state_controller* cap_state_machine;
 //    extern subsystem_controller* cap_subsystem;
-
-    const scheduled_update_t CAP_UPDATE_PERIOD = 10;
-
-    const double ELBOW_STORE_POSITION = 20;
 
     //Down
     const double DOWN_ARM_TARGET = 0;

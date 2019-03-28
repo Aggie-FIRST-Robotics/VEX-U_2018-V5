@@ -2,7 +2,6 @@ include(src/fuego/shooter/turret/CMakeLists.txt)
 include(src/fuego/shooter/hood/CMakeLists.txt)
 include(src/fuego/shooter/flywheel/CMakeLists.txt)
 include(src/fuego/shooter/loader/CMakeLists.txt)
-include(src/fuego/shooter/CMakeLists.txt)
 
 set(
         fuego-shooter-src

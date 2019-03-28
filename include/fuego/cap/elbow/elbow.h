@@ -24,20 +24,20 @@ namespace AFR::VexU::Fuego::Cap::Elbow{
     const double P_TERM 					= 50;
     const double I_TERM 					= 0;
     const double D_TERM 					= 0;
-    const short MIN_I_TERM 				    = -12000;
-    const short MAX_I_TERM 				    = 12000;
-    const short MAX_VALUE                  = 12000;
-    const short MIN_VALUE                  = -12000;
+    const int16_t MIN_I_TERM 				= -12000;
+    const int16_t MAX_I_TERM 				= 12000;
+    const int16_t MAX_VALUE                 = 12000;
+    const int16_t MIN_VALUE                 = -12000;
 
     void init();
     void destroy();
 
     extern BaseCommandable::motor_commandable* elbow_motor;
 
-    extern BaseReadable::adi_digital_readable* limit_switch;
-    extern BaseReadable::motor_encoder_readable* encoder;
+    extern BaseReadable::adi_digital_readable* elbow_limit_switch;
+    extern BaseReadable::motor_encoder_readable* elbow_encoder;
 
-    extern BaseAction::pid_action<double, int16_t>* pid_controller;
+    extern BaseAction::pid_action<double, int16_t>* elbow_pid_controller;
     extern BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action;
 }
 

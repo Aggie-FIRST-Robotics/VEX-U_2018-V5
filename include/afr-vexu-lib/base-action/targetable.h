@@ -41,7 +41,6 @@ namespace AFR::VexU::BaseAction{
         Read_T get_target() {
             return operation<Read_T>::get_function()();
         }
-        
     };
 }
 
