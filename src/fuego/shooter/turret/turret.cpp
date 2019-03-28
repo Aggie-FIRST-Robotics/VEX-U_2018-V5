@@ -7,7 +7,7 @@ namespace AFR::VexU::Fuego::Shooter::Turret{
     //memes
     BaseCommandable::motor_commandable* motor = nullptr;
     BaseReadable::motor_encoder_readable* encoder = nullptr;
-    BaseAction::dead_band_action<double,double>* dead_band = nullptr;
+    BaseAction::pid_action<double,double>* pid = nullptr;
     BaseAction::bounded_value_action< double, int32_t ,int16_t >* follow_stick = nullptr;
 
     void init(){
@@ -17,8 +17,8 @@ namespace AFR::VexU::Fuego::Shooter::Turret{
         encoder = new BaseReadable::motor_encoder_readable
                 (TURRET_MOTOR_PORT, ENCODER_SCALING, "turret encoder");
 
-        dead_band = new BaseAction::dead_band_action<double, double>
-                (UPDATE_PERIOD, 0, AUTO_AIM_TOLERANCE, MAX_VOLTAGE, MIN_VOLTAGE, "turret auto aim action");
+        pid = new BaseAction::pid_action<double, double>
+                (UPDATE_PERIOD, 100, 0, 0, MIN_VOLTAGE, MAX_VOLTAGE, MIN_VOLTAGE, MAX_VOLTAGE, 0, 0, 0, "turret auto aim action");
 
         follow_stick = new BaseAction::bounded_value_action< double, int32_t ,int16_t >
                 (UPDATE_PERIOD, ENCODER_LIMIT,0, 0, 0,
@@ -31,7 +31,7 @@ namespace AFR::VexU::Fuego::Shooter::Turret{
     void destroy(){
         delete motor;
         delete encoder;
-        delete dead_band;
+        delete pid;
         delete follow_stick;
     }
 }

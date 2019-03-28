@@ -182,10 +182,10 @@ namespace AFR::VexU::Fuego::Shooter{
         ready = new state ("turret: ready");
 
 
-        Hood::dead_band->set_operation(std::function<double()>([](){ return Hood::encoder->get_scaled_position();}),turret_state_controller->get_name());
+        Hood::pid->set_operation(std::function<double()>([](){ return Hood::encoder->get_scaled_position();}),turret_state_controller->get_name());
         Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
 
-        Turret::dead_band->set_operation(std::function<double()>([](){ return Turret::encoder->get_scaled_position();}),turret_state_controller->get_name());
+        Turret::pid->set_operation(std::function<double()>([](){ return Turret::encoder->get_scaled_position();}),turret_state_controller->get_name());
         Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
 
         vision->set_operation(std::function<Vision::encoder_tuple()>([](){
@@ -209,8 +209,8 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         manual_exit = []() -> void {
-            Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::dead_band->get_deadband_value();}),turret_state_controller->get_name());
-            Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::dead_band->get_deadband_value();}),turret_state_controller->get_name());
+            Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::pid->get_pid_value();}),turret_state_controller->get_name());
+            Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::pid->get_pid_value();}),turret_state_controller->get_name());
         };
 
         manual->set_on_state_entry(manual_entry);
@@ -219,7 +219,7 @@ namespace AFR::VexU::Fuego::Shooter{
         turret_state_controller->add_state(manual);
 
         set_point->add_transition(std::function<bool()>([](){
-            return (Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE)) ||
+            return (Hood::pid->is_in_range(HOOD_TOLERANCE) && Turret::pid->is_in_range(TURRET_TOLERANCE)) ||
             abs(BaseReadable::operator_controller->get_analog(TURRET_STICK)) + abs(BaseReadable::operator_controller->get_analog(HOOD_STICK) > STICK_CANCEL_VALUE);}),manual);
 
         hood_set_point = []() -> double {
@@ -255,15 +255,15 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         set_point_entry = []() -> void {
-            Hood::dead_band->set_target(hood_set_point);
-            Turret::dead_band->set_target(turret_set_point);
+            Hood::pid->set_target(hood_set_point);
+            Turret::pid->set_target(turret_set_point);
         };
 
         set_point->set_on_state_entry(set_point_entry);
         set_point->set_on_state_exit(std::function<void()>([](){}));
 
         auto_to_ready = []() -> bool {
-            Vision::encoder_tuple auto_encoder_change = Vision::vision_targeting::get_encoder_setpoints(vision->get_target_rect());
+            Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
             return abs(auto_encoder_change.altitude) + abs(auto_encoder_change.azimuth) < AUTO_TOLERANCE;
         };
 
@@ -272,7 +272,7 @@ namespace AFR::VexU::Fuego::Shooter{
 
         hood_auto_target = []() -> double {
             if(vision->has_target_rect()) {
-                Vision::encoder_tuple auto_encoder_change = Vision::vision_targeting::get_encoder_setpoints(vision->get_target_rect());
+                Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
                 if (Hood::encoder->get_scaled_position() + auto_encoder_change.altitude > Hood::ENCODER_LIMIT) {
                     return Hood::ENCODER_LIMIT;
                 } else if (Hood::encoder->get_scaled_position() + auto_encoder_change.altitude < 0) {
@@ -288,8 +288,7 @@ namespace AFR::VexU::Fuego::Shooter{
 
         turret_auto_target = []() -> double {
             if(vision->has_target_rect()) {
-                Vision::encoder_tuple auto_encoder_change = Vision::vision_targeting::get_encoder_setpoints(
-                        vision->get_target_rect());
+                Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
                 if (Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth > Turret::ENCODER_LIMIT) {
                     return Turret::ENCODER_LIMIT;
                 } else if (Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth < 0) {
@@ -306,8 +305,8 @@ namespace AFR::VexU::Fuego::Shooter{
         vision->disable();
         auto_entry = []() -> void {
             vision->enable();
-            Hood::dead_band->set_target(hood_auto_target);
-            Turret::dead_band->set_target(turret_auto_target);
+            Hood::pid->set_target(hood_auto_target);
+            Turret::pid->set_target(turret_auto_target);
         };
 
         auto_aim->set_on_state_entry(auto_entry);
@@ -318,7 +317,7 @@ namespace AFR::VexU::Fuego::Shooter{
         }));
 
         ready_to_auto = []() -> bool {
-            return !(Hood::dead_band->is_in_range(HOOD_TOLERANCE) && Turret::dead_band->is_in_range(TURRET_TOLERANCE) && Flywheel::avg_speed->get_average_value() >= 0.95 * Flywheel::SPEED);
+            return !(Hood::pid->is_in_range(HOOD_TOLERANCE) && Turret::pid->is_in_range(TURRET_TOLERANCE) && Flywheel::avg_speed->get_average_value() >= 0.95 * Flywheel::SPEED);
         };
 
         ready->add_transition(ready_to_auto,auto_aim);
