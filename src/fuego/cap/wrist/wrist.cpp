@@ -11,7 +11,7 @@ namespace AFR::VexU::Fuego::Cap::Wrist{
     BaseReadable::motor_encoder_readable* encoder = nullptr;
 
     BaseAction::pid_action<double, int16_t>* pid_controller = nullptr;
-    BaseAction::zero_encoder_action<bool, double, int16_t>* zero_action = nullptr;
+    BaseAction::zero_encoder_action<bool, int16_t>* zero_action = nullptr;
 
     void init(){
         flipping_motor = new BaseCommandable::motor_commandable
@@ -32,9 +32,8 @@ namespace AFR::VexU::Fuego::Cap::Wrist{
                 (UPDATE_PERIOD, P_TERM, I_TERM, D_TERM, MIN_VALUE, MAX_VALUE,
                 MIN_I_TERM, MAX_I_TERM, 0, 0, INITIAL_TARGET, "wrist_pid_controller");
 
-        zero_action = new BaseAction::zero_encoder_action< bool, double, int16_t >
-                (UPDATE_PERIOD, std::function<bool()>([](){ return limit_switch->is_pressed();}),
-                encoder, true, -12000, pid_controller, "wrist zero encoder action");
+        zero_action = new BaseAction::zero_encoder_action< bool, int16_t >
+                (std::function<bool()>([](){ return limit_switch->is_pressed();}), encoder, true, -12000, 0);
     }
 
     void destroy(){

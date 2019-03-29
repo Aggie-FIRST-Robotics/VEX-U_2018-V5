@@ -45,8 +45,8 @@ namespace AFR::VexU::Fuego::Drive{
             start_entry = []() -> void{
                 front_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
                 front_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
-                back_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
-                back_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
+                back_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
+                back_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
             };
 
             start_exit = []() -> void{};

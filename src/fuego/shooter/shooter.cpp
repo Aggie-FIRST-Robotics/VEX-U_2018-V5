@@ -139,7 +139,7 @@ namespace AFR::VexU::Fuego::Shooter{
         shooter_state_controller->add_state(fire);
 
         /////WALK
-        walk->add_transition(std::function<bool()>([](){return !BaseReadable::driver_controller->is_digital_pressed(WALK);}),rest);
+        walk->add_transition(std::function<bool()>([](){return BaseReadable::driver_controller->is_digital_pressed(DOWN_BUTTON);}),rest);
 
         walk_entry = []() -> void {
             Loader::dead_band->set_target(WALK_TARGET);

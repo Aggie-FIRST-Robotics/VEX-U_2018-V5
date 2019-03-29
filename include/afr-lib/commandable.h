@@ -8,6 +8,7 @@
 #include "nameable.h"
 #include "scheduled.h"
 #include "action.h"
+#include "main.h"
 
 namespace AFR::VexU{
     template <class T>
@@ -48,11 +49,12 @@ namespace AFR::VexU{
                 operation_defined = true;
             }
         }
-        void set_operation(action<T>* action, const std::string& caller){
-            action_ = action;
-            set_operation([this]() -> T{
-                return action_->get_value_to_set();
-            }, caller);
+        void set_operation(action<T>* action, const std::string& caller, bool dummy){
+            throw std::runtime_error{"Bad call"};
+//            action_ = action;
+//            set_operation([this]() -> T{
+//                return action_->get_value_to_set();
+//            }, caller);
         }
         
         void set_value(const T& value, std::string caller) {

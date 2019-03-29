@@ -19,10 +19,11 @@ namespace AFR::VexU{
 
     void scheduled::update_all() {
         for(auto& itr : scheduled_list_){
-            auto scheduled = itr.second;
+            auto& scheduled = itr.second;
             if(scheduled->next_update_ == INT64_MAX){
                 scheduled->update_private(-1);
                 scheduled->next_update_ = pros::millis() + scheduled->update_period_;
+                std::cout << "Initializing " << scheduled->get_name() << ", " << scheduled->next_update_ << " " << scheduled->enabled_ << std::endl;
             }
             else if(scheduled->update_period_ != 0){
                 if(pros::millis() >= scheduled->next_update_ && scheduled->enabled_){
@@ -35,6 +36,7 @@ namespace AFR::VexU{
                 scheduled->update_private((pros::millis() - scheduled->next_update_) * scaling_factor_to_seconds_);
                 scheduled->next_update_ = pros::millis();
             }
+
         }
     }
 
