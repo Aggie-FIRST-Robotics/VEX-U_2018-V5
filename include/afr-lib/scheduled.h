@@ -12,7 +12,7 @@ namespace AFR::VexU{
     typedef int64_t scheduled_update_t;    ///The type for the count of time for scheduled
 
     /**
-     * Used to schedule things so that they cna be called constantly without slowing down the processor
+     * Used to schedule things so that they can be called constantly without slowing down the processor
      */
     class scheduled: public virtual nameable{
         static std::unordered_map<std::string, scheduled*> scheduled_list_;
@@ -23,7 +23,7 @@ namespace AFR::VexU{
         bool enabled_;
 
         /**
-         * Overridden to  be whatever happens when update is called following the wait period
+         * Overridden to be whatever happens when update is called following the wait period
          * @param delta_seconds the amount of seconds that have actually passed
          * @return error_t value if error encountered
          */
@@ -37,7 +37,7 @@ namespace AFR::VexU{
         /**
          * Creates a scheduled
          * @param update_period the time period in scheduled_res_t to wait, if 0 will not update
-         * @param result error_t value if error encountered
+         * @param name the title to be assigned to the object
          */
         explicit scheduled(const scheduled_update_t update_period, const std::string& name);
 
@@ -50,6 +50,7 @@ namespace AFR::VexU{
          * @param enabled if the scheduled should continue updating
          */  
         void set_enabled(bool enabled);
+
         void enable();
         void disable();
         bool is_enabled();
