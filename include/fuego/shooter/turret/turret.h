@@ -22,6 +22,9 @@ namespace AFR::VexU::Fuego::Shooter::Turret{
     const int MIN_VOLTAGE = -12000;
     const double ENCODER_SCALING = 1.0;
     const int ENCODER_LIMIT = 3100;
+    const double PID_P = 125;
+    const double PID_I = 50;
+    const double PID_D = 0;
 
     void init();
     void destroy();

@@ -280,6 +280,8 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         set_point_entry = [](state* prev_state) -> void {
+            Hood::pid->enable();
+            Turret::pid->enable();
             Hood::pid->set_target(hood_set_point);
             Turret::pid->set_target(turret_set_point);
         };
@@ -325,7 +327,9 @@ namespace AFR::VexU::Fuego::Shooter{
                 Hood::encoder->get_scaled_position()
             ));
             Hood::pid->enable();
+            Hood::pid->reset_i_term();
             Turret::pid->enable();
+            Turret::pid->reset_i_term();
             Hood::pid->set_target(hood_auto_target);
             Turret::pid->set_target(turret_auto_target);
         };

@@ -22,6 +22,9 @@ namespace AFR::VexU::Fuego::Shooter::Hood{
     const int MIN_VOLTAGE = -12000;
     const double ENCODER_SCALING = 1.0;
     const int ENCODER_LIMIT = 1300;
+    const double PID_P = 50;
+    const double PID_I = 20;
+    const double PID_D = 0;
 
     void init();
     void destroy();

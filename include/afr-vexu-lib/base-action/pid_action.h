@@ -93,6 +93,10 @@ namespace AFR::VexU::BaseAction{
         void set_disabled_value(Write_T disabled_value) {
             disabled_value_ = disabled_value;
         }
+
+        void reset_i_term() {
+            i_term = 0;
+        }
         
         void on_disable() override {
             running = false;
