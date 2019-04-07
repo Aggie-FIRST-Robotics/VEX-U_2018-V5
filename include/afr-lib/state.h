@@ -19,8 +19,8 @@ namespace AFR::VexU {
      */
     class state : public nameable {
         std::vector<transition> transitions_;
-        std::function<void()> on_state_entry_;
-        std::function<void()> on_state_exit_;
+        std::function<void(state*)> on_state_entry_;
+        std::function<void(state*)> on_state_exit_;
 
     public:
         /**
@@ -36,24 +36,25 @@ namespace AFR::VexU {
          * Executes on state entry function
          * @return error_t value if error encountered
          */
-        void on_state_entry();
+        void on_state_entry(state* prev_state);
         /**
          * Executes on state exit function
          * @return error_t value if error encountered
          */
-        void on_state_exit();
+        void on_state_exit(state* next_state);
+
         /**
          * Sets on state entry function
          * @param on_state_entry the function to set the on state entry function
          * @return error_t value if error encountered
          */
-        void set_on_state_entry(const std::function<void()>& on_state_entry);
+        void set_on_state_entry(const std::function<void(state*)>& on_state_entry);
         /**
          * Sets on state exit function
          * @param on_state_exit the function to set the on state exit function
          * @return error_t value if error encountered
          */
-        void set_on_state_exit(const std::function<void()>& on_state_exit);
+        void set_on_state_exit(const std::function<void(state*)>& on_state_exit);
         /**
          * Returns transitions vector
          * @return error_t value if error encountered

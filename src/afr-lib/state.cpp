@@ -4,19 +4,19 @@ namespace AFR::VexU{
     state::state(const std::string& name)
             : nameable(name), transitions_(), on_state_entry_(), on_state_exit_(){}
 
-    void state::on_state_entry() {
-        on_state_entry_();
+    void state::on_state_entry(state* prev_state) {
+        on_state_entry_(prev_state);
     }
 
-    void state::on_state_exit() {
-        on_state_exit_();
+    void state::on_state_exit(state* next_state) {
+        on_state_exit_(next_state);
     }
 
-    void state::set_on_state_entry(const std::function<void()>& on_state_entry){
+    void state::set_on_state_entry(const std::function<void(state*)>& on_state_entry){
         on_state_entry_ = on_state_entry;
     }
 
-    void state::set_on_state_exit(const std::function<void()>& on_state_exit){
+    void state::set_on_state_exit(const std::function<void(state*)>& on_state_exit){
         on_state_exit_ = on_state_exit;
     }
 

@@ -5,8 +5,8 @@
 #include <unordered_map>
 
 #include "main.h"
-#include "defines.h"
-#include "nameable.h"
+#include "afr-lib/defines.h"
+#include "afr-lib/nameable.h"
 
 namespace AFR::VexU{
     typedef int64_t scheduled_update_t;    ///The type for the count of time for scheduled

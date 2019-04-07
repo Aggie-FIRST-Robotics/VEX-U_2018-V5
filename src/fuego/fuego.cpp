@@ -1,9 +1,3 @@
-#include "afr-vexu-lib/ports_list.h"
-#include "afr-vexu-lib/base-readable/competition_readable.h"
-#include "afr-vexu-lib/base-readable/battery_readable.h"
-#include "afr-lib/afr-lib.h"
-#include "afr-vexu-lib/afr-vexu-lib.h"
-
 #include "fuego/fuego.h"
 //#include "fuego/auto.h"
 #include "fuego/cap/cap.h"
@@ -24,6 +18,7 @@ namespace AFR::VexU::Fuego{
             BallIntake::init();
             Cap::init();
         }
+
         catch(std::exception& e){
             std::cerr << "Init error" << std::endl;
             std::cerr << e.what() << std::endl;

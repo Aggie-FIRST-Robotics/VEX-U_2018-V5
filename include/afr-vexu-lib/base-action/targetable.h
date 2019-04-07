@@ -12,6 +12,7 @@ namespace AFR::VexU::BaseAction{
         
         Read_T target_;
         Read_T initial_value_;
+        Read_T last_target_;
         
         Read_T value_function() {
             return target_;
@@ -39,7 +40,12 @@ namespace AFR::VexU::BaseAction{
         }
         
         Read_T get_target() {
-            return operation<Read_T>::get_function()();
+            last_target_ = operation<Read_T>::get_function()();
+            return last_target_;
+        }
+
+        Read_T get_last_target(){
+            return last_target_;
         }
     };
 }

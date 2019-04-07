@@ -38,6 +38,8 @@ namespace AFR::VexU::Fuego::Cap{
     state* intake = nullptr;
     state* spit = nullptr;
     state* dick = nullptr;
+    state* ascend_prime = nullptr;
+    state* ascend = nullptr;
 
     /////Edge detection for button lambdas
     BaseReadable::digital_edge_detector* elevate_button = nullptr;
@@ -45,6 +47,24 @@ namespace AFR::VexU::Fuego::Cap{
     BaseReadable::digital_edge_detector* descore_button = nullptr;
     BaseReadable::digital_edge_detector* flip_button = nullptr;
     BaseReadable::digital_edge_detector* reset_button = nullptr;
+    BaseReadable::digital_edge_detector* dick_button = nullptr;
+
+    std::function<int16_t()> idle_intake_function = []() -> int16_t{
+        if(BaseReadable::driver_controller->is_digital_pressed(INTAKE_BUTTON)){
+            return INTAKE_VOLTAGE;
+        }
+        else if(BaseReadable::driver_controller->is_digital_pressed(OUTTAKE_BUTTON)){
+            return -INTAKE_VOLTAGE;
+        }
+        else{
+            return IDLE_VOLTAGE;
+        }
+    };
+
+    std::function<int16_t()> zero_arm_action;
+    std::function<int16_t()> zero_elbow_action;
+    std::function<int16_t()> zero_wrist_action;
+    std::function<double()> wrist_flip_target;
 
     void init(){
         std::cout << "Starting init" << std::endl;
@@ -69,24 +89,59 @@ namespace AFR::VexU::Fuego::Cap{
         intake = new state("intake");
         spit = new state("outtake");
         dick = new state("dick");
+        ascend_prime = new state("ascend prime");
+        ascend = new state("ascend");
 
         elevate_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, ELEVATE_BUTTON, "elevate button edge");
         down_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, DOWN_BUTTON, "ground button edge");
         descore_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, DESCORE_BUTTON, "steal button edge");
         flip_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, FLIP_BUTTON, "flip button edge");
         reset_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, RESET_BUTTON, "zero button edge");
+        dick_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, WALK, "dick button edge");
 
         std::cout << "Setting controller operations" << std::endl;
+
+        zero_arm_action = []() -> int16_t{ 
+            if(Arm::limit_switch->is_pressed()){
+                return -200;
+            }
+            else{
+                return -12000;
+            }
+        };
+
+        zero_elbow_action = []() -> int16_t{ 
+            if(Wrist::limit_switch->is_pressed()){
+                return 0;
+            }
+            else{
+                return -12000;
+            }
+        };
+
+        zero_wrist_action = []() -> int16_t{ 
+            if(Wrist::limit_switch->is_pressed()){
+                return -200;
+            }
+            else{
+                return -12000;
+            }
+        };
+
+        wrist_flip_target = []() -> double{ 
+            if(Wrist::pid_controller->get_last_target() == 0){
+                return WRIST_FLIP_POSITION;
+            }
+            else {
+                return 0;
+            }
+        };
 
         Arm::pid_controller->set_operation(std::function<double()>([](){
             return Arm::encoder->get_scaled_position();
         }),cap_arm->get_name());
-        Arm::left_motor->set_operation(std::function<int16_t()>([](){
-            return Arm::pid_controller->get_pid_value();
-        }),cap_arm->get_name());
-        Arm::right_motor->set_operation(std::function<int16_t()>([](){
-            return Elbow::pid_controller->get_pid_value();
-        }),cap_arm->get_name());
+        Arm::left_motor->set_operation(zero_arm_action,cap_arm->get_name());
+        Arm::right_motor->set_operation(zero_arm_action,cap_arm->get_name());
 
 
         Elbow::pid_controller->set_operation(std::function<double()>([](){
@@ -101,9 +156,8 @@ namespace AFR::VexU::Fuego::Cap{
             std::cout << Wrist::encoder->get_scaled_position() << std::endl;
             return Wrist::encoder->get_scaled_position();
         }),cap_arm->get_name());
-        Wrist::flipping_motor->set_operation(std::function<int16_t()>([](){
-            return Wrist::zero_action->zero_value();
-        }),cap_arm->get_name());
+        Wrist::flipping_motor->set_operation(zero_wrist_action,cap_arm->get_name());
+        Wrist::intake_motor->set_operation(idle_intake_function,cap_arm->get_name());
 
         std::cout << "Creating States" << std::endl;
 
@@ -118,27 +172,14 @@ namespace AFR::VexU::Fuego::Cap{
             }),zero_elbow);
 
             /////Entry/Exit Functions
-            zero_arm->set_on_state_entry(std::function<void()>([](){
+            zero_arm->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Elbow::pid_controller->set_target(0);
-                Arm::left_motor->set_operation(std::function<int16_t()>([](){
-                    if(Arm::limit_switch->is_pressed()){
-                        return 0;
-                    }
-                    else{
-                        return -9000;
-                    }
-                }),cap_arm->get_name());
-                Arm::right_motor->set_operation(std::function<int16_t()>([](){
-                    if(Arm::limit_switch->is_pressed()){
-                        return 0;
-                    }
-                    else{
-                        return -9000;
-                    }
-                }),cap_arm->get_name());
-                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
+                Arm::left_motor->set_operation(zero_arm_action,cap_arm->get_name());
+                Arm::right_motor->set_operation(zero_arm_action,cap_arm->get_name());
+                Wrist::flipping_motor->set_operation(zero_wrist_action, cap_arm->get_name());
             }));
-            zero_arm->set_on_state_exit(std::function<void()>([](){
+            zero_arm->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+                Wrist::pid_controller->set_target(0);
                 Arm::pid_controller->set_target(-30);
                 Arm::left_motor->set_operation(std::function<int16_t()>([](){
                     return Arm::pid_controller->get_pid_value();
@@ -146,6 +187,9 @@ namespace AFR::VexU::Fuego::Cap{
                 Arm::right_motor->set_operation(std::function<int16_t()>([](){
                     return Arm::pid_controller->get_pid_value();
                 }),cap_arm->get_name());
+                Wrist::flipping_motor->set_operation(std::function<int16_t()>([](){
+                    return Wrist::pid_controller->get_pid_value();
+                }), cap_arm->get_name());
             }));
 
         /////Zero Elbow
@@ -159,35 +203,65 @@ namespace AFR::VexU::Fuego::Cap{
             }),store);
 
             /////Entry/Exit Functions
-            zero_elbow->set_on_state_entry(std::function<void()>([](){
-                Elbow::motor->set_operation(std::function<int16_t()>([](){
-                    if(Elbow::limit_switch->is_pressed()){
-                        return 0;
-                    }
-                    else{
-                        return -12000;
-                    }
-                }),cap_arm->get_name());
+            zero_elbow->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+                Elbow::motor->set_operation(zero_elbow_action,cap_arm->get_name());
             }));
-            zero_elbow->set_on_state_exit(std::function<void()>([](){
+            zero_elbow->set_on_state_exit(std::function<void(state*)>([](state* next_state){
                 Elbow::motor->set_operation(std::function<int16_t()>([](){
                     return Elbow::pid_controller->get_pid_value();
                 }),cap_arm->get_name());
             }));
 
-        /////Store state
+        /////Dick state
             /////Transitions
             dick->add_transition(std::function<bool()>([](){
                 return down_button->is_rising_edge();
+            }),ascend_prime);
+
+            dick->add_transition(std::function<bool()>([](){
+                return dick_button->is_rising_edge();
             }),store);
 
             /////Entry and exit functions
-            dick->set_on_state_entry(std::function<void()>([](){
+            dick->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Arm::pid_controller->set_target(500);
                 Elbow::pid_controller->set_target(2000);
             }));
-            dick->set_on_state_exit(std::function<void()>([](){
+            dick->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
+            }));
+
+        /////Ascend Prime State
+            /////Transitions
+            ascend_prime->add_transition(std::function<bool()>([](){
+                return down_button->is_rising_edge() || Elbow::pid_controller->is_in_range(PID_TOLERANCE);
+            }),ascend);
+
+            /////Entry and exit functions
+            ascend_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+                Arm::pid_controller->set_target(500);
+                Elbow::pid_controller->set_target(5000);
+            }));
+            ascend_prime->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+            }));
+
+        /////Ascend State
+            /////Transitions
+            ascend->add_transition(std::function<bool()>([](){
+                return down_button->is_rising_edge();
+            }),zero_arm);
+
+            /////Entry and exit functions
+            ascend->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+                Arm::pid_controller->set_target(100);
+                Elbow::pid_controller->set_target(5000);
+                Wrist::intake_motor->set_operation(std::function<int16_t()>([](){
+                    return -3.2*((BaseReadable::driver_controller->get_analog(DRIVETRAIN_THROTTLE) * 12000) / 127);
+                }),cap_arm->get_name());
+            }));
+            ascend->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+                Wrist::intake_motor->set_operation(idle_intake_function,cap_arm->get_name());
             }));
 
         /////Store state
@@ -209,11 +283,11 @@ namespace AFR::VexU::Fuego::Cap{
                 return elevate_button->is_rising_edge();
             }),score_prime);
             store->add_transition(std::function<bool()>([](){
-                return BaseReadable::driver_controller->is_digital_pressed(WALK);
+                return dick_button->is_rising_edge();
             }),dick);
 
             /////Entry and exit functions
-            store->set_on_state_entry(std::function<void()>([](){
+            store->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Arm::pid_controller->set_bounds(-8000,8000);
                 Arm::left_motor->set_operation(std::function<int16_t()>([](){
                     return Arm::pid_controller->get_pid_value();
@@ -226,11 +300,9 @@ namespace AFR::VexU::Fuego::Cap{
                 }),cap_arm->get_name());
                 Arm::pid_controller->set_target(-30);
                 Elbow::pid_controller->set_target(ELBOW_STORE_POSITION);
-                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
             }));
-            store->set_on_state_exit(std::function<void()>([](){
+            store->set_on_state_exit(std::function<void(state*)>([](state* next_state){
                 Arm::pid_controller->set_bounds(-12000,12000);
-                cap_arm->metadata().is_from_store = true;
             }));
 
         /////Ground state
@@ -244,58 +316,17 @@ namespace AFR::VexU::Fuego::Cap{
             ground->add_transition(std::function<bool()>([](){
                 return reset_button->is_rising_edge();
             }),zero_arm);
-            ground->add_transition(std::function<bool()>([](){
-                return BaseReadable::driver_controller->is_digital_pressed(INTAKE_BUTTON);
-            }),intake);
-            ground->add_transition(std::function<bool()>([](){
-                return BaseReadable::driver_controller->is_digital_pressed(OUTTAKE_BUTTON);
-            }),spit);
 
             /////Entry/Exit Functions
-            ground->set_on_state_entry(std::function<void()>([](){
-                if(cap_arm->metadata().is_from_store){
-                    cap_arm->metadata().is_from_store = false;
-                    cap_arm->metadata().cap_dir = false;
-                    Wrist::flipping_motor->set_operation(std::function<int16_t()>([](){
-                        return Wrist::zero_action->zero_value();
-                    }),cap_arm->get_name());
+            ground->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+                if(prev_state == store){
+                    Wrist::pid_controller->set_target(0);
                 }
                 Arm::pid_controller->set_target(ARM_GROUND_POSITION);
                 Elbow::pid_controller->set_target(ELBOW_GROUND_POSITION);
             }));
-            ground->set_on_state_exit(std::function<void()>([](){
-                Wrist::flipping_motor->set_operation(std::function<int16_t()>([](){
-                    return Wrist::pid_controller->get_pid_value();
-                }),cap_arm->get_name());
-                Wrist::pid_controller->set_target(Wrist::encoder->get_scaled_position());
-            }));
+            ground->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
-        /////Intake State
-            /////Transtions
-            intake->add_transition(std::function<bool()>([](){
-                return !BaseReadable::driver_controller->is_digital_pressed(INTAKE_BUTTON);
-            }),ground);
-
-            /////Entry/Exit Function
-            intake->set_on_state_entry(std::function<void()>([](){
-                Wrist::intake_motor->set_value(INTAKE_VOLTAGE,cap_arm->get_name());
-            }));
-            intake->set_on_state_exit(std::function<void()>([](){
-                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
-            }));
-
-        /////Spit State
-            /////Transtions
-            spit->add_transition(std::function<bool()>([](){
-                return !BaseReadable::driver_controller->is_digital_pressed(OUTTAKE_BUTTON);
-            }),ground);
-
-            /////Entry/Exit Function
-            spit->set_on_state_entry(std::function<void()>([](){
-                Wrist::intake_motor->set_value(-INTAKE_VOLTAGE,cap_arm->get_name());
-            }));
-            spit->set_on_state_exit(std::function<void()>([](){
-                Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
             }));
 
         /////Flip Low State
@@ -305,17 +336,11 @@ namespace AFR::VexU::Fuego::Cap{
             }),ground);
 
             /////Entry/Exit Functions
-            flip_low->set_on_state_entry(std::function<void()>([](){
+            flip_low->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Arm::pid_controller->set_target(ARM_FLIP_LOW_POSITION);
-                cap_arm->metadata().cap_dir = !cap_arm->metadata().cap_dir;
-                if(cap_arm->metadata().cap_dir){
-                    Wrist::pid_controller->set_target(WRIST_FLIP_POSITION);
-                }
-                else{
-                    Wrist::pid_controller->set_target(0);
-                }
+                Wrist::pid_controller->set_target(wrist_flip_target());
             }));
-            flip_low->set_on_state_exit(std::function<void()>([](){
+            flip_low->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
             }));
 
@@ -326,17 +351,11 @@ namespace AFR::VexU::Fuego::Cap{
             }),store);
 
             /////Entry/Exit Functions
-            flip_high->set_on_state_entry(std::function<void()>([](){
+            flip_high->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Elbow::pid_controller->set_target(ELBOW_FLIP_HIGH_POSITION);
-                cap_arm->metadata().cap_dir = !cap_arm->metadata().cap_dir;
-                if(cap_arm->metadata().cap_dir){
-                    Wrist::pid_controller->set_target(WRIST_FLIP_POSITION);
-                }
-                else{
-                    Wrist::pid_controller->set_target(0);
-                }
+                Wrist::pid_controller->set_target(wrist_flip_target());
             }));
-            flip_high->set_on_state_exit(std::function<void()>([](){
+            flip_high->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
             }));
 
@@ -353,13 +372,14 @@ namespace AFR::VexU::Fuego::Cap{
             }),score_flip);
 
             /////Entry/Exit Functions
-            score_prime->set_on_state_entry(std::function<void()>([](){
+            score_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Arm::pid_controller->set_target(ARM_SCORE_PRIME_POSITION);
                 Elbow::pid_controller->set_target(ELBOW_SCORE_PRIME_POSITION);
-                Wrist::intake_motor->set_value(IDLE_VOLTAGE, cap_arm->get_name());
             }));
-            score_prime->set_on_state_exit(std::function<void()>([](){
-
+            score_prime->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+                if(next_state == store || next_state == zero_arm){
+                    Wrist::intake_motor->set_operation(idle_intake_function, cap_arm->get_name());
+                }
             }));
 
         /////Score Flip State
@@ -369,17 +389,10 @@ namespace AFR::VexU::Fuego::Cap{
             }),score);
 
             /////Entry/Exit Functions
-            score_flip->set_on_state_entry(std::function<void()>([](){
-                cap_arm->metadata().is_stealing = false;
-                cap_arm->metadata().cap_dir = !cap_arm->metadata().cap_dir;
-                if(cap_arm->metadata().cap_dir){
-                    Wrist::pid_controller->set_target(WRIST_FLIP_POSITION);
-                }
-                else{
-                    Wrist::pid_controller->set_target(0);
-                }
+            score_flip->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+                Wrist::pid_controller->set_target(wrist_flip_target());
             }));
-            score_flip->set_on_state_exit(std::function<void()>([](){
+            score_flip->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
             }));
 
@@ -393,15 +406,17 @@ namespace AFR::VexU::Fuego::Cap{
             }),descore_prime);
 
             /////Entry/Exit Functions
-            score->set_on_state_entry(std::function<void()>([](){
+            score->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Arm::pid_controller->set_target(ARM_SCORE_POSITION);
                 Elbow::pid_controller->set_target(ELBOW_SCORE_POSITION);
-                if(cap_arm->metadata().is_stealing){
+                if(prev_state == descore_prime){
                     Wrist::intake_motor->set_value(INTAKE_VOLTAGE,cap_arm->get_name());
                 }
             }));
-            score->set_on_state_exit(std::function<void()>([](){
-
+            score->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+                if(next_state == score_prime){
+                    Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
+                }
             }));
 
         ////Descore Prime State
@@ -417,15 +432,17 @@ namespace AFR::VexU::Fuego::Cap{
             }),score);
 
             /////Entry/Exit Functions
-            descore_prime->set_on_state_entry(std::function<void()>([](){
+            descore_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Arm::pid_controller->set_target(ARM_DESCORE_PRIME_POSITION);
                 Elbow::pid_controller->set_target(ELBOW_DESCORE_PRIME_POSITION);
-                if(!cap_arm->metadata().is_stealing){
+                if(prev_state == score){
                     Wrist::intake_motor->set_value(-INTAKE_VOLTAGE,cap_arm->get_name());
                 }
             }));
-            descore_prime->set_on_state_exit(std::function<void()>([](){
-
+            descore_prime->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+                if(next_state == zero_arm) {
+                    Wrist::intake_motor->set_operation(idle_intake_function,cap_arm->get_name());
+                }
             }));
         cap_arm->add_state(zero_arm);
         cap_arm->add_state(zero_elbow);
@@ -440,6 +457,8 @@ namespace AFR::VexU::Fuego::Cap{
         cap_arm->add_state(intake);
         cap_arm->add_state(spit);
         cap_arm->add_state(dick);
+        cap_arm->add_state(ascend_prime);
+        cap_arm->add_state(ascend);
         cap_arm->set_state(zero_arm);
 
     }

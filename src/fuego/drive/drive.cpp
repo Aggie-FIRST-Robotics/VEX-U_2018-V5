@@ -16,8 +16,8 @@ namespace AFR::VexU::Fuego::Drive{
     state* manual = nullptr;
 
     /////Entry/Exit Functions
-    std::function<void()> start_entry{};
-    std::function<void()> start_exit{};
+    std::function<void(state*)> start_entry{};
+    std::function<void(state*)> start_exit{};
 
     /////Joystick Lambda
     std::function<int32_t()> DRIVE_SPEED = []() -> int32_t{ return (BaseReadable::driver_controller->get_analog(DRIVETRAIN_THROTTLE) * 12000) / 127; };
@@ -42,14 +42,14 @@ namespace AFR::VexU::Fuego::Drive{
 
         /////Start
             /////Entry/Exit Functions
-            start_entry = []() -> void{
+            start_entry = [](state* prev_state) -> void{
                 front_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
                 front_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
                 back_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
                 back_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
             };
 
-            start_exit = []() -> void{};
+            start_exit = [](state* next_state) -> void{};
 
             manual->set_on_state_entry(start_entry);
             manual->set_on_state_exit(start_exit);

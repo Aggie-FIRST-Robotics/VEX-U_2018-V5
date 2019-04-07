@@ -18,6 +18,10 @@ namespace AFR::VexU::BaseReadable{
         return falling_edge;
     }
 
+    void digital_edge_detector::set_last_read(bool val) {
+        last_read_ = val;
+    }
+
     digital_edge_detector::digital_edge_detector(pros::controller_id_e_t id, pros::controller_digital_e_t button, const std::string& name)
         : button_(button), operation<bool>([]() -> bool{ return false; }, name), nameable(name){
         if(id == pros::E_CONTROLLER_MASTER){
