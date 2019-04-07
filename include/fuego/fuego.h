@@ -7,6 +7,9 @@
 #include "afr-vexu-lib/base-readable/controller_readable.h"
 #include "afr-vexu-lib/ports_list.h"
 
+#include "afr-lib/afr-lib.h"
+#include "afr-vexu-lib/afr-vexu-lib.h"
+
 #include "main.h"
 
 namespace AFR::VexU::Fuego{
@@ -72,12 +75,10 @@ namespace AFR::VexU::Fuego{
     const port_t WRIST_LIMIT_SWITCH_PORT = 6;
 
     /////DRIVER CONTROLS
-    const pros::controller_digital_e_t UP_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
+    const pros::controller_digital_e_t ELEVATE_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
     const pros::controller_digital_e_t DOWN_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
     const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
-    const pros::controller_digital_e_t FLIP_PARTNER_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
-    const pros::controller_digital_e_t SCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
-    const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_LEFT;
+    const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
     const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_UP;
     const pros::controller_digital_e_t RESET_BUTTON = pros::E_CONTROLLER_DIGITAL_RIGHT;
     const pros::controller_digital_e_t DESCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;

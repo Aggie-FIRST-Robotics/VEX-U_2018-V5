@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "afr-lib/operation.h"
+#include "controller_readable.h"
 
 namespace AFR::VexU::BaseReadable{
     /**
@@ -11,6 +12,7 @@ namespace AFR::VexU::BaseReadable{
      */
      class digital_edge_detector : public operation<bool> {
         bool last_read_;
+        pros::controller_digital_e_t button_;
 
      public:
          /**
@@ -20,6 +22,7 @@ namespace AFR::VexU::BaseReadable{
           * @param name error_t value if error encountered
           */
         digital_edge_detector(std::function<bool()> bool_function, const std::string& name);
+        digital_edge_detector(pros::controller_id_e_t id, pros::controller_digital_e_t button, const std::string& name);
         
         bool is_rising_edge();
         bool is_falling_edge();

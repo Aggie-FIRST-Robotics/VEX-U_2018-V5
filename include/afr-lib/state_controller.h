@@ -53,10 +53,11 @@ namespace AFR::VexU{
                 throw std::runtime_error{"Cannot have nullptr for state in " + get_name()};
             }
             if(current_state_ != nullptr){
-                current_state_->on_state_exit();
+                current_state_->on_state_exit(next_state);
             }
+            state* prev_state = current_state_;
             current_state_ = next_state;
-            current_state_->on_state_entry();      
+            current_state_->on_state_entry(prev_state);
         }
 
         void update_current_state(){

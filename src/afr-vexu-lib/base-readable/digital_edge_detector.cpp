@@ -1,7 +1,6 @@
 #include "afr-vexu-lib/base-readable/digital_edge_detector.h"
 
 namespace AFR::VexU::BaseReadable{
-    
     digital_edge_detector::digital_edge_detector(std::function<bool()> bool_function, const std::string& name)
             : operation<bool>(bool_function, name), nameable(name){}
 
@@ -17,5 +16,19 @@ namespace AFR::VexU::BaseReadable{
         bool falling_edge = !bool_val && last_read_;
         last_read_ = bool_val;
         return falling_edge;
-    }    
+    }
+
+    digital_edge_detector::digital_edge_detector(pros::controller_id_e_t id, pros::controller_digital_e_t button, const std::string& name)
+        : button_(button), operation<bool>([]() -> bool{ return false; }, name), nameable(name){
+        if(id == pros::E_CONTROLLER_MASTER){
+            operation<bool>::set_function([this]() -> bool{
+                return driver_controller->is_digital_pressed(button_);
+            });
+        }
+        else{
+            operation<bool>::set_function([this]() -> bool{
+                return operator_controller->is_digital_pressed(button_);
+            });
+        }
+    }
 }

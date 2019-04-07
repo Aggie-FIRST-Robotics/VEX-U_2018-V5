@@ -8,7 +8,7 @@
 namespace AFR::VexU::Fuego::Drive{
     const scheduled_update_t UPDATE_PERIOD = 10;
 
-    const bool DIRECTION = false;
+    const bool DIRECTION = true;
 
     void init();
     void destroy();

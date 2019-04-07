@@ -18,17 +18,18 @@ namespace AFR::VexU::Fuego::Shooter{
     state* fire = nullptr;
     state* walk = nullptr;
 
-    std::function<void()> rest_entry{};
-    std::function<void()> spin_up_entry{};
-    std::function<void()> fire_entry{};
-    std::function<void()> fire_exit{};
-    std::function<void()> walk_entry{};
-    std::function<void()> walk_exit{};
+    std::function<void(state*)> rest_entry{};
+    std::function<void(state*)> spin_up_entry{};
+    std::function<void(state*)> fire_entry{};
+    std::function<void(state*)> fire_exit{};
+    std::function<void(state*)> walk_entry{};
+    std::function<void(state*)> walk_exit{};
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     //Readables
+    BaseReadable::digital_edge_detector* walker_button = nullptr;
     BaseReadable::digital_edge_detector* set_turret_left = nullptr;
     BaseReadable::digital_edge_detector* set_turret_mid = nullptr;
     BaseReadable::digital_edge_detector* set_turret_right = nullptr;
@@ -53,12 +54,12 @@ namespace AFR::VexU::Fuego::Shooter{
     std::function<bool()> auto_to_ready{};
     std::function<bool()> ready_to_auto{};
 
-    std::function<void()> manual_entry{};
-    std::function<void()> manual_exit{};
-    std::function<void()> set_point_entry{};
-    std::function<void()> auto_entry{};
-    std::function<void()> ready_entry{};
-    std::function<void()> ready_exit{};
+    std::function<void(state*)> manual_entry{};
+    std::function<void(state*)> manual_exit{};
+    std::function<void(state*)> set_point_entry{};
+    std::function<void(state*)> auto_entry{};
+    std::function<void(state*)> ready_entry{};
+    std::function<void(state*)> ready_exit{};
 
     std::function<double()> hood_set_point{};
     std::function<double()> turret_set_point{};
@@ -89,6 +90,8 @@ namespace AFR::VexU::Fuego::Shooter{
         fire = new state("shooter: fire");
         walk = new state("shooter: walk");
 
+        walker_button = new BaseReadable::digital_edge_detector(pros::E_CONTROLLER_MASTER,WALK,"walker button");
+
         Flywheel::pid_controller->set_operation(std::function<double()>([](){ return Flywheel::avg_speed->get_average_value();}), shooter_state_controller->get_name());
         Loader::dead_band->set_operation(std::function<double()>([](){ return Loader::encoder->get_scaled_position();}), shooter_state_controller->get_name());
         Flywheel::left_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
@@ -96,40 +99,56 @@ namespace AFR::VexU::Fuego::Shooter{
         Loader::motor->set_operation(std::function<int16_t()>([](){ return Loader::dead_band->get_deadband_value();}), shooter_state_controller->get_name());
 
         /////REST
-        rest->add_transition(std::function<bool()>([](){ return flywheel_toggle->is_rising_edge();}),spin_up);
-        rest->add_transition(std::function<bool()>([](){ return BaseReadable::driver_controller->is_digital_pressed(WALK);}),walk);
+        rest->add_transition(std::function<bool()>([](){
+            return flywheel_toggle->is_rising_edge();
+        }),spin_up);
+        rest->add_transition(std::function<bool()>([](){
+            return walker_button->is_rising_edge();
+        }),walk);
 
-        rest_entry = []() -> void{
+        rest_entry = [](state* prev_state) -> void{
+            Flywheel::pid_controller->disable();
             Flywheel::left_motor->set_value(0,shooter_state_controller->get_name());
             Flywheel::right_motor->set_value(0,shooter_state_controller->get_name());
             Loader::dead_band->set_target(IDLE_TARGET);
         };
         rest->set_on_state_entry(rest_entry);
-        rest->set_on_state_exit(std::function<void()>([](){}));
+        rest->set_on_state_exit(std::function<void(state*)>([](state* next_state){}));
 
         shooter_state_controller->add_state(rest);
 
         /////SPIN UP
-        spin_up->add_transition(std::function<bool()>([](){ return Flywheel::avg_speed->get_average_value() > Flywheel::SPEED/2 && loader_trigger->is_rising_edge();}), fire);
-        spin_up->add_transition(std::function<bool()>([](){ return flywheel_toggle->is_rising_edge();}),rest);
+        spin_up->add_transition(std::function<bool()>([](){
+            return Flywheel::avg_speed->get_average_value() > Flywheel::SPEED/2 && loader_trigger->is_rising_edge();
+        }), fire);
+        spin_up->add_transition(std::function<bool()>([](){
+            return flywheel_toggle->is_rising_edge();
+        }),rest);
 
-        spin_up_entry = []() -> void{
+        spin_up_entry = [](state* prev_state) -> void{
+            Flywheel::pid_controller->enable();
             Flywheel::left_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
             Flywheel::right_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
         };
         spin_up->set_on_state_entry(spin_up_entry);
-        spin_up->set_on_state_exit(std::function<void()>([](){}));
+        spin_up->set_on_state_exit(std::function<void(state*)>([](state* next_state){}));
 
         shooter_state_controller->add_state(spin_up);
 
         /////FIRE
-        fire->add_transition(std::function<bool()>([](){ return Loader::dead_band->is_in_range(LOADER_TOLERANCE);}),spin_up);
+        fire->add_transition(std::function<bool()>([](){
+            return Loader::dead_band->is_in_range(LOADER_TOLERANCE) && Flywheel::pid_controller->is_enabled();
+        }),spin_up);
 
-        fire_entry = []() -> void {
+        fire->add_transition(std::function<bool()>([](){
+            return Loader::dead_band->is_in_range(LOADER_TOLERANCE) && !Flywheel::pid_controller->is_enabled();
+        }),rest);
+
+        fire_entry = [](state* prev_state) -> void {
             Loader::dead_band->set_target(FIRE_TARGET);
         };
 
-        fire_exit = []() -> void {
+        fire_exit = [](state* next_state) -> void {
             Loader::dead_band->set_target(IDLE_TARGET);
         };
 
@@ -139,13 +158,19 @@ namespace AFR::VexU::Fuego::Shooter{
         shooter_state_controller->add_state(fire);
 
         /////WALK
-        walk->add_transition(std::function<bool()>([](){return !BaseReadable::driver_controller->is_digital_pressed(WALK);}),rest);
+        walk->add_transition(std::function<bool()>([](){
+            return walker_button->is_rising_edge();
+        }),rest);
 
-        walk_entry = []() -> void {
+        walk->add_transition(std::function<bool()>([](){
+            return BaseReadable::driver_controller->is_digital_pressed(DOWN_BUTTON);
+        }),fire);
+
+        walk_entry = [](state* prev_state) -> void {
             Loader::dead_band->set_target(WALK_TARGET);
         };
 
-        walk_exit = []() -> void {
+        walk_exit = [](state* next_state) -> void {
             Loader::dead_band->set_target(IDLE_TARGET);
         };
 
@@ -203,12 +228,12 @@ namespace AFR::VexU::Fuego::Shooter{
 
         manual->add_transition(manual_to_set_point,set_point);
 
-        manual_entry = []() -> void {
+        manual_entry = [](state* prev_state) -> void {
             Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
             Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
         };
 
-        manual_exit = []() -> void {
+        manual_exit = [](state* next_state) -> void {
             Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::pid->get_pid_value();}),turret_state_controller->get_name());
             Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::pid->get_pid_value();}),turret_state_controller->get_name());
         };
@@ -254,13 +279,13 @@ namespace AFR::VexU::Fuego::Shooter{
             return turret_state_controller->metadata().turret_set_point;
         };
 
-        set_point_entry = []() -> void {
+        set_point_entry = [](state* prev_state) -> void {
             Hood::pid->set_target(hood_set_point);
             Turret::pid->set_target(turret_set_point);
         };
 
         set_point->set_on_state_entry(set_point_entry);
-        set_point->set_on_state_exit(std::function<void()>([](){}));
+        set_point->set_on_state_exit(std::function<void(state*)>([](state* next_state){}));
 
         auto_to_ready = []() -> bool {
             Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
@@ -293,7 +318,7 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         vision->disable();
-        auto_entry = []() -> void {
+        auto_entry = [](state* prev_state) -> void {
             vision->enable();
             vision->set_encoder_setpoints(Vision::encoder_tuple(
                 Turret::encoder->get_scaled_position(), 
@@ -306,7 +331,7 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         auto_aim->set_on_state_entry(auto_entry);
-        auto_aim->set_on_state_exit(std::function<void()>([](){
+        auto_aim->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             std::cout << "Purging list" << std::endl;
             Hood::pid->disable();
             Turret::pid->disable();
@@ -321,11 +346,11 @@ namespace AFR::VexU::Fuego::Shooter{
         ready->add_transition(ready_to_auto,auto_aim);
         ready->add_transition(std::function<bool()>([](){return !BaseReadable::operator_controller->is_digital_pressed(AUTO);}),manual);
 
-        ready_entry = []() -> void {
+        ready_entry = [](state* prev_state) -> void {
             operator_rumble->set_value(".        ",turret_state_controller->get_name());
         };
 
-        ready_exit = []() -> void {
+        ready_exit = [](state* next_state) -> void {
             operator_rumble->set_value("",turret_state_controller->get_name());
         };
 

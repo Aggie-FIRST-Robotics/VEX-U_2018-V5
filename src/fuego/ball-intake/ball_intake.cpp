@@ -33,10 +33,10 @@ namespace AFR::VexU::Fuego::BallIntake{
 
         /////Spit
             /////Entry/Exit Functions
-            spit->set_on_state_entry(std::function<void()>([](){
+            spit->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 ball_intake_motor->set_value(SPIT_VOLTAGE, ball_intake_controller->get_name());
             }));
-            spit->set_on_state_exit(std::function<void()>([](){
+            spit->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
             }));
 
@@ -47,10 +47,10 @@ namespace AFR::VexU::Fuego::BallIntake{
 
         /////Swallow
             /////Entry/Exit Functions
-            swallow->set_on_state_entry(std::function<void()>([](){
+            swallow->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 ball_intake_motor->set_value(SWALLOW_VOLTAGE, ball_intake_controller->get_name());
             }));
-            swallow->set_on_state_exit(std::function<void()>([](){
+            swallow->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
             }));
 
@@ -65,10 +65,10 @@ namespace AFR::VexU::Fuego::BallIntake{
 
         /////Choke
             /////Entry/Exit Functions
-            choke->set_on_state_entry(std::function<void()>([](){
+            choke->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 ball_intake_motor->set_value(0, ball_intake_controller->get_name());
             }));
-            choke->set_on_state_exit(std::function<void()>([](){
+            choke->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
             }));
 

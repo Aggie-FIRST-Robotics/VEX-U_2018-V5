@@ -2,11 +2,12 @@
 #ifndef VEX_U_2018_V5_PID_H
 #define VEX_U_2018_V5_PID_H
 #include "afr-vexu-lib/base-action/targetable.h"
+#include "afr-lib/action.h"
 //min max -12000, +12000 imin imax -6000, 6000
 
 namespace AFR::VexU::BaseAction{
     template<typename Read_T, typename Write_T>
-    class pid_action : public targetable<Read_T>{
+    class pid_action : public targetable<Read_T>, public action<Write_T> {
         double _p_value;
         double _i_value;
         double _d_value;
@@ -22,15 +23,14 @@ namespace AFR::VexU::BaseAction{
         bool running;
         Write_T pid_value_;
         Write_T disabled_value_;
+        
 
         void set_value_private(Read_T value, double delta_seconds) override {
             double error = static_cast<double>(targetable<Read_T>::get_target() - value);
 
-
             double p_term = _p_value * error;
 
             double d_term;
-
             //Only calculate i and d terms if reasonable time delta and enabled
             if(running && delta_seconds > 0.001){
                 i_term += _i_value * error * delta_seconds;
@@ -101,6 +101,10 @@ namespace AFR::VexU::BaseAction{
         
         Write_T get_pid_value() {
             return pid_value_;
+        }
+
+        Write_T get_value_to_set() override{
+            return get_pid_value();
         }
 
         /**
