@@ -4,10 +4,10 @@
 #include <stdexcept>
 #include <functional>
 
-#include "defines.h"
-#include "nameable.h"
-#include "scheduled.h"
-#include "action.h"
+#include "afr-lib/defines.h"
+#include "afr-lib/nameable.h"
+#include "afr-lib/scheduled.h"
+#include "afr-lib/action.h"
 #include "main.h"
 
 namespace AFR::VexU{

@@ -33,7 +33,7 @@ namespace AFR::VexU::BaseAction{
             width_ = width;
         }
 
-        bool is_in_range(Read_T tolerance){
+        bool is_in_range(Read_T tolerance) override {
             return abs(commandable<Read_T>::get_current_value() - targetable<Read_T>::get_target()) <= tolerance;
         }
         

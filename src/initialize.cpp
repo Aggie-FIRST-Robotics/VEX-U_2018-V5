@@ -2,7 +2,7 @@
 #include "afr-lib/defines.h"
 
 
-#include "fuego/fuego.h"
+#include "rev/rev.h"
 
 
 /**
@@ -13,7 +13,7 @@
  */
 void initialize() {
     std::cout << "starting init" << std::endl;
-    AFR::VexU::Fuego::init_robot();
+    AFR::VexU::Rev::init_robot();
     std::cout << "ending init" << std::endl;
 }
 

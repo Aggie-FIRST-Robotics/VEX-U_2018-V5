@@ -2,7 +2,7 @@
 #include "afr-lib/defines.h"
 
 
-#include "fuego/fuego.h"
+#include "rev/rev.h"
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -18,5 +18,5 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    AFR::VexU::Fuego::op_control();
+    AFR::VexU::Rev::op_control();
 }
