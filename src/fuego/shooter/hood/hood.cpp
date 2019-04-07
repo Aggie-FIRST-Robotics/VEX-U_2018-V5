@@ -17,7 +17,7 @@ namespace AFR::VexU::Fuego::Shooter::Hood{
                 (HOOD_MOTOR_PORT, ENCODER_SCALING, "hood encoder");
 
         pid = new BaseAction::pid_action<double, double>
-                (UPDATE_PERIOD, 100, 0, 0, MIN_VOLTAGE, MAX_VOLTAGE, MIN_VOLTAGE, MAX_VOLTAGE, 0, 0, 0, "hood auto aim action");
+                (UPDATE_PERIOD, 50, 20, 0, MIN_VOLTAGE, MAX_VOLTAGE, MIN_VOLTAGE, MAX_VOLTAGE, 0, 0, 0, "hood auto aim action");
 
         follow_stick = new BaseAction::bounded_value_action< double, int32_t ,int16_t >
                 (UPDATE_PERIOD, ENCODER_LIMIT,0, 0, 0,

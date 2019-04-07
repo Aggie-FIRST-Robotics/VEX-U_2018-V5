@@ -271,40 +271,36 @@ namespace AFR::VexU::Fuego::Shooter{
 //        auto_aim->add_transition(auto_to_ready,ready);
 
         hood_auto_target = []() -> double {
-            if(vision->has_target_rect()) {
-                Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
-                if (Hood::encoder->get_scaled_position() + auto_encoder_change.altitude > Hood::ENCODER_LIMIT) {
-                    return Hood::ENCODER_LIMIT;
-                } else if (Hood::encoder->get_scaled_position() + auto_encoder_change.altitude < 0) {
-                    return 0;
-                } else {
-                    return Hood::encoder->get_scaled_position() + auto_encoder_change.altitude;
-                }
-            }
-            else {
-                return Hood::encoder->get_scaled_position();
+            double auto_hood_setpoint = vision->get_encoder_setpoints().altitude;
+            if (auto_hood_setpoint > Hood::ENCODER_LIMIT) {
+                return Hood::ENCODER_LIMIT;
+            } else if (auto_hood_setpoint < 0) {
+                return 0;
+            } else {
+                return auto_hood_setpoint;
             }
         };
 
         turret_auto_target = []() -> double {
-            if(vision->has_target_rect()) {
-                Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
-                if (Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth > Turret::ENCODER_LIMIT) {
-                    return Turret::ENCODER_LIMIT;
-                } else if (Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth < 0) {
-                    return 0;
-                } else {
-                    return Turret::encoder->get_scaled_position() + auto_encoder_change.azimuth;
-                }
-            }
-            else {
-                return Turret::encoder->get_scaled_position();
+            double auto_turret_setpoint = vision->get_encoder_setpoints().azimuth;
+            if (auto_turret_setpoint > Turret::ENCODER_LIMIT) {
+                return Turret::ENCODER_LIMIT;
+            } else if (auto_turret_setpoint < 0) {
+                return 0;
+            } else {
+                return auto_turret_setpoint;
             }
         };
 
         vision->disable();
         auto_entry = []() -> void {
             vision->enable();
+            vision->set_encoder_setpoints(Vision::encoder_tuple(
+                Turret::encoder->get_scaled_position(), 
+                Hood::encoder->get_scaled_position()
+            ));
+            Hood::pid->enable();
+            Turret::pid->enable();
             Hood::pid->set_target(hood_auto_target);
             Turret::pid->set_target(turret_auto_target);
         };
@@ -312,6 +308,8 @@ namespace AFR::VexU::Fuego::Shooter{
         auto_aim->set_on_state_entry(auto_entry);
         auto_aim->set_on_state_exit(std::function<void()>([](){
             std::cout << "Purging list" << std::endl;
+            Hood::pid->disable();
+            Turret::pid->disable();
             vision->purge_target_list();
             vision->disable();
         }));

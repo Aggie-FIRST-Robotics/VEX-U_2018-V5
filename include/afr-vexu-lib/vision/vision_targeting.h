@@ -4,9 +4,11 @@
 #include <list>
 #include <iostream>
 
+
 #include "afr-lib/commandable.h"
 #include "afr-lib/nameable.h"
 #include "afr-lib/defines.h"
+#include "afr-lib/state.h"
 #include "afr-vexu-lib/comms/serial_manager.h"
 
 namespace AFR::VexU::Vision {
@@ -39,8 +41,8 @@ namespace AFR::VexU::Vision {
         static constexpr int64_t UPDATE_RATE = 10;
         static constexpr int CAM_WIDTH = 720;
         static constexpr int CAM_HEIGHT = 540;
-        static constexpr double X_PIX_PER_TICK = -2.5;
-        static constexpr double Y_PIX_PER_TICK = -1.5;
+        static constexpr double X_PIX_PER_TICK = -1.8;
+        static constexpr double Y_PIX_PER_TICK = -1.6;
         static constexpr int RECT_IN_RANGE_X = 30;
         static constexpr int RECT_IN_RANGE_Y = 30;
         static constexpr int RECT_IN_RANGE_WIDTH = 10;
@@ -49,18 +51,23 @@ namespace AFR::VexU::Vision {
         static constexpr int VALIDITY_MAX = 200;
         static constexpr int VALIDITY_THRESH = 100;
         static constexpr int X_CENTER_WEIGHT = 10;
-        static constexpr int Y_CENTER_WEIGHT = 1;
+        static constexpr int Y_CENTER_WEIGHT = 10;
         static constexpr int AREA_WEIGHT = 1;
-        static constexpr int TARGETED_WEIGHT = 500;
-        static constexpr int X_CENTER = 360;
-        static constexpr int Y_CENTER = 270;
+        static constexpr int TARGETED_WEIGHT = 10000;
+        static constexpr int X_CENTER = 275;
+        static constexpr int Y_CENTER = 160;
+        static constexpr int ACCUM_ERROR = 0;
         
         std::list<scored_rect>  target_rects;
         encoder_tuple last_enc_vals;
+        encoder_tuple encoder_setpoints;
         rectangle current_target_rect;
         bool has_target_rect_;
+        double x_accum;
+        double y_accum;
         
         void set_value_private(encoder_tuple enc_vals, double delta_seconds) override;
+        bool rect_in_range(const rectangle& r1, const rectangle& r2);
         
     public:
         vision_targeting(const std::string& name);
@@ -68,6 +75,7 @@ namespace AFR::VexU::Vision {
         rectangle get_target_rect();    
         bool has_target_rect();
         encoder_tuple get_encoder_setpoints();
+        void set_encoder_setpoints(const encoder_tuple& new_setpoints);
         void purge_target_list();
     };
 }
