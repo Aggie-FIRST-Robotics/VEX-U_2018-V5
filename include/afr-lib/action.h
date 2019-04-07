@@ -6,7 +6,14 @@
 namespace AFR::VexU{
     template<typename T>
     class action : public virtual nameable{
+        /**
+         * Used to generalize retrieval of updated values
+         */
     public:
+        /**
+         * Overridden to return whichever value is needed
+         * @return templated value which is needed
+         */
         virtual T get_value_to_set() = 0;
     };
 }
