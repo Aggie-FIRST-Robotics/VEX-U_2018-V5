@@ -3,7 +3,7 @@
 
 #include "main.h"
 #include "afr-lib/operation.h"
-#include "afr-vexu-lib/base-readable/controller_readable.h"
+#include "controller_readable.h"
 
 namespace AFR::VexU::BaseReadable{
     /**
@@ -26,8 +26,6 @@ namespace AFR::VexU::BaseReadable{
         
         bool is_rising_edge();
         bool is_falling_edge();
-
-        void set_last_read(bool val);
      };
 }
 

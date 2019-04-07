@@ -5,7 +5,7 @@
 #include <vector>
 #include <functional>
 
-#include "nameable.h"
+#include "afr-lib/nameable.h"
 
 namespace AFR::VexU {
     class state;
