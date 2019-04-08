@@ -2,7 +2,6 @@
 #define VEX_U_2018_V5_CAP_2_H
 
 #include "fuego/fuego.h"
-#include "wrist_flip_action.h"
 #include "afr-lib/state_controller.h"
 
 #include "fuego/cap/arm/arm.h"
@@ -17,7 +16,7 @@ namespace AFR::VexU::Fuego::Cap{
 
     //Down
     const double ARM_GROUND_POSITION = 0;
-    const double ELBOW_GROUND_POSITION = 3800;
+    const double ELBOW_GROUND_POSITION = 3850;
 
     //Flip Low
     const double ARM_FLIP_LOW_POSITION = 500;
@@ -38,7 +37,7 @@ namespace AFR::VexU::Fuego::Cap{
 
     //Score Prime
     const double ARM_SCORE_PRIME_POSITION = 2450;
-    const double ELBOW_SCORE_PRIME_POSITION = 900;
+    const double ELBOW_SCORE_PRIME_POSITION = 500;
 
     //Wrist
     const double WRIST_FLIP_POSITION = 750;

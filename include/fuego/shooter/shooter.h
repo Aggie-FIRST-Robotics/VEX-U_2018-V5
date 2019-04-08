@@ -43,7 +43,7 @@ namespace AFR::VexU::Fuego::Shooter{
     const double HOOD_LOW_TARGET        = 1200;
 
     /////AUTO AIM
-    const double AUTO_TOLERANCE = 50;
+    const double AUTO_TOLERANCE = 10;
 
     void init();
     void destroy();

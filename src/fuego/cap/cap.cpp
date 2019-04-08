@@ -21,7 +21,7 @@ namespace AFR::VexU::Fuego::Cap{
 
     };
 
-    /////State Controller
+    /////State Controlle
     state_controller<cap_arm_meta>* cap_arm = nullptr;
 
     /////States
@@ -160,7 +160,7 @@ namespace AFR::VexU::Fuego::Cap{
         /////Zero Shoulder
             //////Transitions
             zero_arm->add_transition(std::function<bool()>([](){
-                if(Arm::debounce->is_triggered() && Wrist::limit_switch->is_pressed()){
+                if(Arm::debounce->is_triggered()){
                     Arm::encoder->tare_position();
                     Wrist::encoder->tare_position();
                     return true;
@@ -383,6 +383,13 @@ namespace AFR::VexU::Fuego::Cap{
             score_prime->add_transition(std::function<bool()>([](){
                 return cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) && Elbow::pid_controller->is_in_range(PID_TOLERANCE);
             }),score_flip);
+            score_prime->add_transition(std::function<bool()>([](){
+                if(descore_button->is_rising_edge()){
+                    cap_arm->metadata().is_stealing = true;
+                    return true;
+                }
+                return false;
+            }),descore_prime);
 
             /////Entry/Exit Functions
             score_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -438,7 +445,7 @@ namespace AFR::VexU::Fuego::Cap{
                 }
             }));
 
-        ////Descore Prime State
+        ////Descore Prime States
             /////Transitions
             descore_prime->add_transition(std::function<bool()>([](){
                 return cap_arm->metadata().is_stealing && down_button->is_rising_edge();
@@ -449,6 +456,13 @@ namespace AFR::VexU::Fuego::Cap{
             descore_prime->add_transition(std::function<bool()>([](){
                 return cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) && Elbow::pid_controller->is_in_range(PID_TOLERANCE) && !BaseReadable::driver_controller->is_digital_pressed(DESCORE_BUTTON);
             }),score);
+            descore_prime->add_transition(std::function<bool()>([](){
+                if(elevate_button->is_rising_edge()){
+                    cap_arm->metadata().is_stealing = false;
+                    return true;
+                }
+                return false;
+            }),score_prime);
 
             /////Entry/Exit Functions
             descore_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){

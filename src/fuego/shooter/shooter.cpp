@@ -1,9 +1,10 @@
 
+
 #include "fuego/shooter/shooter.h"
 
 namespace AFR::VexU::Fuego::Shooter{
 
-    /////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     BaseCommandable::controller_commandable* operator_rumble = nullptr;
 
@@ -92,8 +93,13 @@ namespace AFR::VexU::Fuego::Shooter{
 
         walker_button = new BaseReadable::digital_edge_detector(pros::E_CONTROLLER_MASTER,WALK,"walker button");
 
-        Flywheel::pid_controller->set_operation(std::function<double()>([](){ return Flywheel::avg_speed->get_average_value();}), shooter_state_controller->get_name());
-        Loader::dead_band->set_operation(std::function<double()>([](){ return Loader::encoder->get_scaled_position();}), shooter_state_controller->get_name());
+        Flywheel::pid_controller->set_operation(std::function<double()>([](){
+            double val = Flywheel::avg_speed->get_average_value();
+            std::cout << val << std::endl;
+            return val;
+        }), shooter_state_controller->get_name());
+        Loader::dead_band->set_operation(std::function<double()>([](){
+            return Loader::encoder->get_scaled_position();}), shooter_state_controller->get_name());
         Flywheel::left_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
         Flywheel::right_motor->set_operation(std::function<int16_t()>([](){return Flywheel::pid_controller->get_pid_value();}),shooter_state_controller->get_name());
         Loader::motor->set_operation(std::function<int16_t()>([](){ return Loader::dead_band->get_deadband_value();}), shooter_state_controller->get_name());
@@ -298,6 +304,12 @@ namespace AFR::VexU::Fuego::Shooter{
 //        auto_aim->add_transition(auto_to_ready,ready);
 
         hood_auto_target = []() -> double {
+            if(!vision->has_target_rect()){
+                vision->set_encoder_setpoints(Vision::encoder_tuple(
+                    Turret::encoder->get_scaled_position() + BaseReadable::operator_controller->get_analog(TURRET_STICK),
+                    Hood::encoder->get_position() + BaseReadable::operator_controller->get_analog(HOOD_STICK)
+                    ));
+            }
             double auto_hood_setpoint = vision->get_encoder_setpoints().altitude;
             if (auto_hood_setpoint > Hood::ENCODER_LIMIT) {
                 return Hood::ENCODER_LIMIT;
@@ -309,6 +321,12 @@ namespace AFR::VexU::Fuego::Shooter{
         };
 
         turret_auto_target = []() -> double {
+            if(!vision->has_target_rect()){
+                vision->set_encoder_setpoints(Vision::encoder_tuple(
+                    Turret::encoder->get_scaled_position() + BaseReadable::operator_controller->get_analog(TURRET_STICK),
+                    Hood::encoder->get_position() + BaseReadable::operator_controller->get_analog(HOOD_STICK)
+                    ));
+            }
             double auto_turret_setpoint = vision->get_encoder_setpoints().azimuth;
             if (auto_turret_setpoint > Turret::ENCODER_LIMIT) {
                 return Turret::ENCODER_LIMIT;
@@ -332,6 +350,23 @@ namespace AFR::VexU::Fuego::Shooter{
             Turret::pid->reset_i_term();
             Hood::pid->set_target(hood_auto_target);
             Turret::pid->set_target(turret_auto_target);
+            operator_rumble->set_operation(std::function<std::string()>([](){
+                if(vision->has_target_rect()){
+                    Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
+                    if(abs(auto_encoder_change.altitude - Hood::encoder->get_scaled_position()) <= AUTO_TOLERANCE && abs(auto_encoder_change.azimuth - Turret::encoder->get_scaled_position()) <= AUTO_TOLERANCE){
+                        if(Flywheel::pid_controller->is_in_range(10)){
+                            return ".       ";
+                        }
+                        else{
+                            return "-       ";
+                        }
+                    }
+                    return "-       ";
+                }
+                else{
+                    return "";
+                }
+            }),turret_state_controller->get_name());
         };
 
         auto_aim->set_on_state_entry(auto_entry);
@@ -341,6 +376,7 @@ namespace AFR::VexU::Fuego::Shooter{
             Turret::pid->disable();
             vision->purge_target_list();
             vision->disable();
+            operator_rumble->set_value("",turret_state_controller->get_name());
         }));
 
         ready_to_auto = []() -> bool {
