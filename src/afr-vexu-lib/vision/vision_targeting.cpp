@@ -139,8 +139,8 @@ namespace AFR::VexU::Vision {
                 max_score_ptr->targeting = true;
                 has_target_rect_ = true;
 
-                int16_t target_x = get_azimuth_target();
-                int16_t target_y = get_altitude_target();
+                int16_t target_x = get_azimuth_target(enc_vals);
+                int16_t target_y = get_altitude_target(enc_vals);
 
                 if(abs(target_x-enc_vals.azimuth) <  AIM_COMPLETE_TOLERANCE && abs(target_y-enc_vals.altitude) <  AIM_COMPLETE_TOLERANCE) {
                     aim_count++;
@@ -164,9 +164,6 @@ namespace AFR::VexU::Vision {
             last_enc_vals = enc_vals;
         }
 
-        int16_t target_x = 275;
-        int16_t target_y = 160 + 2*(140-current_target_rect.height);
-        
         encoder_tuple sample = get_encoder_setpoints();
         std::cout << "Encoder sample: " << sample.azimuth << " " << sample.altitude << std::endl;
         //std::cout << "End update function" << std::endl;
@@ -207,11 +204,11 @@ namespace AFR::VexU::Vision {
         return aim_count >  AIM_COMPLETE_COUNT;
     }
 
-    double vision_targeting::get_azimuth_target() {
+    double vision_targeting::get_azimuth_target(encoder_tuple enc_vals) {
         return 275;
     }
 
-    double vision_targeting::get_altitude_target() {
+    double vision_targeting::get_altitude_target(encoder_tuple enc_vals) {
         return 160 + 2*(140-current_target_rect.height);
     }
 }

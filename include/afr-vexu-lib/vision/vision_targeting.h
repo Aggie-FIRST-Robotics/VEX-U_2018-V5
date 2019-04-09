@@ -71,8 +71,8 @@ namespace AFR::VexU::Vision {
         
         void set_value_private(encoder_tuple enc_vals, double delta_seconds) override;
         bool rect_in_range(const rectangle& r1, const rectangle& r2);
-        double get_azimuth_target();
-        double get_altitude_target();
+        double get_azimuth_target(encoder_tuple enc_vals);
+        double get_altitude_target(encoder_tuple enc_vals);
         
     public:
         vision_targeting(const std::string& name);
