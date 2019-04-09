@@ -57,6 +57,8 @@ namespace AFR::VexU::Vision {
         static constexpr int X_CENTER = 275;
         static constexpr int Y_CENTER = 160;
         static constexpr int ACCUM_ERROR = 0;
+        static constexpr int AIM_COMPLETE_TOLERANCE = 10;
+        static constexpr int AIM_COMPLETE_COUNT = 50;
         
         std::list<scored_rect>  target_rects;
         encoder_tuple last_enc_vals;
@@ -65,9 +67,12 @@ namespace AFR::VexU::Vision {
         bool has_target_rect_;
         double x_accum;
         double y_accum;
+        int aim_count;
         
         void set_value_private(encoder_tuple enc_vals, double delta_seconds) override;
         bool rect_in_range(const rectangle& r1, const rectangle& r2);
+        double get_azimuth_target();
+        double get_altitude_target();
         
     public:
         vision_targeting(const std::string& name);
@@ -77,6 +82,7 @@ namespace AFR::VexU::Vision {
         encoder_tuple get_encoder_setpoints();
         void set_encoder_setpoints(const encoder_tuple& new_setpoints);
         void purge_target_list();
+        bool aiming_complete();
     };
 }
 

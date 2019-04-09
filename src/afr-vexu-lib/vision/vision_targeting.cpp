@@ -7,7 +7,8 @@ namespace AFR::VexU::Vision {
         commandable<encoder_tuple>(UPDATE_RATE, name),
         has_target_rect_(false),
         x_accum(0),
-        y_accum(0)
+        y_accum(0),
+        aim_count(0)
         {}
         
     void vision_targeting::set_value_private(encoder_tuple enc_vals, double delta_seconds) {
@@ -138,8 +139,15 @@ namespace AFR::VexU::Vision {
                 max_score_ptr->targeting = true;
                 has_target_rect_ = true;
 
-                int16_t target_x = 275;
-                int16_t target_y = 160 + 2*(140-current_target_rect.height);
+                int16_t target_x = get_azimuth_target();
+                int16_t target_y = get_altitude_target();
+
+                if(abs(target_x-enc_vals.azimuth) <  AIM_COMPLETE_TOLERANCE && abs(target_y-enc_vals.altitude) <  AIM_COMPLETE_TOLERANCE) {
+                    aim_count++;
+                }
+                else {
+                    aim_count = 0;
+                }
 
                 int16_t x_err = target_x-(current_target_rect.x + current_target_rect.width/2);
                 int16_t y_err = target_y-(current_target_rect.y + current_target_rect.height/2);
@@ -151,6 +159,7 @@ namespace AFR::VexU::Vision {
             else {
                 //std::cout << "No target rect found" << std::endl;
                 has_target_rect_ = false;
+                aim_count = 0;
             }
             last_enc_vals = enc_vals;
         }
@@ -184,6 +193,7 @@ namespace AFR::VexU::Vision {
         target_rects.clear();
         x_accum = 0;
         y_accum = 0;
+        aim_count = 0;
     }
     
     bool vision_targeting::rect_in_range(const rectangle& r1, const rectangle& r2) {
@@ -191,5 +201,17 @@ namespace AFR::VexU::Vision {
             abs<int16_t>(r1.y - r2.y) < RECT_IN_RANGE_Y &&
             abs<int16_t>(r1.width - r2.width) < RECT_IN_RANGE_WIDTH &&
             abs<int16_t>(r1.height - r2.height) < RECT_IN_RANGE_HEIGHT;
+    }
+
+    bool vision_targeting::aiming_complete() {
+        return aim_count >  AIM_COMPLETE_COUNT;
+    }
+
+    double vision_targeting::get_azimuth_target() {
+        return 275;
+    }
+
+    double vision_targeting::get_altitude_target() {
+        return 160 + 2*(140-current_target_rect.height);
     }
 }

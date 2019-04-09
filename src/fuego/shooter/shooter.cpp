@@ -353,7 +353,7 @@ namespace AFR::VexU::Fuego::Shooter{
             operator_rumble->set_operation(std::function<std::string()>([](){
                 if(vision->has_target_rect()){
                     Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
-                    if(abs(auto_encoder_change.altitude - Hood::encoder->get_scaled_position()) <= AUTO_TOLERANCE && abs(auto_encoder_change.azimuth - Turret::encoder->get_scaled_position()) <= AUTO_TOLERANCE){
+                    if(vision->aiming_complete()){
                         if(Flywheel::pid_controller->is_in_range(10)){
                             return ".       ";
                         }
