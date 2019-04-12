@@ -12,9 +12,7 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    std::cout << "starting init" << std::endl;
     AFR::VexU::Fuego::init_robot();
-    std::cout << "ending init" << std::endl;
 }
 
 /**

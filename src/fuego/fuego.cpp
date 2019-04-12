@@ -1,9 +1,4 @@
 #include "fuego/fuego.h"
-//#include "fuego/auto.h"
-#include "fuego/cap/cap.h"
-#include "fuego/drive/drive.h"
-#include "fuego/shooter/shooter.h"
-#include "fuego/ball-intake/ball_intake.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
@@ -33,7 +28,11 @@ namespace AFR::VexU::Fuego{
     }
 
     void auto_robot(){
-
+        Auto::init();
+        while(true){
+            scheduled::update_all();
+            pros::delay(1);
+        }
     }
 
     void op_control(){

@@ -10,6 +10,8 @@
 #include "afr-lib/afr-lib.h"
 #include "afr-vexu-lib/afr-vexu-lib.h"
 
+#include "fuego/auto.h"
+
 #include "main.h"
 
 namespace AFR::VexU::Fuego{

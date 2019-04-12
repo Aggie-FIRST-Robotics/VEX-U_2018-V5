@@ -17,6 +17,14 @@ namespace AFR::VexU::Fuego::BallIntake{
 
     void init();
     void destroy();
+
+    struct ball_intake_meta{};
+
+    extern state_controller<ball_intake_meta> *ball_intake_controller;
+
+    extern state* spit;
+    extern state* swallow;
+    extern state* choke;
 }
 
 #endif //VEX_U_2018_V5_BALL_INTAKE_H

@@ -13,7 +13,7 @@ namespace AFR::VexU::Fuego::Cap::Arm{
     BaseAction::zero_encoder_action<bool, int16_t>* zero_action = nullptr;
 
     void init(){
-
+        //com
         left_motor = new BaseCommandable::motor_commandable
                 (UPDATE_PERIOD, SHOULDER_LEFT_MOTOR_PORT, SHOULDER_GEARSET,
                  DIRECTION,SHOULDER_BRAKE_MODE, "left_arm_motor");

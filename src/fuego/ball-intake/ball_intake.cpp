@@ -8,7 +8,7 @@ namespace AFR::VexU::Fuego::BallIntake{
     BaseReadable::digital_edge_detector* swallow_button = nullptr;
 
     /////State Controller
-    struct ball_intake_meta{};
+    
     state_controller<ball_intake_meta> *ball_intake_controller = nullptr;
 
     /////States

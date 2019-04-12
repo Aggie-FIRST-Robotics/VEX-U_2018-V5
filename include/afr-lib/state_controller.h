@@ -18,6 +18,7 @@ namespace AFR::VexU{
         std::vector<state*> states_;
         state* current_state_;
         MetaType metadata_;
+        bool maintain;
 
         /**
          * Calls update current state
@@ -38,7 +39,7 @@ namespace AFR::VexU{
          * @param result error_t value if error encountered
          */
         state_controller(const scheduled_update_t& update_period, const MetaType& initial_metadata, const std::string& name) :
-                nameable(name), scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata){}
+                nameable(name), scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata), maintain(false){}
 
         void add_state(state* new_state) {
             states_.push_back(new_state);
@@ -55,6 +56,20 @@ namespace AFR::VexU{
             if(current_state_ != nullptr){
                 current_state_->on_state_exit(next_state);
             }
+            maintain = false;
+            state* prev_state = current_state_;
+            current_state_ = next_state;
+            current_state_->on_state_entry(prev_state);
+        }
+
+        void maintain_state(state* next_state) {
+            if(next_state == nullptr){
+                throw std::runtime_error{"Cannot have nullptr for state in " + get_name()};
+            }
+            if(current_state_ != nullptr){
+                current_state_->on_state_exit(next_state);
+            }
+            maintain = true;
             state* prev_state = current_state_;
             current_state_ = next_state;
             current_state_->on_state_entry(prev_state);
@@ -62,10 +77,12 @@ namespace AFR::VexU{
 
         void update_current_state(){
             if(current_state_ != nullptr){
-                state* next = current_state_->get_next_state();
-                if(next != nullptr){
-                    set_state(next);
-                }          
+                if(!maintain){
+                    state* next = current_state_->get_next_state();
+                    if(next != nullptr){
+                        set_state(next);
+                    }
+                }
             }
             else{
                 throw std::runtime_error{"Current state for " + get_name() + " is nullptr while updating current state"};
