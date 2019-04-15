@@ -15,8 +15,10 @@ namespace AFR::VexU::Rev::Drive{
     const double LOW_TO_HIGH_SPEED_THRESHOLD = 100;
     const double HIGH_TO_LOW_SPEED_THRESHOLD = 100;
 
-    const double SHIFTER_LOW_GEAR_TARGET = 0;    
+    const double SHIFTER_LOW_GEAR_TARGET = 0;   
     const double SHIFTER_HIGH_GEAR_TARGET = 100;
+
+    const int16_t SHIFTER_VOLTAGE = 200;
 
     void init();
     void destroy();

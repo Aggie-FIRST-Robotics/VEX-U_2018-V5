@@ -5,7 +5,6 @@ namespace AFR::VexU::Rev::Shooter{
 
     //Readables
     BaseReadable::digital_edge_detector* set_high = nullptr;
-    BaseReadable::digital_edge_detector* set_mid = nullptr;
     BaseReadable::digital_edge_detector* set_low = nullptr;
     BaseReadable::digital_edge_detector* set_double = nullptr;
     BaseReadable::digital_edge_detector* shoot = nullptr;
@@ -22,27 +21,24 @@ namespace AFR::VexU::Rev::Shooter{
     state* set_point = nullptr;
     state* auto_aim = nullptr;
     state* ready = nullptr;
-    state* fire = nullptr;
     state* cock = nullptr;
     state* double_shot = nullptr;
 
     BaseCommandable::controller_commandable* operator_rumble = nullptr;
 
     void init() {
-
+        Rollers::init();
         Altitude::init();
         Puncher::init();
 
         set_high = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(HIGH_BUTTON);}),"set altitude high");
-        set_mid = new BaseReadable::digital_edge_detector
-                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(MID_BUTTON);}),"set altitude mid");
         set_low = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(LOW_BUTTON);}),"set altitude low");
         set_double = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(DOUBLE_BUTTON);}),"set altitude double");
         shoot = new BaseReadable::digital_edge_detector
-                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(SHOOT_BUTTON);}),"shoot button");
+                (std::function<bool()>([](){return BaseReadable::driver_controller->is_digital_pressed(SHOOT_BUTTON);}),"shoot button");
         stow = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(STOW_BUTTON);}),"stow button");
         zero = new BaseReadable::digital_edge_detector
@@ -51,12 +47,11 @@ namespace AFR::VexU::Rev::Shooter{
 
         vision = new Vision::vision_targeting("vision");
 
-        shooter_state_controller = new state_controller<turret_meta>{UPDATE_PERIOD, {0,false},"shooter state machine"};
+        shooter_state_controller = new state_controller<turret_meta>{UPDATE_PERIOD, {ALTITUDE_STOW_TARGET,false},"shooter state machine"};
 
         set_point = new state("set point");
         auto_aim = new state("auto aim");
         ready = new state ("ready");
-        fire = new state("fire");
         cock = new state ("cock");
         double_shot = new state ("double_shot");
 
@@ -82,44 +77,24 @@ namespace AFR::VexU::Rev::Shooter{
             return given;
         }),shooter_state_controller->get_name());
 
-        // manual->add_transition(std::function<bool()>([](){
-        //     return BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
-        // }),auto_aim);
-
-        // manual->add_transition(std::function<bool()>([](){
-        //     return set_high->is_rising_edge() || set_mid->is_rising_edge() || set_low->is_rising_edge() || stow->is_rising_edge();
-        // }),set_point);
-
-        // manual_entry = [](state* prev_state) -> void {
-        //     Altitude::motor->set_operation(std::function<int16_t()>([](){return Altitude::follow_stick->get_bounded_value();}),shooter_state_controller->get_name());
-        // };
-
-        // manual_exit = [](state* next_state) -> void {
-        //     Altitude::motor->set_operation(std::function<int16_t()>([](){return Altitude::pid->get_pid_value();}),shooter_state_controller->get_name());
-        //     Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::pid->get_pid_value();}),shooter_state_controller->get_name());
-        // };
-
-        // manual->set_on_state_entry(manual_entry);
-        // manual->set_on_state_exit(manual_exit);
-
-        // shooter_state_controller->add_state(manual);
-
-        // set_point->add_transition(std::function<bool()>([](){
-        //     return (Altitude::pid->is_in_range(HOOD_TOLERANCE) && Turret::pid->is_in_range(TURRET_TOLERANCE)) ||
-        //     abs(BaseReadable::operator_controller->get_analog(TURRET_STICK)) + abs(BaseReadable::operator_controller->get_analog(HOOD_STICK) > STICK_CANCEL_VALUE);
-        // }),manual);
+        Rollers::front_motor->set_operation(std::function<int16_t()>([](){
+            std::cout << Rollers::cup_sensor->get_analog_value() << std::endl;
+            if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON)){
+                return 12000;
+            }
+            else if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON)){
+                return -12000;
+            }
+            return 0;
+        }),shooter_state_controller->get_name());
 
         /////Set Point State
-
         set_point->set_on_state_entry(std::function<void(state*)>([](state* next_state){
+            std::cout << "Set entry" << std::endl;
             Altitude::pid->set_target(std::function<double()>([](){
                 if(BaseReadable::operator_controller->is_digital_pressed(HIGH_BUTTON)) {
                     shooter_state_controller->metadata().is_double = false;
                     shooter_state_controller->metadata().altitude_set_point = ALTITUDE_HIGH_TARGET;
-                }
-                else if (BaseReadable::operator_controller->is_digital_pressed(MID_BUTTON)) {
-                    shooter_state_controller->metadata().is_double = false;
-                    shooter_state_controller->metadata().altitude_set_point = ALTITUDE_MID_TARGET;
                 }
                 else if (BaseReadable::operator_controller->is_digital_pressed(LOW_BUTTON)) {
                     shooter_state_controller->metadata().is_double = false;
@@ -127,7 +102,7 @@ namespace AFR::VexU::Rev::Shooter{
                 }
                 else if (BaseReadable::operator_controller->is_digital_pressed(STOW_BUTTON)) {
                     shooter_state_controller->metadata().is_double = false;
-                    shooter_state_controller->metadata().altitude_set_point = 0;
+                    shooter_state_controller->metadata().altitude_set_point = ALTITUDE_STOW_TARGET;
                 }
                 else if (BaseReadable::operator_controller->is_digital_pressed(DOUBLE_BUTTON)) {
                     shooter_state_controller->metadata().is_double = true;
@@ -135,9 +110,24 @@ namespace AFR::VexU::Rev::Shooter{
                 }
                 return shooter_state_controller->metadata().altitude_set_point;
             }));
+            Rollers::top_motor->set_operation(std::function<int16_t()>([](){
+                if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON)){
+                    return 12000;
+                }
+                else if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON)){
+                    return -12000;
+                }
+                else if(Rollers::cup_sensor->get_analog_value() > 500){
+                    return 12000;
+                }
+                else {
+                    return 0;
+                }
+            }),shooter_state_controller->get_name());
         }));
 
         set_point->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            std::cout << "Set exit" << std::endl;
             Altitude::pid->set_target(Altitude::pid->get_last_target());
         }));
 
@@ -145,12 +135,17 @@ namespace AFR::VexU::Rev::Shooter{
             return BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
         }),auto_aim);
         set_point->add_transition(std::function<bool()>([](){
-            return shoot->is_rising_edge() && Altitude::pid->is_in_range(ALTITUDE_TOLERANCE);
-        }),fire);
+            return shoot->is_rising_edge() && Altitude::pid->is_in_range(ALTITUDE_TOLERANCE) && Rollers::cup_sensor->get_analog_value() < 500;
+        }),cock);
+        set_point->add_transition(std::function<bool()>([](){
+            return Puncher::limit_switch->is_pressed();
+        }),cock);
 
         /////Auto Aim State
 
         vision->disable();
+
+        operator_rumble = new BaseCommandable::controller_commandable(UPDATE_PERIOD,"",pros::E_CONTROLLER_PARTNER,"operator rumble");
 
         auto_aim->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             vision->enable();
@@ -172,7 +167,6 @@ namespace AFR::VexU::Rev::Shooter{
         }));
 
         auto_aim->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-            std::cout << "Purging list" << std::endl;
             vision->purge_target_list();
             vision->disable();
         }));
@@ -180,49 +174,16 @@ namespace AFR::VexU::Rev::Shooter{
         auto_aim->add_transition(std::function<bool()>([](){
             return !BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
         }),set_point);
-        auto_aim->add_transition(std::function<bool()>([](){
-            Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
-            return abs(auto_encoder_change.altitude) + abs(auto_encoder_change.azimuth) < AUTO_TOLERANCE;
-        }),ready);
-        
-        /////Ready State
 
-        operator_rumble = new BaseCommandable::controller_commandable(UPDATE_PERIOD,"",pros::E_CONTROLLER_PARTNER,"operator rumble");
-
-        ready->set_on_state_entry(std::function<void(state*)>([](state* next_state){
-            operator_rumble->set_value(".        ",shooter_state_controller->get_name());
-        }));
-        ready->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-            operator_rumble->set_value("",shooter_state_controller->get_name());
-        }));
-
-        ready->add_transition(std::function<bool()>([](){
-            return !Altitude::pid->is_in_range(HOOD_TOLERANCE);
-        }),auto_aim);
-
-        ready->add_transition(std::function<bool()>([](){
-            return !BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
-        }),set_point);
-
-        /////Fire state
-
-        fire->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-            Puncher::dead_band->set_target(FIRE_TARGET);
-        }));
-        fire->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
-
-        }));
-
-        fire->add_transition(std::function<bool()>([](){
-            return Puncher::dead_band->is_in_range(PUNCHER_TOLERANCE);
-        }), cock);
-
-        /////Cock state
+        /////Cock stat
 
         cock->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-            Puncher::motor->set_value(5000,shooter_state_controller->get_name());
+            std::cout << "Cock entry" << std::endl;
+            Puncher::motor->set_value(12000,shooter_state_controller->get_name());
         }));
         cock->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
+            std::cout << "Cock Exit" << std::endl;
+            Puncher::encoder->tare_position();
             Puncher::dead_band->set_target(COCK_TARGET);
             Puncher::motor->set_operation(std::function<int16_t()>([](){
                 return Puncher::dead_band->get_deadband_value();
@@ -230,35 +191,35 @@ namespace AFR::VexU::Rev::Shooter{
         }));
 
         cock->add_transition(std::function<bool()>([](){
-            return zero->is_falling_edge() && !shooter_state_controller->metadata().is_double;
-        }), set_point);
-        cock->add_transition(std::function<bool()>([](){
-            return zero->is_falling_edge() && shooter_state_controller->metadata().is_double;
-        }), set_point);
+            return zero->is_falling_edge();
+        }), double_shot);
 
-        /////Double Shot state
+        /////Double Shot stat
 
         double_shot->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-            shooter_state_controller->metadata().is_double = false;
-            Altitude::pid->set_target(ALTITUDE_HIGH_TARGET);
+            if(shooter_state_controller->metadata().is_double){
+                Altitude::pid->set_target(ALTITUDE_LOW_TARGET);
+            }
         }));
         double_shot->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
-
+            shooter_state_controller->metadata().is_double = false;
         }));
 
         double_shot->add_transition(std::function<bool()>([](){
-            return Altitude::pid->is_in_range(ALTITUDE_TOLERANCE) && Puncher::dead_band->is_in_range(PUNCHER_TOLERANCE);
-        }), fire);
+            return Altitude::pid->is_in_range(ALTITUDE_TOLERANCE) && Puncher::dead_band->is_in_range(PUNCHER_TOLERANCE) && shooter_state_controller->metadata().is_double && Rollers::cup_sensor->get_analog_value() < 500;
+        }), cock);
+        double_shot->add_transition(std::function<bool()>([](){
+            return !shooter_state_controller->metadata().is_double;
+        }), set_point);
 
 
         shooter_state_controller->add_state(ready);
         shooter_state_controller->add_state(set_point);
         shooter_state_controller->add_state(auto_aim);
         shooter_state_controller->add_state(set_point);
-        shooter_state_controller->add_state(fire);
         shooter_state_controller->add_state(cock);
         shooter_state_controller->add_state(double_shot);
-        shooter_state_controller->set_state(set_point);
+        shooter_state_controller->set_state(cock);
     }
 
     void destroy(){
@@ -267,7 +228,6 @@ namespace AFR::VexU::Rev::Shooter{
         delete shooter_state_controller;
         delete ready;
         delete auto_aim;
-        delete fire;
         delete set_point;
         delete cock;
         delete double_shot;

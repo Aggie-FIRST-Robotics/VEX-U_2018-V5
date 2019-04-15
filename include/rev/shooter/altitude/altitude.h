@@ -18,7 +18,7 @@ namespace AFR::VexU::Rev::Shooter::Altitude{
     const double ENCODER_LIMIT = 100;
 
     /////Motor
-    const bool DIRECTION = true;
+    const bool DIRECTION = false;
 
     /////PID Controller
     const double P_VALUE = 100;

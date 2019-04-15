@@ -10,7 +10,7 @@ namespace AFR::VexU::Rev::Shooter::Puncher{
 
     void init(){
         motor = new BaseCommandable::motor_commandable
-                (UPDATE_PERIOD, PUNCHER_MOTOR_PORT, PUNCHER_GEARSET, DIRECTION, PUNCHER_BRAKE_MODE, "puncher motor");
+                (UPDATE_PERIOD, PUNCHER_MOTOR_PORT, PUNCHER_GEARSET, !DIRECTION, PUNCHER_BRAKE_MODE, "puncher motor");
 
         encoder = new BaseReadable::motor_encoder_readable
                 (PUNCHER_MOTOR_PORT, ENCODER_SCALING, "puncher encoder");

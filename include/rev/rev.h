@@ -12,79 +12,68 @@
 #include "rev/cap/cap.h"
 #include "rev/drive/drive.h"
 #include "rev/shooter/shooter.h"
-#include "rev/ball-intake/ball_intake.h"
+// #include "rev/ball-intake/ball_intake.h"
 
 #include "main.h"
 
 namespace AFR::VexU::Rev{
 
     /////DRIVETRAIN
-    const port_t LEFT_DRIVE_MOTOR_1 = 1; //NOT CORRECT
-    const port_t LEFT_DRIVE_MOTOR_2 = 1; //NOT CORRECT
-    const port_t LEFT_DRIVE_MOTOR_3 = 1; //NOT CORRECT
-    const port_t RIGHT_DRIVE_MOTOR_1 = 1; //NOT CORRECT
-    const port_t RIGHT_DRIVE_MOTOR_2 = 1; //NOT CORRECT
-    const port_t RIGHT_DRIVE_MOTOR_3 = 1; //NOT CORRECT
+    const port_t LEFT_DRIVE_MOTOR_1 = 19;
+    const port_t LEFT_DRIVE_MOTOR_2 = 16;
+    const port_t LEFT_DRIVE_MOTOR_3 = 20;
+    const port_t RIGHT_DRIVE_MOTOR_1 = 1;
+    const port_t RIGHT_DRIVE_MOTOR_2 = 18;
+    const port_t RIGHT_DRIVE_MOTOR_3 = 3;
     const pros::motor_gearset_e_t DRIVETRAIN_GEARSET = pros::E_MOTOR_GEARSET_06; //NOT CORRECT
     const pros::motor_brake_mode_e_t DRIVETRAIN_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     /////SHIFTER
-    const port_t SHIFTER_MOTOR = 1; //NOT CORRECT
+    const port_t SHIFTER_MOTOR = 15;
     const pros::motor_gearset_e_t SHIFTER_GEARSET = pros::E_MOTOR_GEARSET_36; //NOT CORRECT
     const pros::motor_brake_mode_e_t SHIFTER_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
     /////PUNCHER
-    const port_t PUNCHER_MOTOR_PORT = 8; //NOT CORRECT
+    const port_t PUNCHER_MOTOR_PORT = 5;
     const pros::motor_gearset_e_t PUNCHER_GEARSET = pros::E_MOTOR_GEARSET_36; //NOT CORRECT
     const pros::motor_brake_mode_e_t PUNCHER_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
-    /////HOOD
-    const port_t ALTITUDE_MOTOR_PORT = 16; //NOT CORRECT
+    /////ALTITUDE
+    const port_t ALTITUDE_MOTOR_PORT = 17;
     const pros::motor_gearset_e_t ALTITUDE_GEARSET = pros::E_MOTOR_GEARSET_18; //NOT CORRECT
     const pros::motor_brake_mode_e_t ALTITUDE_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
-    /////TURRET
-    const port_t TURRET_MOTOR_PORT = 15;
-    const pros::motor_gearset_e_t TURRET_GEARSET = pros::E_MOTOR_GEARSET_36;
-    const pros::motor_brake_mode_e_t TURRET_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
-
-    /////FLYWHEEL
-    const port_t FLYWHEEL_LEFT_PORT = 12;
-    const port_t FLYWHEEL_RIGHT_PORT = 11;
-    const pros::motor_gearset_e_t FLYWHEEL_GEARSET = pros::E_MOTOR_GEARSET_06;
-    const pros::motor_brake_mode_e_t FLYWHEEL_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
-
-    /////SHOULDER
-    const port_t SHOULDER_LEFT_MOTOR_PORT = 2;
-    const port_t SHOULDER_RIGHT_MOTOR_PORT = 13;
-    const pros::motor_gearset_e_t SHOULDER_GEARSET = pros::E_MOTOR_GEARSET_18;
-    const pros::motor_brake_mode_e_t SHOULDER_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
-
-    /////ELBOW
-    const port_t ELBOW_MOTOR_PORT = 1;
-    const pros::motor_gearset_e_t ELBOW_GEARSET = pros::E_MOTOR_GEARSET_18;
-    const pros::motor_brake_mode_e_t ELBOW_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
+    /////ARM
+    const port_t ARM_LEFT_MOTOR_PORT = 14;
+    const port_t ARM_RIGHT_MOTOR_PORT = 21;
+    const pros::motor_gearset_e_t ARM_GEARSET = pros::E_MOTOR_GEARSET_18; //NOT CORRECT
+    const pros::motor_brake_mode_e_t ARM_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
     /////WRIST
-    const port_t WRIST_MOTOR_PORT = 19;
-    const pros::motor_gearset_e_t WRIST_GEARSET = pros::E_MOTOR_GEARSET_18;
+    const port_t WRIST_MOTOR_PORT = 6;
+    const pros::motor_gearset_e_t WRIST_GEARSET = pros::E_MOTOR_GEARSET_18; //NOT CORRECT
     const pros::motor_brake_mode_e_t WRIST_BRAKE_MODE = pros::E_MOTOR_BRAKE_BRAKE;
 
     /////CAP INTAKE
-    const port_t CAP_INTAKE_MOTOR_PORT = 20;
-    const pros::motor_gearset_e_t CAP_INTAKE_GEARSET = pros::E_MOTOR_GEARSET_18;
+    const port_t CAP_INTAKE_MOTOR_PORT = 7;
+    const pros::motor_gearset_e_t CAP_INTAKE_GEARSET = pros::E_MOTOR_GEARSET_18; //NOT CORRECT
     const pros::motor_brake_mode_e_t CAP_INTAKE_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     /////BALL INTAKE
-    const port_t BALL_INTAKE_MOTOR_PORT = 18;
-    const pros::motor_gearset_e_t BALL_INTAKE_GEARSET = pros::E_MOTOR_GEARSET_06;
-    const pros::motor_brake_mode_e_t BALL_INTAKE_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const port_t TOP_INTAKE_MOTOR_PORT = 2;
+    const pros::motor_gearset_e_t TOP_INTAKE_GEARSET = pros::E_MOTOR_GEARSET_06; //NOT CORRECT
+    const pros::motor_brake_mode_e_t TOP_INTAKE_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
+    const port_t FRONT_INTAKE_MOTOR_PORT = 4;
+    const pros::motor_gearset_e_t FRONT_INTAKE_GEARSET = pros::E_MOTOR_GEARSET_06; //NOT CORRECT
+    const pros::motor_brake_mode_e_t FRONT_INTAKE_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     /////LIMIT SWITCHES
-    const port_t SHOULDER_LIMIT_SWITCH_PORT = 8;
-    const port_t ELBOW_LIMIT_SWITCH_PORT = 7;
-    const port_t WRIST_LIMIT_SWITCH_PORT = 6;
-    const port_t PUNCHER_LIMIT_SWITCH_PORT = 8;
+    const port_t SHOULDER_LIMIT_SWITCH_PORT = 8; //NOT CORRECT
+    const port_t ELBOW_LIMIT_SWITCH_PORT = 7; //NOT CORRECT
+    const port_t WRIST_LIMIT_SWITCH_PORT = 6; //NOT CORRECT
+    const port_t CUP_SENSOR_PORT = 1;
+    const port_t PUNCHER_LIMIT_SWITCH_PORT = 2;
+    
 
     /////DRIVER CONTROLS
     const pros::controller_digital_e_t ELEVATE_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
@@ -109,7 +98,7 @@ namespace AFR::VexU::Rev{
     const pros::controller_digital_e_t HIGH_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
     const pros::controller_digital_e_t MID_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
     const pros::controller_digital_e_t LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
-    const pros::controller_digital_e_t DOUBLE_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
+    const pros::controller_digital_e_t DOUBLE_BUTTON = pros::E_CONTROLLER_DIGITAL_Y;
     const pros::controller_digital_e_t STOW_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
 
     void init_robot();

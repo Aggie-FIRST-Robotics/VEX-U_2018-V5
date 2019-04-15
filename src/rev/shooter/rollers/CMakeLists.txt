@@ -8,5 +8,5 @@ set(
 
 set(
         rev-rollers-V5-src
-        src/rev/rollers/rollers.cpp
+        src/rev/shooter/rollers/rollers.cpp
 )

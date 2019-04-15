@@ -8,6 +8,7 @@
 
 #include "rev/shooter/altitude/altitude.h"
 #include "rev/shooter/puncher/puncher.h"
+#include "rev/shooter/rollers/rollers.h"
 
 namespace AFR::VexU::Rev::Shooter{
 
@@ -20,14 +21,14 @@ namespace AFR::VexU::Rev::Shooter{
 
     /////PUNCHER
     const double FIRE_TARGET         = 0;
-    const double COCK_TARGET         = 1600;
+    const double COCK_TARGET         = 3150;
     const double PUNCHER_TOLERANCE   = 100;
 
     /////SET POINTS
-    const double ALTITUDE_HIGH_TARGET   = 200;
-    const double ALTITUDE_MID_TARGET    = 600;
-    const double ALTITUDE_LOW_TARGET    = 1200;
-    const double ALTITUDE_TOLERANCE     = 100;
+    const double ALTITUDE_STOW_TARGET   = 100;
+    const double ALTITUDE_HIGH_TARGET   = 40;
+    const double ALTITUDE_LOW_TARGET    = 250;
+    const double ALTITUDE_TOLERANCE     = 200;
 
     /////AUTO AIM
     const double AUTO_TOLERANCE = 50;

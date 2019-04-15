@@ -1,11 +1,9 @@
-include(src/rev/ball-intake/CMakeLists.txt)
 include(src/rev/cap/CMakeLists.txt)
 include(src/rev/drive/CMakeLists.txt)
 include(src/rev/shooter/CMakeLists.txt)
 
 set(
         rev-src
-        ${rev-ball-intake-src}
         ${rev-cap-src}
         ${rev-drive-src}
         ${rev-shooter-src}
@@ -13,7 +11,6 @@ set(
 
 set(
         rev-test-src
-        ${rev-ball-intake-test-src}
         ${rev-cap-test-src}
         ${rev-drive-test-src}
         ${rev-shooter-test-src}
@@ -21,7 +18,6 @@ set(
 
 set(
         rev-V5-src
-        ${rev-ball-intake-V5-src}
         ${rev-cap-V5-src}
         ${rev-drive-V5-src}
         ${rev-shooter-V5-src}

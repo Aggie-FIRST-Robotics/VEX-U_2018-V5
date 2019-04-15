@@ -12,8 +12,9 @@ namespace AFR::VexU::Rev{
             serial->enqueue_write(ODROID_ID,0,1);
             Shooter::init();
             Drive::init();
-            BallIntake::init();
+            //BallIntake::init();
             Cap::init();
+            //memes
         }
 
         catch(std::exception& e){

@@ -16,7 +16,6 @@ namespace AFR::VexU::Rev::Drive::Base{
     const bool DIRECTION = false;
 
     const double ENCODER_SCALING = 1.0;
-    const size_t AVERAGER_SAMPLES = 10;
 
     void init();
     void destroy();
@@ -28,15 +27,8 @@ namespace AFR::VexU::Rev::Drive::Base{
     extern BaseCommandable::motor_commandable* right_motor_2;
     extern BaseCommandable::motor_commandable* right_motor_3;
 
-    extern BaseReadable::motor_encoder_readable* left_motor_1_encoder;
-    extern BaseReadable::motor_encoder_readable* left_motor_2_encoder;
-    extern BaseReadable::motor_encoder_readable* left_motor_3_encoder;
-    extern BaseReadable::motor_encoder_readable* right_motor_1_encoder;
-    extern BaseReadable::motor_encoder_readable* right_motor_2_encoder;
-    extern BaseReadable::motor_encoder_readable* right_motor_3_encoder;
-
-    extern BaseReadable::averager<double>* right_encoder;
-    extern BaseReadable::averager<double>* left_encoder;
+    extern BaseReadable::motor_encoder_readable* left_encoder;
+    extern BaseReadable::motor_encoder_readable* right_encoder;
 }
 
 #endif //VEX_U_2018_V5_BASE_H

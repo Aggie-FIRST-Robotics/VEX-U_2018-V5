@@ -23,7 +23,6 @@ namespace AFR::VexU{
             if(scheduled->next_update_ == INT64_MAX){
                 scheduled->update_private(-1);
                 scheduled->next_update_ = pros::millis() + scheduled->update_period_;
-                std::cout << "Initializing " << scheduled->get_name() << ", " << scheduled->next_update_ << " " << scheduled->enabled_ << std::endl;
             }
             else if(scheduled->update_period_ != 0){
                 if(pros::millis() >= scheduled->next_update_ && scheduled->enabled_){

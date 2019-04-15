@@ -15,28 +15,18 @@ namespace AFR::VexU::Rev::Cap{
 
     //Down
     const double ARM_GROUND_POSITION = 0;
-    const double ELBOW_GROUND_POSITION = 3800;
 
     //Flip Low
     const double ARM_FLIP_LOW_POSITION = 500;
 
-    //Hold
-    const double ELBOW_STORE_POSITION = 700;
-
-    //Flip High
-    const double ELBOW_FLIP_HIGH_POSITION = 2000;
-
     //Descore Prime
-    const double ARM_DESCORE_PRIME_POSITION = 1750;
-    const double ELBOW_DESCORE_PRIME_POSITION = -800;
+    const double ARM_DESCORE_PRIME_POSITION = 4600;
 
     //Score
-    const double ARM_SCORE_POSITION = 2450;
-    const double ELBOW_SCORE_POSITION = -800;
+    const double ARM_SCORE_POSITION = 4600;
 
     //Score Prime
-    const double ARM_SCORE_PRIME_POSITION = 2450;
-    const double ELBOW_SCORE_PRIME_POSITION = 900;
+    const double ARM_SCORE_PRIME_POSITION = 4050;
 
     //Wrist
     const double WRIST_FLIP_POSITION = 750;
