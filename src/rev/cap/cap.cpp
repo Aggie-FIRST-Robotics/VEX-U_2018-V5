@@ -35,10 +35,9 @@ namespace AFR::VexU::Rev::Cap{
     BaseReadable::digital_edge_detector* reset_button = nullptr;
 
     std::function<int16_t()> idle_intake_function = []() -> int16_t{
-        if(BaseReadable::driver_controller->is_digital_pressed(INTAKE_BUTTON)){
+        if (BaseReadable::operator_controller->is_digital_pressed(INTAKE_BUTTON)) {
             return INTAKE_VOLTAGE;
-        }
-        else if(BaseReadable::driver_controller->is_digital_pressed(OUTTAKE_BUTTON)){
+        } else if (BaseReadable::operator_controller->is_digital_pressed(OUTTAKE_BUTTON)) {
             return -INTAKE_VOLTAGE;
         }
         else{
@@ -65,10 +64,11 @@ namespace AFR::VexU::Rev::Cap{
         descore_prime = new state("descore prime");
 
         elevate_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, ELEVATE_BUTTON, "elevate button edge");
-        down_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, DOWN_BUTTON, "ground button edge");
-        descore_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, DESCORE_BUTTON, "steal button edge");
+        down_button = new BaseReadable::digital_edge_detector(CONTROLLER_PARTNER, DOWN_BUTTON, "ground button edge");
+        descore_button = new BaseReadable::digital_edge_detector(CONTROLLER_PARTNER, DESCORE_BUTTON,
+                                                                 "steal button edge");
         flip_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, FLIP_BUTTON, "flip button edge");
-        reset_button = new BaseReadable::digital_edge_detector(CONTROLLER_MASTER, RESET_BUTTON, "zero button edge");
+        reset_button = new BaseReadable::digital_edge_detector(CONTROLLER_PARTNER, RESET_BUTTON, "zero button edge");
 
         std::cout << "Setting controller operations" << std::endl;
 
@@ -163,7 +163,7 @@ namespace AFR::VexU::Rev::Cap{
         //     return reset_button->is_rising_edge();
         // }),zero_arm);
         ground->add_transition(std::function<bool()>([](){
-            return BaseReadable::driver_controller->is_digital_pressed(FLIP_BUTTON);
+            return BaseReadable::operator_controller->is_digital_pressed(FLIP_BUTTON);
         }),flip);
         ground->add_transition(std::function<bool()>([](){
             return descore_button->is_rising_edge();
@@ -205,7 +205,8 @@ namespace AFR::VexU::Rev::Cap{
             return descore_button->is_rising_edge();
         }),descore_prime);
         score_prime->add_transition(std::function<bool()>([](){
-            return !cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) && !BaseReadable::driver_controller->is_digital_pressed(ELEVATE_BUTTON);
+            return !cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) &&
+                   !BaseReadable::operator_controller->is_digital_pressed(ELEVATE_BUTTON);
         }),score);
         score_prime->add_transition(std::function<bool()>([](){
             return cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE);
@@ -277,7 +278,8 @@ namespace AFR::VexU::Rev::Cap{
             return down_button->is_rising_edge();
         }),ground);
         descore_prime->add_transition(std::function<bool()>([](){
-            return cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) && !BaseReadable::driver_controller->is_digital_pressed(DESCORE_BUTTON);
+            return cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) &&
+                   !BaseReadable::operator_controller->is_digital_pressed(DESCORE_BUTTON);
         }),score);
             
         // cap_arm->add_state(zero_arm);

@@ -36,7 +36,9 @@ namespace AFR::VexU::Rev::Shooter{
         set_low = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(LOW_BUTTON);}),"set altitude low");
         set_double = new BaseReadable::digital_edge_detector
-                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(DOUBLE_BUTTON);}),"set altitude double");
+                (std::function<bool()>(
+                        []() { return BaseReadable::driver_controller->is_digital_pressed(DOUBLE_BUTTON); }),
+                 "set altitude double");
         shoot = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::driver_controller->is_digital_pressed(SHOOT_BUTTON);}),"shoot button");
         stow = new BaseReadable::digital_edge_detector
@@ -79,10 +81,11 @@ namespace AFR::VexU::Rev::Shooter{
 
         Rollers::front_motor->set_operation(std::function<int16_t()>([](){
             std::cout << Rollers::cup_sensor->get_analog_value() << std::endl;
-            if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON)){
+            if (BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) ||
+                BaseReadable::operator_controller->is_digital_pressed(BALL_SWALLOW_BUTTON_OP)) {
                 return 12000;
-            }
-            else if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON)){
+            } else if (BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON) ||
+                       BaseReadable::operator_controller->is_digital_pressed(BALL_SPIT_BUTTON_OP)) {
                 return -12000;
             }
             return 0;
@@ -131,9 +134,9 @@ namespace AFR::VexU::Rev::Shooter{
             Altitude::pid->set_target(Altitude::pid->get_last_target());
         }));
 
-        set_point->add_transition(std::function<bool()>([](){
+        /*set_point->add_transition(std::function<bool()>([](){
             return BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
-        }),auto_aim);
+        }),auto_aim);*/
         set_point->add_transition(std::function<bool()>([](){
             return shoot->is_rising_edge() && Altitude::pid->is_in_range(ALTITUDE_TOLERANCE) && Rollers::cup_sensor->get_analog_value() < 500;
         }),cock);
@@ -171,9 +174,9 @@ namespace AFR::VexU::Rev::Shooter{
             vision->disable();
         }));
 
-        auto_aim->add_transition(std::function<bool()>([](){
-            return !BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
-        }),set_point);
+        /* auto_aim->add_transition(std::function<bool()>([](){
+             return !BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
+         }),set_point);*/
 
         /////Cock stat
 
