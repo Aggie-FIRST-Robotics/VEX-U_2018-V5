@@ -137,7 +137,7 @@ namespace AFR::VexU::Fuego::Cap{
         /////Zero Shoulder
             //////Transitions
             zero_arm->add_transition(std::function<bool()>([](){
-                if(Arm::debounce->is_triggered()){
+                if (Arm::debounce->is_triggered() && Wrist::limit_switch->is_pressed()) {
                     Arm::encoder->tare_position();
                     Wrist::encoder->tare_position();
                     return true;
