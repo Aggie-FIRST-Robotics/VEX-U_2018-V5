@@ -6,7 +6,7 @@ namespace AFR::VexU::Rev::Shooter::Altitude{
     BaseCommandable::motor_commandable* motor = nullptr;
     BaseReadable::motor_encoder_readable* encoder = nullptr;
     BaseAction::pid_action<double,int16_t>* pid = nullptr;
-    //memes
+    
 
     void init(){
         motor = new BaseCommandable::motor_commandable

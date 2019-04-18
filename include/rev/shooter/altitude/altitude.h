@@ -21,7 +21,7 @@ namespace AFR::VexU::Rev::Shooter::Altitude{
     const bool DIRECTION = false;
 
     /////PID Controller
-    const double P_VALUE = 100;
+    const double P_VALUE = 200;
     const double I_VALUE = 0;
     const double D_VALUE = 0;
     const int16_t MAX_VOLTAGE = 12000;

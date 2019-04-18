@@ -23,7 +23,7 @@ namespace AFR::VexU::Rev::Shooter::Puncher{
 
     //Dead Band
     const double INITIAL_TARGET      = 0;
-    const double TOLERANCE           = 300;
+    const double TOLERANCE           = 200;
     const int16_t MAX_VOLTAGE        = 12000;
     const int16_t MIN_VOLTAGE        = -12000;
 

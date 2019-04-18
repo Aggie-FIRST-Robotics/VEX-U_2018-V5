@@ -7,6 +7,7 @@ namespace AFR::VexU::Rev::Shooter::Puncher{
     BaseReadable::motor_encoder_readable* encoder = nullptr;
     BaseReadable::adi_digital_readable* limit_switch = nullptr;
     BaseAction::dead_band_action<double, int16_t>* dead_band = nullptr;
+    
 
     void init(){
         motor = new BaseCommandable::motor_commandable

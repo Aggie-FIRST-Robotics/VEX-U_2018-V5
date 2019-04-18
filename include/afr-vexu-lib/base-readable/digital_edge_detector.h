@@ -26,6 +26,7 @@ namespace AFR::VexU::BaseReadable{
         
         bool is_rising_edge();
         bool is_falling_edge();
+        void set_last_read(bool val);
      };
 }
 

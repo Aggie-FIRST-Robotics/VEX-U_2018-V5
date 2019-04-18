@@ -1,4 +1,5 @@
 #include "afr-vexu-lib/base-readable/digital_debounce.h"
+#include <iostream>
 
 namespace AFR::VexU::BaseReadable{
     digital_debounce::digital_debounce(std::function<bool()> bool_function, uint8_t threshold, const std::string& name)
@@ -6,7 +7,7 @@ namespace AFR::VexU::BaseReadable{
 
     bool digital_debounce::is_triggered(){
         bool curr_button_val = operation<bool>::get_function()();
-        if(operation<bool>::get_function()()){
+        if(curr_button_val){
             counter_++;
         }
         else{

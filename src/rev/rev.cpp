@@ -13,8 +13,7 @@ namespace AFR::VexU::Rev{
             Shooter::init();
             Drive::init();
             //BallIntake::init();
-            Cap::init();
-            //memes
+            // Cap::init();
         }
 
         catch(std::exception& e){
