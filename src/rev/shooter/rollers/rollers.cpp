@@ -15,7 +15,11 @@ namespace AFR::VexU::Rev::Shooter::Rollers{
 
         top_motor = new BaseCommandable::motor_commandable
                 (UPDATE_PERIOD, TOP_INTAKE_MOTOR_PORT, TOP_INTAKE_GEARSET,
+<<<<<<< HEAD
                 !DIRECTION, TOP_INTAKE_BRAKE_MODE, "top intake motor");
+=======
+                 !DIRECTION, TOP_INTAKE_BRAKE_MODE, "top intake motor");
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
 
         cup_sensor = new BaseReadable::adi_analog_readable
                 (CUP_SENSOR_PORT, "roller sensor");

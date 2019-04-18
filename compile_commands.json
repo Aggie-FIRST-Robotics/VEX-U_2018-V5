@@ -8,14 +8,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/afr-vexu-lib/comms/",
+          "-iquote./include/afr-vexu-lib/base-readable/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -28,11 +28,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/afr-vexu-lib/comms/RingBuffer.cpp.o",
-            "src\\afr-vexu-lib\\comms\\RingBuffer.cpp"
+          "bin/afr-vexu-lib/base-readable/digital_edge_detector.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\digital_edge_detector.cpp"
         ],
-        "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
-        "file": "src\\afr-vexu-lib\\comms\\RingBuffer.cpp"
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\digital_edge_detector.cpp"
     },
     {
         "arguments": [
@@ -43,14 +43,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/afr-vexu-lib/comms/",
+          "-iquote./include/afr-lib/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -63,11 +63,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/afr-vexu-lib/comms/Packet.cpp.o",
-            "src\\afr-vexu-lib\\comms\\Packet.cpp"
+          "bin/afr-lib/scheduled.cpp.o",
+          "src\\afr-lib\\scheduled.cpp"
         ],
-        "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
-        "file": "src\\afr-vexu-lib\\comms\\Packet.cpp"
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-lib\\scheduled.cpp"
     },
     {
         "arguments": [
@@ -78,14 +78,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/./",
+          "-iquote./include/afr-vexu-lib/vision/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -98,11 +98,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/opcontrol.cpp.o",
-            "src\\opcontrol.cpp"
+          "bin/afr-vexu-lib/vision/vision_targeting.cpp.o",
+          "src\\afr-vexu-lib\\vision\\vision_targeting.cpp"
         ],
-        "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
-        "file": "src\\opcontrol.cpp"
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\vision\\vision_targeting.cpp"
     },
     {
         "arguments": [
@@ -113,14 +113,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/afr-vexu-lib/base-readable/",
+          "-iquote./include/rev/shooter/altitude/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -133,11 +133,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/afr-vexu-lib/base-readable/adi_encoder_readable.cpp.o",
-            "src\\afr-vexu-lib\\base-readable\\adi_encoder_readable.cpp"
+          "bin/rev/shooter/altitude/altitude.cpp.o",
+          "src\\rev\\shooter\\altitude\\altitude.cpp"
         ],
-        "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
-        "file": "src\\afr-vexu-lib\\base-readable\\adi_encoder_readable.cpp"
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\shooter\\altitude\\altitude.cpp"
     },
     {
         "arguments": [
@@ -148,14 +148,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-commandable/",
+=======
+          "-iquote./include/afr-vexu-lib/base-readable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -168,11 +172,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-commandable/controller_commandable.cpp.o",
             "src\\afr-vexu-lib\\base-commandable\\controller_commandable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-commandable\\controller_commandable.cpp"
+=======
+          "bin/afr-vexu-lib/base-readable/digital_debounce.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\digital_debounce.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\digital_debounce.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -183,12 +195,12 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
             "-iquote./include/afr-lib/",
             "-mcpu=cortex-a9",
@@ -203,11 +215,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-lib/afr-lib.cpp.o",
             "src\\afr-lib\\afr-lib.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-lib\\afr-lib.cpp"
+=======
+          "bin/afr-vexu-lib/base-commandable/motor_commandable.cpp.o",
+          "src\\afr-vexu-lib\\base-commandable\\motor_commandable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-commandable\\motor_commandable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -218,14 +238,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/comms/",
+=======
+          "-iquote./include/rev/shooter/puncher/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -238,11 +262,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/comms/DataTable.cpp.o",
             "src\\afr-vexu-lib\\comms\\DataTable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\comms\\DataTable.cpp"
+=======
+          "bin/rev/shooter/puncher/puncher.cpp.o",
+          "src\\rev\\shooter\\puncher\\puncher.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\shooter\\puncher\\puncher.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -253,14 +285,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-commandable/",
+=======
+          "-iquote./include/afr-lib/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -273,11 +309,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-commandable/adi_digital_commandable.cpp.o",
             "src\\afr-vexu-lib\\base-commandable\\adi_digital_commandable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-commandable\\adi_digital_commandable.cpp"
+=======
+          "bin/afr-lib/nameable.cpp.o",
+          "src\\afr-lib\\nameable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-lib\\nameable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -288,14 +332,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/vision/",
+=======
+          "-iquote./include/afr-vexu-lib/base-readable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -308,11 +356,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/vision/vision_targeting.cpp.o",
             "src\\afr-vexu-lib\\vision\\vision_targeting.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\vision\\vision_targeting.cpp"
+=======
+          "bin/afr-vexu-lib/base-readable/controller_readable.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\controller_readable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\controller_readable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -323,12 +379,12 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
             "-iquote./include/afr-lib/",
             "-mcpu=cortex-a9",
@@ -343,11 +399,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-lib/scheduled.cpp.o",
             "src\\afr-lib\\scheduled.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-lib\\scheduled.cpp"
+=======
+          "bin/afr-vexu-lib/base-commandable/adi_analog_commandable.cpp.o",
+          "src\\afr-vexu-lib\\base-commandable\\adi_analog_commandable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-commandable\\adi_analog_commandable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -358,14 +422,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/drive/base/",
+=======
+          "-iquote./include/rev/drive/shifter/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -378,11 +446,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/drive/base/base.cpp.o",
             "src\\rev\\drive\\base\\base.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\drive\\base\\base.cpp"
+=======
+          "bin/rev/drive/shifter/shifter.cpp.o",
+          "src\\rev\\drive\\shifter\\shifter.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\drive\\shifter\\shifter.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -393,14 +469,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-readable/",
+=======
+          "-iquote./include/afr-vexu-lib/base-readable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -413,11 +493,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/digital_edge_detector.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\digital_edge_detector.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\digital_edge_detector.cpp"
+=======
+          "bin/afr-vexu-lib/base-readable/adi_analog_readable.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\adi_analog_readable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\adi_analog_readable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -428,14 +516,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-commandable/",
+=======
+          "-iquote./include/rev/shooter/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -448,11 +540,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-commandable/adi_analog_commandable.cpp.o",
             "src\\afr-vexu-lib\\base-commandable\\adi_analog_commandable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-commandable\\adi_analog_commandable.cpp"
+=======
+          "bin/rev/shooter/shooter.cpp.o",
+          "src\\rev\\shooter\\shooter.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\shooter\\shooter.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -463,14 +563,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/./",
+=======
+          "-iquote./include/afr-lib/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -483,11 +587,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/initialize.cpp.o",
             "src\\initialize.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\initialize.cpp"
+=======
+          "bin/afr-lib/afr-lib.cpp.o",
+          "src\\afr-lib\\afr-lib.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-lib\\afr-lib.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -498,14 +610,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-readable/",
+=======
+          "-iquote./include/rev/drive/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -518,11 +634,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/battery_readable.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\battery_readable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\battery_readable.cpp"
+=======
+          "bin/rev/drive/drive.cpp.o",
+          "src\\rev\\drive\\drive.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\drive\\drive.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -533,14 +657,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/comms/",
+=======
+          "-iquote./include/afr-vexu-lib/base-readable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -553,11 +681,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/comms/serial_manager.cpp.o",
             "src\\afr-vexu-lib\\comms\\serial_manager.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\comms\\serial_manager.cpp"
+=======
+          "bin/afr-vexu-lib/base-readable/battery_readable.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\battery_readable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\battery_readable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -568,14 +704,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-readable/",
+=======
+          "-iquote./include/afr-vexu-lib/comms/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -588,11 +728,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/controller_readable.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\controller_readable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\controller_readable.cpp"
+=======
+          "bin/afr-vexu-lib/comms/serial_manager.cpp.o",
+          "src\\afr-vexu-lib\\comms\\serial_manager.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\comms\\serial_manager.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -603,14 +751,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/./",
+=======
+          "-iquote./include/afr-vexu-lib/comms/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -623,11 +775,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/autonomous.cpp.o",
             "src\\autonomous.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\autonomous.cpp"
+=======
+          "bin/afr-vexu-lib/comms/DataTable.cpp.o",
+          "src\\afr-vexu-lib\\comms\\DataTable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\comms\\DataTable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -638,14 +798,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-lib/",
+=======
+          "-iquote./include/afr-vexu-lib/base-readable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -658,11 +822,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-lib/nameable.cpp.o",
             "src\\afr-lib\\nameable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-lib\\nameable.cpp"
+=======
+          "bin/afr-vexu-lib/base-readable/motor_encoder_readable.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\motor_encoder_readable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\motor_encoder_readable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -673,14 +845,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/drive/shifter/",
+=======
+          "-iquote./include/rev/cap/arm/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -693,11 +869,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/drive/shifter/shifter.cpp.o",
             "src\\rev\\drive\\shifter\\shifter.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\drive\\shifter\\shifter.cpp"
+=======
+          "bin/rev/cap/arm/arm.cpp.o",
+          "src\\rev\\cap\\arm\\arm.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\cap\\arm\\arm.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -708,14 +892,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-lib/",
+=======
+          "-iquote./include/rev/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -728,11 +916,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-lib/state.cpp.o",
             "src\\afr-lib\\state.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-lib\\state.cpp"
+=======
+          "bin/rev/rev.cpp.o",
+          "src\\rev\\rev.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\rev.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -743,14 +939,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/",
+=======
+          "-iquote./include/rev/shooter/rollers/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -763,11 +963,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/afr-vexu-lib.cpp.o",
             "src\\afr-vexu-lib\\afr-vexu-lib.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\afr-vexu-lib.cpp"
+=======
+          "bin/rev/shooter/rollers/rollers.cpp.o",
+          "src\\rev\\shooter\\rollers\\rollers.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\shooter\\rollers\\rollers.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -778,14 +986,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-readable/",
+=======
+          "-iquote./include/afr-vexu-lib/comms/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -798,11 +1010,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/competition_readable.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\competition_readable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\competition_readable.cpp"
+=======
+          "bin/afr-vexu-lib/comms/RingBuffer.cpp.o",
+          "src\\afr-vexu-lib\\comms\\RingBuffer.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\comms\\RingBuffer.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -813,14 +1033,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/drive/",
+=======
+          "-iquote./include/./",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -833,11 +1057,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/drive/drive.cpp.o",
             "src\\rev\\drive\\drive.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\drive\\drive.cpp"
+=======
+          "bin/opcontrol.cpp.o",
+          "src\\opcontrol.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\opcontrol.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -848,14 +1080,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-readable/",
+=======
+          "-iquote./include/rev/drive/base/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -868,11 +1104,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/motor_encoder_readable.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\motor_encoder_readable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\motor_encoder_readable.cpp"
+=======
+          "bin/rev/drive/base/base.cpp.o",
+          "src\\rev\\drive\\base\\base.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\drive\\base\\base.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -883,14 +1127,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-readable/",
+=======
+          "-iquote./include/afr-vexu-lib/comms/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -903,11 +1151,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/adi_digital_readable.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\adi_digital_readable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\adi_digital_readable.cpp"
+=======
+          "bin/afr-vexu-lib/comms/Packet.cpp.o",
+          "src\\afr-vexu-lib\\comms\\Packet.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\comms\\Packet.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -918,14 +1174,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/afr-vexu-lib/base-readable/",
+          "-iquote./include/rev/cap/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -938,11 +1194,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/adi_analog_readable.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\adi_analog_readable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\adi_analog_readable.cpp"
+=======
+          "bin/rev/cap/cap.cpp.o",
+          "src\\rev\\cap\\cap.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\cap\\cap.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -953,12 +1217,12 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
             "-iquote./include/rev/cap/wrist/",
             "-mcpu=cortex-a9",
@@ -973,11 +1237,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/cap/wrist/wrist.cpp.o",
             "src\\rev\\cap\\wrist\\wrist.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\cap\\wrist\\wrist.cpp"
+=======
+          "bin/afr-vexu-lib/base-readable/adi_encoder_readable.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\adi_encoder_readable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\adi_encoder_readable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -988,14 +1260,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/cap/arm/",
+=======
+          "-iquote./include/afr-lib/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1008,11 +1284,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/cap/arm/arm.cpp.o",
             "src\\rev\\cap\\arm\\arm.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\cap\\arm\\arm.cpp"
+=======
+          "bin/afr-lib/state.cpp.o",
+          "src\\afr-lib\\state.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-lib\\state.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1023,14 +1307,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/cap/",
+=======
+          "-iquote./include/afr-vexu-lib/base-commandable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1043,11 +1331,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/cap/cap.cpp.o",
             "src\\rev\\cap\\cap.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\cap\\cap.cpp"
+=======
+          "bin/afr-vexu-lib/base-commandable/controller_commandable.cpp.o",
+          "src\\afr-vexu-lib\\base-commandable\\controller_commandable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-commandable\\controller_commandable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1058,14 +1354,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/afr-vexu-lib/base-readable/",
+          "-iquote./include/rev/cap/wrist/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1078,11 +1374,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-readable/digital_debounce.cpp.o",
             "src\\afr-vexu-lib\\base-readable\\digital_debounce.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-readable\\digital_debounce.cpp"
+=======
+          "bin/rev/cap/wrist/wrist.cpp.o",
+          "src\\rev\\cap\\wrist\\wrist.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\rev\\cap\\wrist\\wrist.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1093,14 +1397,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/",
+=======
+          "-iquote./include/afr-vexu-lib/base-commandable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1113,46 +1421,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/rev.cpp.o",
             "src\\rev\\rev.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\rev.cpp"
-    },
-    {
-        "arguments": [
-            "clang++",
-            "-c",
-            "-target",
-            "armv7ar-none-none-eabi",
-            "-fno-ms-extensions",
-            "-fno-ms-compatibility",
-            "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
-            "-iquote./include",
-            "-iquote./include/rev/shooter/rollers/",
-            "-mcpu=cortex-a9",
-            "-mfpu=neon-fp16",
-            "-mfloat-abi=softfp",
-            "-D_POSIX_THREADS",
-            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
-            "-Os",
-            "-funwind-tables",
-            "-ffunction-sections",
-            "-fdata-sections",
-            "-fdiagnostics-color",
-            "--std=gnu++17",
-            "-o",
-            "bin/rev/shooter/rollers/rollers.cpp.o",
-            "src\\rev\\shooter\\rollers\\rollers.cpp"
+=======
+          "bin/afr-vexu-lib/base-commandable/adi_digital_commandable.cpp.o",
+          "src\\afr-vexu-lib\\base-commandable\\adi_digital_commandable.cpp"
         ],
-        "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
-        "file": "src\\rev\\shooter\\rollers\\rollers.cpp"
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-commandable\\adi_digital_commandable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1163,14 +1444,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/afr-vexu-lib/",
+          "-iquote./include/./",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1183,11 +1464,58 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+          "bin/autonomous.cpp.o",
+          "src\\autonomous.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\autonomous.cpp"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+            "-iquote./include",
+<<<<<<< HEAD
+            "-iquote./include/afr-vexu-lib/",
+=======
+          "-iquote./include/./",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
+            "-mcpu=cortex-a9",
+            "-mfpu=neon-fp16",
+            "-mfloat-abi=softfp",
+            "-D_POSIX_THREADS",
+            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
+            "-Os",
+            "-funwind-tables",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fdiagnostics-color",
+            "--std=gnu++17",
+            "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/ports_list.cpp.o",
             "src\\afr-vexu-lib\\ports_list.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\ports_list.cpp"
+=======
+          "bin/initialize.cpp.o",
+          "src\\initialize.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\initialize.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1198,14 +1526,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/afr-vexu-lib/base-commandable/",
+=======
+          "-iquote./include/afr-vexu-lib/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1218,11 +1550,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/afr-vexu-lib/base-commandable/motor_commandable.cpp.o",
             "src\\afr-vexu-lib\\base-commandable\\motor_commandable.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\afr-vexu-lib\\base-commandable\\motor_commandable.cpp"
+=======
+          "bin/afr-vexu-lib/afr-vexu-lib.cpp.o",
+          "src\\afr-vexu-lib\\afr-vexu-lib.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\afr-vexu-lib.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1233,14 +1573,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/shooter/altitude/",
+=======
+          "-iquote./include/afr-vexu-lib/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1253,11 +1597,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/shooter/altitude/altitude.cpp.o",
             "src\\rev\\shooter\\altitude\\altitude.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\shooter\\altitude\\altitude.cpp"
+=======
+          "bin/afr-vexu-lib/ports_list.cpp.o",
+          "src\\afr-vexu-lib\\ports_list.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\ports_list.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1268,14 +1620,18 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
+<<<<<<< HEAD
             "-iquote./include/rev/shooter/puncher/",
+=======
+          "-iquote./include/afr-vexu-lib/base-readable/",
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1288,11 +1644,19 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
+<<<<<<< HEAD
             "bin/rev/shooter/puncher/puncher.cpp.o",
             "src\\rev\\shooter\\puncher\\puncher.cpp"
         ],
         "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
         "file": "src\\rev\\shooter\\puncher\\puncher.cpp"
+=======
+          "bin/afr-vexu-lib/base-readable/competition_readable.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\competition_readable.cpp"
+        ],
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\competition_readable.cpp"
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
     },
     {
         "arguments": [
@@ -1303,14 +1667,14 @@
             "-fno-ms-extensions",
             "-fno-ms-compatibility",
             "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+          "-isystemd:\\lolidk\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/rev/shooter/",
+          "-iquote./include/afr-vexu-lib/base-readable/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -1323,10 +1687,10 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/rev/shooter/shooter.cpp.o",
-            "src\\rev\\shooter\\shooter.cpp"
+          "bin/afr-vexu-lib/base-readable/adi_digital_readable.cpp.o",
+          "src\\afr-vexu-lib\\base-readable\\adi_digital_readable.cpp"
         ],
-        "directory": "C:\\Users\\HP\\Documents\\AFR_VEXU_LIB\\AFROS\\VEX-U_2018-V5",
-        "file": "src\\rev\\shooter\\shooter.cpp"
+      "directory": "C:\\Users\\aamhi\\Documents\\VEX-U_2018-V5",
+      "file": "src\\afr-vexu-lib\\base-readable\\adi_digital_readable.cpp"
     }
 ]

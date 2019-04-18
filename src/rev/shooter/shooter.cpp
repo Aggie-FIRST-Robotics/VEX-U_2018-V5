@@ -34,6 +34,7 @@ namespace AFR::VexU::Rev::Shooter{
         Altitude::init();
         Puncher::init();
 
+<<<<<<< HEAD
         auto_assist_intake = []() -> int16_t{ 
             if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) || BaseReadable::operator_controller->is_digital_pressed(BALL_INTAKE_BUTTON)){
                 return 12000;
@@ -71,6 +72,20 @@ namespace AFR::VexU::Rev::Shooter{
                 (std::function<bool()>([](){return BaseReadable::driver_controller->is_digital_pressed(HIGH_BUTTON);}),BUTTON_DELAY,"^");
         set_low = new BaseReadable::digital_debounce
                 (std::function<bool()>([](){return BaseReadable::driver_controller->is_digital_pressed(LOW_BUTTON);}),BUTTON_DELAY,"V");
+=======
+        set_high = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(HIGH_BUTTON);}),"set altitude high");
+        set_low = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(LOW_BUTTON);}),"set altitude low");
+        set_double = new BaseReadable::digital_edge_detector
+                (std::function<bool()>(
+                        []() { return BaseReadable::driver_controller->is_digital_pressed(DOUBLE_BUTTON); }),
+                 "set altitude double");
+        shoot = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::driver_controller->is_digital_pressed(SHOOT_BUTTON);}),"shoot button");
+        stow = new BaseReadable::digital_edge_detector
+                (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(STOW_BUTTON);}),"stow button");
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
         zero = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return Puncher::limit_switch->is_pressed();}),"puncher zero limit switch");
 
@@ -107,10 +122,24 @@ namespace AFR::VexU::Rev::Shooter{
             return given;
         }),shooter_state_controller->get_name());
 
+<<<<<<< HEAD
 
 
         Rollers::front_motor->set_operation(front_intake,shooter_state_controller->get_name());
         Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
+=======
+        Rollers::front_motor->set_operation(std::function<int16_t()>([](){
+            std::cout << Rollers::cup_sensor->get_analog_value() << std::endl;
+            if (BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) ||
+                BaseReadable::operator_controller->is_digital_pressed(BALL_SWALLOW_BUTTON_OP)) {
+                return 12000;
+            } else if (BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON) ||
+                       BaseReadable::operator_controller->is_digital_pressed(BALL_SPIT_BUTTON_OP)) {
+                return -12000;
+            }
+            return 0;
+        }),shooter_state_controller->get_name());
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
 
         /////Set Point State
         set_point->set_on_state_entry(std::function<void(state*)>([](state* next_state){
@@ -123,6 +152,7 @@ namespace AFR::VexU::Rev::Shooter{
             std::cout << "Set exit" << std::endl;
         }));
 
+<<<<<<< HEAD
         set_point->add_transition(std::function<bool()>([](){
             if(set_low->is_triggered() && !BaseReadable::driver_controller->is_digital_pressed(HIGH_BUTTON) && Rollers::cup_sensor->get_analog_value() < 500){
                 Altitude::pid->set_target(ALTITUDE_LOW_TARGET);
@@ -130,6 +160,11 @@ namespace AFR::VexU::Rev::Shooter{
             }
             return false;
         }),ready);
+=======
+        /*set_point->add_transition(std::function<bool()>([](){
+            return BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
+        }),auto_aim);*/
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
         set_point->add_transition(std::function<bool()>([](){
             if(set_high->is_triggered() && !BaseReadable::driver_controller->is_digital_pressed(LOW_BUTTON) && Rollers::cup_sensor->get_analog_value() < 500){
                 Altitude::pid->set_target(ALTITUDE_HIGH_TARGET);
@@ -168,6 +203,7 @@ namespace AFR::VexU::Rev::Shooter{
 
         operator_rumble = new BaseCommandable::controller_commandable(UPDATE_PERIOD,"",pros::E_CONTROLLER_PARTNER,"operator rumble");
 
+<<<<<<< HEAD
         // auto_aim->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
         //     vision->enable();
         //     Altitude::pid->set_target(std::function<double()>([](){
@@ -195,6 +231,35 @@ namespace AFR::VexU::Rev::Shooter{
         // auto_aim->add_transition(std::function<bool()>([](){
         //     return !BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
         // }),set_point);
+=======
+        auto_aim->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            vision->enable();
+            Altitude::pid->set_target(std::function<double()>([](){
+                if(vision->has_target_rect()) {
+                    Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
+                    if (Altitude::encoder->get_scaled_position() + auto_encoder_change.altitude > Altitude::ENCODER_LIMIT) {
+                        return Altitude::ENCODER_LIMIT;
+                    } else if (Altitude::encoder->get_scaled_position() + auto_encoder_change.altitude < 0) {
+                        return 0.0;
+                    } else {
+                        return Altitude::encoder->get_scaled_position() + auto_encoder_change.altitude;
+                    }
+                }
+                else {
+                    return Altitude::encoder->get_scaled_position();
+                }
+            }));
+        }));
+
+        auto_aim->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            vision->purge_target_list();
+            vision->disable();
+        }));
+
+        /* auto_aim->add_transition(std::function<bool()>([](){
+             return !BaseReadable::operator_controller->is_digital_pressed(AUTO_BUTTON);
+         }),set_point);*/
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
 
         /////Cock stat
 

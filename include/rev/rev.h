@@ -76,6 +76,7 @@ namespace AFR::VexU::Rev{
     
 
     /////DRIVER CONTROLS
+<<<<<<< HEAD
     
     const pros::controller_digital_e_t BALL_SPIT_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
     const pros::controller_digital_e_t BALL_SWALLOW_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
@@ -96,7 +97,37 @@ namespace AFR::VexU::Rev{
     const pros::controller_digital_e_t DESCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
     const pros::controller_digital_e_t BALL_INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
     const pros::controller_digital_e_t BALL_OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
+=======
 
+
+
+
+    const pros::controller_digital_e_t DOUBLE_BUTTON = pros::E_CONTROLLER_DIGITAL_R2; //good
+
+    const pros::controller_digital_e_t SHOOT_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
+
+    const pros::controller_digital_e_t BALL_SPIT_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
+    const pros::controller_digital_e_t BALL_SWALLOW_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;
+    const pros::controller_analog_e_t DRIVETRAIN_THROTTLE = pros::E_CONTROLLER_ANALOG_LEFT_Y;
+    const pros::controller_analog_e_t DRIVETRAIN_TURN = pros::E_CONTROLLER_ANALOG_RIGHT_X;
+
+>>>>>>> 46ed1f95cea4a833155c189cfa99c769f511587e
+
+    /////OPERATOR CONTROLS
+    const pros::controller_digital_e_t OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_L2;
+    const pros::controller_digital_e_t DESCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;//good
+    const pros::controller_digital_e_t INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_L1; //good
+    //good
+    const pros::controller_digital_e_t ELEVATE_BUTTON = pros::E_CONTROLLER_DIGITAL_X;//good
+    const pros::controller_digital_e_t FLIP_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;//good
+    const pros::controller_digital_e_t BALL_SPIT_BUTTON_OP = pros::E_CONTROLLER_DIGITAL_A;
+    const pros::controller_digital_e_t BALL_SWALLOW_BUTTON_OP = pros::E_CONTROLLER_DIGITAL_Y;
+    const pros::controller_digital_e_t HIGH_BUTTON = pros::E_CONTROLLER_DIGITAL_UP; //good
+    const pros::controller_digital_e_t DOWN_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
+    const pros::controller_digital_e_t LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_DOWN;//good
+    // const pros::controller_digital_e_t AUTO_BUTTON = pros::E_CONTROLLER_DIGITAL_RIGHT;
+    const pros::controller_digital_e_t STOW_BUTTON = pros::E_CONTROLLER_DIGITAL_LEFT; //good
+    const pros::controller_digital_e_t RESET_BUTTON = pros::E_CONTROLLER_DIGITAL_RIGHT;
     void init_robot();
     void competition_init();
     void auto_robot();
