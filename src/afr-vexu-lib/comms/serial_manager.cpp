@@ -88,7 +88,7 @@ namespace AFR::VexU {
 				fputc((char)(arduino_queue.front().frame[1]), stream_out);
 				fputc((char)(arduino_queue.front().frame[2]), stream_out);
 				fputc((char)(arduino_queue.front().frame[3]), stream_out);
-				odroid_queue.pop();
+				arduino_queue.pop();
 			}
 		}
 		for(int i = 0; i < 8; i++)

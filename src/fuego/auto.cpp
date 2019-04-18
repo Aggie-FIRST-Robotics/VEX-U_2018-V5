@@ -18,6 +18,7 @@ namespace AFR::VexU::Fuego::Auto{
 
     /////States
     state* zero = nullptr;
+    state* drive_test = nullptr;
     state* grab_tilted_cap = nullptr;
     state* move_tilted_cap = nullptr;
     state* score_tilted_cap = nullptr;
@@ -30,6 +31,7 @@ namespace AFR::VexU::Fuego::Auto{
         auto_controller = new state_controller<auto_meta>{UPDATE_PERIOD, {0, pros::millis() + 14999}, "auto_controller"};
 
         zero = new state("zero");
+        drive_test = new state("drive_test");
         grab_tilted_cap = new state("grab_tilted_cap");
         move_tilted_cap = new state("move_tilted_cap");
         score_tilted_cap = new state("score_tilted_cap");
@@ -47,13 +49,26 @@ namespace AFR::VexU::Fuego::Auto{
 
         zero->add_transition(std::function<bool()>([](){
             return Cap::cap_arm->get_current_state() == Cap::store;
-        }),grab_tilted_cap);
+        }),drive_test);
         /////Timeout
         zero->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }),grab_tilted_cap);
+        }),drive_test);
         zero->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+
+        /////Drive test
+        drive_test->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            Drive::drive_machine->maintain_state(Drive::autonomous);
+            Drive::auto_drivetrain->auto_drive_dist(-24, -24, 10, 0, auto_controller->get_name());
+        }));
+        drive_test->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+        }));
+
+        drive_test->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
         }),end);
 
         /////Gram Tilted Cap
@@ -127,6 +142,7 @@ namespace AFR::VexU::Fuego::Auto{
 
 
         auto_controller->add_state(zero);
+        auto_controller->add_state(drive_test);
         auto_controller->add_state(grab_tilted_cap);
         auto_controller->add_state(move_tilted_cap);
         auto_controller->add_state(score_tilted_cap);

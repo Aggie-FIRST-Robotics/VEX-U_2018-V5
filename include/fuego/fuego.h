@@ -16,11 +16,13 @@
 
 namespace AFR::VexU::Fuego{
 
+    constexpr double FUEGO_WIDTH = 14.0;
+
     /////DRIVETRAIN
-    const port_t RIGHT_RAIL_MOTOR_A_PORT = 17;
-    const port_t RIGHT_RAIL_MOTOR_B_PORT = 5;
-    const port_t LEFT_RAIL_MOTOR_A_PORT = 4;
-    const port_t LEFT_RAIL_MOTOR_B_PORT = 3;
+    const port_t RIGHT_RAIL_MOTOR_A_PORT = 4;
+    const port_t RIGHT_RAIL_MOTOR_B_PORT = 3;
+    const port_t LEFT_RAIL_MOTOR_A_PORT = 17;
+    const port_t LEFT_RAIL_MOTOR_B_PORT = 5;
     const pros::motor_gearset_e_t DRIVETRAIN_GEARSET = pros::E_MOTOR_GEARSET_06;
     const pros::motor_brake_mode_e_t DRIVETRAIN_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
