@@ -12,6 +12,7 @@ namespace AFR::VexU::Fuego::Cap::Wrist{
 
     BaseAction::pid_action<double, int16_t>* pid_controller = nullptr;
     BaseAction::zero_encoder_action<bool, int16_t>* zero_action = nullptr;
+    //memes
 
     void init(){
         flipping_motor = new BaseCommandable::motor_commandable

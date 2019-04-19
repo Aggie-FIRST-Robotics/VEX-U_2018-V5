@@ -16,13 +16,13 @@
 
 namespace AFR::VexU::Fuego{
 
-    constexpr double FUEGO_WIDTH = 14.0;
+    constexpr double FUEGO_WIDTH = 13.75;
 
     /////DRIVETRAIN
-    const port_t RIGHT_RAIL_MOTOR_A_PORT = 4;
-    const port_t RIGHT_RAIL_MOTOR_B_PORT = 3;
-    const port_t LEFT_RAIL_MOTOR_A_PORT = 17;
-    const port_t LEFT_RAIL_MOTOR_B_PORT = 5;
+    const port_t FRONT_LEFT_DRIVETRAIN_MOTOR = 4; //Front LEFT
+    const port_t BACK_LEFT_DRIVETRAIN_MOTOR = 3;
+    const port_t FRONT_RIGHT_DRIVETRAIN_MOTOR = 17; //FRONT RIGHT
+    const port_t BACK_RIGHT_DRIVETRAIN_MOTOR = 5; //BACK RIGHT
     const pros::motor_gearset_e_t DRIVETRAIN_GEARSET = pros::E_MOTOR_GEARSET_06;
     const pros::motor_brake_mode_e_t DRIVETRAIN_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
@@ -76,7 +76,7 @@ namespace AFR::VexU::Fuego{
     /////LIMIT SWITCHES
     const port_t SHOULDER_LIMIT_SWITCH_PORT = 8;
     const port_t ELBOW_LIMIT_SWITCH_PORT = 7;
-    const port_t WRIST_LIMIT_SWITCH_PORT = 6;
+    const port_t WRIST_LIMIT_SWITCH_PORT = 5;
 
     /////DRIVER CONTROLS
     const pros::controller_digital_e_t ELEVATE_BUTTON = pros::E_CONTROLLER_DIGITAL_L1;

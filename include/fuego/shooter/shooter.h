@@ -36,10 +36,10 @@ namespace AFR::VexU::Fuego::Shooter{
 
     /////SET POINTS
     const double TURRET_LEFT_TARGET     = 500;
-    const double TURRET_MID_TARGET      = 1500;
+    const double TURRET_MID_TARGET      = 1650;
     const double TURRET_RIGHT_TARGET    = 2500;
-    const double HOOD_HIGH_TARGET       = 200;
-    const double HOOD_MID_TARGET        = 600;
+    const double HOOD_HIGH_TARGET       = 400;
+    const double HOOD_MID_TARGET        = 800;
     const double HOOD_LOW_TARGET        = 1200;
 
     /////AUTO AIM
@@ -47,6 +47,28 @@ namespace AFR::VexU::Fuego::Shooter{
 
     void init();
     void destroy();
+
+    extern Vision::vision_targeting* vision;
+
+    struct turret_meta {
+        double turret_set_point;
+        double hood_set_point;
+    };
+
+    extern state_controller<turret_meta>* turret_state_controller;
+
+    extern state* manual;
+    extern state* set_point;
+    extern state* auto_aim;
+    extern state* ready;
+
+    extern state_controller<bool>* shooter_state_controller;
+
+    extern state* rest;
+    extern state* spin_up;
+    extern state* fire;
+    extern state* walk;
+    extern state* zero_dick;
 }
 
 #endif //VEX_U_2018_V5_SHOOTER_H

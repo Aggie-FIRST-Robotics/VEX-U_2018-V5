@@ -51,29 +51,22 @@ namespace AFR::VexU::Fuego::Drive{
     };
 
     /////Joystick Lambda
-    std::function<int32_t()> DRIVE_SPEED = []() -> int32_t { 
-                std::cout << "Angle: " << gyro_lambda() << std::endl;
-                std::cout << "Left encoder: " << left_encoder_lambda() << std::endl;
-                std::cout << "Right encoder: " << right_encoder_lambda() << std::endl;
-                std::cout << "Left encoder vel: " << left_encoder_vel_lambda() << std::endl;
-                std::cout << "Right encoder vel: " << right_encoder_vel_lambda() << std::endl;
-        return (BaseReadable::driver_controller->get_analog(DRIVETRAIN_THROTTLE) * 12000) / 127; 
-    };
+    std::function<int32_t()> DRIVE_SPEED = []() -> int32_t { return (BaseReadable::driver_controller->get_analog(DRIVETRAIN_THROTTLE) * 12000) / 127; };
     std::function<int32_t()> DRIVE_TURN = []() -> int32_t{ return (BaseReadable::driver_controller->get_analog(DRIVETRAIN_TURN) * 12000) / 127; };
 
     void init(){
-        /////Commandables
+        /////Commandable
         front_left_motor = new BaseCommandable::motor_commandable
-                {UPDATE_PERIOD, LEFT_RAIL_MOTOR_A_PORT, DRIVETRAIN_GEARSET, !DIRECTION, DRIVETRAIN_BRAKE_MODE, "front_left_motor"};
+                {UPDATE_PERIOD, FRONT_LEFT_DRIVETRAIN_MOTOR, DRIVETRAIN_GEARSET, DIRECTION, DRIVETRAIN_BRAKE_MODE, "front_left_motor"};
         back_left_motor = new BaseCommandable::motor_commandable
-                {UPDATE_PERIOD, LEFT_RAIL_MOTOR_B_PORT, DRIVETRAIN_GEARSET, !DIRECTION, DRIVETRAIN_BRAKE_MODE, "front_right_motor"};
+                {UPDATE_PERIOD, BACK_LEFT_DRIVETRAIN_MOTOR, DRIVETRAIN_GEARSET, DIRECTION, DRIVETRAIN_BRAKE_MODE, "front_right_motor"};
         front_right_motor = new BaseCommandable::motor_commandable
-                {UPDATE_PERIOD, RIGHT_RAIL_MOTOR_A_PORT, DRIVETRAIN_GEARSET, DIRECTION, DRIVETRAIN_BRAKE_MODE, "back_left_motor"};
+                {UPDATE_PERIOD, FRONT_RIGHT_DRIVETRAIN_MOTOR, DRIVETRAIN_GEARSET, !DIRECTION, DRIVETRAIN_BRAKE_MODE, "back_left_motor"};
         back_right_motor = new BaseCommandable::motor_commandable
-                {UPDATE_PERIOD, RIGHT_RAIL_MOTOR_B_PORT, DRIVETRAIN_GEARSET, DIRECTION, DRIVETRAIN_BRAKE_MODE, "back_right_motor"};
+                {UPDATE_PERIOD, BACK_RIGHT_DRIVETRAIN_MOTOR, DRIVETRAIN_GEARSET, !DIRECTION, DRIVETRAIN_BRAKE_MODE, "back_right_motor"};
 
-        left_encoder = new BaseReadable::motor_encoder_readable(LEFT_RAIL_MOTOR_A_PORT, 1.0, "left_encoder");
-        right_encoder = new BaseReadable::motor_encoder_readable(RIGHT_RAIL_MOTOR_A_PORT, 1.0, "right_encoder");
+        left_encoder = new BaseReadable::motor_encoder_readable(FRONT_LEFT_DRIVETRAIN_MOTOR, 1.0, "left_encoder");
+        right_encoder = new BaseReadable::motor_encoder_readable(FRONT_RIGHT_DRIVETRAIN_MOTOR, 1.0, "right_encoder");
 
         auto_drivetrain = new AutoDrive::auto_drive(FUEGO_WIDTH, 100, 0, 0, "auto_drivetrain");
         auto_drivetrain->set_gyro_function(gyro_lambda);
@@ -81,21 +74,24 @@ namespace AFR::VexU::Fuego::Drive{
         auto_drivetrain->set_right_wheel_function(right_encoder_lambda);
         auto_drivetrain->set_left_wheel_vel_function(left_encoder_vel_lambda);
         auto_drivetrain->set_right_wheel_vel_function(right_encoder_vel_lambda);
+        auto_drivetrain->set_reset_function(std::function<void()>([](){
+            left_encoder->tare_position();
+            right_encoder->tare_position();
+        }));
         auto_drivetrain->disable();
 
         drive_machine = new state_controller<drive_meta>(UPDATE_PERIOD,{},"drive state controller");
-
-
 
         manual = new state("manual");
 
         /////Start
             /////Entry/Exit Functions
             start_entry = [](state* prev_state) -> void{
-                front_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
-                back_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
-                front_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
-                back_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
+
+                front_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
+                back_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
+                front_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
+                back_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
             };
 
             start_exit = [](state* next_state) -> void{};
@@ -109,12 +105,28 @@ namespace AFR::VexU::Fuego::Drive{
 
             autonomous_entry = [](state* prev_state) -> void {
                 auto_drivetrain->enable();
-                front_left_motor->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();}),drive_machine->get_name());
-                back_left_motor->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();}),drive_machine->get_name());
-                front_right_motor->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();}),drive_machine->get_name());
-                back_right_motor->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();}),drive_machine->get_name());
+                front_left_motor->set_operation(std::function<int16_t()>([](){
+                    int16_t ret = auto_drivetrain->left_wheel_motor_val();
+                    // std::cout << "front_left_motor: " << ret << std::endl;
+                    return ret;
+                }),drive_machine->get_name());
+                back_left_motor->set_operation(std::function<int16_t()>([](){
+                    int16_t ret = auto_drivetrain->left_wheel_motor_val();
+                    // std::cout << "back_left_motor: " << ret << std::endl;
+                    return ret;
+                }),drive_machine->get_name());
+                front_right_motor->set_operation(std::function<int16_t()>([](){
+                    int16_t ret = auto_drivetrain->right_wheel_motor_val();
+                    // std::cout << "front_right_motor: " << ret << std::endl;
+                    return ret;
+                }),drive_machine->get_name());
+                back_right_motor->set_operation(std::function<int16_t()>([](){
+                    int16_t ret = auto_drivetrain->right_wheel_motor_val();
+                    // std::cout << "back_right_motor: " << ret << std::endl;
+                    return ret;
+                }),drive_machine->get_name());
             };
-            autonomous_entry = [](state* prev_state) -> void {
+            autonomous_exit = [](state* prev_state) -> void {
                 auto_drivetrain->disable();
             };
 

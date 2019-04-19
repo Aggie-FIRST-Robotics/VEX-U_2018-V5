@@ -50,6 +50,7 @@ namespace AFR::VexU{
         }
 
         void set_state(state* next_state){
+            std::cout << "Set state called for" << get_name() << ": going to state " << next_state->get_name() << std::endl;
             if(next_state == nullptr){
                 throw std::runtime_error{"Cannot have nullptr for state in " + get_name()};
             }
@@ -63,15 +64,18 @@ namespace AFR::VexU{
         }
 
         void maintain_state(state* next_state) {
+            std::cout << "Maintain state called for" << get_name() << ": going to state " << next_state->get_name() << std::endl;
             if(next_state == nullptr){
                 throw std::runtime_error{"Cannot have nullptr for state in " + get_name()};
             }
             if(current_state_ != nullptr){
+                std::cout << "Previous state was null" << std::endl;
                 current_state_->on_state_exit(next_state);
             }
             maintain = true;
             state* prev_state = current_state_;
             current_state_ = next_state;
+            std::cout << "Running the on state entry" << std::endl;
             current_state_->on_state_entry(prev_state);
         }
 

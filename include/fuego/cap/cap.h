@@ -49,8 +49,8 @@ namespace AFR::VexU::Fuego::Cap{
     const double ANGLE_ELBOW_TARGET = 5850;
 
     //AUTO SET POINT
-    const double ARM_ANGLE_PICKUP = 970;
-    const double ELBOW_ANGLE_PICKUP = 6000;
+    const double ARM_ANGLE_PICKUP = 700;
+    const double ELBOW_ANGLE_PICKUP = 3500;
 
     void init();
 

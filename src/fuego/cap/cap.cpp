@@ -147,14 +147,14 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             zero_arm->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Zero Arm Entry" << std::endl;
+                // std::cout << "Zero Arm Entry" << std::endl;
                 Elbow::pid_controller->set_target(0);
                 Arm::left_motor->set_operation(zero_arm_action,cap_arm->get_name());
                 Arm::right_motor->set_operation(zero_arm_action,cap_arm->get_name());
                 Wrist::flipping_motor->set_operation(zero_wrist_action, cap_arm->get_name());
             }));
             zero_arm->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Zero Arm Exit" << std::endl;
+                // std::cout << "Zero Arm Exit" << std::endl;
                 Wrist::pid_controller->set_target(0);
                 Arm::pid_controller->set_target(-30);
                 Arm::left_motor->set_operation(std::function<int16_t()>([](){
@@ -180,11 +180,11 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             zero_elbow->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Zero Elbow Entry" << std::endl;
+                // std::cout << "Zero Elbow Entry" << std::endl;
                 Elbow::motor->set_operation(zero_elbow_action,cap_arm->get_name());
             }));
             zero_elbow->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Zero Elbow Exit" << std::endl;
+                // std::cout << "Zero Elbow Exit" << std::endl;
                 Elbow::motor->set_operation(std::function<int16_t()>([](){
                     return Elbow::pid_controller->get_pid_value();
                 }),cap_arm->get_name());
@@ -202,12 +202,12 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry and exit functions
             dick->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Dick Entry" << std::endl;
+                // std::cout << "Dick Entry" << std::endl;
                 Arm::pid_controller->set_target(500);
                 Elbow::pid_controller->set_target(2000);
             }));
             dick->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Dick Exit" << std::endl;
+                // std::cout << "Dick Exit" << std::endl;
             }));
 
         /////Ascend Prime State
@@ -218,12 +218,12 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry and exit functions
             ascend_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Ascend Prime Entry" << std::endl;
+                // std::cout << "Ascend Prime Entry" << std::endl;
                 Arm::pid_controller->set_target(500);
                 Elbow::pid_controller->set_target(4000);
             }));
             ascend_prime->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Ascend Prime Exit" << std::endl;
+                // std::cout << "Ascend Prime Exit" << std::endl;
             }));
 
         /////Ascend State
@@ -234,7 +234,7 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry and exit functions
             ascend->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Ascend Entry" << std::endl;
+                // std::cout << "Ascend Entry" << std::endl;
                 Arm::pid_controller->set_target(100);
                 Elbow::pid_controller->set_target(4000);
                 Wrist::intake_motor->set_operation(std::function<int16_t()>([](){
@@ -242,7 +242,7 @@ namespace AFR::VexU::Fuego::Cap{
                 }),cap_arm->get_name());
             }));
             ascend->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Ascend Exit" << std::endl;
+                // std::cout << "Ascend Exit" << std::endl;
                 Wrist::intake_motor->set_operation(idle_intake_function,cap_arm->get_name());
             }));
 
@@ -270,7 +270,7 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry and exit functions
             store->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Store Entry" << std::endl;
+                // std::cout << "Store Entry" << std::endl;
                 Arm::pid_controller->set_bounds(-8000,8000);
                 Arm::left_motor->set_operation(std::function<int16_t()>([](){
                     return Arm::pid_controller->get_pid_value();
@@ -285,7 +285,7 @@ namespace AFR::VexU::Fuego::Cap{
                 Elbow::pid_controller->set_target(ELBOW_STORE_POSITION);
             }));
             store->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Store Entry" << std::endl;
+                // std::cout << "Store Entry" << std::endl;
                 Arm::pid_controller->set_bounds(-12000,12000);
             }));
 
@@ -306,7 +306,7 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             ground->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Ground Entry" << std::endl;
+                // std::cout << "Ground Entry" << std::endl;
                 if(prev_state == store){
                     Wrist::pid_controller->set_target(0);
                 }
@@ -314,7 +314,7 @@ namespace AFR::VexU::Fuego::Cap{
                 Elbow::pid_controller->set_target(ELBOW_GROUND_POSITION);
             }));
             ground->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Ground Exit" << std::endl;
+                // std::cout << "Ground Exit" << std::endl;
             }));
 
         /////Flip Low State
@@ -325,12 +325,12 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             flip_low->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Flip Low Entry" << std::endl;
+                // std::cout << "Flip Low Entry" << std::endl;
                 Arm::pid_controller->set_target(ARM_FLIP_LOW_POSITION);
                 Wrist::pid_controller->set_target(wrist_flip_target());
             }));
             flip_low->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Flip Low Exit" << std::endl;
+                // std::cout << "Flip Low Exit" << std::endl;
             }));
 
         /////Flip High State
@@ -341,12 +341,12 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             flip_high->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Flip High Entry" << std::endl;
+                // std::cout << "Flip High Entry" << std::endl;
                 Elbow::pid_controller->set_target(ELBOW_FLIP_HIGH_POSITION);
                 Wrist::pid_controller->set_target(wrist_flip_target());
             }));
             flip_high->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Flip High Exit" << std::endl;
+                // std::cout << "Flip High Exit" << std::endl;
             }));
 
         /////Score Prime State
@@ -370,12 +370,12 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             score_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Score Prime Entry" << std::endl;
+                // std::cout << "Score Prime Entry" << std::endl;
                 Arm::pid_controller->set_target(ARM_SCORE_PRIME_POSITION);
                 Elbow::pid_controller->set_target(ELBOW_SCORE_PRIME_POSITION);
             }));
             score_prime->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Score Prime Exit" << std::endl;
+                // std::cout << "Score Prime Exit" << std::endl;
                 if(next_state == store || next_state == zero_arm){
                     Wrist::intake_motor->set_operation(idle_intake_function, cap_arm->get_name());
                 }
@@ -389,12 +389,12 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             score_flip->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Score Flip Entry" << std::endl;
+                // std::cout << "Score Flip Entry" << std::endl;
                 cap_arm->metadata().is_stealing = false;
                 Wrist::pid_controller->set_target(wrist_flip_target());
             }));
             score_flip->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Score Flip Entry" << std::endl;
+                // std::cout << "Score Flip Entry" << std::endl;
             }));
 
         ////Score State
@@ -406,9 +406,9 @@ namespace AFR::VexU::Fuego::Cap{
                 return Arm::pid_controller->is_in_range(PID_TOLERANCE) && Elbow::pid_controller->is_in_range(PID_TOLERANCE) && !cap_arm->metadata().is_stealing;
             }),descore_prime);
 
-            /////Entry/Exit Functions
+            /////Entry/Exit Function
             score->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Score Entry" << std::endl;
+                // std::cout << "Score Entry" << std::endl;
                 Arm::pid_controller->set_target(ARM_SCORE_POSITION);
                 Elbow::pid_controller->set_target(ELBOW_SCORE_POSITION);
                 if(prev_state == descore_prime){
@@ -416,13 +416,13 @@ namespace AFR::VexU::Fuego::Cap{
                 }
             }));
             score->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Score Exit" << std::endl;
+                // std::cout << "Score Exit" << std::endl;
                 if(next_state == score_prime){
                     Wrist::intake_motor->set_value(IDLE_VOLTAGE,cap_arm->get_name());
                 }
             }));
 
-        ////Descore Prime States
+        ////Descore Prime State
             /////Transitions
             descore_prime->add_transition(std::function<bool()>([](){
                 return cap_arm->metadata().is_stealing && down_button->is_rising_edge();
@@ -443,7 +443,7 @@ namespace AFR::VexU::Fuego::Cap{
 
             /////Entry/Exit Functions
             descore_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                std::cout << "Descore Prime Entry" << std::endl;
+                // std::cout << "Descore Prime Entry" << std::endl;
                 Arm::pid_controller->set_target(ARM_DESCORE_PRIME_POSITION);
                 Elbow::pid_controller->set_target(ELBOW_DESCORE_PRIME_POSITION);
                 if(prev_state == score){
@@ -451,7 +451,7 @@ namespace AFR::VexU::Fuego::Cap{
                 }
             }));
             descore_prime->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-                std::cout << "Descore Prime Exit" << std::endl;
+                // std::cout << "Descore Prime Exit" << std::endl
                 if(next_state == zero_arm) {
                     Wrist::intake_motor->set_operation(idle_intake_function,cap_arm->get_name());
                 }

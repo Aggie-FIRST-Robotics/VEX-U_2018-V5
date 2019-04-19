@@ -18,6 +18,7 @@ namespace AFR::VexU::Fuego::Shooter{
     state* spin_up = nullptr;
     state* fire = nullptr;
     state* walk = nullptr;
+    state* zero_dick = nullptr;
 
     std::function<void(state*)> rest_entry{};
     std::function<void(state*)> spin_up_entry{};
@@ -40,10 +41,7 @@ namespace AFR::VexU::Fuego::Shooter{
     BaseReadable::digital_edge_detector* stow = nullptr;
     Vision::vision_targeting* vision = nullptr;
 
-    struct turret_meta {
-        double turret_set_point;
-        double hood_set_point;
-    };
+    
     state_controller<turret_meta>* turret_state_controller = nullptr;
 
     state* manual = nullptr;
@@ -90,6 +88,7 @@ namespace AFR::VexU::Fuego::Shooter{
         spin_up = new state("shooter: spin up");
         fire = new state("shooter: fire");
         walk = new state("shooter: walk");
+        zero_dick = new state("shooter: zero_dick");
 
         walker_button = new BaseReadable::digital_edge_detector(pros::E_CONTROLLER_MASTER,WALK,"walker button");
 
@@ -268,6 +267,7 @@ namespace AFR::VexU::Fuego::Shooter{
             }
             return turret_state_controller->metadata().hood_set_point;
         };
+        //memes
 
         turret_set_point = []() -> double {
             if (BaseReadable::operator_controller->is_digital_pressed(TURRET_LEFT)) {
@@ -397,12 +397,29 @@ namespace AFR::VexU::Fuego::Shooter{
         ready->set_on_state_entry(ready_entry);
         ready->set_on_state_exit(ready_exit);
 
+        zero_dick->set_on_state_entry(std::function<void(state*)>([](state* next_state){
+            Loader::motor->set_value(-12000,shooter_state_controller->get_name());
+        }));
+        zero_dick->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
+            Loader::encoder->tare_position();
+            Loader::motor->set_operation(std::function<int16_t()>([](){
+                return Loader::dead_band->get_deadband_value();
+            }), shooter_state_controller->get_name());
+        }));
+
+        zero_dick->add_transition(std::function<bool()>([](){
+            return Loader::motor->get_current() > 1300;
+        }),manual);
+
         turret_state_controller->add_state(ready);
         turret_state_controller->add_state(auto_aim);
         turret_state_controller->add_state(set_point);
-        turret_state_controller->set_state(manual);
+        turret_state_controller->add_state(zero_dick);
+        turret_state_controller->set_state(zero_dick);
     }
 
+    //memes
+    
     void destroy(){
         delete shooter_state_controller;
         delete rest;
