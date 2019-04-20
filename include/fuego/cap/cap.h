@@ -74,6 +74,10 @@ namespace AFR::VexU::Fuego::Cap{
     extern state* ascend_prime;
     extern state* ascend;
     extern state* angled_pickup;
+    extern state* ball_prime;
+    extern state* ball_sweep;
+
+    extern std::function<double()> wrist_flip_target;
 }
 
 #endif //VEX_U_2018_V5_CAP_H

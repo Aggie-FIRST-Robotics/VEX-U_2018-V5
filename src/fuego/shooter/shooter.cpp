@@ -4,7 +4,7 @@
 
 namespace AFR::VexU::Fuego::Shooter{
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     BaseCommandable::controller_commandable* operator_rumble = nullptr;
 
@@ -320,6 +320,8 @@ namespace AFR::VexU::Fuego::Shooter{
             }
         };
 
+        //meme
+
         turret_auto_target = []() -> double {
             if(!vision->has_target_rect()){
                 vision->set_encoder_setpoints(Vision::encoder_tuple(
@@ -354,7 +356,7 @@ namespace AFR::VexU::Fuego::Shooter{
                 if(vision->has_target_rect()){
                     Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
                     if(vision->aiming_complete()){
-                        if(Flywheel::pid_controller->is_in_range(10)){
+                        if(Flywheel::pid_controller->is_in_range(50)){
                             return ".       ";
                         }
                         else{
@@ -419,7 +421,7 @@ namespace AFR::VexU::Fuego::Shooter{
     }
 
     //memes
-    
+
     void destroy(){
         delete shooter_state_controller;
         delete rest;

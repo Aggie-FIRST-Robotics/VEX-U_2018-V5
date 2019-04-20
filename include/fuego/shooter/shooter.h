@@ -29,17 +29,17 @@ namespace AFR::VexU::Fuego::Shooter{
     const unsigned int FLYWHEEL_TOLERANCE   = 800;
 
     /////LOADER
-    const double IDLE_TARGET         = 700;
+    const double IDLE_TARGET         = 850;
     const double FIRE_TARGET         = 0;
     const double WALK_TARGET         = 1600;
     const double LOADER_TOLERANCE    = 50;
 
     /////SET POINTS
     const double TURRET_LEFT_TARGET     = 500;
-    const double TURRET_MID_TARGET      = 1650;
+    const double TURRET_MID_TARGET      = 1680;
     const double TURRET_RIGHT_TARGET    = 2500;
     const double HOOD_HIGH_TARGET       = 400;
-    const double HOOD_MID_TARGET        = 800;
+    const double HOOD_MID_TARGET        = 840;
     const double HOOD_LOW_TARGET        = 1200;
 
     /////AUTO AIM

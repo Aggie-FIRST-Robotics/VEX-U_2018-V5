@@ -22,12 +22,12 @@ namespace AFR::VexU::AutoDrive {
 		double curr_left_dist = left_wheel_function_();
 		double curr_right_dist = right_wheel_function_();
 		double curr_angle = gyro_function_() - start_angle;
-		std::cout << "Left diastance remaining: " << left_wheel_dist_target - curr_left_dist << std::endl;
-		std::cout << "Right diastance remaining: " << right_wheel_dist_target - curr_right_dist << std::endl;
-		std::cout << "Radians travelled: " << curr_angle << std::endl;
-		std::cout << "Radians left: " << angle_target - curr_angle << std::endl;
-		std::cout << "Current Left Velocity Target: " << curr_left_wheel_vel_target << std::endl;
-		std::cout << "Current Right Velocity Target: " << curr_right_wheel_vel_target << std::endl;
+		// std::cout << "Left diastance remaining: " << left_wheel_dist_target - curr_left_dist << std::endl;
+		// std::cout << "Right diastance remaining: " << right_wheel_dist_target - curr_right_dist << std::endl;
+		// std::cout << "Radians travelled: " << curr_angle << std::endl;
+		// std::cout << "Radians left: " << angle_target - curr_angle << std::endl;
+		// std::cout << "Current Left Velocity Target: " << curr_left_wheel_vel_target << std::endl;
+		// std::cout << "Current Right Velocity Target: " << curr_right_wheel_vel_target << std::endl;
 		if(abs(left_wheel_dist_target-curr_left_dist) < DONE_THRESH && 
 			abs(right_wheel_dist_target-curr_right_dist) < DONE_THRESH) {
 			at_target = true;
@@ -41,8 +41,8 @@ namespace AFR::VexU::AutoDrive {
 
 		if(abs(left_wheel_dist_target) > abs(curr_left_dist) || abs(right_wheel_dist_target) > abs(curr_right_dist)) {
 			if(abs(left_wheel_dist_target-curr_left_dist) < TRANS_THRESH) {
-				std::cout << "Left wheel PID: ( " << abs(left_wheel_dist_target-curr_left_dist)/TRANS_THRESH << " ) * ( " << left_wheel_vel_target-left_vel_final << " ) + " << left_vel_final << " = " << (abs(left_wheel_dist_target-curr_left_dist)/TRANS_THRESH)*(left_wheel_vel_target-left_vel_final) + left_vel_final << std::endl;
-				std::cout << "Right wheel PID: ( " << abs(right_wheel_dist_target-curr_right_dist)/TRANS_THRESH << " ) * ( " << left_wheel_vel_target-left_vel_final << " ) + " << right_vel_final << " = " << (abs(right_wheel_dist_target-curr_right_dist)/TRANS_THRESH)*(right_wheel_vel_target-right_vel_final) + right_vel_final << std::endl;
+				// std::cout << "Left wheel PID: ( " << abs(left_wheel_dist_target-curr_left_dist)/TRANS_THRESH << " ) * ( " << left_wheel_vel_target-left_vel_final << " ) + " << left_vel_final << " = " << (abs(left_wheel_dist_target-curr_left_dist)/TRANS_THRESH)*(left_wheel_vel_target-left_vel_final) + left_vel_final << std::endl;
+				// std::cout << "Right wheel PID: ( " << abs(right_wheel_dist_target-curr_right_dist)/TRANS_THRESH << " ) * ( " << left_wheel_vel_target-left_vel_final << " ) + " << right_vel_final << " = " << (abs(right_wheel_dist_target-curr_right_dist)/TRANS_THRESH)*(right_wheel_vel_target-right_vel_final) + right_vel_final << std::endl;
 				if(left_wheel_vel_target == left_vel_final) {
 					left_wheel_PID_target = left_vel_final;
 				}
@@ -73,15 +73,15 @@ namespace AFR::VexU::AutoDrive {
 		left_wheel_PID_target *= DIST_ERROR_GAIN;
 		right_wheel_PID_target *= DIST_ERROR_GAIN;
 
-		std::cout << "Left wheel PID: " << left_wheel_PID_target << std::endl;
-		std::cout << "Right wheel PID: " << right_wheel_PID_target << std::endl;
+		// std::cout << "Left wheel PID: " << left_wheel_PID_target << std::endl;
+		// std::cout << "Right wheel PID: " << right_wheel_PID_target << std::endl;
 
 		if(left_wheel_dist_target > right_wheel_dist_target) {
 			if(radius_ > 0) {
 				double left_wheel_angle_gain = abs(radius_ + (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
 				double right_wheel_angle_gain = abs(radius_ - (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
-				std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
-				std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
+				// std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
+				// std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
 				curr_left_wheel_vel_target = left_wheel_PID_target + left_wheel_angle_gain;
 				if(radius_ > (robot_width_/2)) {
 					curr_right_wheel_vel_target = right_wheel_PID_target + right_wheel_angle_gain;
@@ -93,8 +93,8 @@ namespace AFR::VexU::AutoDrive {
 			else {
 				double left_wheel_angle_gain = abs(abs(radius_) - (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
 				double right_wheel_angle_gain = abs((radius_) + (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
-				std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
-				std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
+				// std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
+				// std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
 				curr_right_wheel_vel_target = right_wheel_PID_target - right_wheel_angle_gain;
 				if(abs(radius_) > (robot_width_/2)) {
 					curr_left_wheel_vel_target = left_wheel_PID_target - left_wheel_angle_gain;
@@ -108,8 +108,8 @@ namespace AFR::VexU::AutoDrive {
 			if(radius_ > 0) {
 				double left_wheel_angle_gain = abs(radius_ + (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
 				double right_wheel_angle_gain = abs(radius_ - (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
-				std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
-				std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
+				// std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
+				// std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
 				curr_left_wheel_vel_target = left_wheel_PID_target - left_wheel_angle_gain;
 				if(radius_ > (robot_width_/2.0)) {
 					curr_right_wheel_vel_target = right_wheel_PID_target - right_wheel_angle_gain;
@@ -121,8 +121,8 @@ namespace AFR::VexU::AutoDrive {
 			else {
 				double left_wheel_angle_gain = abs(abs(radius_) - (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
 				double right_wheel_angle_gain = abs((radius_) + (robot_width_/2.0))*abs(curr_angle - angle_target)*ANG_ERROR_GAIN;
-				std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
-				std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
+				// std::cout << "Left wheel angle gain: " << left_wheel_angle_gain << std::endl;
+				// std::cout << "Right wheel angle gain: " << right_wheel_angle_gain << std::endl;
 				curr_right_wheel_vel_target = right_wheel_PID_target + right_wheel_angle_gain;
 				if(abs(radius_) > (robot_width_/2.0)) {
 					curr_left_wheel_vel_target = left_wheel_PID_target + left_wheel_angle_gain;
@@ -136,7 +136,7 @@ namespace AFR::VexU::AutoDrive {
 			// double curr_target_angle = (curr_right_dist/right_wheel_dist_target)*(angle_target);
 			curr_right_wheel_vel_target = right_wheel_PID_target;
 			curr_left_wheel_vel_target = left_wheel_PID_target;
-			std::cout << "Driving in a straight line" << std::endl;
+			// std::cout << "Driving in a straight line" << std::endl;
 		}
 
 		// if(abs(left_wheel_vel_target) > abs(right_wheel_vel_target)) {
@@ -283,14 +283,12 @@ namespace AFR::VexU::AutoDrive {
 			left_wheel_dist_target = -(robot_width_/2.0)*angle;
 			right_wheel_dist_target = (robot_width_/2.0)*angle;
 			if(angle > 0) {
-				std::cout << "Radius is 0 and the angle is POSITIVE" << std::endl;
 				left_wheel_vel_target = -max_vel;
 				right_wheel_vel_target = max_vel;
 				left_vel_final = -final_vel;
 				right_vel_final = final_vel;
 			}
 			else {
-				std::cout << "Radius is 0 and the angle is NEGATIVE" << std::endl;
 				left_wheel_vel_target = max_vel;
 				right_wheel_vel_target = -max_vel;
 				left_vel_final = final_vel;
@@ -304,14 +302,12 @@ namespace AFR::VexU::AutoDrive {
 			if(radius <= robot_width_/2.0) {
 				right_wheel_dist_target = ((robot_width_/2.0) - radius)*angle;
 				if(angle > 0) {
-					std::cout << "Radius is POSITIVE and SMALLER THEN HALF THE ROBOT, the angle is POSITIVE" << std::endl;
 					left_wheel_vel_target = -max_vel;
 					right_wheel_vel_target = max_angular_velocity*((robot_width_/2.0) - radius);
 					left_vel_final = -final_vel;
 					right_vel_final = final_angular_velocity*((robot_width_/2.0) - radius);
 				}
 				else {
-					std::cout << "Radius is POSITIVE and SMALLER THER HALF THE ROBOT, the angle is NEGATIVE" << std::endl;
 					left_wheel_vel_target = max_vel;
 					right_wheel_vel_target = -max_angular_velocity*((robot_width_/2.0) - radius);
 					left_vel_final = final_vel;
@@ -321,14 +317,12 @@ namespace AFR::VexU::AutoDrive {
 			else {
 				right_wheel_dist_target = -(radius - (robot_width_/2.0))*angle;
 				if(angle > 0) {
-					std::cout << "Radius is POSITIVE and the angle is POSITIVE" << std::endl;
 					left_wheel_vel_target = -max_vel;
 					right_wheel_vel_target = -max_angular_velocity*(radius - (robot_width_/2.0));
 					left_vel_final = -final_vel;
 					right_vel_final = -final_angular_velocity*(radius - (robot_width_/2.0));
 				}
 				else {
-					std::cout << "Radius is POSITIVE and the angle is NEGATIVE" << std::endl;
 					left_wheel_vel_target = max_vel;
 					right_wheel_vel_target = max_angular_velocity*(radius - (robot_width_/2.0));
 					left_vel_final = final_vel;
@@ -343,14 +337,12 @@ namespace AFR::VexU::AutoDrive {
 			if(abs(radius) <= robot_width_/2.0) {
 				left_wheel_dist_target = -((robot_width_/2.0) - abs(radius))*angle;
 				if(angle > 0) {
-					std::cout << "Radius is NEGATIVE and SMALLER THEN HALF THE ROBOT, the angle is POSITIVE" << std::endl;
 					right_wheel_vel_target = max_vel;
 					left_wheel_vel_target = -max_angular_velocity*((robot_width_/2.0) - abs(radius));
 					right_vel_final = final_vel;
 					left_vel_final = -final_angular_velocity*((robot_width_/2.0) - abs(radius));
 				}
 				else {
-					std::cout << "Radius is NEGATIVE and SMALLER THEN HALF THE ROBOT, the angle is NEGATIVE" << std::endl;
 					right_wheel_vel_target = -max_vel;
 					left_wheel_vel_target = max_angular_velocity*((robot_width_/2.0) - abs(radius));
 					right_vel_final = -final_vel;
@@ -360,14 +352,12 @@ namespace AFR::VexU::AutoDrive {
 			else {
 				left_wheel_dist_target = (abs(radius) - (robot_width_/2.0))*angle;
 				if(angle > 0) {
-					std::cout << "Radius is NEGATIVE and the angle is POSITIVE" << std::endl;
 					right_wheel_vel_target = max_vel;
 					left_wheel_vel_target = max_angular_velocity*(abs(radius) - (robot_width_/2.0));
 					right_vel_final = final_vel;
 					left_vel_final = final_angular_velocity*(abs(radius) - (robot_width_/2.0));
 				}
 				else {
-					std::cout << "Radius is NEGATIVE and the angle is NEGATIVE" << std::endl;
 					right_wheel_vel_target = -max_vel;
 					left_wheel_vel_target = -max_angular_velocity*(abs(radius) - (robot_width_/2.0));
 					right_vel_final = -final_vel;
@@ -375,12 +365,6 @@ namespace AFR::VexU::AutoDrive {
 				}
 			}
 		}
-		std::cout << "Left wheel distance to travel: " << left_wheel_dist_target << std::endl;
-		std::cout << "Right wheel distance to travel: " << right_wheel_dist_target << std::endl;
-		std::cout << "Left wheel MAX velocity: " << left_wheel_vel_target << std::endl;
-		std::cout << "Right wheel MAX velocity: " << right_wheel_vel_target << std::endl;
-		std::cout << "Left wheel FINAL velocity: " << left_vel_final << std::endl;
-		std::cout << "Right wheel FINAL velocity: " << right_vel_final << std::endl;
 
 		curr_left_wheel_vel_target = left_wheel_vel_target;
 		curr_right_wheel_vel_target = right_wheel_vel_target;
