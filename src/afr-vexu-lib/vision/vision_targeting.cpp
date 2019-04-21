@@ -8,11 +8,14 @@ namespace AFR::VexU::Vision {
         has_target_rect_(false),
         x_accum(0),
         y_accum(0),
-        aim_count(0)
+        aim_count(0),
+        team_(0)
         {}
         
     void vision_targeting::set_value_private(encoder_tuple enc_vals, double delta_seconds) {
         if(scheduled::is_enabled()) {
+        	std::cout << "Team: " << team_ << std::endl;
+        	serial->enqueue_write(ODROID_ID, 0, team_);
            // std::cout << "Begin update function" << std::endl;
             std::cout << "Encoder vals: " << enc_vals.azimuth << " " << enc_vals.altitude << std::endl;
             for(auto it = target_rects.begin(); it != target_rects.end(); ++it) {
@@ -142,19 +145,20 @@ namespace AFR::VexU::Vision {
                 int16_t target_x = get_azimuth_target(enc_vals);
                 int16_t target_y = get_altitude_target(enc_vals);
 
-                if(abs(target_x-enc_vals.azimuth) <  AIM_COMPLETE_TOLERANCE && abs(target_y-enc_vals.altitude) <  AIM_COMPLETE_TOLERANCE) {
-                    aim_count++;
-                }
-                else {
-                    aim_count = 0;
-                }
-
                 int16_t x_err = target_x-(current_target_rect.x + current_target_rect.width/2);
                 int16_t y_err = target_y-(current_target_rect.y + current_target_rect.height/2);
                 x_accum += x_err*ACCUM_ERROR*delta_seconds;
                 y_accum += y_err*ACCUM_ERROR*delta_seconds;
                 encoder_setpoints.azimuth = enc_vals.azimuth + (x_err/X_PIX_PER_TICK) + x_accum;
                 encoder_setpoints.altitude = enc_vals.altitude + (y_err/Y_PIX_PER_TICK) + y_accum;
+
+                 if(abs(encoder_setpoints.azimuth-enc_vals.azimuth) <  AIM_COMPLETE_TOLERANCE && 
+                 	abs(encoder_setpoints.altitude-enc_vals.altitude) <  AIM_COMPLETE_TOLERANCE) {
+                    aim_count++;
+                }
+                else {
+                    aim_count = 0;
+                }
             }
             else {
                 //std::cout << "No target rect found" << std::endl;
@@ -205,10 +209,25 @@ namespace AFR::VexU::Vision {
     }
 
     double vision_targeting::get_azimuth_target(encoder_tuple enc_vals) {
-        return 275;
+
+    	if(team_ == BLUE) {
+        	return 275;
+    	}
+        else {
+        	return 315;
+        }
     }
 
     double vision_targeting::get_altitude_target(encoder_tuple enc_vals) {
-        return 160 + 2*(140-current_target_rect.height);
+    	if(current_target_rect.height > 125) {
+        	return 440 - 2*current_target_rect.height;
+    	}
+    	else {
+    		return 565 - 3*current_target_rect.height;
+    	}
+    }
+
+    void vision_targeting::set_team(int16_t team) {
+    	team_ = team;
     }
 }

@@ -68,6 +68,7 @@ namespace AFR::VexU::Vision {
         double x_accum;
         double y_accum;
         int aim_count;
+        int16_t team_;
         
         void set_value_private(encoder_tuple enc_vals, double delta_seconds) override;
         bool rect_in_range(const rectangle& r1, const rectangle& r2);
@@ -75,6 +76,9 @@ namespace AFR::VexU::Vision {
         double get_altitude_target(encoder_tuple enc_vals);
         
     public:
+        static constexpr int16_t RED = 1;
+        static constexpr int16_t BLUE = 2;
+
         vision_targeting(const std::string& name);
         
         rectangle get_target_rect();    
@@ -83,6 +87,7 @@ namespace AFR::VexU::Vision {
         void set_encoder_setpoints(const encoder_tuple& new_setpoints);
         void purge_target_list();
         bool aiming_complete();
+        void set_team(int16_t team);
     };
 }
 

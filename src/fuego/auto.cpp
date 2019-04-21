@@ -431,7 +431,7 @@ namespace AFR::VexU::Fuego::Auto{
         }));
 
         aim_high_1->add_transition(std::function<bool()>([](){
-            return Shooter::Flywheel::pid_controller->is_in_range(100);
+            return Shooter::Flywheel::pid_controller->is_in_range(100) && Shooter::vision->aiming_complete();
         }),shoot_high_1);
         /////Timeout
         aim_high_1->add_transition(std::function<bool()>([](){
@@ -485,7 +485,7 @@ namespace AFR::VexU::Fuego::Auto{
         }));
 
         aim_low_1->add_transition(std::function<bool()>([](){
-            return Shooter::Flywheel::pid_controller->is_in_range(10);
+            return Shooter::Flywheel::pid_controller->is_in_range(100) && Shooter::vision->aiming_complete();
         }),shoot_low_1);
         /////Timeout
         aim_low_1->add_transition(std::function<bool()>([](){
@@ -950,7 +950,7 @@ namespace AFR::VexU::Fuego::Auto{
         }));
 
         aim_high_2->add_transition(std::function<bool()>([](){
-            return Shooter::Flywheel::pid_controller->is_in_range(100);
+            return Shooter::Flywheel::pid_controller->is_in_range(100) && Shooter::vision->aiming_complete();
         }),shoot_high_2);
         /////Timeout
         aim_high_2->add_transition(std::function<bool()>([](){
@@ -1004,7 +1004,7 @@ namespace AFR::VexU::Fuego::Auto{
         }));
 
         aim_low_2->add_transition(std::function<bool()>([](){
-            return Shooter::Flywheel::pid_controller->is_in_range(10);
+            return Shooter::Flywheel::pid_controller->is_in_range(100) && Shooter::vision->aiming_complete();
         }),shoot_low_2);
         /////Timeout
         aim_low_2->add_transition(std::function<bool()>([](){
