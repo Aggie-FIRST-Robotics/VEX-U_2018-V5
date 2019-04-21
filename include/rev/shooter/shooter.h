@@ -23,8 +23,8 @@ namespace AFR::VexU::Rev::Shooter{
 
     /////PUNCHER
     const double FIRE_TARGET         = 0;
-    const double COCK_TARGET         = 3150;
-    const double PUNCHER_TOLERANCE   = 500;
+    const double COCK_TARGET         = 3450;
+    const double PUNCHER_TOLERANCE   = 100;
 
     /////SET POINTS
     const double ALTITUDE_STOW_TARGET   = 0;
@@ -35,8 +35,21 @@ namespace AFR::VexU::Rev::Shooter{
     /////AUTO AIM
     const double AUTO_TOLERANCE = 50;
 
+    /////ROLLERS
+    const double ROLLER_LIMIT = 50;
+
     void init();
     void destroy();
+
+    struct shooter_meta {
+        double altitude_set_point;
+        bool is_double;
+        unsigned long timeout;
+        uint8_t ball_count;
+        bool is_past_thresh;
+    };
+
+    extern state_controller<shooter_meta>* shooter_state_controller;
 }
 
 #endif //VEX_U_2018_V5_SHOOTER_H

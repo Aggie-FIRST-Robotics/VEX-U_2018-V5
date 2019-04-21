@@ -7,6 +7,7 @@
 #include "afr-vexu-lib/base-commandable/motor_commandable.h"
 
 #include "afr-vexu-lib/base-readable/motor_encoder_readable.h"
+#include "afr-vexu-lib/base-readable/adi_digital_readable.h"
 
 #include "afr-vexu-lib/base-action/dead_band_action.h"
 
@@ -28,6 +29,7 @@ namespace AFR::VexU::Rev::Drive::Shifter{
 
     extern BaseCommandable::motor_commandable* motor;
     extern BaseReadable::motor_encoder_readable* encoder;
+    extern BaseReadable::adi_digital_readable* limit_switch;
     extern BaseAction::dead_band_action<double, int16_t>* dead_band;
 }
 

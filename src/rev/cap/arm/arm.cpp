@@ -22,7 +22,7 @@ namespace AFR::VexU::Rev::Cap::Arm{
                 !DIRECTION,ARM_BRAKE_MODE, "right_arm_motor");
 
         limit_switch = new BaseReadable::adi_digital_readable
-                (SHOULDER_LIMIT_SWITCH_PORT, "arm_limit_switch");
+                (ARM_LIMIT_SWITCH_PORT, "arm_limit_switch");
 
         encoder = new BaseReadable::motor_encoder_readable
                 (ARM_LEFT_MOTOR_PORT, ENCODER_SCALING, "arm_encoder");
