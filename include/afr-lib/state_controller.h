@@ -18,6 +18,7 @@ namespace AFR::VexU{
         std::vector<state*> states_;
         state* current_state_;
         MetaType metadata_;
+        bool is_maintaining;
 
         /**
          * Calls update current state
@@ -25,7 +26,9 @@ namespace AFR::VexU{
          * @return error_t value if error encountered
          */
         void update_private(double delta_seconds) override{
-            update_current_state();
+            if(!is_maintaining) {
+                update_current_state();
+            }
         }
 
     public:
@@ -38,7 +41,7 @@ namespace AFR::VexU{
          * @param result error_t value if error encountered
          */
         state_controller(const scheduled_update_t& update_period, const MetaType& initial_metadata, const std::string& name) :
-                nameable(name), scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata){}
+                nameable(name), scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata), is_maintaining(false){}
 
         void add_state(state* new_state) {
             states_.push_back(new_state);
@@ -55,6 +58,20 @@ namespace AFR::VexU{
             if(current_state_ != nullptr){
                 current_state_->on_state_exit(next_state);
             }
+            is_maintaining = false;
+            state* prev_state = current_state_;
+            current_state_ = next_state;
+            current_state_->on_state_entry(prev_state);
+        }
+
+        void maintain_state(state* next_state){
+            if(next_state == nullptr){
+                throw std::runtime_error{"Cannot have nullptr for state in " + get_name()};
+            }
+            if(current_state_ != nullptr){
+                current_state_->on_state_exit(next_state);
+            }
+            is_maintaining = true;
             state* prev_state = current_state_;
             current_state_ = next_state;
             current_state_->on_state_entry(prev_state);

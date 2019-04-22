@@ -22,6 +22,16 @@ namespace AFR::VexU::Rev::Drive{
 
     void init();
     void destroy();
+
+    struct drive_meta {};
+
+    /////State Controller
+    extern state_controller<drive_meta>* drive_machine;
+
+    /////States
+    extern state* low_gear;
+    extern state* high_gear;
+    extern state* autonomous;
 }
 
 #endif //VEX_U_2018_V5_DRIVE_H

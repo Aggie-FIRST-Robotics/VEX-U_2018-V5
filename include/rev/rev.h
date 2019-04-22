@@ -9,10 +9,7 @@
 
 #include "afr-lib/afr-lib.h"
 #include "afr-vexu-lib/afr-vexu-lib.h"
-#include "rev/cap/cap.h"
-#include "rev/drive/drive.h"
-#include "rev/shooter/shooter.h"
-// #include "rev/ball-intake/ball_intake.h"
+#include "rev/auto.h"
 
 #include "main.h"
 

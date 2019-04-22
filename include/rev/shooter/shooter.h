@@ -50,6 +50,12 @@ namespace AFR::VexU::Rev::Shooter{
     };
 
     extern state_controller<shooter_meta>* shooter_state_controller;
+
+    extern state* set_point;
+    extern state* auto_aim;
+    extern state* ready;
+    extern state* cock;
+    extern state* double_shot;
 }
 
 #endif //VEX_U_2018_V5_SHOOTER_H

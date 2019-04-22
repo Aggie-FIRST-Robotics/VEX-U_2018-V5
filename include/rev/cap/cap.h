@@ -39,6 +39,31 @@ namespace AFR::VexU::Rev::Cap{
     const double ANGLE_ELBOW_TARGET = 5850;
 
     void init();
+
+    struct cap_arm_meta{
+        bool is_stealing;
+
+        cap_arm_meta(){
+            is_stealing = false;
+        }
+
+        explicit cap_arm_meta(bool is_stealing){
+            this->is_stealing = is_stealing;
+        };
+
+    };
+
+    /////State Controlle
+    extern state_controller<cap_arm_meta>* cap_arm;
+
+    /////States
+    extern state* zero_arm;
+    extern state* ground;
+    extern state* flip;
+    extern state* score_prime;
+    extern state* score_flip;
+    extern state* score;
+    extern state* descore_prime;
 }
 
 #endif //VEX_U_2018_V5_CAP_H

@@ -2,24 +2,11 @@
 
 namespace AFR::VexU::Rev::Cap{
 
-    struct cap_arm_meta{
-        bool is_stealing;
-
-        cap_arm_meta(){
-            is_stealing = false;
-        }
-
-        explicit cap_arm_meta(bool is_stealing){
-            this->is_stealing = is_stealing;
-        };
-
-    };
-
     /////State Controlle
     state_controller<cap_arm_meta>* cap_arm = nullptr;
 
     /////States
-    // state* zero_arm = nullptr;
+    state* zero_arm = nullptr;
     state* ground = nullptr;
     state* flip = nullptr;
     state* score_prime = nullptr;

@@ -30,7 +30,11 @@ namespace AFR::VexU::Rev{
     }
 
     void auto_robot(){
-
+        Auto::init();
+        while(true){
+            scheduled::update_all();
+            pros::delay(1);
+        }
     }
 
     void op_control(){
