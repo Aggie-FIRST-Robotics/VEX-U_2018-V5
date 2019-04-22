@@ -22,6 +22,7 @@ namespace AFR::VexU::AutoDrive {
 		double curr_left_dist = left_wheel_function_();
 		double curr_right_dist = right_wheel_function_();
 		double curr_angle = gyro_function_() - start_angle;
+		// std::cout << "Update private" << std::endl;
 		// std::cout << "Left diastance remaining: " << left_wheel_dist_target - curr_left_dist << std::endl;
 		// std::cout << "Right diastance remaining: " << right_wheel_dist_target - curr_right_dist << std::endl;
 		// std::cout << "Radians travelled: " << curr_angle << std::endl;
@@ -279,6 +280,9 @@ namespace AFR::VexU::AutoDrive {
 
 		double max_angular_velocity;
 		double final_angular_velocity;
+
+		// std::cout << "Radius: " << radius << std::endl;
+		// std::cout << "Angle: " << angle << std::endl;
 		if(radius == 0) {
 			left_wheel_dist_target = -(robot_width_/2.0)*angle;
 			right_wheel_dist_target = (robot_width_/2.0)*angle;
@@ -365,6 +369,8 @@ namespace AFR::VexU::AutoDrive {
 				}
 			}
 		}
+		// std::cout << "Right Wheel Target Distance: " << right_wheel_dist_target << std::endl;
+		// std::cout << "Left Wheel Target Distance: " << left_wheel_dist_target << std::endl;
 
 		curr_left_wheel_vel_target = left_wheel_vel_target;
 		curr_right_wheel_vel_target = right_wheel_vel_target;

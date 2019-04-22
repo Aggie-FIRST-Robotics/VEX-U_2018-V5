@@ -56,16 +56,18 @@ namespace AFR::VexU::Rev::Drive{
             return 0;
         }));
         auto_drivetrain->set_left_wheel_function(std::function<double()>([](){
-            return Base::left_encoder->get_scaled_position();
+            // std::cout << "Left: " << Base::left_encoder->get_scaled_position() << std::endl;
+            return Base::left_encoder->get_scaled_position() * 0.010384;
         }));
         auto_drivetrain->set_right_wheel_function(std::function<double()>([](){
-            return Base::right_encoder->get_scaled_position();
+            // std::cout << "Right: " << Base::right_encoder->get_scaled_position() << std::endl;
+            return Base::right_encoder->get_scaled_position() * 0.010384;
         }));
         auto_drivetrain->set_left_wheel_vel_function(std::function<double()>([](){
-            return Base::left_encoder->get_scaled_velocity();
+            return Base::left_encoder->get_scaled_velocity() * 0.15576;
         }));
         auto_drivetrain->set_right_wheel_vel_function(std::function<double()>([](){
-            return Base::right_encoder->get_scaled_velocity();
+            return Base::right_encoder->get_scaled_velocity() * 0.15576;
         }));
         auto_drivetrain->set_reset_function(std::function<void()>([](){
             Base::left_encoder->tare_position();
@@ -124,12 +126,15 @@ namespace AFR::VexU::Rev::Drive{
                         return -12000;
                     }
                 }), drive_machine->get_name());
-                Base::right_motor_1->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();;}),drive_machine->get_name());
-                Base::right_motor_2->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();;}),drive_machine->get_name());
-                Base::right_motor_3->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();;}),drive_machine->get_name());
-                Base::left_motor_1->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();;}),drive_machine->get_name());
-                Base::left_motor_2->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();;}),drive_machine->get_name());
-                Base::left_motor_3->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();;}),drive_machine->get_name());
+                Base::right_motor_1->set_operation(std::function<int16_t()>([](){
+                    //std::cout << auto_drivetrain->right_wheel_motor_val() << std::endl;
+                    return auto_drivetrain->right_wheel_motor_val();
+                }),drive_machine->get_name());
+                Base::right_motor_2->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();}),drive_machine->get_name());
+                Base::right_motor_3->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();}),drive_machine->get_name());
+                Base::left_motor_1->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();}),drive_machine->get_name());
+                Base::left_motor_2->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();}),drive_machine->get_name());
+                Base::left_motor_3->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();}),drive_machine->get_name());
             }));
             autonomous->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
                 Base::right_motor_1->set_operation(std::function<int16_t()>([](){return THROTTLE() - TURN();}),drive_machine->get_name());

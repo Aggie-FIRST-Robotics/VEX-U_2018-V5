@@ -13,7 +13,7 @@ namespace AFR::VexU::Rev{
             Shooter::init();
             Drive::init();
             //BallIntake::init();
-            // Cap::init();
+            Cap::init();
         }
 
         catch(std::exception& e){
@@ -66,6 +66,7 @@ namespace AFR::VexU::Rev{
     void restart(){
 //        destroy();
 //        init_robot();
+        //memes
     }
 }
 

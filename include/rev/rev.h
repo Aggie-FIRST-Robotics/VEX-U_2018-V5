@@ -22,7 +22,7 @@ namespace AFR::VexU::Rev{
     const port_t RIGHT_DRIVE_MOTOR_1 = 1;
     const port_t RIGHT_DRIVE_MOTOR_2 = 18;
     const port_t RIGHT_DRIVE_MOTOR_3 = 3;
-    const pros::motor_gearset_e_t DRIVETRAIN_GEARSET = pros::E_MOTOR_GEARSET_06; //NOT CORRECT
+    const pros::motor_gearset_e_t DRIVETRAIN_GEARSET = pros::E_MOTOR_GEARSET_18; //NOT CORRECT
     const pros::motor_brake_mode_e_t DRIVETRAIN_BRAKE_MODE = pros::E_MOTOR_BRAKE_COAST;
 
     /////SHIFTER

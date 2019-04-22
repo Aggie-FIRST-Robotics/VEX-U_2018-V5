@@ -61,7 +61,7 @@ namespace AFR::VexU::Rev::Shooter{
             }
         };
         front_intake = []() -> int16_t{
-            std::cout << (int)shooter_state_controller->metadata().ball_count << std::endl;
+            // std::cout << (int)shooter_state_controller->metadata().ball_count << std::endl;
             if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON) ||  BaseReadable::operator_controller->is_digital_pressed(BALL_OUTTAKE_BUTTON)) {
                 if(ball_count->is_falling_edge()) {
                     if(shooter_state_controller->metadata().ball_count == 0) {
@@ -141,7 +141,7 @@ namespace AFR::VexU::Rev::Shooter{
         set_point->set_on_state_entry(std::function<void(state*)>([](state* next_state){
             std::cout << "Set entry" << std::endl;
             Altitude::pid->set_target(ALTITUDE_STOW_TARGET);
-            Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
+            // Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
         }));
 
         set_point->set_on_state_exit(std::function<void(state*)>([](state* next_state){
