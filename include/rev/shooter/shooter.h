@@ -19,7 +19,7 @@ namespace AFR::VexU::Rev::Shooter{
     const double TURRET_TOLERANCE = 100;
 
     const int32_t STICK_CANCEL_VALUE = 64;
-    const uint8_t BUTTON_DELAY = 30;
+    const uint8_t BUTTON_DELAY = 15;
 
     /////PUNCHER
     const double FIRE_TARGET         = 0;

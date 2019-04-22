@@ -62,37 +62,55 @@ namespace AFR::VexU::Rev::Shooter{
         };
         front_intake = []() -> int16_t{
             std::cout << (int)shooter_state_controller->metadata().ball_count << std::endl;
-            if(shooter_state_controller->metadata().ball_count < 2) {
-                if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON)){
-                    if(ball_count->is_rising_edge()) {
-                        shooter_state_controller->metadata().ball_count++;
-                        if(shooter_state_controller->metadata().ball_count >= 2) {
-                            Rollers::top_encoder->tare_position();
-                        }
+            if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON) ||  BaseReadable::operator_controller->is_digital_pressed(BALL_OUTTAKE_BUTTON)) {
+                if(ball_count->is_falling_edge()) {
+                    if(shooter_state_controller->metadata().ball_count == 0) {
+                        shooter_state_controller->metadata().ball_count = 0;
                     }
-                    return 12000;
+                    else {
+                        shooter_state_controller->metadata().ball_count--;   
+                    }
                 }
             }
-            else if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON)){
-                return -12000;
-                if(ball_count->is_rising_edge()) {
-                    shooter_state_controller->metadata().ball_count--;
+            else if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) || BaseReadable::operator_controller->is_digital_pressed(BALL_INTAKE_BUTTON)) {
+                if(ball_count->is_falling_edge()) {
+                    if(shooter_state_controller->metadata().ball_count == 2) {
+                        shooter_state_controller->metadata().ball_count = 2;
+                    }
+                    else {
+                        shooter_state_controller->metadata().ball_count++;   
+                    }
+                    if(shooter_state_controller->metadata().ball_count == 2) {
+                        Rollers::top_encoder->tare_position();
+                    }
                 }
+            }
+            else if(BaseReadable::driver_controller->is_digital_pressed(RESET_BUTTON) || BaseReadable::operator_controller->is_digital_pressed(RESET_BUTTON)) {
+                shooter_state_controller->metadata().ball_count = 0;
+            }
+            
+            if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON)){
+                return -12000;
+            }
+            else if(shooter_state_controller->metadata().ball_count < 2 && BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON)) {
+                return 12000;
             }
             return 0;
         };
         top_intake = []() -> int16_t{
             if(shooter_state_controller->metadata().ball_count < 2) {
-                std::cout << Rollers::top_encoder->get_scaled_position() << std::endl;
-                if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) || BaseReadable::operator_controller->is_digital_pressed(BALL_INTAKE_BUTTON)){
+                if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON)|| BaseReadable::operator_controller->is_digital_pressed(BALL_OUTTAKE_BUTTON)) {
+                    return -12000;
+                }
+                else if(BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) || BaseReadable::operator_controller->is_digital_pressed(BALL_INTAKE_BUTTON)){
                     return 12000;
                 }
             }
-            else if((BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) || BaseReadable::operator_controller->is_digital_pressed(BALL_INTAKE_BUTTON)) && Rollers::top_encoder->get_scaled_position() < ROLLER_LIMIT) {
-                return 12000;
-            }
             else if(BaseReadable::driver_controller->is_digital_pressed(BALL_SPIT_BUTTON)|| BaseReadable::operator_controller->is_digital_pressed(BALL_OUTTAKE_BUTTON)){
                 return -12000;
+            }
+            else if((BaseReadable::driver_controller->is_digital_pressed(BALL_SWALLOW_BUTTON) || BaseReadable::operator_controller->is_digital_pressed(BALL_INTAKE_BUTTON)) && Rollers::top_encoder->get_scaled_position() < ROLLER_LIMIT) {
+                return 5000;
             }
             return 0;
         };
@@ -179,7 +197,9 @@ namespace AFR::VexU::Rev::Shooter{
         }));
         cock->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
             std::cout << "Cock Exit" << std::endl;
-            shooter_state_controller->metadata().ball_count--;
+            if(shooter_state_controller->metadata().ball_count > 0 && shooter_state_controller->metadata().ball_count < 3) {
+                shooter_state_controller->metadata().ball_count--;
+            }
             Puncher::encoder->tare_position();
             Puncher::dead_band->set_target(COCK_TARGET);
             Puncher::motor->set_operation(std::function<int16_t()>([](){
