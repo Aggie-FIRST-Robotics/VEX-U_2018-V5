@@ -159,7 +159,7 @@ namespace AFR::VexU::Fuego::Auto{
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Cap::cap_arm->maintain_state(Cap::angled_pickup);
             BallIntake::ball_intake_controller->maintain_state(BallIntake::swallow);
-            Drive::auto_drivetrain->auto_drive_dist(37, 50, 50, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(47, 50, 50, auto_controller->get_name());
         }));
         grab_tilted_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -167,11 +167,11 @@ namespace AFR::VexU::Fuego::Auto{
 
         grab_tilted_cap->add_transition(std::function<bool()>([](){
             return Drive::auto_drivetrain->is_complete();
-        }),stow_tilted_cap);
+        }),move_tilted_cap);
         /////Timeout
         grab_tilted_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }),stow_tilted_cap);
+        }),move_tilted_cap);
         grab_tilted_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }),end);
@@ -203,7 +203,7 @@ namespace AFR::VexU::Fuego::Auto{
         /////Move Tilted Cap
         move_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(12.25,Drive::PI*115.0/180.0,50,50,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(15.25,Drive::PI*115.0/180.0,50,50,auto_controller->get_name());
         }));
         move_tilted_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             Cap::Arm::pid_controller->set_bounds(12000,-12000);
@@ -224,7 +224,7 @@ namespace AFR::VexU::Fuego::Auto{
         prime_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Cap::cap_arm->maintain_state(Cap::score_prime);
-            Drive::auto_drivetrain->auto_drive_dist(-10, 50, 50, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(-5, 50, 50, auto_controller->get_name());
         }));
         prime_tilted_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
