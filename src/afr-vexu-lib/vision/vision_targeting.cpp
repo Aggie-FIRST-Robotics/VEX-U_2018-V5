@@ -214,16 +214,19 @@ namespace AFR::VexU::Vision {
         	return 275;
     	}
         else {
-        	return 315;
+        	return 330;
         }
     }
 
     double vision_targeting::get_altitude_target(encoder_tuple enc_vals) {
-    	if(current_target_rect.height > 125) {
-        	return 440 - 2*current_target_rect.height;
+    	if(current_target_rect.height > 130) {
+    		return 300 - current_target_rect.height;
+    	}
+    	else if(current_target_rect.height > 115 && current_target_rect.height <= 130) {
+        	return 430 - 2*current_target_rect.height;
     	}
     	else {
-    		return 565 - 3*current_target_rect.height;
+    		return 550 - 3*current_target_rect.height;
     	}
     }
 
