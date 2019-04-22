@@ -181,7 +181,7 @@ namespace AFR::VexU::Fuego::Auto{
             Cap::Arm::pid_controller->set_bounds(1000,-1000);
             Cap::cap_arm->set_state(Cap::store);
             Cap::Wrist::pid_controller->set_target(Cap::wrist_flip_target());
-            Drive::auto_drivetrain->auto_drive_radius_angle(15.75,Drive::PI*115.0/180.0,75,75,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(15.1,Drive::PI*115.0/180.0,75,75,auto_controller->get_name());
         }));
         move_tilted_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             Cap::Arm::pid_controller->set_bounds(12000,-12000);
