@@ -8,6 +8,7 @@
 #include "rev/drive/shifter/shifter.h"
 
 #include "afr-vexu-lib/base-readable/digital_edge_detector.h"
+#include "afr-vexu-lib/auto-drive/auto_drive.h"
 
 namespace AFR::VexU::Rev::Drive{
     const scheduled_update_t UPDATE_PERIOD = 10;
@@ -32,6 +33,8 @@ namespace AFR::VexU::Rev::Drive{
     extern state* low_gear;
     extern state* high_gear;
     extern state* autonomous;
+
+    extern AutoDrive::auto_drive* auto_drivetrain;
 }
 
 #endif //VEX_U_2018_V5_DRIVE_H

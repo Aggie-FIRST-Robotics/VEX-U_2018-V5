@@ -19,24 +19,49 @@ namespace AFR::VexU::Rev::Auto{
     /////States
     state* zero = nullptr;
     state* grab_ball = nullptr;
-    state* move_tilted_cap = nullptr;
-    state* prime_tilted_cap = nullptr;
-    state* score_tilted_cap = nullptr;
-    state* succ_blue_cap = nullptr;
+    state* turn_to_low_flag = nullptr;
+    state* score_low_flag_1 = nullptr;
+    state* back_off_low_flag = nullptr;
+    state* turn_to_cap = nullptr;
+    state* grab_cap = nullptr;
+    state* turn_to_post = nullptr;
+    state* go_to_post = nullptr;
+    state* score_post = nullptr;
+    state* drive_to_plat = nullptr;
+    state* turn_to_flag = nullptr;
+    state* score_low_flag_2 = nullptr;
+    state* line_up = nullptr;
+    state* shoot = nullptr;
     state* end = nullptr;
 
     void init(){
         auto_controller = new state_controller<auto_meta>{UPDATE_PERIOD, {0, pros::millis() + 44000}, "auto_controller"};
 
-        //Score Cap #1
         zero = new state("zero");
-        grab_ball = new state("grab_ball");
-        move_tilted_cap = new state("move_tilted_cap");
-        prime_tilted_cap = new state("prime_tilted_cap");
-        score_tilted_cap = new state("score_tilted_cap");
 
-        //Score Cap #2
-        succ_blue_cap = new state("succ_blue_cap");
+
+        grab_ball = new state("grab_ball");
+        turn_to_low_flag = new state("turn_to_low_flag");
+        score_low_flag_1 = new state("score_low_flag_1");
+
+
+        back_off_low_flag = new state("back_off_low_flag");
+        turn_to_cap = new state("turn_to_cap");
+        grab_cap = new state("grab_cap");
+
+
+        turn_to_post = new state("turn_to_post");
+        go_to_post = new state("go_to_post");
+        score_post = new state("score_post");
+
+
+        drive_to_plat = new state("drive_to_plat");
+        turn_to_flag = new state("turn_to_flag");
+        score_low_flag_2 = new state("score_low_flag_2");
+
+
+        line_up = new state("line_up");
+        shoot = new state("shoot");
 
         end = new state("end");
 
@@ -61,14 +86,463 @@ namespace AFR::VexU::Rev::Auto{
         zero->add_transition(std::function<bool()>([](){
             return Cap::cap_arm->get_current_state() == Cap::ground;
             // return false;
-        }),grab_tilted_cap);
+        }),grab_ball);
         /////Timeout
         zero->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }),grab_tilted_cap);
+        }),grab_ball);
         zero->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }),end);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /////Zero
+        grab_ball->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+            Drive::auto_drivetrain->auto_drive_dist(47, 50, 0, auto_controller->get_name());
+        }));
+        grab_ball->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        grab_ball->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),turn_to_low_flag);
+        /////Timeout
+        grab_ball->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),turn_to_low_flag);
+        grab_ball->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+
+        /////Zero
+        turn_to_low_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+            Drive::auto_drivetrain->auto_drive_radius_angle(15.1,PI*115.0/180.0,75,75,auto_controller->get_name());
+        }));
+        zero->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        turn_to_low_flag->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),score_low_flag_1);
+        /////Timeout
+        turn_to_low_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),score_low_flag_1);
+        turn_to_low_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        score_low_flag_1->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        score_low_flag_1->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        score_low_flag_1->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),back_off_low_flag);
+        /////Timeout
+        score_low_flag_1->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),back_off_low_flag);
+        score_low_flag_1->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /////Zero
+        back_off_low_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        back_off_low_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        back_off_low_flag->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),turn_to_cap);
+        /////Timeout
+        back_off_low_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),turn_to_cap);
+        back_off_low_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        turn_to_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        turn_to_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        turn_to_cap->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),turn_to_cap);
+        /////Timeout
+        turn_to_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),turn_to_cap);
+        turn_to_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        turn_to_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        zero->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        turn_to_cap->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),grab_cap);
+        /////Timeout
+        turn_to_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),grab_cap);
+        turn_to_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        grab_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        grab_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        grab_cap->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),turn_to_post);
+        /////Timeout
+        grab_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),turn_to_post);
+        grab_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /////Zero
+        turn_to_post->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        turn_to_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        turn_to_post->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),go_to_post);
+        /////Timeout
+        turn_to_post->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),go_to_post);
+        turn_to_post->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        go_to_post->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        go_to_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        go_to_post->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),score_post);
+        /////Timeout
+        go_to_post->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),score_post);
+        go_to_post->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        score_post->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        score_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        score_post->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),drive_to_plat);
+        /////Timeout
+        score_post->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),drive_to_plat);
+        score_post->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /////Zero
+        drive_to_plat->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        drive_to_plat->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        drive_to_plat->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),turn_to_flag);
+        /////Timeout
+        drive_to_plat->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),turn_to_flag);
+        drive_to_plat->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        turn_to_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        turn_to_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        turn_to_flag->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),score_low_flag_2);
+        /////Timeout
+        turn_to_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),score_low_flag_2);
+        turn_to_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        score_low_flag_2->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        score_low_flag_2->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        score_low_flag_2->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),line_up);
+        /////Timeout
+        score_low_flag_2->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),line_up);
+        score_low_flag_2->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /////Zero
+        line_up->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        line_up->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        line_up->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),shoot);
+        /////Timeout
+        line_up->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),shoot);
+        line_up->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+        /////Zero
+        shoot->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+        }));
+        shoot->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        shoot->add_transition(std::function<bool()>([](){
+            return Cap::cap_arm->get_current_state() == Cap::ground;
+            // return false;
+        }),grab_ball);
+        /////Timeout
+        shoot->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),grab_ball);
+        shoot->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }),end);
+
+
+
+
+
+
+
+
+
+
+
+        /////END
+        end->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            
+        }));
+        end->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+
+
+
+
+
+
 
         /////Grab Tilted Cap
         grab_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){

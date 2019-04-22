@@ -9,6 +9,9 @@ namespace AFR::VexU::Rev::Drive{
     state* high_gear = nullptr;
     state* autonomous = nullptr;
 
+    //Auto drive controller
+    AutoDrive::auto_drive* auto_drivetrain = nullptr;
+
     /////Joystick Lambda
     std::function<int16_t()> THROTTLE = []() -> int16_t{ return (BaseReadable::driver_controller->get_analog(DRIVETRAIN_THROTTLE) * 12000) / 127; };
     std::function<int16_t()> TURN = []() -> int16_t{ return (BaseReadable::driver_controller->get_analog(DRIVETRAIN_TURN) * 12000) / 127; };
@@ -48,6 +51,28 @@ namespace AFR::VexU::Rev::Drive{
 
         Shifter::dead_band->set_target(SHIFTER_LOW_GEAR_TARGET);
 
+        auto_drivetrain = new AutoDrive::auto_drive(16.5, 100, 0, 0, "auto_drivetrain");
+        auto_drivetrain->set_gyro_function(std::function<double()>([](){
+            return 0;
+        }));
+        auto_drivetrain->set_left_wheel_function(std::function<double()>([](){
+            return Base::left_encoder->get_scaled_position();
+        }));
+        auto_drivetrain->set_right_wheel_function(std::function<double()>([](){
+            return Base::right_encoder->get_scaled_position();
+        }));
+        auto_drivetrain->set_left_wheel_vel_function(std::function<double()>([](){
+            return Base::left_encoder->get_scaled_velocity();
+        }));
+        auto_drivetrain->set_right_wheel_vel_function(std::function<double()>([](){
+            return Base::right_encoder->get_scaled_velocity();
+        }));
+        auto_drivetrain->set_reset_function(std::function<void()>([](){
+            Base::left_encoder->tare_position();
+            Base::right_encoder->tare_position();
+        }));
+        auto_drivetrain->disable();
+
         /////Low Gear
             /////Entry/Exit Functions
             low_gear->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -67,12 +92,7 @@ namespace AFR::VexU::Rev::Drive{
         /////High Gear
             /////Entry/Exit Functions
             high_gear->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-                Base::right_motor_1->set_operation(std::function<int16_t()>([](){return THROTTLE() - TURN();}),drive_machine->get_name());
-                Base::right_motor_2->set_operation(std::function<int16_t()>([](){return THROTTLE() - TURN();}),drive_machine->get_name());
-                Base::right_motor_3->set_operation(std::function<int16_t()>([](){return THROTTLE() - TURN();}),drive_machine->get_name());
-                Base::left_motor_1->set_operation(std::function<int16_t()>([](){return THROTTLE() + TURN();}),drive_machine->get_name());
-                Base::left_motor_2->set_operation(std::function<int16_t()>([](){return THROTTLE() + TURN();}),drive_machine->get_name());
-                Base::left_motor_3->set_operation(std::function<int16_t()>([](){return THROTTLE() + TURN();}),drive_machine->get_name());
+                
                 Shifter::motor->set_operation(std::function<int16_t()>([](){
                     if(Shifter::limit_switch->is_pressed()){
                         Shifter::encoder->tare_position();
@@ -94,7 +114,7 @@ namespace AFR::VexU::Rev::Drive{
 
         /////Autonomous
             /////Entry/Exit Functions
-            high_gear->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            autonomous->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Shifter::motor->set_operation(std::function<int16_t()>([](){
                     if(Shifter::limit_switch->is_pressed()){
                         Shifter::encoder->tare_position();
@@ -104,10 +124,20 @@ namespace AFR::VexU::Rev::Drive{
                         return -12000;
                     }
                 }), drive_machine->get_name());
-
+                Base::right_motor_1->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();;}),drive_machine->get_name());
+                Base::right_motor_2->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();;}),drive_machine->get_name());
+                Base::right_motor_3->set_operation(std::function<int16_t()>([](){return auto_drivetrain->right_wheel_motor_val();;}),drive_machine->get_name());
+                Base::left_motor_1->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();;}),drive_machine->get_name());
+                Base::left_motor_2->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();;}),drive_machine->get_name());
+                Base::left_motor_3->set_operation(std::function<int16_t()>([](){return auto_drivetrain->left_wheel_motor_val();;}),drive_machine->get_name());
             }));
-            high_gear->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
-
+            autonomous->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
+                Base::right_motor_1->set_operation(std::function<int16_t()>([](){return THROTTLE() - TURN();}),drive_machine->get_name());
+                Base::right_motor_2->set_operation(std::function<int16_t()>([](){return THROTTLE() - TURN();}),drive_machine->get_name());
+                Base::right_motor_3->set_operation(std::function<int16_t()>([](){return THROTTLE() - TURN();}),drive_machine->get_name());
+                Base::left_motor_1->set_operation(std::function<int16_t()>([](){return THROTTLE() + TURN();}),drive_machine->get_name());
+                Base::left_motor_2->set_operation(std::function<int16_t()>([](){return THROTTLE() + TURN();}),drive_machine->get_name());
+                Base::left_motor_3->set_operation(std::function<int16_t()>([](){return THROTTLE() + TURN();}),drive_machine->get_name());
             }));
 
 
@@ -126,5 +156,6 @@ namespace AFR::VexU::Rev::Drive{
         delete high_gear;
         delete drive_machine;
         delete gear_shift_button;
+        delete autonomous;
     }
 };

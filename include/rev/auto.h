@@ -8,6 +8,8 @@
 namespace AFR::VexU::Rev::Auto{
     const scheduled_update_t UPDATE_PERIOD = 10;
 
+    const double PI = 3.14159265359;
+
     void init();
     void destroy();
 
