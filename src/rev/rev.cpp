@@ -34,6 +34,12 @@ namespace AFR::VexU::Rev{
         while(true){
             scheduled::update_all();
             pros::delay(1);
+
+            std::string text = Cap::cap_arm->get_current_state_name();
+            while(text.size() < 10){
+                text += " ";
+            }
+            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, text.c_str());
         }
     }
 

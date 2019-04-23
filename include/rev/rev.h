@@ -17,7 +17,7 @@ namespace AFR::VexU::Rev{
 
     /////DRIVETRAIN
     const port_t LEFT_DRIVE_MOTOR_1 = 19;
-    const port_t LEFT_DRIVE_MOTOR_2 = 16;
+    const port_t LEFT_DRIVE_MOTOR_2 = 13;
     const port_t LEFT_DRIVE_MOTOR_3 = 20;
     const port_t RIGHT_DRIVE_MOTOR_1 = 1;
     const port_t RIGHT_DRIVE_MOTOR_2 = 18;
@@ -93,6 +93,8 @@ namespace AFR::VexU::Rev{
     const pros::controller_digital_e_t DESCORE_BUTTON = pros::E_CONTROLLER_DIGITAL_R1;
     const pros::controller_digital_e_t BALL_INTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_A;
     const pros::controller_digital_e_t BALL_OUTTAKE_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
+    const pros::controller_digital_e_t ANALOG_ARM_BUTTON = pros::E_CONTROLLER_DIGITAL_DOWN;
+    const pros::controller_analog_e_t ARM_STICK = pros::E_CONTROLLER_ANALOG_RIGHT_Y;
 
     void init_robot();
     void competition_init();
