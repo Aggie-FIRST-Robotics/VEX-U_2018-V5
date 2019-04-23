@@ -37,6 +37,12 @@ namespace AFR::VexU::Fuego{
     }
 
     void op_control(){
+        Auto::auto_controller->disable();
+        Drive::drive_machine->maintain_state(Drive::manual);
+        BallIntake::ball_intake_controller->set_state(BallIntake::choke);
+        Cap::cap_arm->set_state(Cap::zero_arm);
+        Shooter::turret_state_controller->set_state(Shooter::set_point);
+        Shooter::shooter_state_controller->set_state(Shooter::rest);
         while(true){
             scheduled::update_all();
             pros::delay(1);
