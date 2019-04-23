@@ -29,7 +29,7 @@ namespace AFR::VexU::Fuego::Shooter{
     const unsigned int FLYWHEEL_TOLERANCE   = 800;
 
     /////LOADER
-    const double IDLE_TARGET         = 1000;
+    const double IDLE_TARGET         = 900;
     const double FIRE_TARGET         = 0;
     const double WALK_TARGET         = 1600;
     const double LOADER_TOLERANCE    = 50;

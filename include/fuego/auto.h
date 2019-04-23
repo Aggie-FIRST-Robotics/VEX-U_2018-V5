@@ -12,6 +12,13 @@ namespace AFR::VexU::Fuego::Auto{
     void init();
     void destroy();
 
+    struct auto_meta {
+        unsigned int timeout;
+        unsigned int end_auto;
+    };
+
+    extern state_controller<auto_meta>* auto_controller;
+
 }
 
 #endif //VEX_U_2018_V5_BALL_INTAKE_H
