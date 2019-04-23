@@ -52,6 +52,9 @@ namespace AFR::VexU::Fuego::Cap{
     const double ARM_ANGLE_PICKUP = 700;
     const double ELBOW_ANGLE_PICKUP = 3500;
 
+    const double ARM_ANGLE_PICKUP_SWEEP = 800;
+    const double ELBOW_ANGLE_PICKUP_SWEEP = 4000;
+
     void init();
 
     struct cap_arm_meta{
@@ -74,6 +77,7 @@ namespace AFR::VexU::Fuego::Cap{
     extern state* ascend_prime;
     extern state* ascend;
     extern state* angled_pickup;
+    extern state* angled_pickup_sweep;
     extern state* ball_prime;
     extern state* ball_sweep;
 

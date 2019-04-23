@@ -87,7 +87,6 @@ namespace AFR::VexU::Fuego::Drive{
         /////Start
             /////Entry/Exit Functions
             start_entry = [](state* prev_state) -> void{
-
                 front_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
                 back_left_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() + DRIVE_TURN();}),drive_machine->get_name());
                 front_right_motor->set_operation(std::function<int16_t()>([](){return DRIVE_SPEED() - DRIVE_TURN();}),drive_machine->get_name());
@@ -132,6 +131,11 @@ namespace AFR::VexU::Fuego::Drive{
 
             autonomous->set_on_state_entry(autonomous_entry);
             autonomous->set_on_state_exit(autonomous_exit);
+
+            autonomous->add_transition(std::function<bool()>([](){
+                return BaseReadable::driver_controller->get_analog(DRIVETRAIN_THROTTLE) != 0 || BaseReadable::driver_controller->get_analog(DRIVETRAIN_TURN) != 0;
+            }),manual);
+
 
         drive_machine->add_state(autonomous);
 

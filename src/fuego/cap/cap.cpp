@@ -19,6 +19,7 @@ namespace AFR::VexU::Fuego::Cap{
     state* ascend_prime = nullptr;
     state* ascend = nullptr;
     state* angled_pickup = nullptr;
+    state* angled_pickup_sweep = nullptr;
     state* ball_prime = nullptr;
     state* ball_sweep = nullptr;
 
@@ -68,6 +69,7 @@ namespace AFR::VexU::Fuego::Cap{
         ascend_prime = new state("ascend_prime");
         ascend = new state("ascend");
         angled_pickup = new state("angled_pickup");
+        angled_pickup_sweep = new state("angled_pickup_sweep");
         ball_prime = new state("ball_prime");
         ball_sweep = new state("ball_sweep");
 
@@ -474,6 +476,14 @@ namespace AFR::VexU::Fuego::Cap{
                 Wrist::intake_motor->set_value(IDLE_VOLTAGE, cap_arm->get_name());
             }));
 
+            angled_pickup_sweep->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+                Arm::pid_controller->set_target(ARM_ANGLE_PICKUP_SWEEP);
+                Elbow::pid_controller->set_target(ELBOW_ANGLE_PICKUP_SWEEP);
+            }));
+            angled_pickup_sweep->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+                
+            }));
+
             ball_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 Arm::pid_controller->set_target(ARM_ANGLE_PICKUP - 300);
                 Elbow::pid_controller->set_target(ELBOW_GROUND_POSITION - 800);
@@ -504,6 +514,7 @@ namespace AFR::VexU::Fuego::Cap{
         cap_arm->add_state(ascend_prime);
         cap_arm->add_state(ascend);
         cap_arm->add_state(angled_pickup);
+        cap_arm->add_state(angled_pickup_sweep);
         cap_arm->add_state(ball_prime);
         cap_arm->add_state(ball_sweep);
         cap_arm->set_state(zero_arm);

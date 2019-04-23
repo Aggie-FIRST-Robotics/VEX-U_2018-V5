@@ -12,6 +12,8 @@ namespace AFR::VexU::Fuego{
             Drive::init();
             BallIntake::init();
             Cap::init();
+            Auto::init();
+            Auto::auto_controller->disable();
             //memes
         }
 
@@ -29,7 +31,7 @@ namespace AFR::VexU::Fuego{
     }
 
     void auto_robot(){
-        Auto::init();
+        Auto::auto_controller->enable();
         while(true){
             scheduled::update_all();
             pros::delay(1);
