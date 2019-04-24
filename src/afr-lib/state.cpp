@@ -5,10 +5,16 @@ namespace AFR::VexU{
             : nameable(name), transitions_(), on_state_entry_(), on_state_exit_(){}
 
     void state::on_state_entry(state* prev_state) {
+        if(on_state_exit_ == nullptr){
+            throw std::runtime_error{"No on state entry for " + get_name()};
+        }
         on_state_entry_(prev_state);
     }
 
     void state::on_state_exit(state* next_state) {
+        if(on_state_exit_ == nullptr){
+            throw std::runtime_error{"No on state exit for " + get_name()};
+        }
         on_state_exit_(next_state);
     }
 

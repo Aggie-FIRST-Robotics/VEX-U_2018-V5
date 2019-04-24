@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 
 #include "rev/rev.h"
 
@@ -9,7 +11,7 @@ namespace AFR::VexU::Rev{
         try{
             init_lib();
             init_afr_vexu_lib();
-            serial->enqueue_write(ODROID_ID,0,1);
+            serial->enqueue_write(ODROID_ID, 0, 1);
             Shooter::init();
             Drive::init();
             //BallIntake::init();
@@ -85,5 +87,7 @@ namespace AFR::VexU::Rev{
         //memes
     }
 }
+
+#pragma clang diagnostic pop
 
 #pragma clang diagnostic pop

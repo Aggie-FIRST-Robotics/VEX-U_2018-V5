@@ -12,27 +12,27 @@ include_directories(
 
 include(src/afr-lib/CMakeLists.txt)
 include(src/afr-vexu-lib/CMakeLists.txt)
-include(src/fuego/CMakeLists.txt)
+include(src/rev/CMakeLists.txt)
 
 # General source files list with no calls to pros, files with pros calls need to be added to only_V5_src_files
 set(
         src_files
         ${afr-lib-src}
         ${afr-vexu-lib-src}
-        ${fuego-src}
+        ${rev-src}
 )
 
 set(
         only_test_src_files
         ${afr-vexu-lib-test-src}
-        ${fuego-test-src}
+        ${rev-test-src}
 )
 
 # TODO: These files need to be moved to src_files by adding their referenced functions to only_test
 set(
         only_V5_src_files
         ${afr-vexu-lib-V5-src}
-        ${fuego-V5-src}
+        ${rev-V5-src}
 )
 
 set(

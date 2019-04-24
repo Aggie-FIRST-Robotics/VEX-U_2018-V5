@@ -1,8 +1,6 @@
 include(src/rev/cap/arm/CMakeLists.txt)
 include(src/rev/cap/wrist/CMakeLists.txt)
 
-message(WARNING Hello ${rev-arm-V5-src})
-
 set(
         rev-cap-src
         ${rev-arm-src}

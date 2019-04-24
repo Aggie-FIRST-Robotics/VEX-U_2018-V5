@@ -23,4 +23,5 @@ set(
         ${rev-shooter-V5-src}
 
         src/rev/rev.cpp
+        src/rev/auto.cpp
 )

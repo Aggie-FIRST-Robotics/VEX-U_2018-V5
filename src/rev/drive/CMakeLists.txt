@@ -1,8 +1,6 @@
 include(src/rev/drive/base/CMakeLists.txt)
 include(src/rev/drive/shifter/CMakeLists.txt)
 
-message(WARNING Hello ${rev-drive-V5-src})
-
 set(
         rev-drive-src
         ${rev-base-src}
