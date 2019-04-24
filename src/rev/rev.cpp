@@ -14,6 +14,9 @@ namespace AFR::VexU::Rev{
             Drive::init();
             //BallIntake::init();
             Cap::init();
+            Cap::Arm::encoder->tare_position();
+            Auto::init();
+            Auto::auto_controller->disable();
         }
 
         catch(std::exception& e){
@@ -30,7 +33,9 @@ namespace AFR::VexU::Rev{
     }
 
     void auto_robot(){
-        Auto::init();
+        Auto::auto_controller->metadata().end_auto = pros::millis() + 45000;
+        Auto::auto_controller->enable();
+        Auto::reset();
         while(true){
             scheduled::update_all();
             pros::delay(1);
@@ -44,6 +49,11 @@ namespace AFR::VexU::Rev{
     }
 
     void op_control(){
+        Auto::auto_controller->disable();
+        Shooter::reset();
+        Shooter::shooter_state_controller->set_state(Shooter::set_point);
+        Cap::cap_arm->set_state(Cap::zero_arm);
+        Drive::drive_machine->set_state(Drive::high_gear);
         while(true){
             scheduled::update_all();
             pros::delay(1);

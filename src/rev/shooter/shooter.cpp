@@ -149,6 +149,7 @@ namespace AFR::VexU::Rev::Shooter{
         }));
 
         set_point->add_transition(std::function<bool()>([](){
+
             if(set_low->is_triggered() && !BaseReadable::driver_controller->is_digital_pressed(HIGH_BUTTON) && Rollers::cup_sensor->get_analog_value() < 500){
                 Altitude::pid->set_target(ALTITUDE_LOW_TARGET);
                 return true;
@@ -228,6 +229,9 @@ namespace AFR::VexU::Rev::Shooter{
                 Altitude::pid->set_target(ALTITUDE_LOW_TARGET);
                 Rollers::top_motor->set_operation(auto_assist_intake,shooter_state_controller->get_name());
             }
+            else {
+                Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
+            }
         }));
         double_shot->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
             shooter_state_controller->metadata().is_double = false;
@@ -262,5 +266,9 @@ namespace AFR::VexU::Rev::Shooter{
         delete double_shot;
     }
 
+    void reset() {
+        Rollers::front_motor->set_operation(front_intake,shooter_state_controller->get_name());
+        Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
+    }
 
 }

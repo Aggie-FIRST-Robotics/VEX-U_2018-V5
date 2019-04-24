@@ -8,11 +8,6 @@ namespace AFR::VexU::Rev::Auto{
     BaseReadable::digital_edge_detector* swallow_button = nullptr;
 
     /////State Controller
-    
-    struct auto_meta {
-        unsigned int timeout;
-        unsigned int end_auto;
-    };
 
     state_controller<auto_meta>* auto_controller = nullptr;
 
@@ -63,14 +58,18 @@ namespace AFR::VexU::Rev::Auto{
 
 
 
-        Drive::drive_machine->maintain_state(Drive::autonomous);
+        
 
         
         zero->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
             std::cout << "Hey I'm in auto" << std::endl;
+            Drive::drive_machine->maintain_state(Drive::autonomous);
             Drive::auto_drivetrain->enable();
+            Cap::cap_arm->maintain_state(Cap::ground);
+            Cap::Arm::pid_controller->set_target(0);
         }));
+
         zero->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
         }));
@@ -100,6 +99,7 @@ namespace AFR::VexU::Rev::Auto{
 
         
         grab_ball->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "Grab Ball" << std::endl;
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Drive::auto_drivetrain->auto_drive_dist(47, 50, 0, auto_controller->get_name());
             Shooter::Rollers::top_motor->set_operation(std::function<int16_t()>([](){
@@ -135,14 +135,13 @@ namespace AFR::VexU::Rev::Auto{
         }),end);
 
         turn_to_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "Turn to cap" << std::endl;
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(18, -PI * 111.5 / 180.0, 65, 65,
-                                                            auto_controller->get_name());
-            Cap::Wrist::intake_motor->set_value(12000,Cap::cap_arm->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(-18, -PI * 113.5 / 180.0, 65, 35,auto_controller->get_name());
+            Cap::Wrist::intake_motor->set_value(Cap::INTAKE_VOLTAGE,Cap::cap_arm->get_name());
         }));
         turn_to_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-            Cap::Wrist::intake_motor->set_value(Cap::IDLE_VOLTAGE,Cap::cap_arm->get_name());
-            Cap::cap_arm->set_state(Cap::flip);
+            std::cout << "Trun to cap exit" << std::endl;
         }));
 
         turn_to_cap->add_transition(std::function<bool()>([](){
@@ -157,22 +156,24 @@ namespace AFR::VexU::Rev::Auto{
         }),end);
         
         turn_to_post->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-            auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(0,-PI*90/180.0,65,65,auto_controller->get_name());
-            Cap::Wrist::pid_controller->set_target(Cap::WRIST_FLIP_POSITION);
-            Cap::Arm::pid_controller->set_target(Cap::ARM_GROUND_POSITION + 1000);
+            std::cout << "Turn to post" << std::endl;
+            auto_controller->metadata().timeout = pros::millis() + 10000;
+            Drive::auto_drivetrain->auto_drive_radius_angle(28.2,-PI*120/180.0,55,55,auto_controller->get_name());
+            Cap::Arm::pid_controller->set_bounds(-8000,8000);
+            Cap::cap_arm->maintain_state(Cap::score_prime);
+            Cap::Wrist::intake_motor->set_value(Cap::IDLE_VOLTAGE,Cap::cap_arm->get_name());
         }));
         turn_to_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-
+            std::cout << "Turn to post exit" << std::endl;
         }));
 
         turn_to_post->add_transition(std::function<bool()>([](){
-            return Drive::auto_drivetrain->is_complete();
-        }),go_to_post);
+            return Cap::limit_switch->is_pressed();
+        }),score_post);
         /////Timeout
         turn_to_post->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }),go_to_post);
+        }),score_post);
         turn_to_post->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }),end);
@@ -200,14 +201,16 @@ namespace AFR::VexU::Rev::Auto{
         
         score_post->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(-10, 50, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(1, 1, 0, auto_controller->get_name());
+            Cap::Arm::pid_controller->set_bounds(-12000,12000);
+            Cap::cap_arm->set_state(Cap::score_prime);
         }));
         score_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-
+            std::cout << "Score post exit" << std::endl;
         }));
 
         score_post->add_transition(std::function<bool()>([](){
-            return Drive::auto_drivetrain->is_complete();
+            return Cap::cap_arm->get_current_state() == Cap::descore_prime;
         }),turn_to_low_flag);
         /////Timeout
         score_post->add_transition(std::function<bool()>([](){
@@ -238,8 +241,7 @@ namespace AFR::VexU::Rev::Auto{
         
         turn_to_low_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(0, PI * 110 / 180.0, 65, 65, auto_controller->get_name());
-            Cap::Arm::pid_controller->set_target(Cap::ARM_GROUND_POSITION + 1000);
+            Drive::auto_drivetrain->auto_drive_radius_angle(8, PI * 102/ 180.0, 45, 0, auto_controller->get_name());
         }));
         turn_to_low_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -259,7 +261,9 @@ namespace AFR::VexU::Rev::Auto{
         
         score_low_flag_1->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(-21, 50, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(-43, 50, 0, auto_controller->get_name());
+            Cap::cap_arm->set_state(Cap::ground);
+            Cap::Arm::pid_controller->set_target(Cap::ARM_GROUND_POSITION + 1250);
             
         }));
         score_low_flag_1->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -279,9 +283,8 @@ namespace AFR::VexU::Rev::Auto{
         
         back_off_low_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(4.5, 50, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(30, 50, 0, auto_controller->get_name());
             Cap::Arm::pid_controller->set_target(Cap::ARM_GROUND_POSITION);
-            Cap::Wrist::intake_motor->set_value(-Cap::INTAKE_VOLTAGE, Cap::cap_arm->get_name());
 
         }));
         back_off_low_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -301,7 +304,7 @@ namespace AFR::VexU::Rev::Auto{
 
         turn_to_zero->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(0, -PI * 117.5 / 180.0, 100, 100,
+            Drive::auto_drivetrain->auto_drive_radius_angle(0, -PI * 217.0/180.0, 50, 0,
                                                             auto_controller->get_name());
         }));
         turn_to_zero->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -321,19 +324,16 @@ namespace AFR::VexU::Rev::Auto{
 
         drive_to_zero->set_on_state_entry(std::function<void(state *)>([](state *prev_state) {
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(9.5, 70, 70, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(1, 1, 0, auto_controller->get_name());
         }));
         drive_to_zero->set_on_state_exit(std::function<void(state *)>([](state *next_state) {
 
         }));
 
-        drive_to_zero->add_transition(std::function<bool()>([]() {
-            return Drive::auto_drivetrain->is_complete();
-        }), drive_to_plat);
         /////Timeout
         drive_to_zero->add_transition(std::function<bool()>([]() {
-            return pros::millis() > auto_controller->metadata().timeout;
-        }), drive_to_plat);
+            return pros::millis() > auto_controller->metadata().end_auto - 3000;
+        }), shoot);
         drive_to_zero->add_transition(std::function<bool()>([]() {
             return pros::millis() > auto_controller->metadata().end_auto;
         }), end);
@@ -481,6 +481,7 @@ namespace AFR::VexU::Rev::Auto{
         shoot->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Shooter::shooter_state_controller->metadata().is_double = true;
+            Shooter::Altitude::pid->set_target(Shooter::ALTITUDE_HIGH_TARGET + 20);
             Shooter::shooter_state_controller->set_state(Shooter::cock);
         }));
         shoot->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -539,5 +540,9 @@ namespace AFR::VexU::Rev::Auto{
 
     void destroy() {
         
+    }
+
+    void reset() {
+        auto_controller->set_state(zero);
     }
 }

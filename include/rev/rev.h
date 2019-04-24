@@ -71,6 +71,7 @@ namespace AFR::VexU::Rev{
     const port_t CUP_SENSOR_PORT = 1;
     const port_t PUNCHER_LIMIT_SWITCH_PORT = 2;
     const port_t ROLLER_LIMIT_SWITCH_PORT = 4;
+    const port_t V_LIMIT_SWITCH_PORT = 6;
     
 
     /////DRIVER CONTROLS

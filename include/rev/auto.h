@@ -12,6 +12,14 @@ namespace AFR::VexU::Rev::Auto{
 
     void init();
     void destroy();
+    void reset();
+
+    struct auto_meta {
+        unsigned int timeout;
+        unsigned int end_auto;
+    };
+
+    extern state_controller<auto_meta>* auto_controller;
 
 }
 

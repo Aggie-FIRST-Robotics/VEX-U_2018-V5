@@ -50,7 +50,7 @@ namespace AFR::VexU{
             }
         }
         void set_operation(action<T>* action, const std::string& caller, bool dummy){
-            throw std::runtime_error{"Bad call"};
+            throw std::runtime_error{"The set operation for " + get_name() + " is trying to go by action."};
 //            action_ = action;
 //            set_operation([this]() -> T{
 //                return action_->get_value_to_set();

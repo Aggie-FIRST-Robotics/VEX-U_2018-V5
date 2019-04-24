@@ -40,7 +40,8 @@ namespace AFR::VexU::Rev::Shooter{
 
     void init();
     void destroy();
-
+    void reset();
+    
     struct shooter_meta {
         double altitude_set_point;
         bool is_double;

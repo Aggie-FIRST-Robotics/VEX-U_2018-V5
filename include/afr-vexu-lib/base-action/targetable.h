@@ -31,10 +31,14 @@ namespace AFR::VexU::BaseAction{
         virtual bool is_in_range(Read_T tolerance) = 0;
         
         void set_target(const std::function<Read_T()>& target_function){
+            if(nameable::get_name() == "arm_pid_controller")
+                std::cout << "Set target called for a function" << std::endl;
             operation<Read_T>::set_function(target_function);
         }
         
         void set_target(const Read_T& target) {
+            if(nameable::get_name() == "arm_pid_controller")
+                std::cout << "Setting target to " << (int)target << std::endl;
             target_ = target;
             operation<Read_T>::set_function(std::function<Read_T()>([this] () { return this->value_function(); }));
         }
