@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 #include "rev/cap/cap.h"
 
 namespace AFR::VexU::Rev::Cap{
@@ -22,16 +24,7 @@ namespace AFR::VexU::Rev::Cap{
     BaseReadable::digital_edge_detector* flip_button = nullptr;
     BaseReadable::digital_edge_detector* reset_button = nullptr;
 
-    std::function<int16_t()> idle_intake_function = []() -> int16_t{
-        if (BaseReadable::operator_controller->is_digital_pressed(INTAKE_BUTTON)) {
-            return INTAKE_VOLTAGE;
-        } else if (BaseReadable::operator_controller->is_digital_pressed(OUTTAKE_BUTTON)) {
-            return -INTAKE_VOLTAGE;
-        }
-        else{
-            return IDLE_VOLTAGE;
-        }
-    };
+    std::function<int16_t()> idle_intake_function{};
 
     std::function<int16_t()> zero_arm_action{};
     std::function<int16_t()> zero_wrist_action{};
@@ -44,7 +37,7 @@ namespace AFR::VexU::Rev::Cap{
     double analog_arm_val = 0.0;
 
     void init(){
-        cap_arm = new state_controller<cap_arm_meta>(UPDATE_PERIOD, cap_arm_meta{false},"cap arm state controller");
+        cap_arm = new state_controller<cap_arm_meta>(UPDATE_PERIOD, cap_arm_meta{false}, "cap arm state controller");
 
         Arm::init();
         Wrist::init();
@@ -67,7 +60,19 @@ namespace AFR::VexU::Rev::Cap{
 
         std::cout << "Setting controller operations" << std::endl;
 
-        zero_arm_action = []() -> int16_t{ 
+        idle_intake_function = []() -> int16_t{
+            if(BaseReadable::operator_controller->is_digital_pressed(INTAKE_BUTTON)){
+                return INTAKE_VOLTAGE;
+            }
+            else if(BaseReadable::operator_controller->is_digital_pressed(OUTTAKE_BUTTON)){
+                return -INTAKE_VOLTAGE;
+            }
+            else{
+                return IDLE_VOLTAGE;
+            }
+        };
+
+        zero_arm_action = []() -> int16_t{
             if(arm_zeroed){
                 return Arm::pid_controller->get_pid_value();
             }
@@ -81,7 +86,7 @@ namespace AFR::VexU::Rev::Cap{
             }
         };
 
-        zero_wrist_action = []() -> int16_t{ 
+        zero_wrist_action = []() -> int16_t{
             if(wrist_zeroed){
                 return Wrist::pid_controller->get_pid_value();
             }
@@ -95,7 +100,7 @@ namespace AFR::VexU::Rev::Cap{
             }
         };
 
-        wrist_flip_target = []() -> int16_t{ 
+        wrist_flip_target = []() -> int16_t{
             if(flip_button->is_rising_edge()){
                 if(Wrist::pid_controller->get_last_target() == 0){
                     Wrist::pid_controller->set_target(WRIST_FLIP_POSITION);
@@ -120,17 +125,17 @@ namespace AFR::VexU::Rev::Cap{
 
         Arm::pid_controller->set_operation(std::function<double()>([](){
             return Arm::encoder->get_scaled_position();
-        }),cap_arm->get_name());
+        }), cap_arm->get_name());
         Arm::left_motor->set_operation(std::function<int16_t()>([](){
             return Arm::pid_controller->get_pid_value();
-        }),cap_arm->get_name());
+        }), cap_arm->get_name());
         Arm::right_motor->set_operation(std::function<int16_t()>([](){
             return Arm::pid_controller->get_pid_value();
-        }),cap_arm->get_name());
+        }), cap_arm->get_name());
 
         Wrist::pid_controller->set_operation(std::function<double()>([](){
             return Wrist::encoder->get_scaled_position();
-        }),cap_arm->get_name());
+        }), cap_arm->get_name());
         Wrist::pid_controller->set_target(0);
         Wrist::flipping_motor->set_operation(wrist_flip_target,cap_arm->get_name());
 
@@ -176,11 +181,15 @@ namespace AFR::VexU::Rev::Cap{
             Wrist::intake_motor->set_operation(idle_intake_function, cap_arm->get_name());
 
             arm_zeroed = false;
-            wrist_zeroed = false;
+//            wrist_zeroed = false;
         }));
         ground->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-            Arm::left_motor->set_operation(Arm::pid_controller, cap_arm->get_name(), false);
-            Arm::right_motor->set_operation(Arm::pid_controller, cap_arm->get_name(), false);
+            Arm::left_motor->set_operation(std::function<int16_t()>{[]() -> int16_t{
+                return Arm::pid_controller->get_pid_value();
+            }}, cap_arm->get_name());
+            Arm::right_motor->set_operation(std::function<int16_t()>{[]() -> int16_t{
+                return Arm::pid_controller->get_pid_value();
+            }}, cap_arm->get_name());
             // Wrist::flipping_motor->set_operation(wrist_flip_target, cap_arm->get_name());
             Wrist::intake_motor->set_value(IDLE_VOLTAGE, cap_arm->get_name());
             std::cout << "Ground exit" << std::endl;
@@ -191,16 +200,16 @@ namespace AFR::VexU::Rev::Cap{
         // }),zero_arm);
         ground->add_transition(std::function<bool()>([](){
             return BaseReadable::operator_controller->is_digital_pressed(FLIP_BUTTON);
-        }),flip);
+        }), flip);
         ground->add_transition(std::function<bool()>([](){
             return descore_button->is_rising_edge();
-        }),descore_prime);
+        }), descore_prime);
         ground->add_transition(std::function<bool()>([](){
             return elevate_button->is_rising_edge();
-        }),score_prime);
+        }), score_prime);
         ground->add_transition(std::function<bool()>([](){
             return BaseReadable::operator_controller->is_digital_pressed(ANALOG_ARM_BUTTON);
-        }),analog_arm);
+        }), analog_arm);
 
         /////Flip Low State
         flip->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -213,7 +222,7 @@ namespace AFR::VexU::Rev::Cap{
 
         flip->add_transition(std::function<bool()>([](){
             return Wrist::pid_controller->is_in_range(PID_TOLERANCE);
-        }),ground);
+        }), ground);
 
         /////Score Prime State
         score_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -226,19 +235,19 @@ namespace AFR::VexU::Rev::Cap{
 
         score_prime->add_transition(std::function<bool()>([](){
             return down_button->is_rising_edge();
-        }),ground);
+        }), ground);
         score_prime->add_transition(std::function<bool()>([](){
             return descore_button->is_rising_edge();
-        }),descore_prime);
+        }), descore_prime);
         score_prime->add_transition(std::function<bool()>([](){
             return !cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) &&
-                   !BaseReadable::operator_controller->is_digital_pressed(ELEVATE_BUTTON);
-        }),score);
+                    !BaseReadable::operator_controller->is_digital_pressed(ELEVATE_BUTTON);
+        }), score);
         score_prime->add_transition(std::function<bool()>([](){
             return cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE);
-        }),score_flip);
+        }), score_flip);
 
-            
+
 
         /////Score Flip State
         score_flip->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -259,8 +268,8 @@ namespace AFR::VexU::Rev::Cap{
         }));
         score_flip->add_transition(std::function<bool()>([](){
             return Wrist::pid_controller->is_in_range(PID_TOLERANCE);
-        }),score);
-            
+        }), score);
+
         ////Score State
         score->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "Score entry" << std::endl;
@@ -275,10 +284,10 @@ namespace AFR::VexU::Rev::Cap{
 
         score->add_transition(std::function<bool()>([](){
             return Arm::pid_controller->is_in_range(PID_TOLERANCE) && cap_arm->metadata().is_stealing;
-        }),score_prime);
+        }), score_prime);
         score->add_transition(std::function<bool()>([](){
             return Arm::pid_controller->is_in_range(PID_TOLERANCE) && !cap_arm->metadata().is_stealing;
-        }),descore_prime);
+        }), descore_prime);
 
         ////Descore Prime State
         descore_prime->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -301,11 +310,11 @@ namespace AFR::VexU::Rev::Cap{
 
         descore_prime->add_transition(std::function<bool()>([](){
             return down_button->is_rising_edge();
-        }),ground);
+        }), ground);
         descore_prime->add_transition(std::function<bool()>([](){
             return cap_arm->metadata().is_stealing && Arm::pid_controller->is_in_range(PID_TOLERANCE) &&
-                   !BaseReadable::operator_controller->is_digital_pressed(DESCORE_BUTTON);
-        }),score);
+                                                      !BaseReadable::operator_controller->is_digital_pressed(DESCORE_BUTTON);
+        }), score);
 
         //Analog Arm
         analog_arm->set_on_state_entry(std::function<void(state*)>([](state* next_state){
@@ -314,14 +323,15 @@ namespace AFR::VexU::Rev::Cap{
             Arm::left_motor->set_operation(analog_arm_action, cap_arm->get_name());
             Arm::right_motor->set_operation(analog_arm_action, cap_arm->get_name());
         }));
-        analog_arm->set_on_state_entry(std::function<void(state*)>([](state* next_state){
+        analog_arm->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             std::cout << "Analog Arm Exit" << std::endl;
+            Arm::pid_controller->set_target(0);
         }));
 
         analog_arm->add_transition(std::function<bool()>([]() -> bool{
-            return BaseReadable::operator_controller->is_digital_pressed(ANALOG_ARM_BUTTON);
-        }),ground);
-            
+            return !BaseReadable::operator_controller->is_digital_pressed(ANALOG_ARM_BUTTON);
+        }), ground);
+
         // cap_arm->add_state(zero_arm);
         cap_arm->add_state(ground);
         cap_arm->add_state(flip);
@@ -329,6 +339,9 @@ namespace AFR::VexU::Rev::Cap{
         cap_arm->add_state(score_flip);
         cap_arm->add_state(score);
         cap_arm->add_state(descore_prime);
+        cap_arm->add_state(analog_arm);
         cap_arm->set_state(ground);
     }
 }
+
+#pragma clang diagnostic pop

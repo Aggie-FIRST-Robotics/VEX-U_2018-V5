@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 
 #include "rev/rev.h"
 
@@ -9,11 +11,13 @@ namespace AFR::VexU::Rev{
         try{
             init_lib();
             init_afr_vexu_lib();
-            serial->enqueue_write(ODROID_ID,0,1);
+            serial->enqueue_write(ODROID_ID, 0, 1);
             Shooter::init();
             Drive::init();
             //BallIntake::init();
             Cap::init();
+            Auto::init();
+            Auto::auto_controller->disable();
         }
 
         catch(std::exception& e){
@@ -30,7 +34,7 @@ namespace AFR::VexU::Rev{
     }
 
     void auto_robot(){
-        Auto::init();
+        Auto::auto_controller->enable();
         while(true){
             scheduled::update_all();
             pros::delay(1);
@@ -44,6 +48,11 @@ namespace AFR::VexU::Rev{
     }
 
     void op_control(){
+        std::cout << "Running Op Control" << std::endl;
+        Auto::auto_controller->disable();
+        Shooter::shooter_state_controller->set_state(Shooter::set_point);
+        Drive::drive_machine->set_state(Drive::high_gear);
+        Cap::cap_arm->set_state(Cap::ground);
         while(true){
             scheduled::update_all();
             pros::delay(1);
@@ -75,5 +84,7 @@ namespace AFR::VexU::Rev{
         //memes
     }
 }
+
+#pragma clang diagnostic pop
 
 #pragma clang diagnostic pop
