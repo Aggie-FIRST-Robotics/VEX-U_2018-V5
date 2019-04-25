@@ -24,7 +24,10 @@ namespace AFR::VexU::Fuego::Auto{
     state* move_tilted_cap = nullptr;
     state* prime_tilted_cap = nullptr;
     state* score_tilted_cap = nullptr;
+    state* fwd = nullptr;
+    state* turn = nullptr;
     state* succ_blue_cap = nullptr;
+    state* slide_to_the_left= nullptr;
     state* slide_to_the_right = nullptr;
     state* cha_cha_real_smooth = nullptr;
     state* score_second_post = nullptr;
@@ -75,7 +78,10 @@ namespace AFR::VexU::Fuego::Auto{
         score_tilted_cap = new state("score_tilted_cap");
 
         //Score Cap #2
+        fwd = new state("fwd");
+        turn = new state("turn");
         succ_blue_cap = new state("succ_blue_cap");
+        slide_to_the_left = new state("slide_to_the_left");
         slide_to_the_right = new state("slide_to_the_right");
         cha_cha_real_smooth = new state("cha_cha_real_smooth");
         score_second_post = new state("score_second_post");
@@ -178,7 +184,7 @@ namespace AFR::VexU::Fuego::Auto{
 
         /////Grab Tilted Cap
         stow_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-            auto_controller->metadata().timeout = pros::millis() + 5000;
+            auto_controller->metadata().timeout = pros::millis() + 10000;
             Cap::cap_arm->set_state(Cap::angled_pickup_sweep);
             Drive::auto_drivetrain->auto_drive_dist(-16, 10, 0, auto_controller->get_name());
         }));
@@ -203,7 +209,6 @@ namespace AFR::VexU::Fuego::Auto{
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Cap::Arm::pid_controller->set_bounds(1000,-1000);
             Cap::cap_arm->set_state(Cap::store);
-            Cap::Wrist::pid_controller->set_target(Cap::wrist_flip_target());
             Drive::auto_drivetrain->auto_drive_radius_angle(0,Drive::PI*125.0/180.0,30,30,auto_controller->get_name());
         }));
         move_tilted_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -224,7 +229,7 @@ namespace AFR::VexU::Fuego::Auto{
         /////Prime Tilted Cap
         prime_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Cap::cap_arm->maintain_state(Cap::score_prime);
+            Cap::cap_arm->maintain_state(Cap::flip_high);
             Drive::auto_drivetrain->auto_drive_dist(-28, 30, 30, auto_controller->get_name());
         }));
         prime_tilted_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -239,6 +244,7 @@ namespace AFR::VexU::Fuego::Auto{
             return pros::millis() > auto_controller->metadata().timeout;
         }),score_tilted_cap);
 
+
         /////Score Tilted Cap
         score_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
@@ -251,13 +257,11 @@ namespace AFR::VexU::Fuego::Auto{
 
         score_tilted_cap->add_transition(std::function<bool()>([](){
             return Cap::cap_arm->get_current_state() == Cap::store;
-        }),succ_blue_cap);
+        }),fwd);
         /////Timeout
         score_tilted_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }),succ_blue_cap);
-
-
+        }),fwd);
 
 
 
@@ -284,29 +288,81 @@ namespace AFR::VexU::Fuego::Auto{
 
 
         /////Suck Blue Cap
-        succ_blue_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+        fwd->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
             BallIntake::ball_intake_controller->maintain_state(BallIntake::choke);
+            Drive::auto_drivetrain->auto_drive_dist(7, 30, 30, auto_controller->get_name());
+        }));
+        fwd->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            
+        }));
+
+        fwd->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }),turn);
+        /////Timeout
+        fwd->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),turn);
+
+        /////Suck Blue Cap
+        turn->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
             Cap::cap_arm->set_state(Cap::ground);
-            Drive::auto_drivetrain->auto_drive_radius_angle(FUEGO_WIDTH/2.0 - 1,-Drive::PI*150.0/180.0,40,30,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(0,-Drive::PI*123.0/180.0,30,30,auto_controller->get_name());
             Cap::Wrist::intake_motor->set_value(Cap::INTAKE_VOLTAGE, Cap::cap_arm->get_name());
         }));
+        turn->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        turn->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }),succ_blue_cap);
+        /////Timeout
+        turn->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),succ_blue_cap);
+
+        /////Suck Blue Cap
+        succ_blue_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+            Drive::auto_drivetrain->auto_drive_dist(17, 30, 30, auto_controller->get_name());
+        }));
         succ_blue_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-            Cap::cap_arm->set_state(Cap::angled_pickup);
+
         }));
 
         succ_blue_cap->add_transition(std::function<bool()>([](){
             return Drive::auto_drivetrain->is_complete();
-        }),slide_to_the_right);
+        }),slide_to_the_left);
         /////Timeout
         succ_blue_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),slide_to_the_left);
+
+        /////Slide to the right
+        slide_to_the_left->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+            Cap::cap_arm->set_state(Cap::angled_pickup);
+            Drive::auto_drivetrain->auto_drive_radius_angle(-13,-Drive::PI*75.0/180.0,30,30,auto_controller->get_name());
+        }));
+        slide_to_the_left->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        slide_to_the_left->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }),slide_to_the_right);
+        /////Timeout
+        slide_to_the_left->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),slide_to_the_right);
 
         /////Slide to the right
         slide_to_the_right->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(35,Drive::PI*50.0/180.0,30,30,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(13.5,Drive::PI*72.0/180.0,30,30,auto_controller->get_name());
         }));
         slide_to_the_right->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -325,7 +381,7 @@ namespace AFR::VexU::Fuego::Auto{
             //Shooter::shooter_state_controller->maintain_state(Shooter::spin_up);
             Cap::cap_arm->maintain_state(Cap::score_prime);
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(-5, 30, 30, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(-12, 30, 30, auto_controller->get_name());
         }));
         cha_cha_real_smooth->set_on_state_exit(std::function<void(state*)>([](state* next_state){
              
@@ -430,7 +486,7 @@ namespace AFR::VexU::Fuego::Auto{
         move_to_plat->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Drive::drive_machine->maintain_state(Drive::autonomous);
-            Drive::auto_drivetrain->auto_drive_dist(-55, 50, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(-51, 50, 0, auto_controller->get_name());
         }));
         move_to_plat->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
