@@ -123,7 +123,7 @@ namespace AFR::VexU::Rev::Auto{
         turn_to_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "Turn to cap" << std::endl;
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(12, PI * 113.5 / 180.0, 35, 35,
+            Drive::auto_drivetrain->auto_drive_radius_angle(-12, -PI * 113.5 / 180.0, 35, 35,
                                                             auto_controller->get_name());
             Cap::Wrist::intake_motor->set_value(Cap::INTAKE_VOLTAGE, Cap::cap_arm->get_name());
         }));
@@ -133,11 +133,13 @@ namespace AFR::VexU::Rev::Auto{
 
         turn_to_cap->add_transition(std::function<bool()>([](){
             return Drive::auto_drivetrain->is_complete();
-        }), turn_to_post);
+//        }), turn_to_post);
+        }), end);
         /////Timeout
         turn_to_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }), turn_to_post);
+//        }), turn_to_post);
+        }), end);
         turn_to_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }), end);
