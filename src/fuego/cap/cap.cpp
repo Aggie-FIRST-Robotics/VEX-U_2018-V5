@@ -151,6 +151,10 @@ namespace AFR::VexU::Fuego::Cap{
                 return false;
             }),zero_elbow);
 
+            zero_arm->add_transition(std::function<bool()>([](){
+                return down_button->is_rising_edge();
+            }),ground);
+
             /////Entry/Exit Functions
             zero_arm->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
                 std::cout << "Zero Arm Entry" << std::endl;
@@ -183,6 +187,10 @@ namespace AFR::VexU::Fuego::Cap{
                 }
                 return false;
             }),store);
+
+            zero_elbow->add_transition(std::function<bool()>([](){
+                return down_button->is_rising_edge();
+            }),ground);
 
             /////Entry/Exit Functions
             zero_elbow->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
