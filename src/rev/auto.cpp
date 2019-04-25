@@ -219,6 +219,7 @@ namespace AFR::VexU::Rev::Auto{
         }));
         turn_to_low_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             std::cout << "turn_to_low_flag exit" << std::endl;
+            Cap::cap_arm->set_state(Cap::ground);
         }));
 
         turn_to_low_flag->add_transition(std::function<bool()>([](){
