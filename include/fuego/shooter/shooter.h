@@ -36,6 +36,7 @@ namespace AFR::VexU::Fuego::Shooter{
 
     /////SET POINTS
     const double TURRET_LEFT_TARGET     = 500;
+    const double TURRET_AUTO_MID_TARGET = 950;
     const double TURRET_MID_TARGET      = 1680;
     const double TURRET_RIGHT_TARGET    = 2500;
     const double HOOD_HIGH_TARGET       = 450;
