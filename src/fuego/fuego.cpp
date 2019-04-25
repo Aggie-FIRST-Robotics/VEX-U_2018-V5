@@ -32,6 +32,7 @@ namespace AFR::VexU::Fuego{
 
     void auto_robot(){
         Auto::auto_controller->enable();
+        Auto::auto_controller->metadata().end_auto = pros::millis() + 45000;
         while(true){
             scheduled::update_all();
             pros::delay(1);
