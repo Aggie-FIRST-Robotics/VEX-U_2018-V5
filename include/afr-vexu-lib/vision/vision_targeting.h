@@ -53,9 +53,9 @@ namespace AFR::VexU::Vision {
         static constexpr int X_CENTER_WEIGHT = 10;
         static constexpr int Y_CENTER_WEIGHT = 10;
         static constexpr int AREA_WEIGHT = 1;
-        static constexpr int TARGETED_WEIGHT = 10000;
-        static constexpr int X_CENTER = 275;
-        static constexpr int Y_CENTER = 160;
+        static constexpr int TARGETED_WEIGHT = 20000;
+        static constexpr int X_CENTER = 300;
+        static constexpr int Y_CENTER = 200;
         static constexpr int ACCUM_ERROR = 0;
         static constexpr int AIM_COMPLETE_TOLERANCE = 10;
         static constexpr int AIM_COMPLETE_COUNT = 50;
