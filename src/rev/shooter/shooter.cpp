@@ -32,9 +32,9 @@ namespace AFR::VexU::Rev::Shooter{
         Puncher::init();
 
         set_high = new BaseReadable::digital_debounce
-                (std::function<bool()>(
-                        [](){ return BaseReadable::driver_controller->is_digital_pressed(HIGH_BUTTON); }), BUTTON_DELAY,
-                 "^");
+                (std::function<bool()>([](){
+                    return BaseReadable::driver_controller->is_digital_pressed(HIGH_BUTTON);
+                }), BUTTON_DELAY, "^");
         set_low = new BaseReadable::digital_debounce
                 (std::function<bool()>([](){ return BaseReadable::driver_controller->is_digital_pressed(LOW_BUTTON); }),
                  BUTTON_DELAY, "V");
@@ -234,13 +234,15 @@ namespace AFR::VexU::Rev::Shooter{
         double_shot->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "Double Entry" << std::endl;
             shooter_state_controller->metadata().timeout = pros::millis() + 2000;
-            if(shooter_state_controller->metadata().is_double){
-                std::cout << "Taking a double shot" << std::endl;
-                Altitude::pid->set_target(ALTITUDE_LOW_TARGET);
-                Rollers::top_motor->set_operation(auto_assist_intake,shooter_state_controller->get_name());
-            }
-            else {
-                Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
+            if(!(pros::c::competition_get_status() & COMPETITION_AUTONOMOUS)){
+                if(shooter_state_controller->metadata().is_double){
+                    std::cout << "Taking a double shot" << std::endl;
+                    Altitude::pid->set_target(ALTITUDE_LOW_TARGET);
+                    Rollers::top_motor->set_operation(auto_assist_intake, shooter_state_controller->get_name());
+                }
+                else{
+                    Rollers::top_motor->set_operation(top_intake, shooter_state_controller->get_name());
+                }
             }
         }));
         double_shot->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
