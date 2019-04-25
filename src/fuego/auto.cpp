@@ -156,9 +156,6 @@ namespace AFR::VexU::Fuego::Auto{
         zero->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),grab_tilted_cap);
-        zero->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
         /////Grab Tilted Cap
         grab_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -178,9 +175,6 @@ namespace AFR::VexU::Fuego::Auto{
         grab_tilted_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),stow_tilted_cap);
-        grab_tilted_cap->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
         /////Grab Tilted Cap
         stow_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -199,9 +193,6 @@ namespace AFR::VexU::Fuego::Auto{
         stow_tilted_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),move_tilted_cap);
-        stow_tilted_cap->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
 
         /////Move Tilted Cap
@@ -223,9 +214,6 @@ namespace AFR::VexU::Fuego::Auto{
         move_tilted_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),prime_tilted_cap);
-        move_tilted_cap->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
         /////Prime Tilted Cap
         prime_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
@@ -362,7 +350,7 @@ namespace AFR::VexU::Fuego::Auto{
         /////Slide to the right
         slide_to_the_right->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(-12,-Drive::PI*62.0/180.0,30,30,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(-12.5,-Drive::PI*62.0/180.0,30,30,auto_controller->get_name());
         }));
         slide_to_the_right->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -563,9 +551,6 @@ namespace AFR::VexU::Fuego::Auto{
         charge_plat_3->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),deploy_dick);
-        charge_plat_3->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
         deploy_dick->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             Drive::auto_drivetrain->auto_drive_dist(-23.5, 100, 100, auto_controller->get_name());
@@ -584,9 +569,6 @@ namespace AFR::VexU::Fuego::Auto{
         deploy_dick->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),stow_dick);
-        deploy_dick->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
         stow_dick->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             Drive::auto_drivetrain->auto_drive_dist(-15, 100, 100, auto_controller->get_name());
@@ -605,9 +587,6 @@ namespace AFR::VexU::Fuego::Auto{
         stow_dick->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),zero_everything);
-        stow_dick->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
         zero_everything->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             Drive::auto_drivetrain->auto_drive_dist(-28.5, 100, 100, auto_controller->get_name());
@@ -624,9 +603,6 @@ namespace AFR::VexU::Fuego::Auto{
         zero_everything->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),back_up);
-        zero_everything->add_transition(std::function<bool()>([](){
-            return pros::millis() > auto_controller->metadata().end_auto;
-        }),end);
 
 
 
