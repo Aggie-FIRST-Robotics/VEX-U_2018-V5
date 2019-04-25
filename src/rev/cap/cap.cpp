@@ -8,7 +8,7 @@ namespace AFR::VexU::Rev::Cap{
     state_controller<cap_arm_meta>* cap_arm = nullptr;
 
     /////States
-    state* zero_arm = nullptr;
+//    state* zero_arm = nullptr;
     state* ground = nullptr;
     state* flip = nullptr;
     state* score_prime = nullptr;
@@ -36,11 +36,15 @@ namespace AFR::VexU::Rev::Cap{
 
     double analog_arm_val = 0.0;
 
+    BaseReadable::adi_digital_readable* limit_switch{};
+
     void init(){
         cap_arm = new state_controller<cap_arm_meta>(UPDATE_PERIOD, cap_arm_meta{false}, "cap arm state controller");
 
         Arm::init();
         Wrist::init();
+
+        limit_switch = Arm::limit_switch;
 
         // zero_arm = new state("zero_shoulder");
         ground = new state("ground");
@@ -340,7 +344,6 @@ namespace AFR::VexU::Rev::Cap{
         cap_arm->add_state(score);
         cap_arm->add_state(descore_prime);
         cap_arm->add_state(analog_arm);
-        cap_arm->set_state(ground);
     }
 }
 

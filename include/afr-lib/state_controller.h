@@ -44,6 +44,9 @@ namespace AFR::VexU{
                 nameable(name), scheduled(update_period, name), current_state_(nullptr), metadata_(initial_metadata), is_maintaining(false){}
 
         void add_state(state* new_state) {
+            if(new_state == nullptr){
+                throw std::runtime_error{"Tried to add nullptr state to " + get_name()};
+            }
             states_.push_back(new_state);
         }
         

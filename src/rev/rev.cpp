@@ -54,7 +54,7 @@ namespace AFR::VexU::Rev{
         Auto::auto_controller->disable();
         Shooter::reset();
         Shooter::shooter_state_controller->set_state(Shooter::set_point);
-        Cap::cap_arm->set_state(Cap::zero_arm);
+        Cap::cap_arm->set_state(Cap::ground);
         Drive::drive_machine->set_state(Drive::high_gear);
         while(true){
             scheduled::update_all();

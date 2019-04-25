@@ -148,8 +148,8 @@ namespace AFR::VexU::Rev::Shooter{
         set_point->set_on_state_entry(std::function<void(state*)>([](state* next_state){
             std::cout << "Set entry" << std::endl;
             Altitude::pid->set_target(ALTITUDE_STOW_TARGET);
-            Rollers::front_motor->set_operation(front_intake, shooter_state_controller->get_name());
-            Rollers::top_motor->set_operation(top_intake, shooter_state_controller->get_name());
+            //Rollers::front_motor->set_operation(front_intake, shooter_state_controller->get_name());
+            //Rollers::top_motor->set_operation(top_intake, shooter_state_controller->get_name());
             // Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
         }));
 
@@ -232,6 +232,7 @@ namespace AFR::VexU::Rev::Shooter{
         /////Double Shot stat
 
         double_shot->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "Double Entry" << std::endl;
             shooter_state_controller->metadata().timeout = pros::millis() + 2000;
             if(shooter_state_controller->metadata().is_double){
                 std::cout << "Taking a double shot" << std::endl;
