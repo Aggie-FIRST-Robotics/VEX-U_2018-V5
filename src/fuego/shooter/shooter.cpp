@@ -203,7 +203,7 @@ namespace AFR::VexU::Fuego::Shooter{
         stow = new BaseReadable::digital_edge_detector
                 (std::function<bool()>([](){return BaseReadable::operator_controller->is_digital_pressed(STOW);}),"stow");
         vision = new Vision::vision_targeting("vision");
-        vision->set_team(Vision::vision_targeting::RED);
+        vision->set_team(Vision::vision_targeting::BLUE);
 
         turret_state_controller = new state_controller<turret_meta>{UPDATE_PERIOD, {0,0},"turret state machine"};
 
