@@ -373,7 +373,7 @@ namespace AFR::VexU::Rev::Auto{
 
         wait->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "wait entry" << std::endl;
-            auto_controller->metadata().timeout = auto_controller->metadata().end_auto - 4000;
+            auto_controller->metadata().timeout = auto_controller->metadata().end_auto - 5000;
 //            Drive::auto_drivetrain->auto_drive_dist(30, 30, 0, auto_controller->get_name());
 //            Drive::auto_drivetrain->auto_drive_radius_angle(-1, -PI * 220 / 180.0, 45, 0, auto_controller->get_name());
         }));
@@ -402,7 +402,7 @@ namespace AFR::VexU::Rev::Auto{
 
         shoot2->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "shoot2 entry" << std::endl;
-            auto_controller->metadata().timeout = pros::millis() + 1000;
+            auto_controller->metadata().timeout = pros::millis() + 2000;
             Shooter::Rollers::top_motor->set_operation(std::function<int16_t()>{[]() -> int16_t{
                 return 12000;
             }}, Shooter::shooter_state_controller->get_name());
@@ -414,10 +414,10 @@ namespace AFR::VexU::Rev::Auto{
             std::cout << "shoot2 exit" << std::endl;
         }));
 
-        shoot2->add_transition(std::function<bool()>([](){
-            return Drive::auto_drivetrain->is_complete();
-//        }), shoot);
-        }), end);
+//        shoot2->add_transition(std::function<bool()>([](){
+//            return Drive::auto_drivetrain->is_complete();
+////        }), shoot);
+//        }), end);
         /////Timeout
         shoot2->add_transition(std::function<bool()>([](){
             if(pros::millis() > auto_controller->metadata().timeout){
