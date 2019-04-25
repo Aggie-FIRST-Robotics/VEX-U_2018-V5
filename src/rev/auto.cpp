@@ -20,7 +20,15 @@ namespace AFR::VexU::Rev::Auto{
     state* turn_to_post = nullptr;
     state* go_to_post = nullptr;
     state* score_post = nullptr;
-    state* turn_to_low_flag = nullptr;
+    state* drive_from_post = nullptr;
+    state* turn_to_flags = nullptr;
+    state* drive_to_flag = nullptr;
+    state* back_off_flag = nullptr;
+    state* do_a_spin = nullptr;
+
+    state* wait = nullptr;
+    state* shoot2 = nullptr;
+
     state* score_low_flag_1 = nullptr;
     state* back_off_low_flag = nullptr;
     state* turn_to_zero = nullptr;
@@ -43,7 +51,13 @@ namespace AFR::VexU::Rev::Auto{
         go_to_post = new state("go_to_post");
         score_post = new state("score_post");
 
-        turn_to_low_flag = new state("turn_to_low_flag");
+        drive_from_post = new state("drive_from_post");
+        turn_to_flags = new state("turn_to_flags");
+        drive_to_flag = new state("drive_to_flag");
+        back_off_flag = new state("back_off_flag");
+        do_a_spin = new state("do_a_spin");
+        wait = new state("wait");
+
         score_low_flag_1 = new state("score_low_flag_1");
         back_off_low_flag = new state("back_off_low_flag");
         turn_to_zero = new state("turn_to_zero");
@@ -55,6 +69,7 @@ namespace AFR::VexU::Rev::Auto{
 
         line_up = new state("line_up");
         shoot = new state("shoot");
+        shoot2 = new state("shoot2");
 
         end = new state("end");
 
@@ -134,10 +149,12 @@ namespace AFR::VexU::Rev::Auto{
         turn_to_cap->add_transition(std::function<bool()>([](){
             return Drive::auto_drivetrain->is_complete();
         }), turn_to_post);
+//        }), end);
         /////Timeout
         turn_to_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }), turn_to_post);
+//        }), end);
         turn_to_cap->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }), end);
@@ -148,7 +165,7 @@ namespace AFR::VexU::Rev::Auto{
             Drive::auto_drivetrain->auto_drive_radius_angle(-23.2, PI * 110 / 180.0, 45, 45,
                                                             auto_controller->get_name());
             Cap::Arm::pid_controller->set_bounds(-8000, 8000);
-            Cap::cap_arm->maintain_state(Cap::score_prime);
+//            Cap::cap_arm->maintain_state(Cap::score_prime);
             Cap::Wrist::intake_motor->set_value(Cap::IDLE_VOLTAGE, Cap::cap_arm->get_name());
         }));
         turn_to_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -200,42 +217,217 @@ namespace AFR::VexU::Rev::Auto{
 
         score_post->add_transition(std::function<bool()>([](){
             return Cap::cap_arm->get_current_state() == Cap::descore_prime;
-        }), turn_to_low_flag);
+        }), drive_from_post);
         /////Timeout
         score_post->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }), turn_to_low_flag);
+        }), drive_from_post);
         score_post->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }), end);
 
 
-        turn_to_low_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
-            std::cout << "turn_to_low_flag entry" << std::endl;
+        drive_from_post->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "drive_from_post entry" << std::endl;
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(-20, 30, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(-10, 30, 0, auto_controller->get_name());
 //            Drive::auto_drivetrain->auto_drive_radius_angle(-8, -PI * 102 / 180.0, 45, 0, auto_controller->get_name());
             Cap::Arm::pid_controller->set_bounds(-12000, 12000);
         }));
-        turn_to_low_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
-            std::cout << "turn_to_low_flag exit" << std::endl;
+        drive_from_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             Cap::cap_arm->set_state(Cap::ground);
+            std::cout << "drive_from_post exit" << std::endl;
         }));
 
-        turn_to_low_flag->add_transition(std::function<bool()>([](){
+        drive_from_post->add_transition(std::function<bool()>([](){
             return Drive::auto_drivetrain->is_complete();
-//        }), score_low_flag_1);
-        }), end);
+        }), turn_to_flags);
+//        }), end);
         /////Timeout
-        turn_to_low_flag->add_transition(std::function<bool()>([](){
+        drive_from_post->add_transition(std::function<bool()>([](){
             if(pros::millis() > auto_controller->metadata().timeout){
-                std::cout << "turn_to_low_flag timeout" << std::endl;
+                std::cout << "drive_from_post timeout" << std::endl;
                 return true;
             }
             return false;
-//        }), score_low_flag_1);
+        }), turn_to_flags);
+//        }), end);
+        drive_from_post->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
         }), end);
-        turn_to_low_flag->add_transition(std::function<bool()>([](){
+
+
+        turn_to_flags->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "turn_to_flags entry" << std::endl;
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+//            Drive::auto_drivetrain->auto_drive_dist(-20, 30, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(1, -PI * 125 / 180.0, 45, 0, auto_controller->get_name());
+        }));
+        turn_to_flags->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            std::cout << "turn_to_flags exit" << std::endl;
+        }));
+
+        turn_to_flags->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }), drive_to_flag);
+//        }), end);
+        /////Timeout
+        turn_to_flags->add_transition(std::function<bool()>([](){
+            if(pros::millis() > auto_controller->metadata().timeout){
+                std::cout << "turn_to_flags timeout" << std::endl;
+                return true;
+            }
+            return false;
+        }), drive_to_flag);
+//        }), end);
+        turn_to_flags->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }), end);
+
+        drive_to_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "drive_to_flag entry" << std::endl;
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+//            Cap::cap_arm->maintain_state(Cap::analog_arm);
+            Cap::Arm::pid_controller->set_target(1200);
+            Drive::auto_drivetrain->auto_drive_dist(-55, 60, 0, auto_controller->get_name());
+//            Drive::auto_drivetrain->auto_drive_radius_angle(-1, -PI * 120 / 180.0, 45, 0, auto_controller->get_name());
+        }));
+        drive_to_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            Cap::Arm::pid_controller->set_target(0);
+            std::cout << "drive_to_flag exit" << std::endl;
+        }));
+
+        drive_to_flag->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }), back_off_flag);
+//        }), end);
+        /////Timeout
+        drive_to_flag->add_transition(std::function<bool()>([](){
+            if(pros::millis() > auto_controller->metadata().timeout){
+                std::cout << "drive_to_flag timeout" << std::endl;
+                return true;
+            }
+            return false;
+        }), back_off_flag);
+//        }), end);
+        drive_to_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }), end);
+
+        back_off_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "back_off_flag entry" << std::endl;
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+            Drive::auto_drivetrain->auto_drive_dist(30, 30, 0, auto_controller->get_name());
+//            Drive::auto_drivetrain->auto_drive_radius_angle(-1, -PI * 120 / 180.0, 45, 0, auto_controller->get_name());
+        }));
+        back_off_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            Cap::Arm::pid_controller->set_target(0);
+            std::cout << "back_off_flag exit" << std::endl;
+        }));
+
+        back_off_flag->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }), do_a_spin);
+//        }), end);
+        /////Timeout
+        back_off_flag->add_transition(std::function<bool()>([](){
+            if(pros::millis() > auto_controller->metadata().timeout){
+                std::cout << "back_off_flag timeout" << std::endl;
+                return true;
+            }
+            return false;
+        }), do_a_spin);
+//        }), end);
+        back_off_flag->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }), end);
+
+        do_a_spin->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "do_a_spin entry" << std::endl;
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+//            Drive::auto_drivetrain->auto_drive_dist(30, 30, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(1, PI * 220 / 180.0, 45, 0, auto_controller->get_name());
+        }));
+        do_a_spin->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            Cap::Arm::pid_controller->set_target(0);
+            Drive::auto_drivetrain->auto_drive_dist(1, 1, 0, auto_controller->get_name());
+            std::cout << "do_a_spin exit" << std::endl;
+        }));
+
+        do_a_spin->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }), wait);
+//        }), end);
+        /////Timeout
+        do_a_spin->add_transition(std::function<bool()>([](){
+            if(pros::millis() > auto_controller->metadata().timeout){
+                std::cout << "do_a_spin timeout" << std::endl;
+                return true;
+            }
+            return false;
+        }), wait);
+//        }), end);
+        do_a_spin->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }), end);
+
+        wait->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "wait entry" << std::endl;
+            auto_controller->metadata().timeout = auto_controller->metadata().end_auto - 4000;
+//            Drive::auto_drivetrain->auto_drive_dist(30, 30, 0, auto_controller->get_name());
+//            Drive::auto_drivetrain->auto_drive_radius_angle(-1, -PI * 220 / 180.0, 45, 0, auto_controller->get_name());
+        }));
+        wait->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            Cap::Arm::pid_controller->set_target(0);
+            Drive::auto_drivetrain->auto_drive_dist(1, 1, 0, auto_controller->get_name());
+            std::cout << "wait exit" << std::endl;
+        }));
+
+//        wait->add_transition(std::function<bool()>([](){
+//            return Drive::auto_drivetrain->is_complete();
+//        }), shoot);
+//        }), end);
+        /////Timeout
+        wait->add_transition(std::function<bool()>([](){
+            if(pros::millis() > auto_controller->metadata().timeout){
+                std::cout << "wait timeout" << std::endl;
+                return true;
+            }
+            return false;
+        }), shoot);
+//        }), end);
+        wait->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().end_auto;
+        }), end);
+
+        shoot2->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            std::cout << "shoot2 entry" << std::endl;
+            auto_controller->metadata().timeout = pros::millis() + 1000;
+            Shooter::Rollers::top_motor->set_operation(std::function<int16_t()>{[]() -> int16_t{
+                return 12000;
+            }}, Shooter::shooter_state_controller->get_name());
+        }));
+        shoot2->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+            Shooter::shooter_state_controller->metadata().is_double = true;
+            Shooter::Altitude::pid->set_target(Shooter::ALTITUDE_LOW_TARGET);
+            Shooter::shooter_state_controller->set_state(Shooter::cock);
+            std::cout << "shoot2 exit" << std::endl;
+        }));
+
+        shoot2->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+//        }), shoot);
+        }), end);
+        /////Timeout
+        shoot2->add_transition(std::function<bool()>([](){
+            if(pros::millis() > auto_controller->metadata().timeout){
+                std::cout << "shoot2 timeout" << std::endl;
+                return true;
+            }
+            return false;
+//        }), shoot);
+        }), end);
+        shoot2->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }), end);
 
@@ -266,7 +458,7 @@ namespace AFR::VexU::Rev::Auto{
         back_off_low_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "back_off_low_flag exit" << std::endl;
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(30, 50, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(20, 50, 0, auto_controller->get_name());
             Cap::Arm::pid_controller->set_target(Cap::ARM_GROUND_POSITION);
 
         }));
@@ -287,7 +479,7 @@ namespace AFR::VexU::Rev::Auto{
 
         turn_to_zero->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(0, PI * 217.0 / 180.0, 50, 0,
+            Drive::auto_drivetrain->auto_drive_radius_angle(0, -PI * 217.0 / 180.0, 50, 0,
                                                             auto_controller->get_name());
         }));
         turn_to_zero->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -344,7 +536,7 @@ namespace AFR::VexU::Rev::Auto{
 
         turn_to_flag->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(0, PI * 105.0 / 180.0, 100, 100,
+            Drive::auto_drivetrain->auto_drive_radius_angle(0, -PI * 105.0 / 180.0, 100, 100,
                                                             auto_controller->get_name());
         }));
         turn_to_flag->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -385,7 +577,7 @@ namespace AFR::VexU::Rev::Auto{
 
         line_up->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(-37.5, PI * 57.5 / 180.0, 100, 0,
+            Drive::auto_drivetrain->auto_drive_radius_angle(37.5, -PI * 57.5 / 180.0, 100, 0,
                                                             auto_controller->get_name());
 
         }));
@@ -417,11 +609,11 @@ namespace AFR::VexU::Rev::Auto{
 
         shoot->add_transition(std::function<bool()>([](){
             return Shooter::shooter_state_controller->get_current_state() == Shooter::set_point;
-        }), end);
+        }), shoot2);
         /////Timeout
         shoot->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
-        }), end);
+        }), shoot2);
         shoot->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().end_auto;
         }), end);
@@ -451,7 +643,9 @@ namespace AFR::VexU::Rev::Auto{
         auto_controller->add_state(turn_to_post);
         auto_controller->add_state(go_to_post);
         auto_controller->add_state(score_post);
-        auto_controller->add_state(turn_to_low_flag);
+        auto_controller->add_state(drive_from_post);
+        auto_controller->add_state(turn_to_flags);
+        auto_controller->add_state(drive_to_flag);
         auto_controller->add_state(score_low_flag_1);
         auto_controller->add_state(back_off_low_flag);
         auto_controller->add_state(turn_to_zero);

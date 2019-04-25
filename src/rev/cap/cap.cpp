@@ -335,7 +335,10 @@ namespace AFR::VexU::Rev::Cap{
         }));
 
         analog_arm->add_transition(std::function<bool()>([]() -> bool{
-            return !BaseReadable::operator_controller->is_digital_pressed(ANALOG_ARM_BUTTON);
+            if(!(pros::c::competition_get_status() & COMPETITION_AUTONOMOUS)){
+                return !BaseReadable::operator_controller->is_digital_pressed(ANALOG_ARM_BUTTON);
+            }
+            return false;
         }), ground);
 
         // cap_arm->add_state(zero_arm);
