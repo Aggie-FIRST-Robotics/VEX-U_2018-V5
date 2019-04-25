@@ -36,7 +36,8 @@ namespace AFR::VexU::Rev::Cap{
 
     double analog_arm_val = 0.0;
 
-    BaseReadable::adi_digital_readable* limit_switch{};
+    BaseReadable::adi_digital_readable* limit_switch_1;
+    BaseReadable::adi_digital_readable* limit_switch_2;
 
     void init(){
         cap_arm = new state_controller<cap_arm_meta>(UPDATE_PERIOD, cap_arm_meta{false}, "cap arm state controller");
@@ -44,7 +45,8 @@ namespace AFR::VexU::Rev::Cap{
         Arm::init();
         Wrist::init();
 
-        limit_switch = Arm::limit_switch;
+        limit_switch_1 = new BaseReadable::adi_digital_readable(V_LIMIT_SWITCH_PORT_1, "V limit switch 1");
+        limit_switch_2 = new BaseReadable::adi_digital_readable(V_LIMIT_SWITCH_PORT_2, "V limit switch 2");
 
         // zero_arm = new state("zero_shoulder");
         ground = new state("ground");
@@ -115,10 +117,10 @@ namespace AFR::VexU::Rev::Cap{
                     wrist_zeroed = false;
                 }
             }
-            if(wrist_zeroed){
-                return Wrist::pid_controller->get_pid_value();
-            }
-            return zero_wrist_action();
+//            if(!wrist_zeroed){
+//                return zero_wrist_action();
+//            }
+            return Wrist::pid_controller->get_pid_value();
         };
 
         analog_arm_action = []() -> int16_t{

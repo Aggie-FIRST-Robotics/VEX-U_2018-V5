@@ -1,2 +1,2 @@
-prosv5 upload --debug --verbose --no-run-after --slot 1
+prosv5 upload --debug --verbose --no-run-after --slot 2
  

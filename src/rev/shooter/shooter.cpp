@@ -148,9 +148,11 @@ namespace AFR::VexU::Rev::Shooter{
         set_point->set_on_state_entry(std::function<void(state*)>([](state* next_state){
             std::cout << "Set entry" << std::endl;
             Altitude::pid->set_target(ALTITUDE_STOW_TARGET);
-            //Rollers::front_motor->set_operation(front_intake, shooter_state_controller->get_name());
-            //Rollers::top_motor->set_operation(top_intake, shooter_state_controller->get_name());
-            // Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
+            if(!(pros::c::competition_get_status() & COMPETITION_AUTONOMOUS)){
+                Rollers::front_motor->set_operation(front_intake, shooter_state_controller->get_name());
+                Rollers::top_motor->set_operation(top_intake, shooter_state_controller->get_name());
+                // Rollers::top_motor->set_operation(top_intake,shooter_state_controller->get_name());
+            }
         }));
 
         set_point->set_on_state_exit(std::function<void(state*)>([](state* next_state){

@@ -17,6 +17,7 @@ namespace AFR::VexU::Rev{
             //BallIntake::init();
             Cap::init();
             Cap::Arm::encoder->tare_position();
+            Cap::Wrist::encoder->tare_position();
             Auto::init();
             Auto::auto_controller->disable();
         }
