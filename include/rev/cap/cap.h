@@ -64,6 +64,7 @@ namespace AFR::VexU::Rev::Cap{
     extern state* score_flip;
     extern state* score;
     extern state* descore_prime;
+    extern state* analog_arm;
 
     extern BaseReadable::adi_digital_readable* limit_switch_1;
     extern BaseReadable::adi_digital_readable* limit_switch_2;
