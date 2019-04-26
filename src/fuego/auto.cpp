@@ -22,7 +22,9 @@ namespace AFR::VexU::Fuego::Auto{
     state* fwd = nullptr;
     state* turn = nullptr;
     state* succ_blue_cap = nullptr;
+    state* fuck_this_1 = nullptr;
     state* slide_to_the_left= nullptr;
+    state* fuck_this_2 = nullptr;
     state* slide_to_the_right = nullptr;
     state* cha_cha_real_smooth = nullptr;
     state* score_second_post = nullptr;
@@ -76,7 +78,9 @@ namespace AFR::VexU::Fuego::Auto{
         fwd = new state("fwd");
         turn = new state("turn");
         succ_blue_cap = new state("succ_blue_cap");
+        fuck_this_1 = new state("fuck_this_1");
         slide_to_the_left = new state("slide_to_the_left");
+        fuck_this_2 = new state("fuck_this_2");
         slide_to_the_right = new state("slide_to_the_right");
         cha_cha_real_smooth = new state("cha_cha_real_smooth");
         score_second_post = new state("score_second_post");
@@ -318,17 +322,35 @@ namespace AFR::VexU::Fuego::Auto{
 
         succ_blue_cap->add_transition(std::function<bool()>([](){
             return Drive::auto_drivetrain->is_complete();
-        }),slide_to_the_left);
+        }),fuck_this_1);
         /////Timeout
         succ_blue_cap->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),fuck_this_1);
+
+        /////Slide to the right
+        fuck_this_1->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+            Cap::cap_arm->set_state(Cap::angled_pickup);
+            Drive::auto_drivetrain->auto_drive_dist(-25, 30, 30, auto_controller->get_name());
+        }));
+        fuck_this_1->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        fuck_this_1->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }),slide_to_the_left);
+        /////Timeout
+        fuck_this_1->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),slide_to_the_left);
 
         /////Slide to the right
         slide_to_the_left->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Cap::cap_arm->set_state(Cap::angled_pickup);
-            Drive::auto_drivetrain->auto_drive_radius_angle(-13,-Drive::PI*75.0/180.0,30,30,auto_controller->get_name());
+            Cap::cap_arm->set_state(Cap::store);
+            Drive::auto_drivetrain->auto_drive_radius_angle(0,Drive::PI*123.0/180.0,30,30,auto_controller->get_name());
         }));
         slide_to_the_left->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -336,16 +358,33 @@ namespace AFR::VexU::Fuego::Auto{
 
         slide_to_the_left->add_transition(std::function<bool()>([](){
             return Drive::auto_drivetrain->is_complete();
-        }),slide_to_the_right);
+        }),fuck_this_2);
         /////Timeout
         slide_to_the_left->add_transition(std::function<bool()>([](){
+            return pros::millis() > auto_controller->metadata().timeout;
+        }),fuck_this_2);
+
+        /////Slide to the right
+        fuck_this_2->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
+            auto_controller->metadata().timeout = pros::millis() + 5000;
+            Drive::auto_drivetrain->auto_drive_dist(-25, 30, 30, auto_controller->get_name());
+        }));
+        fuck_this_2->set_on_state_exit(std::function<void(state*)>([](state* next_state){
+
+        }));
+
+        fuck_this_2->add_transition(std::function<bool()>([](){
+            return Drive::auto_drivetrain->is_complete();
+        }),slide_to_the_right);
+        /////Timeout
+        fuck_this_2->add_transition(std::function<bool()>([](){
             return pros::millis() > auto_controller->metadata().timeout;
         }),slide_to_the_right);
 
         /////Slide to the right
         slide_to_the_right->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(13.5,Drive::PI*72.0/180.0,30,30,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(0,-Drive::PI*123.0/180.0,30,30,auto_controller->get_name());
         }));
         slide_to_the_right->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
