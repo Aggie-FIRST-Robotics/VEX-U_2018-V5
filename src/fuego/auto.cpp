@@ -180,7 +180,7 @@ namespace AFR::VexU::Fuego::Auto{
         stow_tilted_cap->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 10000;
             Cap::cap_arm->set_state(Cap::angled_pickup_sweep);
-            Drive::auto_drivetrain->auto_drive_dist(-16, 10, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(-16, 15, 0, auto_controller->get_name());
         }));
         stow_tilted_cap->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -333,7 +333,7 @@ namespace AFR::VexU::Fuego::Auto{
         slide_to_the_left->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Cap::cap_arm->set_state(Cap::angled_pickup);
-            Drive::auto_drivetrain->auto_drive_radius_angle(12,Drive::PI*60.0/180.0,30,30,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(19.0,Drive::PI*60.0/180.0,40,40,auto_controller->get_name());
         }));
         slide_to_the_left->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -350,7 +350,7 @@ namespace AFR::VexU::Fuego::Auto{
         /////Slide to the right
         slide_to_the_right->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(-12.5,-Drive::PI*62.0/180.0,30,30,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(-19.25,-Drive::PI*64.0/180.0,40,40,auto_controller->get_name());
         }));
         slide_to_the_right->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
