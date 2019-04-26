@@ -185,9 +185,25 @@ namespace AFR::VexU::Fuego::Shooter{
         walk->set_on_state_entry(walk_entry);
         walk->set_on_state_exit(walk_exit);
 
-        shooter_state_controller->add_state(walk);
+        zero_dick->set_on_state_entry(std::function<void(state*)>([](state* next_state){
+            Loader::motor->set_value(-12000,shooter_state_controller->get_name());
+        }));
+        zero_dick->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
+            Loader::encoder->tare_position();
+            Loader::motor->set_operation(std::function<int16_t()>([](){
+                return Loader::dead_band->get_deadband_value();
+            }), shooter_state_controller->get_name());
+        }));
 
-        shooter_state_controller->set_state(rest);
+        zero_dick->add_transition(std::function<bool()>([](){
+            return Loader::motor->get_current() > 1300;
+        }),rest);
+
+
+        shooter_state_controller->add_state(walk);
+        shooter_state_controller->add_state(zero_dick);
+
+        shooter_state_controller->set_state(zero_dick);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -410,25 +426,11 @@ namespace AFR::VexU::Fuego::Shooter{
         ready->set_on_state_entry(ready_entry);
         ready->set_on_state_exit(ready_exit);
 
-        zero_dick->set_on_state_entry(std::function<void(state*)>([](state* next_state){
-            Loader::motor->set_value(-12000,shooter_state_controller->get_name());
-        }));
-        zero_dick->set_on_state_exit(std::function<void(state*)>([](state* prev_state){
-            Loader::encoder->tare_position();
-            Loader::motor->set_operation(std::function<int16_t()>([](){
-                return Loader::dead_band->get_deadband_value();
-            }), shooter_state_controller->get_name());
-        }));
-
-        zero_dick->add_transition(std::function<bool()>([](){
-            return Loader::motor->get_current() > 1300;
-        }),manual);
-
+        
         turret_state_controller->add_state(ready);
         turret_state_controller->add_state(auto_aim);
         turret_state_controller->add_state(set_point);
-        turret_state_controller->add_state(zero_dick);
-        turret_state_controller->set_state(zero_dick);
+        turret_state_controller->set_state(manual);
     }
 
     //memes
