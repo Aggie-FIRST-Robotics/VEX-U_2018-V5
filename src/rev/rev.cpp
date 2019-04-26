@@ -25,6 +25,7 @@ namespace AFR::VexU::Rev{
         catch(std::exception& e){
             std::cerr << "Init error" << std::endl;
             std::cerr << e.what() << std::endl;
+            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, "Error Init!");
 
             throw std::runtime_error{"Init error"};
         }
@@ -43,11 +44,11 @@ namespace AFR::VexU::Rev{
             scheduled::update_all();
             pros::delay(1);
 
-            std::string text = Cap::cap_arm->get_current_state_name();
-            while(text.size() < 10){
-                text += " ";
-            }
-            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, text.c_str());
+//            std::string text = Cap::cap_arm->get_current_state_name();
+//            while(text.size() < 10){
+//                text += " ";
+//            }
+//            pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, text.c_str());
         }
     }
 
@@ -58,8 +59,13 @@ namespace AFR::VexU::Rev{
         Cap::cap_arm->set_state(Cap::ground);
         Drive::drive_machine->set_state(Drive::high_gear);
         while(true){
-            scheduled::update_all();
-            pros::delay(1);
+            try{
+                scheduled::update_all();
+                pros::delay(1);
+            }
+            catch(...){
+                pros::c::controller_set_text(pros::E_CONTROLLER_MASTER, 0, 0, "Error Op!");
+            }
         }
     }
 
