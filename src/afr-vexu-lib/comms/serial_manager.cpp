@@ -213,8 +213,11 @@ namespace AFR::VexU {
 		task_params *data = static_cast<task_params *>(param);
 		char c;
 		while (true) {
-			c = fgetc(data->stream);
-			data->buffer->push(c);
+			for(int i = 0; i < 10; i++) {
+				c = fgetc(data->stream);
+				data->buffer->push(c);
+			}
+			pros::delay(1);
 		}
 	}
 }

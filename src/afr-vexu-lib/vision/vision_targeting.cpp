@@ -219,6 +219,9 @@ namespace AFR::VexU::Vision {
     }
 
     double vision_targeting::get_altitude_target(encoder_tuple enc_vals) {
+        if(current_target_rect.height > 150) {
+            400 - 2*current_target_rect.height;
+        }
     	if(current_target_rect.height > 120) {
         	return 440 - 2*current_target_rect.height;
     	}
