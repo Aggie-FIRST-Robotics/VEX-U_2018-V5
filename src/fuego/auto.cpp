@@ -333,7 +333,7 @@ namespace AFR::VexU::Fuego::Auto{
         slide_to_the_left->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Cap::cap_arm->set_state(Cap::angled_pickup);
-            Drive::auto_drivetrain->auto_drive_radius_angle(19.0,Drive::PI*60.0/180.0,40,40,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(15.0,Drive::PI*60.0/180.0,40,40,auto_controller->get_name());
         }));
         slide_to_the_left->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -350,7 +350,7 @@ namespace AFR::VexU::Fuego::Auto{
         /////Slide to the right
         slide_to_the_right->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(-19.25,-Drive::PI*64.0/180.0,40,40,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(-15.0,-Drive::PI*67.0/180.0,40,40,auto_controller->get_name());
         }));
         slide_to_the_right->set_on_state_exit(std::function<void(state*)>([](state* next_state){
 
@@ -630,7 +630,7 @@ namespace AFR::VexU::Fuego::Auto{
             Drive::auto_drivetrain->auto_drive_dist(7.5, 15, 0, auto_controller->get_name());
             Shooter::turret_state_controller->maintain_state(Shooter::set_point);
             Shooter::turret_state_controller->metadata().hood_set_point = Shooter::HOOD_HIGH_TARGET;
-            Shooter::turret_state_controller->metadata().turret_set_point = Shooter::TURRET_MID_TARGET;
+            Shooter::turret_state_controller->metadata().turret_set_point = Shooter::BLUE_TURRET_FAR_TARGET;
             
         }));
         back_up->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -648,10 +648,10 @@ namespace AFR::VexU::Fuego::Auto{
         /////Turn to aim 2
         turn_to_aim_2->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_radius_angle(0,-Drive::PI*45.0/180.0,100,0,auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(0,-Drive::PI*50.0/180.0,100,0,auto_controller->get_name());
             Shooter::turret_state_controller->maintain_state(Shooter::set_point);
             Shooter::turret_state_controller->metadata().hood_set_point = Shooter::HOOD_HIGH_TARGET;
-            Shooter::turret_state_controller->metadata().turret_set_point = Shooter::TURRET_MID_TARGET;
+            Shooter::turret_state_controller->metadata().turret_set_point = Shooter::BLUE_TURRET_FAR_TARGET;
             
         }));
         turn_to_aim_2->set_on_state_exit(std::function<void(state*)>([](state* next_state){
@@ -707,7 +707,7 @@ namespace AFR::VexU::Fuego::Auto{
             auto_controller->metadata().timeout = pros::millis() + 5000;
             Shooter::turret_state_controller->maintain_state(Shooter::set_point);
             Shooter::turret_state_controller->metadata().hood_set_point = Shooter::HOOD_MID_TARGET;
-            Shooter::turret_state_controller->metadata().turret_set_point = Shooter::TURRET_MID_TARGET;
+            Shooter::turret_state_controller->metadata().turret_set_point = Shooter::BLUE_TURRET_FAR_TARGET;
             Shooter::shooter_state_controller->maintain_state(Shooter::spin_up);
         }));
         set_shooter_2->set_on_state_exit(std::function<void(state*)>([](state* next_state){
