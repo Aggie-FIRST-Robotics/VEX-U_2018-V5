@@ -101,7 +101,7 @@ namespace AFR::VexU::Rev::Auto{
 
         grab_ball->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "Grab Ball" << std::endl;
-            auto_controller->metadata().timeout = pros::millis() + 5000;
+            auto_controller->metadata().timeout = pros::millis() + 4000;
             Drive::auto_drivetrain->auto_drive_dist(37, 30, 0, auto_controller->get_name());
             Shooter::Rollers::top_motor->set_operation(std::function<int16_t()>([](){
                 if(Shooter::Rollers::limit_switch->is_pressed()) {
@@ -608,7 +608,7 @@ namespace AFR::VexU::Rev::Auto{
         }));
 
         shoot->add_transition(std::function<bool()>([](){
-            return Shooter::shooter_state_controller->get_current_state() == Shooter::set_point;
+            return Shooter::shooter_state_controller->get_current_state() == Shooter::cock;
         }), shoot2);
         /////Timeout
         shoot->add_transition(std::function<bool()>([](){
