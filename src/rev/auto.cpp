@@ -187,7 +187,7 @@ namespace AFR::VexU::Rev::Auto{
         go_to_post->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "go_to_post entry" << std::endl;
             auto_controller->metadata().timeout = pros::millis() + 5000;
-            Drive::auto_drivetrain->auto_drive_dist(30.1, 85, 85, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_dist(31.1, 85, 85, auto_controller->get_name());
         }));
         go_to_post->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             std::cout << "go_to_post exit" << std::endl;
@@ -261,7 +261,7 @@ namespace AFR::VexU::Rev::Auto{
             std::cout << "turn_to_flags entry" << std::endl;
             auto_controller->metadata().timeout = pros::millis() + 5000;
 //            Drive::auto_drivetrain->auto_drive_dist(-20, 30, 0, auto_controller->get_name());
-            Drive::auto_drivetrain->auto_drive_radius_angle(-1, PI * 125 / 180.0, 45, 0, auto_controller->get_name());
+            Drive::auto_drivetrain->auto_drive_radius_angle(-1, PI * 115 / 180.0, 45, 0, auto_controller->get_name());
         }));
         turn_to_flags->set_on_state_exit(std::function<void(state*)>([](state* next_state){
             std::cout << "turn_to_flags exit" << std::endl;
@@ -402,7 +402,7 @@ namespace AFR::VexU::Rev::Auto{
 
         shoot2->set_on_state_entry(std::function<void(state*)>([](state* prev_state){
             std::cout << "shoot2 entry" << std::endl;
-            auto_controller->metadata().timeout = pros::millis() + 2000;
+            auto_controller->metadata().timeout = pros::millis() + 1000;
             Shooter::Rollers::top_motor->set_operation(std::function<int16_t()>{[]() -> int16_t{
                 return 12000;
             }}, Shooter::shooter_state_controller->get_name());
