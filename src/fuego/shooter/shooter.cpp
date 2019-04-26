@@ -203,7 +203,7 @@ namespace AFR::VexU::Fuego::Shooter{
         shooter_state_controller->add_state(walk);
         shooter_state_controller->add_state(zero_dick);
 
-        shooter_state_controller->set_state(zero_dick);
+        shooter_state_controller->set_state(rest);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
