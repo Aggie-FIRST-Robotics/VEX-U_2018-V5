@@ -35,6 +35,7 @@ namespace AFR::VexU::Fuego::Shooter{
     const double LOADER_TOLERANCE    = 50;
 
     /////SET POINTS
+    const double BLUE_TURRET_FAR_TARGET      = 1800;
     const double TURRET_LEFT_TARGET     = 500;
     const double TURRET_MID_TARGET      = 1680;
     const double TURRET_RIGHT_TARGET    = 2500;

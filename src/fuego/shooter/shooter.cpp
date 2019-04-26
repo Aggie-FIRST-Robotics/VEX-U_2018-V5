@@ -124,6 +124,9 @@ namespace AFR::VexU::Fuego::Shooter{
 
         /////SPIN UP
         spin_up->add_transition(std::function<bool()>([](){
+            return turret_state_controller->get_current_state() == auto_aim && vision->has_target_rect() && vision->aiming_complete() && Flywheel::pid_controller->is_in_range(50);
+        }), fire);
+        spin_up->add_transition(std::function<bool()>([](){
             return Flywheel::avg_speed->get_average_value() > Flywheel::SPEED/2 && loader_trigger->is_rising_edge();
         }), fire);
         spin_up->add_transition(std::function<bool()>([](){
@@ -213,10 +216,18 @@ namespace AFR::VexU::Fuego::Shooter{
         ready = new state ("turret: ready");
 
 
-        Hood::pid->set_operation(std::function<double()>([](){ return Hood::encoder->get_scaled_position();}),turret_state_controller->get_name());
+        Hood::pid->set_operation(std::function<double()>([](){
+            pros::c::controller_set_text(pros::E_CONTROLLER_PARTNER,2,0,"Hood:");
+            pros::c::controller_set_text(pros::E_CONTROLLER_PARTNER,2,2,std::to_string(Hood::encoder->get_scaled_position()).c_str());
+            return Hood::encoder->get_scaled_position();
+        }),turret_state_controller->get_name());
         Hood::motor->set_operation(std::function<int16_t()>([](){return Hood::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
 
-        Turret::pid->set_operation(std::function<double()>([](){ return Turret::encoder->get_scaled_position();}),turret_state_controller->get_name());
+        Turret::pid->set_operation(std::function<double()>([](){
+            pros::c::controller_set_text(pros::E_CONTROLLER_PARTNER,0,0,"Turret:");
+            pros::c::controller_set_text(pros::E_CONTROLLER_PARTNER,0,2,std::to_string(Turret::encoder->get_scaled_position()).c_str());
+            return Turret::encoder->get_scaled_position();
+        }),turret_state_controller->get_name());
         Turret::motor->set_operation(std::function<int16_t()>([](){return Turret::follow_stick->get_bounded_value();}),turret_state_controller->get_name());
 
         vision->set_operation(std::function<Vision::encoder_tuple()>([](){
@@ -355,7 +366,6 @@ namespace AFR::VexU::Fuego::Shooter{
             Turret::pid->set_target(turret_auto_target);
             operator_rumble->set_operation(std::function<std::string()>([](){
                 if(vision->has_target_rect()){
-                    Vision::encoder_tuple auto_encoder_change = vision->get_encoder_setpoints();
                     if(vision->aiming_complete()){
                         if(Flywheel::pid_controller->is_in_range(50)){
                             return ".       ";
